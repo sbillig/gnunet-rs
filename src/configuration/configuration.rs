@@ -1,6 +1,6 @@
 use std;
 use std::collections::{hash_map, HashMap};
-use std::borrow::{Borrow, IntoCow};
+use std::borrow::{Borrow, Cow};
 use std::io::{self, Read, BufRead, BufReader};
 use std::num::{ParseIntError, ParseFloatError};
 use std::path::{Path, PathBuf};
@@ -304,12 +304,10 @@ impl Cfg {
         }
     }
 
-    pub fn set_string<'a, S, K>(&mut self, section: S, key: K, mut value: String) -> Option<String>
-            where S: IntoCow<'a, str>,
-                  K: IntoCow<'a, str>
+    pub fn set_string(&mut self, section: &str, key: &str, mut value: String) -> Option<String>
     {
-        let section = section.into_cow();
-        let key = key.into_cow();
+        let section: Cow<str> = Cow::Owned(section.to_owned());
+        let key: Cow<str> = Cow::Owned(key.to_owned());
 
         if let Some(mut map) = self.data.get_mut(&*section) {
             if let Some(mut val) = map.get_mut(&*key) {

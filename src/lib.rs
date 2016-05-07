@@ -18,7 +18,6 @@
 #![feature(unboxed_closures)]
 #![feature(libc)]
 #![feature(plugin)]
-#![feature(into_cow)]
 
 #![plugin(error_def)]
 #![plugin(regex_macros)]
