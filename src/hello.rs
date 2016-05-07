@@ -1,6 +1,6 @@
 use std::fmt;
 use std::io::{self, Read};
-use byteorder::{self, ReadBytesExt, BigEndian};
+use byteorder::{ReadBytesExt, BigEndian};
 
 use PeerIdentity;
 
@@ -26,9 +26,9 @@ impl Hello {
   {
     let friend_only = match r.read_u32::<BigEndian>() {
       Ok(x)  => x != 0,
-      Err(e) => return Err(match e {
-        byteorder::Error::UnexpectedEOF => HelloDeserializeError::ShortMessage,
-        byteorder::Error::Io(e)         => HelloDeserializeError::Io { cause: e },
+      Err(e) => return Err(match e.kind() {
+        io::ErrorKind::UnexpectedEof => HelloDeserializeError::ShortMessage,
+        _                            => HelloDeserializeError::Io { cause: e },
       }),
     };
     let id = try!(PeerIdentity::deserialize(r));

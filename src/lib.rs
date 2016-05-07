@@ -68,20 +68,6 @@ macro_rules! byteorder_error_chain {
 }
 */
 
-macro_rules! byteorder_error_chain {
-  ($t:ident) => (
-    impl From<::byteorder::Error> for $t {
-      #[inline]
-      fn from(e: ::byteorder::Error) -> $t {
-        match e {
-          ::byteorder::Error::UnexpectedEOF => $t::Disconnected,
-          ::byteorder::Error::Io(e)         => $t::Io { cause: e },
-        }
-      }
-    }
-  )
-}
-
 macro_rules! unwrap_result {
   ($e:expr) => (
     match $e {

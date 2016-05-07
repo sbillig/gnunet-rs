@@ -88,7 +88,6 @@ error_def! ConnectError {
   UnexpectedMessageType { ty: u16 }
     => "Received an unexpected message from the service during initial exchange. *(It is a bug to see this error)*" ("Message type {} was not expected.", ty)
 }
-byteorder_error_chain! {ConnectError}
 
 /// Errors returned by `IdentityService::get_default_ego`
 error_def! GetDefaultEgoError {
@@ -111,7 +110,6 @@ error_def! GetDefaultEgoError {
   Disconnected
     => "The service disconnected unexpectedly",
 }
-byteorder_error_chain! {GetDefaultEgoError}
 
 impl IdentityService {
   /// Connect to the identity service.

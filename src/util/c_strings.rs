@@ -13,7 +13,6 @@ error_def! ReadCStringError {
   Disconnected
     => "The remote service disconnected unexpectedly",
 }
-byteorder_error_chain! {ReadCStringError}
 
 /// Error generated when attempting to read a C-style NUL-terminated string of known length from a
 /// service.
@@ -29,7 +28,6 @@ error_def! ReadCStringWithLenError {
   NoTerminator
     => "The string was not NUL-terminated",
 }
-byteorder_error_chain! {ReadCStringWithLenError}
 
 pub trait ReadCString: Read {
   fn read_c_string(&mut self) -> Result<String, ReadCStringError> {

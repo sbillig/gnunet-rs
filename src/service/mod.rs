@@ -79,7 +79,6 @@ error_def! ReadMessageError {
   ShortMessage { len: u16 }       => "The message received from the service was too short" ("Length was {} bytes.", len),
   Disconnected                    => "The service disconnected unexpectedly",
 }
-byteorder_error_chain! {ReadMessageError}
 
 impl ServiceReader {
   pub fn spawn_callback_loop<F>(mut self, mut cb: F) -> Result<ServiceReadLoop, io::Error>
