@@ -124,13 +124,13 @@ impl GNS {
   /// let mut ids = IdentityService::connect(&config).unwrap();
   /// let gns_ego = ids.get_default_ego("gns-master").unwrap();
   /// let mut gns = GNS::connect(&config).unwrap();
-  /// let mut lh = gns.lookup("www.gnu",
+  /// let mut lh = gns.lookup("gnu.org",
   ///                         &gns_ego.get_public_key(),
   ///                         gns::RecordType::A,
   ///                         gns::LocalOptions::LocalMaster,
   ///                         None).unwrap();
   /// let record = lh.recv();
-  /// println!("Got the IPv4 record for www.gnu: {}", record);
+  /// println!("Got the IPv4 record for gnu.org: {}", record);
   /// ```
   pub fn lookup<'a>(
       &'a mut self,
@@ -194,12 +194,12 @@ error_def! ConnectLookupError {
 /// let config = Cfg::default().unwrap();
 /// let gns_ego = identity::get_default_ego(&config, "gns-master").unwrap();
 /// let record = gns::lookup(&config,
-///                          "www.gnu",
+///                          "gnu.org",
 ///                          &gns_ego.get_public_key(),
 ///                          gns::RecordType::A,
 ///                          gns::LocalOptions::LocalMaster,
 ///                          None).unwrap();
-/// println!("Got the IPv4 record for www.gnu: {}", record);
+/// println!("Got the IPv4 record for gnu.org: {}", record);
 /// ```
 ///
 /// # Note
@@ -243,8 +243,8 @@ error_def! ConnectLookupInMasterError {
 /// println!("in test lookup_in_master");
 ///
 /// let config = Cfg::default().unwrap();
-/// let record = gns::lookup_in_master(&config, "www.gnu", gns::RecordType::A, None).unwrap();
-/// println!("Got the IPv4 record for www.gnu: {}", record);
+/// let record = gns::lookup_in_master(&config, "gnu.org", gns::RecordType::A, None).unwrap();
+/// println!("Got the IPv4 record for gnu.org: {}", record);
 /// ```
 ///
 /// # Note

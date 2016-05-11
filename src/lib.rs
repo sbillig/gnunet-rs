@@ -11,8 +11,8 @@
 //! use gnunet::{Cfg, gns};
 //!
 //! let c = Cfg::default().unwrap();
-//! let r = gns::lookup_in_master(&c, "www.gnu", gns::RecordType::A, None).unwrap();
-//! println!("Got the following IPv4 record for www.gnu: {}", r);
+//! let r = gns::lookup_in_master(&c, "gnu.org", gns::RecordType::A, None).unwrap();
+//! println!("Got the following IPv4 record for gnu.org: {}", r);
 //! ```
 
 #![feature(unboxed_closures)]
