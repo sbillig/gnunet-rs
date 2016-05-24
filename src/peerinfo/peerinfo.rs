@@ -62,9 +62,15 @@ error_def! IteratePeersError {
 pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
   let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
 
+  /*
   let msg_length = 8u16;
   let mut mw = sw.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL);
   mw.write_u32::<BigEndian>(0).unwrap();
+  try!(mw.send());
+  */
+
+  let body = &[0; 4];
+  let mw = sw.write_message2(ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL, body);
   try!(mw.send());
   Ok(Peers {
     service: sr,

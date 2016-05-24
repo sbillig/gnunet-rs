@@ -131,7 +131,44 @@ impl ServiceWriter {
       mw: mw,
     }
   }
+
+  pub fn write_message2<'a>(&'a mut self, tpe: u16, body: &'a[u8]) -> MessageWriter2<'a> {
+      let len = (body.len() + 4) as u16; // TODO is this safe?
+      assert!(len >= 4);
+      println!("constructing {}", len);
+      MessageWriter2 {
+          service_writer: self,
+          header: MessageHeader {
+              len: len.to_be(),
+              tpe: tpe.to_be(),
+          },
+          body: body,
+      }
+  }
 }
+
+use std::slice;
+use std::mem;
+
+pub struct MessageWriter2<'a> {
+  service_writer: &'a mut ServiceWriter,
+  header: MessageHeader,
+  body: &'a[u8],
+}
+
+impl<'a> MessageWriter2<'a> {
+  pub fn send(self) -> Result<(), io::Error> {
+    let p: *const MessageHeader = &self.header;
+    let p: *const u8 = p as *const u8;
+    let content: &[u8] = unsafe {
+        slice::from_raw_parts(p, mem::size_of::<MessageHeader>())
+    };
+    println!("{:?}, {:?}", content, self.body);
+    self.service_writer.connection.write_all(content);
+    self.service_writer.connection.write_all(self.body)
+  }
+}
+
 
 /// Used to form messsages before sending them to the GNUnet service.
 pub struct MessageWriter<'a> {
@@ -192,3 +229,8 @@ impl Drop for ServiceReader {
 }
 */
 
+#[repr(C, packed)]
+pub struct MessageHeader {
+    len: u16,
+    tpe: u16,
+}
