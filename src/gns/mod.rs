@@ -3,11 +3,10 @@ use std::marker::PhantomData;
 use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
 use std::io::{self, Write, Cursor};
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
-use num::ToPrimitive;
 
 use identity;
 use ll;
-use service::{self, ServiceReadLoop, ServiceWriter, ProcessMessageResult};
+use service::{self, ServiceReadLoop, ServiceWriter, ProcessMessageResult, MessageTrait};
 use EcdsaPublicKey;
 use EcdsaPrivateKey;
 use Cfg;
@@ -149,22 +148,15 @@ impl GNS {
     let id = self.lookup_id;
     self.lookup_id += 1;
 
-    // construct the message body as a Cursor
-    let mut cursor = Cursor::new(Vec::new());
-    cursor.write_u32::<BigEndian>(id).unwrap();
-    zone.serialize(&mut cursor).unwrap();
-    cursor.write_i16::<BigEndian>(options as i16).unwrap();
-    cursor.write_i16::<BigEndian>(shorten.is_some() as i16).unwrap();
-    cursor.write_i32::<BigEndian>(record_type as i32).unwrap();
-    match shorten {
-      Some(z) => z.serialize(&mut cursor).unwrap(),
-      None    => cursor.write_all(&[0u8; 32]).unwrap(),
+    let msg = GnsMessage {
+      id: id,
+      zone: zone,
+      options: options,
+      shorten: shorten,
+      record_type: record_type,
+      name: name,
     };
-    cursor.write_all(name.as_bytes()).unwrap();
-    cursor.write_u8(0u8).unwrap();
-
-    // create a MessageWriter and send the message
-    let mw = self.service_writer.write_message2(ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP, cursor);
+    let mw = self.service_writer.write_message2(msg);
     let (tx, rx) = channel::<Record>();
     self.lookup_tx.send((id, tx)).unwrap(); // panics if the callback loop has panicked
     try!(mw.send());
@@ -174,6 +166,37 @@ impl GNS {
     })
   }
 }
+
+struct GnsMessage<'a> {
+  id: u32,
+  zone: &'a EcdsaPublicKey,
+  options: LocalOptions,
+  shorten: Option<&'a EcdsaPrivateKey>,
+  record_type: RecordType,
+  name: &'a str,
+}
+
+impl <'a>MessageTrait for GnsMessage<'a> {
+  fn msg_type(&self) -> u16 {
+    ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP
+  }
+  fn msg_body(&self) -> Cursor<Vec<u8>> {
+    let mut cursor = Cursor::new(Vec::new());
+    cursor.write_u32::<BigEndian>(self.id).unwrap();
+    self.zone.serialize(&mut cursor).unwrap();
+    cursor.write_i16::<BigEndian>(self.options as i16).unwrap();
+    cursor.write_i16::<BigEndian>(self.shorten.is_some() as i16).unwrap();
+    cursor.write_i32::<BigEndian>(self.record_type as i32).unwrap();
+    match self.shorten {
+      Some(z) => z.serialize(&mut cursor).unwrap(),
+      None    => cursor.write_all(&[0u8; 32]).unwrap(),
+    };
+    cursor.write_all(self.name.as_bytes()).unwrap();
+    cursor.write_u8(0u8).unwrap();
+    cursor
+  }
+}
+
 
 /// Errors returned by `gns::lookup`.
 error_def! ConnectLookupError {

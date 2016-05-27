@@ -134,8 +134,8 @@ impl ServiceWriter {
     }
   }
 
-  pub fn write_message2<'a>(&'a mut self, tpe: u16, body: Cursor<Vec<u8>>) -> MessageWriter2<'a> {
-    let inner = body.into_inner();
+  pub fn write_message2<'a, T: MessageTrait>(&'a mut self, msg: T) -> MessageWriter2<'a> {
+    let inner = msg.msg_body().into_inner();
     let len = inner.len() + mem::size_of::<MessageHeader>();
     use std::u16::MAX;
     assert!(len >= 4 && len <= (MAX as usize));
@@ -144,7 +144,7 @@ impl ServiceWriter {
       service_writer: self,
       header: MessageHeader {
         len: (len as u16).to_be(),
-        tpe: tpe.to_be(),
+        tpe: msg.msg_type().to_be(),
       },
       body: inner,
     }
@@ -233,4 +233,9 @@ impl Drop for ServiceReader {
 pub struct MessageHeader {
     len: u16,
     tpe: u16,
+}
+
+pub trait MessageTrait {
+    fn msg_type(&self) -> u16;
+    fn msg_body(&self) -> Cursor<Vec<u8>>;
 }

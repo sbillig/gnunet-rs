@@ -3,11 +3,11 @@ use std::fmt;
 use std::str::{from_utf8, FromStr};
 use std::io::{self, Read, Write, Cursor};
 use libc::{c_void, c_char, size_t};
-use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
+use byteorder::{BigEndian, ReadBytesExt};
 
 use ll;
 use Cfg;
-use service::{self, connect, ServiceReader, ReadMessageError};
+use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait};
 use Hello;
 use transport::{self, TransportServiceInitError};
 
@@ -58,20 +58,22 @@ error_def! IteratePeersError {
     => "Failed to connect to the peerinfo service" ("Reason: {}", cause)
 }
 
+struct PeerInfoMessage;
+impl MessageTrait for PeerInfoMessage {
+    fn msg_type(&self) -> u16 {
+        ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL
+    }
+    fn msg_body(&self) -> Cursor<Vec<u8>> {
+        Cursor::new(vec![0; 4])
+    }
+}
+
 /// Iterate over all the currently connected peers.
 pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
   let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
 
-  /*
-  let msg_length = 8u16;
-  let mut mw = sw.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL);
-  mw.write_u32::<BigEndian>(0).unwrap();
-  try!(mw.send());
-  */
-
-  let mut body = Cursor::new(Vec::new());
-  body.write_u32::<BigEndian>(0u32).unwrap();
-  let mw = sw.write_message2(ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL, body);
+  let msg = PeerInfoMessage;
+  let mw = sw.write_message2(msg);
   try!(mw.send());
   Ok(Peers {
     service: sr,
