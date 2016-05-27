@@ -134,20 +134,19 @@ impl ServiceWriter {
     }
   }
 
-  pub fn write_message2<'a>(&'a mut self, tpe: u16, body: &'a[u8]) -> MessageWriter2<'a> {
-      let len = body.len() + mem::size_of::<MessageHeader>();
+  pub fn write_message2<'a>(&'a mut self, tpe: u16, body: Cursor<Vec<u8>>) -> MessageWriter2<'a> {
+      let inner = body.into_inner();
+      let len = inner.len() + mem::size_of::<MessageHeader>();
       use std::u16::MAX;
       assert!(len >= 4 && len <= (MAX as usize));
 
-      let len = len as u16;
-      println!("constructing {}", len);
       MessageWriter2 {
           service_writer: self,
           header: MessageHeader {
-              len: len.to_be(),
+              len: (len as u16).to_be(),
               tpe: tpe.to_be(),
           },
-          body: body,
+          body: inner,
       }
   }
 }
@@ -155,7 +154,7 @@ impl ServiceWriter {
 pub struct MessageWriter2<'a> {
   service_writer: &'a mut ServiceWriter,
   header: MessageHeader,
-  body: &'a[u8],
+  body: Vec<u8>,
 }
 
 impl<'a> MessageWriter2<'a> {
@@ -165,9 +164,8 @@ impl<'a> MessageWriter2<'a> {
     let content: &[u8] = unsafe {
         slice::from_raw_parts(p, mem::size_of::<MessageHeader>())
     };
-    println!("{:?}, {:?}", content, self.body);
     try!(self.service_writer.connection.write_all(content));
-    self.service_writer.connection.write_all(self.body)
+    self.service_writer.connection.write_all(&self.body[..])
   }
 }
 

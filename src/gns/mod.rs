@@ -149,20 +149,22 @@ impl GNS {
     let id = self.lookup_id;
     self.lookup_id += 1;
 
-    let msg_length = (80 + name_len + 1).to_u16().unwrap();
-    let mut mw = self.service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP);
-    mw.write_u32::<BigEndian>(id).unwrap();
-    zone.serialize(&mut mw).unwrap();
-    mw.write_i16::<BigEndian>(options as i16).unwrap();
-    mw.write_i16::<BigEndian>(shorten.is_some() as i16).unwrap();
-    mw.write_i32::<BigEndian>(record_type as i32).unwrap();
+    // construct the message body as a Cursor
+    let mut cursor = Cursor::new(Vec::new());
+    cursor.write_u32::<BigEndian>(id).unwrap();
+    zone.serialize(&mut cursor).unwrap();
+    cursor.write_i16::<BigEndian>(options as i16).unwrap();
+    cursor.write_i16::<BigEndian>(shorten.is_some() as i16).unwrap();
+    cursor.write_i32::<BigEndian>(record_type as i32).unwrap();
     match shorten {
-      Some(z) => z.serialize(&mut mw).unwrap(),
-      None    => mw.write_all(&[0u8; 32]).unwrap(),
+      Some(z) => z.serialize(&mut cursor).unwrap(),
+      None    => cursor.write_all(&[0u8; 32]).unwrap(),
     };
-    mw.write_all(name.as_bytes()).unwrap();
-    mw.write_u8(0u8).unwrap();
+    cursor.write_all(name.as_bytes()).unwrap();
+    cursor.write_u8(0u8).unwrap();
 
+    // create a MessageWriter and send the message
+    let mw = self.service_writer.write_message2(ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP, cursor);
     let (tx, rx) = channel::<Record>();
     self.lookup_tx.send((id, tx)).unwrap(); // panics if the callback loop has panicked
     try!(mw.send());

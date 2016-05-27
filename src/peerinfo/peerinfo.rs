@@ -1,7 +1,7 @@
 use std::mem::{uninitialized, size_of_val};
 use std::fmt;
 use std::str::{from_utf8, FromStr};
-use std::io::{self, Read, Write};
+use std::io::{self, Read, Write, Cursor};
 use libc::{c_void, c_char, size_t};
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 
@@ -69,7 +69,8 @@ pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
   try!(mw.send());
   */
 
-  let body = &[0; 4];
+  let mut body = Cursor::new(Vec::new());
+  body.write_u32::<BigEndian>(0u32).unwrap();
   let mw = sw.write_message2(ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL, body);
   try!(mw.send());
   Ok(Peers {
