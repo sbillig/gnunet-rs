@@ -4,6 +4,8 @@
 use std::io::{self, Write, Cursor};
 use std::thread;
 use std::net::Shutdown;
+use std::slice;
+use std::mem;
 use unix_socket::UnixStream;
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 
@@ -133,8 +135,11 @@ impl ServiceWriter {
   }
 
   pub fn write_message2<'a>(&'a mut self, tpe: u16, body: &'a[u8]) -> MessageWriter2<'a> {
-      let len = (body.len() + 4) as u16; // TODO is this safe?
-      assert!(len >= 4);
+      let len = body.len() + mem::size_of::<MessageHeader>();
+      use std::u16::MAX;
+      assert!(len >= 4 && len <= (MAX as usize));
+
+      let len = len as u16;
       println!("constructing {}", len);
       MessageWriter2 {
           service_writer: self,
@@ -146,9 +151,6 @@ impl ServiceWriter {
       }
   }
 }
-
-use std::slice;
-use std::mem;
 
 pub struct MessageWriter2<'a> {
   service_writer: &'a mut ServiceWriter,
@@ -164,7 +166,7 @@ impl<'a> MessageWriter2<'a> {
         slice::from_raw_parts(p, mem::size_of::<MessageHeader>())
     };
     println!("{:?}, {:?}", content, self.body);
-    self.service_writer.connection.write_all(content);
+    try!(self.service_writer.connection.write_all(content));
     self.service_writer.connection.write_all(self.body)
   }
 }
