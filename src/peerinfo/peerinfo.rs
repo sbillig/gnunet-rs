@@ -2,10 +2,10 @@ use std::mem::{uninitialized, size_of_val};
 use std::fmt;
 use std::str::{from_utf8, FromStr};
 use std::io::{self, Read, Write, Cursor};
-use libc::{c_void, c_char, size_t};
+use std::os::raw::{c_void, c_char};
 use byteorder::{BigEndian, ReadBytesExt};
 
-use ll;
+use ll::{self, size_t};
 use Cfg;
 use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait};
 use Hello;
