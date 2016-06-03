@@ -58,8 +58,8 @@ error_def! IteratePeersError {
     => "Failed to connect to the peerinfo service" ("Reason: {}", cause)
 }
 
-struct PeerInfoMessage;
-impl MessageTrait for PeerInfoMessage {
+struct ListAllPeersMessage;
+impl MessageTrait for ListAllPeersMessage {
     fn msg_type(&self) -> u16 {
         ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL
     }
@@ -72,7 +72,7 @@ impl MessageTrait for PeerInfoMessage {
 pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
   let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
 
-  let msg = PeerInfoMessage;
+  let msg = ListAllPeersMessage;
   let mw = sw.write_message2(msg);
   try!(mw.send());
   Ok(Peers {

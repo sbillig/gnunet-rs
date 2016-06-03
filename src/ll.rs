@@ -5258,7 +5258,6 @@ impl ::std::default::Default for Struct___va_list_tag {
     fn default() -> Self { unsafe { ::std::mem::zeroed() } }
 }
 #[link(name = "gnunetutil", kind = "dylib")]
-#[link(name = "gnunetgnsrecord", kind = "dylib")]
 extern "C" {
     pub static in6addr_any: Struct_in6_addr;
     pub static in6addr_loopback: Struct_in6_addr;
@@ -5287,7 +5286,6 @@ extern "C" {
     pub static mut timezone: ::std::os::raw::c_long;
 }
 #[link(name = "gnunetutil", kind = "dylib")]
-#[link(name = "gnunetgnsrecord", kind = "dylib")]
 extern "C" {
     pub fn select(__nfds: ::std::os::raw::c_int, __readfds: *mut fd_set,
                   __writefds: *mut fd_set, __exceptfds: *mut fd_set,

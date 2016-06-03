@@ -5,10 +5,7 @@
 
 export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libclang-3.8.so
 bindgen -builtins \
-        -I/usr/lib64/clang/3.5.0/include \
-        -I/usr/local/include \
         -lgnunetutil \
-        -lgnunetgnsrecord \
         ll.h > ll.rs
 cat <<EOF >>ll.rs
 
