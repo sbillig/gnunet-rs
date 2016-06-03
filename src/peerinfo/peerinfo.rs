@@ -2,10 +2,9 @@ use std::mem::{uninitialized, size_of_val};
 use std::fmt;
 use std::str::{FromStr};
 use std::io::{self, Read, Write, Cursor};
-use std::os::raw::{c_void};
 use byteorder::{BigEndian, ReadBytesExt};
 
-use ll::{self, size_t};
+use ll;
 use Cfg;
 use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait};
 use Hello;
@@ -39,8 +38,8 @@ impl FromStr for PeerIdentity {
 
   fn from_str(s: &str) -> Result<PeerIdentity, PeerIdentityFromStrError> {
     let pk = &mut [0; 32]; // TODO can we dynamically set the size?
-    let res2 = string_to_data(s.to_string(), pk);
-    match res2 {
+    let res = string_to_data(s.to_string(), pk);
+    match res {
       true => Ok(PeerIdentity {
         data: ll::Struct_GNUNET_PeerIdentity {
           public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {

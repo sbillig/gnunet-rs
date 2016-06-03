@@ -76,9 +76,7 @@ pub fn data_to_string(data: &[u8]) -> String {
             let b = data[rpos] as u32;
             rpos += 1;
 
-            let s: u32 = if b >= 0 { b } else { 256 + b };
-
-            bits = (bits << 8) | s;
+            bits = (bits << 8) | b;
             vbit += 8;
         }
         if vbit < 5 {
@@ -99,7 +97,7 @@ pub fn string_to_data(string: String, out_data: &mut [u8]) -> bool {
     let mut bits: i64;
     let mut vbit: i64;
     let mut ret: i64;
-    let mut shift: i64;
+    let shift: i64;
     let enc_len = string.len();
     let encoded_len = out_data.len();
 
