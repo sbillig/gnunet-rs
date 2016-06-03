@@ -3,18 +3,17 @@
 # Run this to regenerate ll.rs after a C library update.
 # This is a tempory measure until bindgen can be worked into the build process
 
-export LD_PRELOAD=/usr/lib/libclang.so
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libclang-3.8.so
 bindgen -builtins \
-        -I/usr/lib64/clang/3.5.0/include \
-        -I/usr/local/include \
-        -lgnunetutil \
-        -lgnunetgnsrecord \
         ll.h > ll.rs
 cat <<EOF >>ll.rs
 
 pub const GNUNET_NO: ::libc::c_int = 0;
 pub const GNUNET_OK: ::libc::c_int = 1;
 pub const GNUNET_MESSAGE_TYPE_HELLO: u16 = 17;
+pub const GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL: u16 = 331;
+pub const GNUNET_MESSAGE_TYPE_PEERINFO_INFO: u16 = 332;
+pub const GNUNET_MESSAGE_TYPE_PEERINFO_INFO_END: u16 = 333;
 pub const GNUNET_MESSAGE_TYPE_GNS_LOOKUP: u16 = 500;
 pub const GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT: u16 = 501;
 pub const GNUNET_MESSAGE_TYPE_IDENTITY_START: u16 = 624;

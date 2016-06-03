@@ -5,9 +5,9 @@ use std::mem::{uninitialized, size_of, size_of_val};
 use std::str::from_utf8;
 use std::slice::from_raw_parts;
 use std::io::{self, Read, Write};
-use libc::{c_void, size_t, c_char};
+use std::os::raw::{c_void, c_char};
 
-use ll;
+use ll::{self, size_t};
 use crypto::hashcode::HashCode;
 
 /// A 256bit ECDSA public key.
@@ -47,7 +47,7 @@ impl FromStr for EcdsaPublicKey {
       let mut ret: EcdsaPublicKey = mem::uninitialized();
       let res = ll::GNUNET_CRYPTO_ecdsa_public_key_from_string(
           bytes.as_ptr() as *const i8,
-          bytes.len() as usize,
+          bytes.len() as size_t,
           &mut ret.data);
       match res {
         ll::GNUNET_OK => Ok(ret),

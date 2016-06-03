@@ -4,11 +4,11 @@ use std::fmt;
 use std::str::from_utf8;
 use std::ffi::CStr;
 use std::io::{self, Read};
+use std::os::raw::{c_char, c_void};
 //use std::c_str::CString;
 use byteorder::{BigEndian, ReadBytesExt};
-use libc::{free, c_char, c_void};
 
-use ll;
+use ll::{self, size_t};
 use self::RecordType::*;
 use util::io::ReadUtil;
 
@@ -136,6 +136,7 @@ impl Record {
     let data_size = try!(reader.read_u32::<BigEndian>()) as u64;
     let record_type = try!(reader.read_u32::<BigEndian>());
     let flags = try!(reader.read_u32::<BigEndian>());
+    let flags: ll::Enum_GNUNET_GNSRECORD_Flags = unsafe { ::std::mem::transmute(flags) };
     let buff = try!(reader.read_exact_alloc(data_size as usize));
     let data = buff.as_ptr() as *const c_void;
 
@@ -143,7 +144,7 @@ impl Record {
       data: ll::Struct_GNUNET_GNSRECORD_Data {
         data:             data,
         expiration_time:  expiration_time,
-        data_size:        data_size as usize,
+        data_size:        data_size as size_t,
         record_type:      record_type,
         flags:            flags,
       },
@@ -173,7 +174,7 @@ impl Debug for Record {
             Err(_)  => write!(f, "<invalid utf8>"),
           };
           // TODO: use the c-string wrapper that automatically dealloces when it exists
-          free(cs as *mut c_void);
+          ::libc::free(cs as *mut ::libc::c_void);
           ret
         },
       }

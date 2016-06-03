@@ -1,15 +1,16 @@
 use std::mem::{uninitialized, size_of_val};
 use std::fmt;
-use std::str::{from_utf8, FromStr};
-use std::io::{self, Read, Write};
-use libc::{c_void, c_char, size_t};
-use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
+use std::str::{FromStr};
+use std::io::{self, Read, Write, Cursor};
+use std::os::raw::{c_void};
+use byteorder::{BigEndian, ReadBytesExt};
 
-use ll;
+use ll::{self, size_t};
 use Cfg;
-use service::{self, connect, ServiceReader, ReadMessageError};
+use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait};
 use Hello;
 use transport::{self, TransportServiceInitError};
+use util::strings::{data_to_string, string_to_data};
 
 /// The identity of a GNUnet peer.
 pub struct PeerIdentity {
@@ -37,15 +38,17 @@ impl FromStr for PeerIdentity {
   type Err = PeerIdentityFromStrError;
 
   fn from_str(s: &str) -> Result<PeerIdentity, PeerIdentityFromStrError> {
-    unsafe {
-      let ret: ll::Struct_GNUNET_PeerIdentity = uninitialized();
-      let res = ll::GNUNET_STRINGS_string_to_data(s.as_ptr() as *const i8, s.len() as size_t, ret.public_key.q_y.as_ptr() as *mut c_void, ret.public_key.q_y.len() as size_t);
-      match res {
-        ll::GNUNET_OK => Ok(PeerIdentity {
-          data: ret,
-        }),
-        _ => Err(PeerIdentityFromStrError::ParsingFailed),
-      }
+    let pk = &mut [0; 32]; // TODO can we dynamically set the size?
+    let res2 = string_to_data(s.to_string(), pk);
+    match res2 {
+      true => Ok(PeerIdentity {
+        data: ll::Struct_GNUNET_PeerIdentity {
+          public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
+              q_y: *pk,
+          }
+        }
+      }),
+      _ => Err(PeerIdentityFromStrError::ParsingFailed),
     }
   }
 }
@@ -58,13 +61,22 @@ error_def! IteratePeersError {
     => "Failed to connect to the peerinfo service" ("Reason: {}", cause)
 }
 
+struct ListAllPeersMessage;
+impl MessageTrait for ListAllPeersMessage {
+    fn msg_type(&self) -> u16 {
+        ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL
+    }
+    fn msg_body(&self) -> Cursor<Vec<u8>> {
+        Cursor::new(vec![0; 4])
+    }
+}
+
 /// Iterate over all the currently connected peers.
 pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
   let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
 
-  let msg_length = 8u16;
-  let mut mw = sw.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL);
-  mw.write_u32::<BigEndian>(0).unwrap();
+  let msg = ListAllPeersMessage;
+  let mw = sw.write_message2(msg);
   try!(mw.send());
   Ok(Peers {
     service: sr,
@@ -136,17 +148,9 @@ impl Iterator for Peers {
 
 impl fmt::Debug for PeerIdentity {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    unsafe {
-      const LEN: usize = 52usize;
-      assert!(LEN == (size_of_val(&self.data.public_key.q_y) * 8 + 4) / 5);
-      let mut enc: [u8; LEN] = uninitialized();
-      let res = ll::GNUNET_STRINGS_data_to_string(self.data.public_key.q_y.as_ptr() as *const c_void,
-                                                  self.data.public_key.q_y.len() as size_t,
-                                                  enc.as_mut_ptr() as *mut c_char,
-                                                  enc.len() as size_t);
-      assert!(!res.is_null());
-      fmt::Display::fmt(from_utf8(&enc).unwrap(), f)
-    }
+    assert!(52usize == (size_of_val(&self.data.public_key.q_y) * 8 + 4) / 5);
+    let res = data_to_string(&self.data.public_key.q_y);
+    fmt::Display::fmt(res.as_str(), f)
   }
 }
 
