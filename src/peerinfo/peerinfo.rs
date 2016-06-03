@@ -10,7 +10,7 @@ use Cfg;
 use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait};
 use Hello;
 use transport::{self, TransportServiceInitError};
-use util::strings::data_to_string;
+use util::strings::{data_to_string, string_to_data};
 
 /// The identity of a GNUnet peer.
 pub struct PeerIdentity {
@@ -38,15 +38,17 @@ impl FromStr for PeerIdentity {
   type Err = PeerIdentityFromStrError;
 
   fn from_str(s: &str) -> Result<PeerIdentity, PeerIdentityFromStrError> {
-    unsafe {
-      let ret: ll::Struct_GNUNET_PeerIdentity = uninitialized();
-      let res = ll::GNUNET_STRINGS_string_to_data(s.as_ptr() as *const i8, s.len() as size_t, ret.public_key.q_y.as_ptr() as *mut c_void, ret.public_key.q_y.len() as size_t);
-      match res {
-        ll::GNUNET_OK => Ok(PeerIdentity {
-          data: ret,
-        }),
-        _ => Err(PeerIdentityFromStrError::ParsingFailed),
-      }
+    let pk = &mut [0; 32]; // TODO can we dynamically set the size?
+    let res2 = string_to_data(s.to_string(), pk);
+    match res2 {
+      true => Ok(PeerIdentity {
+        data: ll::Struct_GNUNET_PeerIdentity {
+          public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
+              q_y: *pk,
+          }
+        }
+      }),
+      _ => Err(PeerIdentityFromStrError::ParsingFailed),
     }
   }
 }

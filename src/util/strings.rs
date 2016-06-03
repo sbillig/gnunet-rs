@@ -93,6 +93,82 @@ pub fn data_to_string(data: &[u8]) -> String {
     out
 }
 
+pub fn string_to_data(string: String, out_data: &mut [u8]) -> bool {
+    let mut rpos: usize;
+    let mut wpos: usize;
+    let mut bits: i64;
+    let mut vbit: i64;
+    let mut ret: i64;
+    let mut shift: i64;
+    let enc_len = string.len();
+    let encoded_len = out_data.len();
+
+    if 0 == enc_len {
+        if 0 == encoded_len {
+            return true
+        }
+        return false
+    }
+
+    wpos = out_data.len();
+    rpos = enc_len;
+
+    if encoded_len % 5 > 0 {
+        // padding!
+        vbit = encoded_len as i64 % 5;
+        shift = 5 - vbit;
+
+        rpos -= 1;
+        ret = get_value(string.as_bytes()[rpos]) as i64;
+        bits = ret >> (5 - (encoded_len % 5));
+    }
+    else {
+        vbit = 5;
+        shift = 0;
+        rpos -= 1;
+        ret = get_value(string.as_bytes()[rpos]) as i64;
+        bits = ret;
+    }
+    if (encoded_len + shift as usize) / 5 != enc_len {
+        return false;
+    }
+    if -1 == ret {
+        return false;
+    }
+    while wpos > 0 {
+        assert!(rpos != 0);
+        rpos -= 1;
+        ret = get_value(string.as_bytes()[rpos]) as i64;
+        bits = ret << vbit | bits;
+        if -1 == ret {
+            return false;
+        }
+        vbit += 5;
+        if vbit >= 8 {
+            wpos -= 1;
+            out_data[wpos] = bits as u8;
+            bits >>= 8;
+            vbit -= 8;
+        }
+    }
+    if rpos != 0 || vbit != 0 {
+        return false;
+    }
+    true
+}
+
 fn get_encoded_string_len(data_size: usize) -> usize {
     return (data_size * 8 + 4) / 5;
+}
+
+fn get_value (a: u8) -> i32 {
+    //       '0'          '9'
+    if (a >= 48) && (a <= 57) {
+        return a as i32 - 48;
+    }
+    //       'A'          'V'
+    if (a >= 65) && (a <= 86) {
+        return a as i32 - 65 + 10;
+    }
+    return -1;
 }
