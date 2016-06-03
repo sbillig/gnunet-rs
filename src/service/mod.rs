@@ -4,8 +4,6 @@
 use std::io::{self, Write, Cursor};
 use std::thread;
 use std::net::Shutdown;
-use std::slice;
-use std::mem;
 use unix_socket::UnixStream;
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 
@@ -221,4 +219,16 @@ pub struct MessageHeader {
 
 pub trait MessageTrait {
     fn into_slice(&self) -> &[u8];
+}
+
+#[macro_export]
+macro_rules! message_to_slice {
+    ($t:ty, $i:ident) => {{
+        let p: *const $t = $i;
+        let p: *const u8 = p as *const u8;
+        let res : &[u8] = unsafe {
+            slice::from_raw_parts(p, mem::size_of::<$t>())
+        };
+        res
+    }}
 }

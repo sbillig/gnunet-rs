@@ -172,13 +172,8 @@ fn create_list_all_peers_message(include_friend_only: u32) -> ListAllPeerMessage
 }
 
 impl MessageTrait for ListAllPeerMessage {
-    // TODO make this as macro?
     fn into_slice(&self) -> &[u8] {
-        let p: *const ListAllPeerMessage = self;
-        let p: *const u8 = p as *const u8;
-        let res : &[u8] = unsafe {
-            slice::from_raw_parts(p, mem::size_of::<ListAllPeerMessage>())
-        };
-        res
+        message_to_slice!(ListAllPeerMessage, self)
     }
 }
+

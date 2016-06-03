@@ -95,6 +95,7 @@ fn print_error<E: ::std::error::Error>(error: &E, file: &str, line: u32) {
 #[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals)]
 mod ll;
 
+#[macro_use]
 pub mod service;
 pub mod configuration;
 pub mod time;
