@@ -5,7 +5,6 @@
 
 export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libclang-3.8.so
 bindgen -builtins \
-        -lgnunetutil \
         ll.h > ll.rs
 cat <<EOF >>ll.rs
 
