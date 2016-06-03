@@ -1,12 +1,14 @@
 use std::mem::{uninitialized, size_of_val};
 use std::fmt;
 use std::str::{FromStr};
-use std::io::{self, Read, Write, Cursor};
+use std::io::{self, Read, Write};
+use std::mem;
+use std::slice;
 use byteorder::{BigEndian, ReadBytesExt};
 
 use ll;
 use Cfg;
-use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait};
+use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait, MessageHeader};
 use Hello;
 use transport::{self, TransportServiceInitError};
 use util::strings::{data_to_string, string_to_data};
@@ -60,21 +62,11 @@ error_def! IteratePeersError {
     => "Failed to connect to the peerinfo service" ("Reason: {}", cause)
 }
 
-struct ListAllPeersMessage;
-impl MessageTrait for ListAllPeersMessage {
-    fn msg_type(&self) -> u16 {
-        ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL
-    }
-    fn msg_body(&self) -> Cursor<Vec<u8>> {
-        Cursor::new(vec![0; 4])
-    }
-}
-
 /// Iterate over all the currently connected peers.
 pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
   let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
 
-  let msg = ListAllPeersMessage;
+  let msg = create_list_all_peers_message(0);
   let mw = sw.write_message2(msg);
   try!(mw.send());
   Ok(Peers {
@@ -159,3 +151,34 @@ impl fmt::Display for PeerIdentity {
   }
 }
 
+#[repr(C, packed)]
+struct ListAllPeerMessage {
+    header: MessageHeader,
+    include_friend_only: u32,
+}
+
+fn create_list_all_peers_message(include_friend_only: u32) -> ListAllPeerMessage {
+    let len = mem::size_of::<ListAllPeerMessage>();
+    use std::u16::MAX;
+    assert!(len >= 4 && len <= (MAX as usize));
+
+    ListAllPeerMessage {
+        header: MessageHeader {
+            len: (len as u16).to_be(),
+            tpe: ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL.to_be(),
+        },
+        include_friend_only: include_friend_only.to_be(),
+    }
+}
+
+impl MessageTrait for ListAllPeerMessage {
+    // TODO make this as macro?
+    fn into_slice(&self) -> &[u8] {
+        let p: *const ListAllPeerMessage = self;
+        let p: *const u8 = p as *const u8;
+        let res : &[u8] = unsafe {
+            slice::from_raw_parts(p, mem::size_of::<ListAllPeerMessage>())
+        };
+        res
+    }
+}

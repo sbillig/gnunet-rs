@@ -134,38 +134,22 @@ impl ServiceWriter {
     }
   }
 
-  pub fn write_message2<'a, T: MessageTrait>(&'a mut self, msg: T) -> MessageWriter2<'a> {
-    let inner = msg.msg_body().into_inner();
-    let len = inner.len() + mem::size_of::<MessageHeader>();
-    use std::u16::MAX;
-    assert!(len >= 4 && len <= (MAX as usize));
-
+  pub fn write_message2<'a, T: MessageTrait>(&'a mut self, msg: T) -> MessageWriter2<'a, T> {
     MessageWriter2 {
       service_writer: self,
-      header: MessageHeader {
-        len: (len as u16).to_be(),
-        tpe: msg.msg_type().to_be(),
-      },
-      body: inner,
+      message: msg,
     }
   }
 }
 
-pub struct MessageWriter2<'a> {
+pub struct MessageWriter2<'a, T: MessageTrait> {
   service_writer: &'a mut ServiceWriter,
-  header: MessageHeader,
-  body: Vec<u8>,
+  message: T,
 }
 
-impl<'a> MessageWriter2<'a> {
+impl<'a, T: MessageTrait> MessageWriter2<'a, T> {
   pub fn send(self) -> Result<(), io::Error> {
-    let p: *const MessageHeader = &self.header;
-    let p: *const u8 = p as *const u8;
-    let header: &[u8] = unsafe {
-        slice::from_raw_parts(p, mem::size_of::<MessageHeader>())
-    };
-    try!(self.service_writer.connection.write_all(header));
-    self.service_writer.connection.write_all(&self.body[..])
+    self.service_writer.connection.write_all(self.message.into_slice())
   }
 }
 
@@ -231,11 +215,10 @@ impl Drop for ServiceReader {
 
 #[repr(C, packed)]
 pub struct MessageHeader {
-    len: u16,
-    tpe: u16,
+    pub len: u16,
+    pub tpe: u16,
 }
 
 pub trait MessageTrait {
-    fn msg_type(&self) -> u16;
-    fn msg_body(&self) -> Cursor<Vec<u8>>;
+    fn into_slice(&self) -> &[u8];
 }
