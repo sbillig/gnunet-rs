@@ -1,8 +1,8 @@
 use std::mem::{uninitialized, size_of_val};
 use std::fmt;
-use std::str::{from_utf8, FromStr};
+use std::str::{FromStr};
 use std::io::{self, Read, Write, Cursor};
-use std::os::raw::{c_void, c_char};
+use std::os::raw::{c_void};
 use byteorder::{BigEndian, ReadBytesExt};
 
 use ll::{self, size_t};
@@ -10,6 +10,7 @@ use Cfg;
 use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait};
 use Hello;
 use transport::{self, TransportServiceInitError};
+use util::strings::data_to_string;
 
 /// The identity of a GNUnet peer.
 pub struct PeerIdentity {
@@ -145,17 +146,9 @@ impl Iterator for Peers {
 
 impl fmt::Debug for PeerIdentity {
   fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-    unsafe {
-      const LEN: usize = 52usize;
-      assert!(LEN == (size_of_val(&self.data.public_key.q_y) * 8 + 4) / 5);
-      let mut enc: [u8; LEN] = uninitialized();
-      let res = ll::GNUNET_STRINGS_data_to_string(self.data.public_key.q_y.as_ptr() as *const c_void,
-                                                  self.data.public_key.q_y.len() as size_t,
-                                                  enc.as_mut_ptr() as *mut c_char,
-                                                  enc.len() as size_t);
-      assert!(!res.is_null());
-      fmt::Display::fmt(from_utf8(&enc).unwrap(), f)
-    }
+    assert!(52usize == (size_of_val(&self.data.public_key.q_y) * 8 + 4) / 5);
+    let res = data_to_string(&self.data.public_key.q_y);
+    fmt::Display::fmt(res.as_str(), f)
   }
 }
 
