@@ -172,11 +172,22 @@ fn get_value (a: u8) -> i32 {
 }
 
 #[test]
-fn test_string_data_conversion() {
+fn test_string_data_conversion_simple() {
     let str_data = "GNUnet".to_string();
     let data = str_data.as_bytes();
+
     let string = data_to_string(data);
     let data2 = & mut [0; 6];
+
     assert!(string_to_data(&string, data2));
     assert!(data == data2);
+}
+
+#[test]
+fn test_string_data_conversion() {
+    let string = "22HTJH6O3EJ1FJ2S23JVQ7G1TMQI22VFDDJCD76MB6SQ8G3RVH40".to_string();
+    let data = & mut [0; 32];
+
+    assert!(string_to_data(&string, data));
+    assert!(data_to_string(data) == string);
 }
