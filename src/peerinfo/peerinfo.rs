@@ -74,8 +74,25 @@ pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
   })
 }
 
-// TODO this function will either return a peer or nothing, thus it doesn't need to return an iterator
-pub fn list_peer(cfg: &Cfg, pk_string: String) -> Result<Peers, IteratePeersError> {
+/// Get a peer by its key.
+pub fn get_peer(cfg: &Cfg, pk_string: String) -> Result<(Option<PeerIdentity>, Option<Hello>), NextPeerError> {
+    let mut peer = match list_peer_helper(cfg, pk_string) {
+        Ok(p) => p,
+        Err(_) => return Err(NextPeerError::InvalidResponse), // TODO need better error
+    };
+    match peer.next() {
+        Some(Ok((id, hello))) => {
+            match peer.next() {
+                Some(_) => Err(NextPeerError::InvalidResponse), // cannot read two peers
+                None => Ok((Some(id), hello)),
+            }
+        },
+        Some(Err(e)) => Err(e),
+        None => Ok((None, None)),
+    }
+}
+
+fn list_peer_helper(cfg: &Cfg, pk_string: String) -> Result<Peers, IteratePeersError> {
   let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
 
   let pk = & mut [0; 32];
@@ -89,9 +106,7 @@ pub fn list_peer(cfg: &Cfg, pk_string: String) -> Result<Peers, IteratePeersErro
     });
   let mw = sw.write_message2(msg);
   try!(mw.send());
-  Ok(Peers {
-    service: sr,
-  })
+  Ok(Peers { service: sr })
 }
 
 pub fn self_id(cfg: &Cfg) -> Result<PeerIdentity, TransportServiceInitError> {
