@@ -91,7 +91,7 @@ pub fn data_to_string(data: &[u8]) -> String {
     out
 }
 
-pub fn string_to_data(string: String, out_data: &mut [u8]) -> bool {
+pub fn string_to_data(string: & String, out_data: &mut [u8]) -> bool {
     let mut rpos: usize;
     let mut wpos: usize;
     let mut bits: i64;
@@ -99,7 +99,7 @@ pub fn string_to_data(string: String, out_data: &mut [u8]) -> bool {
     let mut ret: i64;
     let shift: i64;
     let enc_len = string.len();
-    let encoded_len = out_data.len();
+    let encoded_len = out_data.len() * 8;
 
     if 0 == enc_len {
         if 0 == encoded_len {
@@ -169,4 +169,14 @@ fn get_value (a: u8) -> i32 {
         return a as i32 - 65 + 10;
     }
     return -1;
+}
+
+#[test]
+fn test_string_data_conversion() {
+    let str_data = "GNUnet".to_string();
+    let data = str_data.as_bytes();
+    let string = data_to_string(data);
+    let data2 = & mut [0; 6];
+    assert!(string_to_data(&string, data2));
+    assert!(data == data2);
 }

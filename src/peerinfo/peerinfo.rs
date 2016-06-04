@@ -40,7 +40,7 @@ impl FromStr for PeerIdentity {
 
   fn from_str(s: &str) -> Result<PeerIdentity, PeerIdentityFromStrError> {
     let pk = &mut [0; 32]; // TODO can we dynamically set the size?
-    let res = string_to_data(s.to_string(), pk);
+    let res = string_to_data(&s.to_string(), pk);
     match res {
       true => Ok(PeerIdentity {
         data: ll::Struct_GNUNET_PeerIdentity {
@@ -152,17 +152,17 @@ impl fmt::Display for PeerIdentity {
 }
 
 #[repr(C, packed)]
-struct ListAllPeerMessage {
+struct ListAllPeersMessage {
     header: MessageHeader,
     include_friend_only: u32,
 }
 
-fn create_list_all_peers_message(include_friend_only: u32) -> ListAllPeerMessage {
-    let len = mem::size_of::<ListAllPeerMessage>();
+fn create_list_all_peers_message(include_friend_only: u32) -> ListAllPeersMessage {
+    let len = mem::size_of::<ListAllPeersMessage>();
     use std::u16::MAX;
     assert!(len >= 4 && len <= (MAX as usize));
 
-    ListAllPeerMessage {
+    ListAllPeersMessage {
         header: MessageHeader {
             len: (len as u16).to_be(),
             tpe: ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL.to_be(),
@@ -171,9 +171,33 @@ fn create_list_all_peers_message(include_friend_only: u32) -> ListAllPeerMessage
     }
 }
 
-impl MessageTrait for ListAllPeerMessage {
+impl MessageTrait for ListAllPeersMessage {
     fn into_slice(&self) -> &[u8] {
-        message_to_slice!(ListAllPeerMessage, self)
+        message_to_slice!(ListAllPeersMessage, self)
     }
 }
 
+#[repr(C, packed)]
+struct ListPeerMessage {
+    header: MessageHeader,
+    include_friend_only: u32,
+    peer: ll::Struct_GNUNET_PeerIdentity,
+}
+
+fn create_list_peer_message(include_friend_only: u32, peer: ll::Struct_GNUNET_PeerIdentity) -> ListPeerMessage {
+    let len = mem::size_of::<ListPeerMessage>();
+    ListPeerMessage {
+        header: MessageHeader {
+            len: (len as u16).to_be(),
+            tpe: ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET.to_be(),
+        },
+        include_friend_only: include_friend_only.to_be(),
+        peer: peer,
+    }
+}
+
+impl MessageTrait for ListPeerMessage {
+    fn into_slice(&self) -> &[u8] {
+        message_to_slice!(ListPeerMessage, self)
+    }
+}

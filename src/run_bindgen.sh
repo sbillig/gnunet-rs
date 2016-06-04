@@ -11,6 +11,7 @@ cat <<EOF >>ll.rs
 pub const GNUNET_NO: ::libc::c_int = 0;
 pub const GNUNET_OK: ::libc::c_int = 1;
 pub const GNUNET_MESSAGE_TYPE_HELLO: u16 = 17;
+pub const GNUNET_MESSAGE_TYPE_PEERINFO_GET: u16 = 331;
 pub const GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL: u16 = 331;
 pub const GNUNET_MESSAGE_TYPE_PEERINFO_INFO: u16 = 332;
 pub const GNUNET_MESSAGE_TYPE_PEERINFO_INFO_END: u16 = 333;
