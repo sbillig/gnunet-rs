@@ -66,7 +66,7 @@ error_def! IteratePeersError {
 pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
   let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
 
-  let msg = create_list_all_peers_message(0);
+  let msg = ListAllPeersMessage::new(0);
   let mw = sw.write_message2(msg);
   try!(mw.send());
   Ok(Peers {
@@ -98,7 +98,7 @@ fn list_peer_helper(cfg: &Cfg, pk_string: String) -> Result<Peers, IteratePeersE
   let pk = & mut [0; 32];
   string_to_data(&pk_string, pk);
 
-  let msg = create_list_peer_message(0,
+  let msg = ListPeerMessage::new(0,
     ll::Struct_GNUNET_PeerIdentity {
         public_key : ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
             q_y: *pk,
@@ -192,19 +192,22 @@ struct ListAllPeersMessage {
     include_friend_only: u32,
 }
 
-fn create_list_all_peers_message(include_friend_only: u32) -> ListAllPeersMessage {
-    let len = mem::size_of::<ListAllPeersMessage>();
-    use std::u16::MAX;
-    assert!(len >= 4 && len <= (MAX as usize));
+impl ListAllPeersMessage {
+    fn new(include_friend_only: u32) -> ListAllPeersMessage {
+        let len = mem::size_of::<ListAllPeersMessage>();
+        use std::u16::MAX;
+        assert!(len >= 4 && len <= (MAX as usize));
 
-    ListAllPeersMessage {
-        header: MessageHeader {
-            len: (len as u16).to_be(),
-            tpe: ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL.to_be(),
-        },
-        include_friend_only: include_friend_only.to_be(),
+        ListAllPeersMessage {
+            header: MessageHeader {
+                len: (len as u16).to_be(),
+                tpe: ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL.to_be(),
+            },
+            include_friend_only: include_friend_only.to_be(),
+        }
     }
 }
+
 
 impl MessageTrait for ListAllPeersMessage {
     fn into_slice(&self) -> &[u8] {
@@ -219,15 +222,17 @@ struct ListPeerMessage {
     peer: ll::Struct_GNUNET_PeerIdentity,
 }
 
-fn create_list_peer_message(include_friend_only: u32, peer: ll::Struct_GNUNET_PeerIdentity) -> ListPeerMessage {
-    let len = mem::size_of::<ListPeerMessage>();
-    ListPeerMessage {
-        header: MessageHeader {
-            len: (len as u16).to_be(),
-            tpe: ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET.to_be(),
-        },
-        include_friend_only: include_friend_only.to_be(),
-        peer: peer,
+impl ListPeerMessage {
+    fn new(include_friend_only: u32, peer: ll::Struct_GNUNET_PeerIdentity) -> ListPeerMessage {
+        let len = mem::size_of::<ListPeerMessage>();
+        ListPeerMessage {
+            header: MessageHeader {
+                len: (len as u16).to_be(),
+                tpe: ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET.to_be(),
+            },
+            include_friend_only: include_friend_only.to_be(),
+            peer: peer,
+        }
     }
 }
 

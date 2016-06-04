@@ -17,7 +17,7 @@ fn main() {
 
     // example to get a single peer
     let pk_string = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0".to_string();
-    let (mut peer, mut hello) = gnunet::get_peer(&config, pk_string).unwrap();
+    let (peer, _) = gnunet::get_peer(&config, pk_string).unwrap();
     match peer {
         Some(p) => println!("Peer found: {}", p),
         None    => println!("peer not found"),
