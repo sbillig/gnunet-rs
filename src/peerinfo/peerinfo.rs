@@ -74,6 +74,26 @@ pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
   })
 }
 
+// TODO this function will either return a peer or nothing, thus it doesn't need to return an iterator
+pub fn list_peer(cfg: &Cfg, pk_string: String) -> Result<Peers, IteratePeersError> {
+  let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
+
+  let pk = & mut [0; 32];
+  string_to_data(&pk_string, pk);
+
+  let msg = create_list_peer_message(0,
+    ll::Struct_GNUNET_PeerIdentity {
+        public_key : ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
+            q_y: *pk,
+        }
+    });
+  let mw = sw.write_message2(msg);
+  try!(mw.send());
+  Ok(Peers {
+    service: sr,
+  })
+}
+
 pub fn self_id(cfg: &Cfg) -> Result<PeerIdentity, TransportServiceInitError> {
   let hello = try!(transport::self_hello(cfg));
   Ok(hello.id)
