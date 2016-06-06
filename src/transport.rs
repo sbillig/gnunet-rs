@@ -1,5 +1,4 @@
-use std::io::{self, Write};
-use byteorder::{WriteBytesExt, BigEndian};
+use std::io;
 use service::{self, ReadMessageError, MessageHeader, MessageTrait};
 use hello::HelloDeserializeError;
 use Hello;
@@ -34,7 +33,7 @@ impl TransportService {
                                 q_y: [0; 32],
                             }
                         });
-    let mw = sw.write_message2(msg);
+    let mw = sw.write_message(msg);
     try!(mw.send());
     let (ty, mut mr) = try!(sr.read_message());
     if ty != ll::GNUNET_MESSAGE_TYPE_HELLO {
