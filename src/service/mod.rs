@@ -224,6 +224,8 @@ pub trait MessageTrait {
 #[macro_export]
 macro_rules! message_to_slice {
     ($t:ty, $i:ident) => {{
+        use std::slice;
+        use std::mem;
         let p: *const $t = $i;
         let p: *const u8 = p as *const u8;
         let res : &[u8] = unsafe {

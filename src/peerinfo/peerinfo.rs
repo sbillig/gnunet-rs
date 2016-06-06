@@ -1,9 +1,7 @@
-use std::mem::{uninitialized, size_of_val};
+use std::mem::{size_of, uninitialized, size_of_val};
 use std::fmt;
 use std::str::{FromStr};
 use std::io::{self, Read, Write};
-use std::mem;
-use std::slice;
 use byteorder::{BigEndian, ReadBytesExt};
 
 use ll;
@@ -194,7 +192,7 @@ struct ListAllPeersMessage {
 
 impl ListAllPeersMessage {
     fn new(include_friend_only: u32) -> ListAllPeersMessage {
-        let len = mem::size_of::<ListAllPeersMessage>();
+        let len = size_of::<ListAllPeersMessage>();
         use std::u16::MAX;
         assert!(len >= 4 && len <= (MAX as usize));
 
@@ -224,7 +222,7 @@ struct ListPeerMessage {
 
 impl ListPeerMessage {
     fn new(include_friend_only: u32, peer: ll::Struct_GNUNET_PeerIdentity) -> ListPeerMessage {
-        let len = mem::size_of::<ListPeerMessage>();
+        let len = size_of::<ListPeerMessage>();
         ListPeerMessage {
             header: MessageHeader {
                 len: (len as u16).to_be(),
@@ -241,3 +239,12 @@ impl MessageTrait for ListPeerMessage {
         message_to_slice!(ListPeerMessage, self)
     }
 }
+
+    /*
+#[repr(C, packed)]
+struct InfoMessage {
+    header: MessageHeader,
+    reserved: u32,
+    peer: ll::Struct_GNUNET_PeerIdentity,
+}
+    */

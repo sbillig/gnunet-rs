@@ -1,7 +1,6 @@
 use std::io::{self, Write};
 use byteorder::{WriteBytesExt, BigEndian};
-
-use service::{self, ReadMessageError};
+use service::{self, ReadMessageError, MessageHeader, MessageTrait};
 use hello::HelloDeserializeError;
 use Hello;
 use Cfg;
@@ -29,14 +28,14 @@ error_def! TransportServiceInitError {
 impl TransportService {
   pub fn init(cfg: &Cfg) -> Result<TransportService, TransportServiceInitError> {
     let (mut sr, mut sw) = try!(service::connect(cfg, "transport"));
-    let msg_length = 2 + 4 + 32;
-    {
-      let mut mw = sw.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_TRANSPORT_START);
-      mw.write_u32::<BigEndian>(0).unwrap();
-      let null_peer_id = [0; 32];
-      mw.write(&null_peer_id[..]).unwrap();
-      try!(mw.send());
-    };
+    let msg = StartMessage::new(0,
+                        ll::Struct_GNUNET_PeerIdentity {
+                            public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
+                                q_y: [0; 32],
+                            }
+                        });
+    let mw = sw.write_message2(msg);
+    try!(mw.send());
     let (ty, mut mr) = try!(sr.read_message());
     if ty != ll::GNUNET_MESSAGE_TYPE_HELLO {
       return Err(TransportServiceInitError::NonHelloMessage { ty: ty });
@@ -55,3 +54,29 @@ pub fn self_hello(cfg: &Cfg) -> Result<Hello, TransportServiceInitError> {
   Ok(ts.our_hello)
 }
 
+#[repr(C, packed)]
+struct StartMessage {
+    header: MessageHeader,
+    options: u32,
+    myself: ll::Struct_GNUNET_PeerIdentity,
+}
+
+impl StartMessage {
+    fn new(options: u32, peer: ll::Struct_GNUNET_PeerIdentity) -> StartMessage {
+        let len = ::std::mem::size_of::<StartMessage>();
+        StartMessage {
+            header: MessageHeader {
+                len: (len as u16).to_be(),
+                tpe: ll::GNUNET_MESSAGE_TYPE_TRANSPORT_START.to_be(),
+            },
+            options: options.to_be(),
+            myself: peer,
+        }
+    }
+}
+
+impl MessageTrait for StartMessage {
+    fn into_slice(&self) -> &[u8] {
+        message_to_slice!(StartMessage, self)
+    }
+}
