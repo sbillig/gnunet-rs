@@ -5,7 +5,7 @@ use std::io::{self, Write, Cursor};
 use std::thread;
 use std::net::Shutdown;
 use unix_socket::UnixStream;
-use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
+use byteorder::{BigEndian, ReadBytesExt};
 
 use configuration::{self, Cfg};
 use util::io::ReadUtil;

@@ -121,7 +121,7 @@ impl IdentityService {
     let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
     let service = try!(Service::connect("identity", move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
       loop {
-        
+
       }
     }));
     */
