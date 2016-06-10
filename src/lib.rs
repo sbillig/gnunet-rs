@@ -31,6 +31,8 @@ extern crate byteorder;
 extern crate crypto as rcrypto;
 extern crate num;
 extern crate regex;
+#[macro_use] extern crate gj;
+extern crate gjio;
 
 pub use configuration::Cfg;
 //pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};

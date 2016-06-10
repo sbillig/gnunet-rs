@@ -65,8 +65,7 @@ pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
     let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
 
     let msg = ListAllPeersMessage::new(0);
-    let mw = sw.write_message(msg);
-    try!(mw.send());
+    try!(sw.send(msg));
     Ok(Peers {
         service: sr,
     })
@@ -102,8 +101,7 @@ fn list_peer_helper(cfg: &Cfg, pk_string: String) -> Result<Peers, IteratePeersE
                                            q_y: *pk,
                                        }
                                    });
-    let mw = sw.write_message(msg);
-    try!(mw.send());
+    try!(sw.send(msg));
     Ok(Peers { service: sr })
 }
 

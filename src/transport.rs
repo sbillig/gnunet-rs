@@ -33,8 +33,7 @@ impl TransportService {
                                 q_y: [0; 32],
                             }
                         });
-    let mw = sw.write_message(msg);
-    try!(mw.send());
+    try!(sw.send(msg));
     let (ty, mut mr) = try!(sr.read_message());
     if ty != ll::GNUNET_MESSAGE_TYPE_HELLO {
       return Err(TransportServiceInitError::NonHelloMessage { ty: ty });

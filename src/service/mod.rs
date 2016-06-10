@@ -5,7 +5,10 @@ use std::io::{self, Write, Cursor};
 use std::thread;
 use std::net::Shutdown;
 use unix_socket::UnixStream;
-use byteorder::{BigEndian, ReadBytesExt};
+use byteorder::{BigEndian, ByteOrder, ReadBytesExt};
+
+use gj::{Promise};
+use gjio::{AsyncWrite, AsyncRead, SocketStream, Network};
 
 use configuration::{self, Cfg};
 use util::io::ReadUtil;
@@ -29,6 +32,27 @@ pub struct ServiceReader {
 pub struct ServiceWriter {
     /// The underlying socket wrapped by `ServiceWriter`. This is a write-only socket.
     pub connection: UnixStream, // TODO: should be UnixWriter
+}
+
+
+// TODO better if this is a part of gjio
+pub fn read_u16_from_socket(socket: & mut SocketStream) -> Promise<u16, io::Error>{
+    socket.read(vec![0;2], 2).then(move |(buf, len)| {
+        assert!(len == 2);
+        Promise::ok(BigEndian::read_u16(&buf[..]))
+    })
+}
+
+/// Created by `service::connect_async`. Used to read messages from a GNUnet service.
+pub struct ServiceReader_Async {
+    /// The underlying socket wrapped by `ServiceReader`. This is a read-only socket.
+    pub connection: SocketStream,
+}
+
+/// Created by `service::connect_async`. Used to send messages to a GNUnet service.
+pub struct ServiceWriter_Async {
+    /// The underlying socket wrapped by `ServiceWriter`. This is a write-only socket.
+    pub connection: SocketStream,
 }
 
 /// Callbacks passed to `ServiceReader::spawn_callback_loop` return a `ProcessMessageResult` to
@@ -64,6 +88,7 @@ pub fn connect(cfg: &Cfg, name: &str) -> Result<(ServiceReader, ServiceWriter), 
   let in_stream = try!(UnixStream::connect(path));
   let out_stream = try!(in_stream.try_clone());
 
+
   let r = ServiceReader {
     connection: in_stream,
   };
@@ -71,6 +96,16 @@ pub fn connect(cfg: &Cfg, name: &str) -> Result<(ServiceReader, ServiceWriter), 
     connection: out_stream,
   };
   Ok((r, w))
+}
+
+pub fn connect_async(cfg: &Cfg, name: &str, network: &Network) -> Promise<(ServiceReader_Async, ServiceWriter_Async), ConnectError> {
+    let unixpath = pry!(cfg.get_filename(name, "UNIXPATH"));
+    let addr = pry!(network.get_unix_address(unixpath.as_path()));
+    addr.connect().lift().then(move |stream| {
+        let out_stream = stream.clone();
+        Promise::ok((ServiceReader_Async{ connection: stream },
+                     ServiceWriter_Async{ connection: out_stream }))
+    })
 }
 
 /// Error that can be generated when attempting to receive data from a service.
@@ -119,6 +154,27 @@ impl ServiceReader {
   }
 }
 
+impl ServiceReader_Async {
+    pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
+        let mut conn =  self.connection.clone(); // TODO is  this ok?
+        read_u16_from_socket(& mut conn)
+            .lift()
+            .then(move |len| {
+                if len < 4 {
+                    return Promise::err(ReadMessageError::ShortMessage { len: len });
+                }
+                let rem = len as usize - 2;
+                conn.read(vec![0; rem], rem).lift()
+            })
+            .then(move |(buf, _)| {
+                let mut mr = Cursor::new(buf);
+                let tpe = pry!(mr.read_u16::<BigEndian>());
+                Promise::ok((tpe, mr))
+            })
+    }
+}
+
+/*
 impl ServiceWriter {
   pub fn write_message<'a, T: MessageTrait>(&'a mut self, msg: T) -> MessageWriter<'a, T> {
     MessageWriter {
@@ -127,6 +183,8 @@ impl ServiceWriter {
     }
   }
 }
+*/
+
 
 /// Used to form messsages before sending them to the GNUnet service.
 pub struct MessageWriter<'a, T: MessageTrait> {
@@ -134,10 +192,10 @@ pub struct MessageWriter<'a, T: MessageTrait> {
   message: T,
 }
 
-impl<'a, T: MessageTrait> MessageWriter<'a, T> {
-  pub fn send(self) -> Result<(), io::Error> {
-    self.service_writer.connection.write_all(self.message.into_slice())
-  }
+impl ServiceWriter {
+    pub fn send<T: MessageTrait>(& mut self, message: T) -> Result<(), io::Error> {
+        self.connection.write_all(message.into_slice())
+    }
 }
 
 
