@@ -4,6 +4,9 @@ use std::str::{FromStr};
 use std::io::{self, Read, Write};
 use byteorder::{BigEndian, ReadBytesExt};
 
+use gj::{Promise};
+use gjio::{Network};
+
 use ll;
 use Cfg;
 use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait, MessageHeader};
@@ -108,6 +111,13 @@ fn list_peer_helper(cfg: &Cfg, pk_string: String) -> Result<Peers, IteratePeersE
 pub fn self_id(cfg: &Cfg) -> Result<PeerIdentity, TransportServiceInitError> {
     let hello = try!(transport::self_hello(cfg));
     Ok(hello.id)
+}
+
+pub fn self_id_async(cfg: &Cfg, network: &Network) -> Promise<PeerIdentity, TransportServiceInitError> {
+    transport::self_hello_async(cfg, network)
+        .map(|hello| {
+            Ok(hello.id)
+        })
 }
 
 /// An iterator over all the currently connected peers.

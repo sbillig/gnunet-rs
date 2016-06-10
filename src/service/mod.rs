@@ -166,10 +166,10 @@ impl ServiceReader_Async {
                 let rem = len as usize - 2;
                 conn.read(vec![0; rem], rem).lift()
             })
-            .then(move |(buf, _)| {
+            .map(move |(buf, _)| {
                 let mut mr = Cursor::new(buf);
-                let tpe = pry!(mr.read_u16::<BigEndian>());
-                Promise::ok((tpe, mr))
+                let tpe = try!(mr.read_u16::<BigEndian>());
+                Ok((tpe, mr))
             })
     }
 }
@@ -180,7 +180,15 @@ impl ServiceWriter {
     }
 }
 
-
+impl ServiceWriter_Async {
+    pub fn send<T: MessageTrait>(& mut self, message: T) -> Promise<(), io::Error> {
+        let x = message.into_slice().to_vec(); // TODO this makes a copy is it ok?
+        self.connection.write(x)
+            .map(|_| {
+                Ok(())
+            })
+    }
+}
 
 /// A thread that loops, recieving messages from the service and passing them to a callback.
 /// Created with `ServiceReader::spawn_callback_loop`.

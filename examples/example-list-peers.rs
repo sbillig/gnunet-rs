@@ -32,10 +32,15 @@ fn main() {
     let local_id = gnunet::self_id(&config).unwrap();
     println!("Our id is: {}", local_id);
 
-    /*
     EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+        let mut event_port = try!(gjio::EventPort::new());
+        let network = event_port.get_network();
+        let local_id_promise = gnunet::self_id_async(&config, &network);
+
+        let local_id = local_id_promise.wait(wait_scope, & mut event_port).unwrap();
+        println!("Our id is: {}", local_id);
+        Ok(())
     }).expect("top level");
-    */
 }
 
 

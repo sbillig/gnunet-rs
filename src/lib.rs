@@ -41,7 +41,7 @@ pub use configuration::Cfg;
 //pub use gns::{GNS, LocalOptions};
 //pub use identity::{Ego, IdentityService};
 pub use hello::Hello;
-pub use peerinfo::{iterate_peers, get_peer, self_id, PeerIdentity};
+pub use peerinfo::{iterate_peers, get_peer, self_id, self_id_async, PeerIdentity};
 //pub use dht::DHT;
 
 /*
