@@ -49,25 +49,23 @@ impl TransportService {
   }
 
     pub fn init_async(cfg: &Cfg, network: &Network) -> Promise<TransportService, TransportServiceInitError> {
-        // TODO FIXME
-        match TransportService::init(cfg) {
-            Ok(x) => Promise::ok(x),
-            Err(e) => Promise::err(e),
-        }
-        /*
         service::connect_async(cfg, "transport", network)
-            .then(move |(mut sr, mut sw)| {
-                let msg = StartMessage::new(0,
-                                            ll::Struct_GNUNET_PeerIdentity {
-                                                public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey { q_y: [0; 32] }
-                                            });
+            .lift()
+            .then(move |(sr, mut sw)| {
+                let id = ll::Struct_GNUNET_PeerIdentity {
+                    public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
+                        q_y: [0; 32]
+                    }
+                };
+                let msg = StartMessage::new(0, id);
                 sw.send(msg)
                     .lift()
-                    .map(move |_| { Ok(sr) })
+                    .map(|_| {
+                        Ok(sr)
+                    })
             })
-            .then(move |mut sr| { sr.read_message() })
-            .lift()
-            .map(|(ty, mr)| {
+            .then(move |mut sr| { sr.read_message().lift() })
+            .map(move |(ty, mut mr)| {
                 if ty != ll::GNUNET_MESSAGE_TYPE_HELLO {
                     return Err(TransportServiceInitError::NonHelloMessage { ty: ty });
                 }
@@ -76,7 +74,6 @@ impl TransportService {
                     our_hello: hello,
                 })
             })
-        */
     }
 }
 
