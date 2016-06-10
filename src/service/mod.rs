@@ -174,24 +174,6 @@ impl ServiceReader_Async {
     }
 }
 
-/*
-impl ServiceWriter {
-  pub fn write_message<'a, T: MessageTrait>(&'a mut self, msg: T) -> MessageWriter<'a, T> {
-    MessageWriter {
-      service_writer: self,
-      message: msg,
-    }
-  }
-}
-*/
-
-
-/// Used to form messsages before sending them to the GNUnet service.
-pub struct MessageWriter<'a, T: MessageTrait> {
-  service_writer: &'a mut ServiceWriter,
-  message: T,
-}
-
 impl ServiceWriter {
     pub fn send<T: MessageTrait>(& mut self, message: T) -> Result<(), io::Error> {
         self.connection.write_all(message.into_slice())

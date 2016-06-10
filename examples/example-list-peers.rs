@@ -32,8 +32,10 @@ fn main() {
     let local_id = gnunet::self_id(&config).unwrap();
     println!("Our id is: {}", local_id);
 
+    /*
     EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
     }).expect("top level");
+    */
 }
 
 
