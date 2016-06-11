@@ -32,12 +32,19 @@ fn main() {
     let local_id = gnunet::self_id(&config).unwrap();
     println!("Our id is: {}", local_id);
 
+    // async tests
     EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-        static mut event_port: EventPort = gjio::EventPort::new().unwrap();
-        static network: Network = event_port.get_network();
+        let mut event_port: EventPort = gjio::EventPort::new().unwrap();
+        let network: Network = event_port.get_network();
 
-        // test iterator
-        gnunet::iterate_peers_async(&config, &network, &wait_scope, &mut event_port);
+        // test peerinfo
+        let mut ps = gnunet::iterate_peers_async(&config, &network).wait(wait_scope, & mut event_port).unwrap();
+        let mut p = ps.my_next(wait_scope, & mut event_port);
+        while p.is_some() {
+            let (peerinfo, _) = p.unwrap().unwrap();
+            println!("Peer: {}\n", peerinfo);
+            p = ps.my_next(wait_scope, & mut event_port);
+        }
 
         // test hello
         let local_id_promise = gnunet::self_id_async(&config, &network);

@@ -74,8 +74,8 @@ pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
     })
 }
 
-pub fn iterate_peers_async(cfg: &Cfg, network: &Network, wait_scope: &'static WaitScope, event_port: &'static mut EventPort<io::Error>)
-                           -> Promise<Peers_Async<'static>, IteratePeersError> {
+pub fn iterate_peers_async(cfg: &Cfg, network: &Network)
+                           -> Promise<Peers_Async, IteratePeersError> {
     connect_async(cfg, "peerinfo", network)
         .lift()
         .then(move |(sr, mut sw)| {
@@ -85,8 +85,6 @@ pub fn iterate_peers_async(cfg: &Cfg, network: &Network, wait_scope: &'static Wa
                 .map(move |_| {
                 Ok(Peers_Async {
                     service: sr,
-                    wait_scope: wait_scope,
-                    event_port: event_port,
                 })
             })
         })
@@ -144,10 +142,8 @@ pub struct Peers {
     service: ServiceReader,
 }
 
-pub struct Peers_Async<'a> {
+pub struct Peers_Async {
     service: ServiceReader_Async,
-    wait_scope: &'a WaitScope,
-    event_port: &'a mut EventPort<io::Error>,
 }
 
 /// Errors returned by `Peers::next`.
@@ -176,12 +172,21 @@ impl Iterator for Peers {
     }
 }
 
-impl Iterator for Peers_Async<'static> {
+impl Iterator for Peers_Async {
     type Item = Result<(PeerIdentity, Option<Hello>), NextPeerError>;
 
-    // we need to force the iterator to evaluate the promise on every iteration otherwise `next` will never return None
     fn next(&mut self) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
-        let (tpe, mr) = match self.service.read_message().wait(self.wait_scope, self.event_port) {
+        // TODO promises and iterators don't play nicely
+        // we need to force the iterator to evaluate the promise on every iteration otherwise `next` will never return None
+        // but keeping WaitScope and EventPort as a part of the Iterator isn't easy
+        // see workaround in Peers_Async::next
+        None
+    }
+}
+
+impl Peers_Async {
+    pub fn my_next(&mut self, wait_scope: & WaitScope, event_port: & mut EventPort<io::Error>) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
+        let (tpe, mr) = match self.service.read_message().wait(wait_scope, event_port) {
             Err(e)  => return Some(Err(NextPeerError::ReadMessage { cause: e })),
             Ok(x)   => x,
         };
