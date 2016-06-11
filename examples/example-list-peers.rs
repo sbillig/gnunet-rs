@@ -3,7 +3,7 @@ extern crate gjio;
 extern crate gj;
 
 use gj::{EventLoop, Promise};
-use gjio::{AsyncRead, AsyncWrite, BufferPrefix, SocketStream};
+use gjio::{AsyncRead, AsyncWrite, BufferPrefix, SocketStream, EventPort, Network};
 
 fn main() {
     let config = gnunet::Cfg::default().unwrap();
@@ -33,10 +33,14 @@ fn main() {
     println!("Our id is: {}", local_id);
 
     EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-        let mut event_port = try!(gjio::EventPort::new());
-        let network = event_port.get_network();
-        let local_id_promise = gnunet::self_id_async(&config, &network);
+        static mut event_port: EventPort = gjio::EventPort::new().unwrap();
+        static network: Network = event_port.get_network();
 
+        // test iterator
+        gnunet::iterate_peers_async(&config, &network, &wait_scope, &mut event_port);
+
+        // test hello
+        let local_id_promise = gnunet::self_id_async(&config, &network);
         let local_id = local_id_promise.wait(wait_scope, & mut event_port).unwrap();
         println!("Our id is: {}", local_id);
         Ok(())

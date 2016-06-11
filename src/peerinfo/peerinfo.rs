@@ -74,7 +74,8 @@ pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
     })
 }
 
-pub fn iterate_peers_async(cfg: &Cfg, network: &Network) -> Promise<Peers_Async, IteratePeersError> {
+pub fn iterate_peers_async(cfg: &Cfg, network: &Network, wait_scope: &'static WaitScope, event_port: &'static mut EventPort<io::Error>)
+                           -> Promise<Peers_Async<'static>, IteratePeersError> {
     connect_async(cfg, "peerinfo", network)
         .lift()
         .then(move |(sr, mut sw)| {
@@ -84,6 +85,8 @@ pub fn iterate_peers_async(cfg: &Cfg, network: &Network) -> Promise<Peers_Async,
                 .map(move |_| {
                 Ok(Peers_Async {
                     service: sr,
+                    wait_scope: wait_scope,
+                    event_port: event_port,
                 })
             })
         })
@@ -141,10 +144,10 @@ pub struct Peers {
     service: ServiceReader,
 }
 
-pub struct Peers_Async {
+pub struct Peers_Async<'a> {
     service: ServiceReader_Async,
-    // wait_scope: &'static WaitScope,
-    // event_port: &'static mut EventPort<io::Error>,
+    wait_scope: &'a WaitScope,
+    event_port: &'a mut EventPort<io::Error>,
 }
 
 /// Errors returned by `Peers::next`.
@@ -173,19 +176,18 @@ impl Iterator for Peers {
     }
 }
 
-/*
-impl Iterator for Peers_Async {
+impl Iterator for Peers_Async<'static> {
     type Item = Result<(PeerIdentity, Option<Hello>), NextPeerError>;
 
+    // we need to force the iterator to evaluate the promise on every iteration otherwise `next` will never return None
     fn next(&mut self) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
-        let (tpe, mr) = match self.service.read_message() {
+        let (tpe, mr) = match self.service.read_message().wait(self.wait_scope, self.event_port) {
             Err(e)  => return Some(Err(NextPeerError::ReadMessage { cause: e })),
             Ok(x)   => x,
         };
         read_peer(tpe, mr)
     }
 }
-*/
 
 
 fn read_peer(tpe: u16, mut mr: Cursor<Vec<u8>>) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
