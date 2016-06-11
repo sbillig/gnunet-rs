@@ -101,11 +101,13 @@ pub fn connect(cfg: &Cfg, name: &str) -> Result<(ServiceReader, ServiceWriter), 
 pub fn connect_async(cfg: &Cfg, name: &str, network: &Network) -> Promise<(ServiceReader_Async, ServiceWriter_Async), ConnectError> {
     let unixpath = pry!(cfg.get_filename(name, "UNIXPATH"));
     let addr = pry!(network.get_unix_address(unixpath.as_path()));
-    addr.connect().lift().then(move |stream| {
-        let out_stream = stream.clone();
-        Promise::ok((ServiceReader_Async{ connection: stream },
-                     ServiceWriter_Async{ connection: out_stream }))
-    })
+    addr.connect()
+        .lift()
+        .then(move |in_stream| {
+            let out_stream = in_stream.clone();
+            Promise::ok((ServiceReader_Async{ connection: in_stream },
+                         ServiceWriter_Async{ connection: out_stream }))
+        })
 }
 
 /// Error that can be generated when attempting to receive data from a service.

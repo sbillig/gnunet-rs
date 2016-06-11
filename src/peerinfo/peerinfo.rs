@@ -1,15 +1,15 @@
 use std::mem::{size_of, uninitialized, size_of_val};
 use std::fmt;
 use std::str::{FromStr};
-use std::io::{self, Read, Write};
+use std::io::{self, Read, Write, Cursor};
 use byteorder::{BigEndian, ReadBytesExt};
 
-use gj::{Promise};
+use gj::{Promise, WaitScope, EventPort};
 use gjio::{Network};
 
 use ll;
 use Cfg;
-use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait, MessageHeader};
+use service::{self, connect, connect_async, ServiceReader, ServiceReader_Async, ReadMessageError, MessageTrait, MessageHeader};
 use Hello;
 use transport::{self, TransportServiceInitError};
 use util::strings::{data_to_string, string_to_data};
@@ -74,6 +74,21 @@ pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
     })
 }
 
+pub fn iterate_peers_async(cfg: &Cfg, network: &Network) -> Promise<Peers_Async, IteratePeersError> {
+    connect_async(cfg, "peerinfo", network)
+        .lift()
+        .then(move |(sr, mut sw)| {
+            let msg = ListAllPeersMessage::new(0);
+            sw.send(msg)
+                .lift()
+                .map(move |_| {
+                Ok(Peers_Async {
+                    service: sr,
+                })
+            })
+        })
+}
+
 /// Get a peer by its key.
 pub fn get_peer(cfg: &Cfg, pk_string: String) -> Result<(Option<PeerIdentity>, Option<Hello>), NextPeerError> {
     let mut peer = match list_peer_helper(cfg, pk_string) {
@@ -98,12 +113,13 @@ fn list_peer_helper(cfg: &Cfg, pk_string: String) -> Result<Peers, IteratePeersE
     let pk = & mut [0; 32];
     string_to_data(&pk_string, pk);
 
-    let msg = ListPeerMessage::new(0,
-                                   ll::Struct_GNUNET_PeerIdentity {
-                                       public_key : ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
-                                           q_y: *pk,
-                                       }
-                                   });
+    let id =
+        ll::Struct_GNUNET_PeerIdentity {
+            public_key : ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
+                q_y: *pk,
+            }
+        };
+    let msg = ListPeerMessage::new(0, id);
     try!(sw.send(msg));
     Ok(Peers { service: sr })
 }
@@ -125,6 +141,12 @@ pub struct Peers {
     service: ServiceReader,
 }
 
+pub struct Peers_Async {
+    service: ServiceReader_Async,
+    // wait_scope: &'static WaitScope,
+    // event_port: &'static mut EventPort<io::Error>,
+}
+
 /// Errors returned by `Peers::next`.
 error_def! NextPeerError {
     InvalidResponse
@@ -143,38 +165,57 @@ impl Iterator for Peers {
     type Item = Result<(PeerIdentity, Option<Hello>), NextPeerError>;
 
     fn next(&mut self) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
-        let (tpe, mut mr) = match self.service.read_message() {
+        let (tpe, mr) = match self.service.read_message() {
             Err(e)  => return Some(Err(NextPeerError::ReadMessage { cause: e })),
             Ok(x)   => x,
         };
-        match tpe {
-            ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
-                Err(e)  => match e.kind() {
-                    io::ErrorKind::UnexpectedEof => Some(Err(NextPeerError::Disconnected)),
-                    _                            => Some(Err(NextPeerError::Io { cause: e })),
-                },
-                Ok(x)   => match x == 0 {
-                    false => Some(Err(NextPeerError::InvalidResponse)),
-                    true  => match PeerIdentity::deserialize(&mut mr) {
-                        Err(e)  => Some(Err(NextPeerError::Io { cause: e })),
-                        Ok(pi)  => {
-                            Some(Ok((pi, None)))
-                            /*
-                             * when we have hello parsing
-                                match mr.eof() {
-                                true  => Some(Ok(pi, None)),
-                                false => {
+        read_peer(tpe, mr)
+    }
+}
 
-                        },
-                        }
-                             */
-                        },
+/*
+impl Iterator for Peers_Async {
+    type Item = Result<(PeerIdentity, Option<Hello>), NextPeerError>;
+
+    fn next(&mut self) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
+        let (tpe, mr) = match self.service.read_message() {
+            Err(e)  => return Some(Err(NextPeerError::ReadMessage { cause: e })),
+            Ok(x)   => x,
+        };
+        read_peer(tpe, mr)
+    }
+}
+*/
+
+
+fn read_peer(tpe: u16, mut mr: Cursor<Vec<u8>>) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
+    match tpe {
+        ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
+            Err(e)  => match e.kind() {
+                io::ErrorKind::UnexpectedEof => Some(Err(NextPeerError::Disconnected)),
+                _                            => Some(Err(NextPeerError::Io { cause: e })),
+            },
+            Ok(x)   => match x == 0 {
+                false => Some(Err(NextPeerError::InvalidResponse)),
+                true  => match PeerIdentity::deserialize(&mut mr) {
+                    Err(e)  => Some(Err(NextPeerError::Io { cause: e })),
+                    Ok(pi)  => {
+                        Some(Ok((pi, None)))
+                        /*
+                            * when we have hello parsing
+                            match mr.eof() {
+                            true  => Some(Ok(pi, None)),
+                            false => {
+
+                    },
+                    }
+                            */
                     },
                 },
             },
-            ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO_END => None,
-            x => Some(Err(NextPeerError::UnexpectedMessageType { ty: x })),
-        }
+        },
+        ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO_END => None,
+        x => Some(Err(NextPeerError::UnexpectedMessageType { ty: x })),
     }
 }
 
