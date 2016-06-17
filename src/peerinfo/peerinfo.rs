@@ -9,7 +9,7 @@ use gjio::{Network};
 
 use ll;
 use Cfg;
-use service::{self, connect, connect_async, ServiceReader, ServiceReader_Async, ReadMessageError, MessageTrait, MessageHeader};
+use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait, MessageHeader};
 use Hello;
 use transport::{self, TransportServiceInitError};
 use util::strings::{data_to_string, string_to_data};
@@ -64,47 +64,22 @@ error_def! IteratePeersError {
 }
 
 /// Iterate over all the currently connected peers.
-pub fn iterate_peers(cfg: &Cfg) -> Result<Peers, IteratePeersError> {
-    let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
-
-    let msg = ListAllPeersMessage::new(0);
-    try!(sw.send(msg));
-    Ok(Peers { service: sr })
-}
-
-pub fn iterate_peers_async(cfg: &Cfg, network: &Network)
-                           -> Promise<Peers_Async, IteratePeersError> {
-    connect_async(cfg, "peerinfo", network)
+pub fn iterate_peers(cfg: &Cfg, network: &Network)
+                           -> Promise<Peers, IteratePeersError> {
+    connect(cfg, "peerinfo", network)
         .lift()
         .then(move |(sr, mut sw)| {
             sw.send(ListAllPeersMessage::new(0))
                 .lift()
                 .map(move |()| {
-                    Ok(Peers_Async { service: sr })
+                    Ok(Peers { service: sr })
                 })
         })
 }
 
 /// Get a peer by its key.
-pub fn get_peer(cfg: &Cfg, pk_string: String) -> Result<(Option<PeerIdentity>, Option<Hello>), NextPeerError> {
-    let mut peer = match list_peer_helper(cfg, pk_string) {
-        Ok(p) => p,
-        Err(_) => return Err(NextPeerError::InvalidResponse), // TODO need better error
-    };
-    match peer.next() {
-        Some(Ok((id, hello))) => {
-            match peer.next() {
-                Some(_) => Err(NextPeerError::InvalidResponse), // cannot read two peers
-                None => Ok((Some(id), hello)),
-            }
-        },
-        Some(Err(e)) => Err(e),
-        None => Ok((None, None)),
-    }
-}
-
-pub fn get_peer_async(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Option<PeerIdentity>, Option<Hello>), NextPeerError> {
-    list_peer_helper_async(cfg, network, pk_string)
+pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Option<PeerIdentity>, Option<Hello>), NextPeerError> {
+    get_peer_helper(cfg, network, pk_string)
         .map_err(|_| { NextPeerError::InvalidResponse }) // TODO need better error handling
         .then(move |mut peer| {
             peer.iterate()
@@ -126,24 +101,7 @@ pub fn get_peer_async(cfg: &Cfg, network: &Network, pk_string: String) -> Promis
         })
 }
 
-fn list_peer_helper(cfg: &Cfg, pk_string: String) -> Result<Peers, IteratePeersError> {
-    let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
-
-    let pk = & mut [0; 32];
-    string_to_data(&pk_string, pk);
-
-    let id =
-        ll::Struct_GNUNET_PeerIdentity {
-            public_key : ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
-                q_y: *pk,
-            }
-        };
-    let msg = ListPeerMessage::new(0, id);
-    try!(sw.send(msg));
-    Ok(Peers { service: sr })
-}
-
-fn list_peer_helper_async(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<Peers_Async, IteratePeersError> {
+fn get_peer_helper(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<Peers, IteratePeersError> {
     let pk = & mut [0; 32];
     string_to_data(&pk_string, pk);
     let id =
@@ -153,24 +111,19 @@ fn list_peer_helper_async(cfg: &Cfg, network: &Network, pk_string: String) -> Pr
             }
         };
 
-    connect_async(cfg, "peerinfo", network)
+    connect(cfg, "peerinfo", network)
         .lift()
         .then(move |(sr, mut sw)| {
             sw.send(ListPeerMessage::new(0, id))
                 .lift()
                 .map(move |()| {
-                    Ok(Peers_Async { service: sr })
+                    Ok(Peers { service: sr })
                 })
         })
 }
 
-pub fn self_id(cfg: &Cfg) -> Result<PeerIdentity, TransportServiceInitError> {
-    let hello = try!(transport::self_hello(cfg));
-    Ok(hello.id)
-}
-
-pub fn self_id_async(cfg: &Cfg, network: &Network) -> Promise<PeerIdentity, TransportServiceInitError> {
-    transport::self_hello_async(cfg, network)
+pub fn self_id(cfg: &Cfg, network: &Network) -> Promise<PeerIdentity, TransportServiceInitError> {
+    transport::self_hello(cfg, network)
         .map(|hello| {
             Ok(hello.id)
         })
@@ -179,10 +132,6 @@ pub fn self_id_async(cfg: &Cfg, network: &Network) -> Promise<PeerIdentity, Tran
 /// An iterator over all the currently connected peers.
 pub struct Peers {
     service: ServiceReader,
-}
-
-pub struct Peers_Async {
-    service: ServiceReader_Async,
 }
 
 /// Errors returned by `Peers::next`.
@@ -203,71 +152,27 @@ impl Iterator for Peers {
     type Item = Result<(PeerIdentity, Option<Hello>), NextPeerError>;
 
     fn next(&mut self) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
-        let (tpe, mr) = match self.service.read_message() {
-            Err(e)  => return Some(Err(NextPeerError::ReadMessage { cause: e })),
-            Ok(x)   => x,
-        };
-        read_peer(tpe, mr)
-    }
-}
-
-impl Iterator for Peers_Async {
-    type Item = Result<(PeerIdentity, Option<Hello>), NextPeerError>;
-
-    fn next(&mut self) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
         // promises and iterators don't play nicely
         // we need to force the iterator to evaluate the promise on every iteration otherwise `next` will never return None
         // but keeping WaitScope and EventPort as a part of the Iterator isn't easy
-        // see workaround in Peers_Async::iterate
+        // see workaround in Peers::iterate
         unimplemented!()
     }
 }
 
-impl Peers_Async {
+impl Peers {
     pub fn iterate(&mut self) -> Promise<Option<(PeerIdentity, Option<Hello>)>, NextPeerError> {
         self.service.read_message()
             .map_else(move |x| {
                 match x {
                     Err(e)  => return Err(NextPeerError::ReadMessage { cause: e }),
-                    Ok((tpe, mr))   => read_peer_async(tpe, mr),
+                    Ok((tpe, mr))   => parse_peer(tpe, mr),
                 }
             })
     }
 }
 
-
-fn read_peer(tpe: u16, mut mr: Cursor<Vec<u8>>) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
-    match tpe {
-        ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
-            Err(e)  => match e.kind() {
-                io::ErrorKind::UnexpectedEof => Some(Err(NextPeerError::Disconnected)),
-                _                            => Some(Err(NextPeerError::Io { cause: e })),
-            },
-            Ok(x)   => match x == 0 {
-                false => Some(Err(NextPeerError::InvalidResponse)),
-                true  => match PeerIdentity::deserialize(&mut mr) {
-                    Err(e)  => Some(Err(NextPeerError::Io { cause: e })),
-                    Ok(pi)  => {
-                        Some(Ok((pi, None)))
-                        /*
-                            * when we have hello parsing
-                            match mr.eof() {
-                            true  => Some(Ok(pi, None)),
-                            false => {
-
-                    },
-                    }
-                            */
-                    },
-                },
-            },
-        },
-        ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO_END => None,
-        x => Some(Err(NextPeerError::UnexpectedMessageType { ty: x })),
-    }
-}
-
-fn read_peer_async(tpe: u16, mut mr: Cursor<Vec<u8>>) -> Result<Option<(PeerIdentity, Option<Hello>)>, NextPeerError> {
+fn parse_peer(tpe: u16, mut mr: Cursor<Vec<u8>>) -> Result<Option<(PeerIdentity, Option<Hello>)>, NextPeerError> {
     match tpe {
         ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
             Err(e)  => match e.kind() {

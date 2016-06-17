@@ -22,19 +22,6 @@ pub struct Service<'c> {
 }
 */
 
-/// Created by `service::connect`. Used to read messages from a GNUnet service.
-pub struct ServiceReader {
-    /// The underlying socket wrapped by `ServiceReader`. This is a read-only socket.
-    pub connection: UnixStream, // TODO: should be UnixReader
-}
-
-/// Created by `service::connect`. Used to send messages to a GNUnet service.
-pub struct ServiceWriter {
-    /// The underlying socket wrapped by `ServiceWriter`. This is a write-only socket.
-    pub connection: UnixStream, // TODO: should be UnixWriter
-}
-
-
 // TODO better if this is a part of gjio
 pub fn read_u16_from_socket(socket: & mut SocketStream) -> Promise<u16, io::Error>{
     socket.read(vec![0;2], 2).then(move |(buf, len)| {
@@ -43,14 +30,14 @@ pub fn read_u16_from_socket(socket: & mut SocketStream) -> Promise<u16, io::Erro
     })
 }
 
-/// Created by `service::connect_async`. Used to read messages from a GNUnet service.
-pub struct ServiceReader_Async {
+/// Created by `service::connect`. Used to read messages from a GNUnet service.
+pub struct ServiceReader {
     /// The underlying socket wrapped by `ServiceReader`. This is a read-only socket.
     pub connection: SocketStream,
 }
 
-/// Created by `service::connect_async`. Used to send messages to a GNUnet service.
-pub struct ServiceWriter_Async {
+/// Created by `service::connect`. Used to send messages to a GNUnet service.
+pub struct ServiceWriter {
     /// The underlying socket wrapped by `ServiceWriter`. This is a write-only socket.
     pub connection: SocketStream,
 }
@@ -80,34 +67,16 @@ error_def! ConnectError {
 ///
 /// eg. `connect(cfg, "arm")` will attempt to connect to the locally-running `gnunet-arm` service
 /// using the congfiguration details (eg. socket address, port etc.) in `cfg`.
-pub fn connect(cfg: &Cfg, name: &str) -> Result<(ServiceReader, ServiceWriter), ConnectError> {
-  let unixpath = try!(cfg.get_filename(name, "UNIXPATH"));
-
-  // TODO: use UnixStream::split() instead when it exists
-  let path = unixpath.into_os_string().into_string().unwrap();
-  let in_stream = try!(UnixStream::connect(path));
-  let out_stream = try!(in_stream.try_clone());
-
-
-  let r = ServiceReader {
-    connection: in_stream,
-  };
-  let w = ServiceWriter {
-    connection: out_stream,
-  };
-  Ok((r, w))
-}
-
-pub fn connect_async(cfg: &Cfg, name: &str, network: &Network)
-                     -> Promise<(ServiceReader_Async, ServiceWriter_Async), ConnectError> {
+pub fn connect(cfg: &Cfg, name: &str, network: &Network)
+                     -> Promise<(ServiceReader, ServiceWriter), ConnectError> {
     let unixpath = pry!(cfg.get_filename(name, "UNIXPATH"));
     let addr = pry!(network.get_unix_address(unixpath.as_path()));
     addr.connect()
         .lift()
         .then(move |in_stream| {
             let out_stream = in_stream.clone();
-            Promise::ok((ServiceReader_Async{ connection: in_stream },
-                         ServiceWriter_Async{ connection: out_stream }))
+            Promise::ok((ServiceReader{ connection: in_stream },
+                         ServiceWriter{ connection: out_stream }))
         })
 }
 
@@ -119,45 +88,6 @@ error_def! ReadMessageError {
 }
 
 impl ServiceReader {
-  pub fn spawn_callback_loop<F>(mut self, mut cb: F) -> Result<ServiceReadLoop, io::Error>
-      where F: FnMut(u16, Cursor<Vec<u8>>) -> ProcessMessageResult,
-            F: Send,
-            F: 'static
-  {
-    let reader = try!(self.connection.try_clone());
-    let callback_loop = thread::spawn(move || -> ServiceReader {
-      //TODO: implement reconnection (currently fails)
-      loop {
-        let (tpe, mr) = match self.read_message() {
-          Ok(x)   => x,
-          Err(_)  => return self, // TODO: reconnect
-        };
-        match cb(tpe, mr) {
-          ProcessMessageResult::Continue  => (),
-          ProcessMessageResult::Reconnect => return self, //TODO: auto reconnect
-          ProcessMessageResult::Shutdown  => return self,
-        };
-      }
-    });
-    Ok(ServiceReadLoop {
-      reader:        reader,
-      _callback_loop: callback_loop,
-    })
-  }
-
-  pub fn read_message(&mut self) -> Result<(u16, Cursor<Vec<u8>>), ReadMessageError> {
-    let len = try!(self.connection.read_u16::<BigEndian>());
-    if len < 4 {
-      return Err(ReadMessageError::ShortMessage { len: len });
-    };
-    let v = try!(self.connection.read_exact_alloc(len as usize - 2));
-    let mut mr = Cursor::new(v);
-    let tpe = try!(mr.read_u16::<BigEndian>());
-    Ok((tpe, mr))
-  }
-}
-
-impl ServiceReader_Async {
     pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
         let mut conn =  self.connection.clone(); // TODO is  this ok?
         read_u16_from_socket(& mut conn)
@@ -178,12 +108,6 @@ impl ServiceReader_Async {
 }
 
 impl ServiceWriter {
-    pub fn send<T: MessageTrait>(& mut self, message: T) -> Result<(), io::Error> {
-        self.connection.write_all(message.into_slice())
-    }
-}
-
-impl ServiceWriter_Async {
     pub fn send<T: MessageTrait>(& mut self, message: T) -> Promise<(), io::Error> {
         let x = message.into_slice().to_vec(); // TODO this makes a copy is it ok?
         self.connection.write(x)
@@ -192,40 +116,6 @@ impl ServiceWriter_Async {
             })
     }
 }
-
-/// A thread that loops, recieving messages from the service and passing them to a callback.
-/// Created with `ServiceReader::spawn_callback_loop`.
-pub struct ServiceReadLoop {
-  reader: UnixStream,
-  _callback_loop: thread::JoinHandle<ServiceReader>,
-}
-
-impl ServiceReadLoop {
-  /*
-  fn join(mut self) -> ServiceReader {
-    let _ = self.reader.shutdown(Shutdown::Read);
-    self.callback_loop.join().unwrap()
-  }
-  */
-}
-
-impl Drop for ServiceReadLoop {
-  fn drop(&mut self) {
-    let _ = self.reader.shutdown(Shutdown::Read);
-    //let _ = self.callback_loop.join();
-  }
-}
-
-/*
-// TODO: why do I need this unsafe bizo?
-#[unsafe_destructor]
-impl Drop for ServiceReader {
-  fn drop(&mut self) {
-    // cause the loop task to exit
-    let _ = self.connection.close_read();
-  }
-}
-*/
 
 #[repr(C, packed)]
 pub struct MessageHeader {
