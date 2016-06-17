@@ -4,7 +4,7 @@ use std::str::{FromStr};
 use std::io::{self, Read, Write, Cursor};
 use byteorder::{BigEndian, ReadBytesExt};
 
-use gj::{Promise, WaitScope, EventPort};
+use gj::{Promise};
 use gjio::{Network};
 
 use ll;
@@ -105,21 +105,24 @@ pub fn get_peer(cfg: &Cfg, pk_string: String) -> Result<(Option<PeerIdentity>, O
 
 pub fn get_peer_async(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Option<PeerIdentity>, Option<Hello>), NextPeerError> {
     list_peer_helper_async(cfg, network, pk_string)
-        .map_else(move |x| {
-            let mut peer = match x {
-                Err(_) => return Err(NextPeerError::InvalidResponse),
-                Ok(p)  => p,
-            };
-            match peer.next() {
-                Some(Ok((id, hello))) => {
-                    match peer.next() {
-                        Some(_) => Err(NextPeerError::InvalidResponse), // we expect at most one peer
-                        None => Ok((Some(id), hello)),
+        .map_err(|_| { NextPeerError::InvalidResponse }) // TODO need better error handling
+        .then(move |mut peer| {
+            peer.iterate()
+                .map(|x| {
+                    match x {
+                        Some((id, hello)) => Ok((Some(id), hello)),
+                        None => Ok((None, None)),
                     }
-                },
-                Some(Err(e)) => Err(e),
-                None => Ok((None, None)),
-            }
+                })
+                .then(move |x| {
+                    peer.iterate()
+                        .map(|y| {
+                            match y {
+                                Some(_) => Err(NextPeerError::InvalidResponse), // wrong if we manage to read two peers
+                                None => Ok(x),
+                            }
+                        })
+                })
         })
 }
 
@@ -215,13 +218,13 @@ impl Iterator for Peers_Async {
         // promises and iterators don't play nicely
         // we need to force the iterator to evaluate the promise on every iteration otherwise `next` will never return None
         // but keeping WaitScope and EventPort as a part of the Iterator isn't easy
-        // see workaround in Peers_Async::get_next_peer
-        None
+        // see workaround in Peers_Async::iterate
+        unimplemented!()
     }
 }
 
 impl Peers_Async {
-    pub fn get_next_peer(&mut self) -> Promise<Option<(PeerIdentity, Option<Hello>)>, NextPeerError> {
+    pub fn iterate(&mut self) -> Promise<Option<(PeerIdentity, Option<Hello>)>, NextPeerError> {
         self.service.read_message()
             .map_else(move |x| {
                 match x {
