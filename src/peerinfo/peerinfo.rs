@@ -77,12 +77,11 @@ pub fn iterate_peers_async(cfg: &Cfg, network: &Network)
     connect_async(cfg, "peerinfo", network)
         .lift()
         .then(move |(sr, mut sw)| {
-                sw.send(ListAllPeersMessage::new(0))
+            sw.send(ListAllPeersMessage::new(0))
                 .lift()
-                .map(move |()| Ok(sr))
-        })
-        .map(move |sr| {
-            Ok(Peers_Async { service: sr })
+                .map(move |()| {
+                    Ok(Peers_Async { service: sr })
+                })
         })
 }
 
@@ -104,6 +103,26 @@ pub fn get_peer(cfg: &Cfg, pk_string: String) -> Result<(Option<PeerIdentity>, O
     }
 }
 
+pub fn get_peer_async(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Option<PeerIdentity>, Option<Hello>), NextPeerError> {
+    list_peer_helper_async(cfg, network, pk_string)
+        .map_else(move |x| {
+            let mut peer = match x {
+                Err(_) => return Err(NextPeerError::InvalidResponse),
+                Ok(p)  => p,
+            };
+            match peer.next() {
+                Some(Ok((id, hello))) => {
+                    match peer.next() {
+                        Some(_) => Err(NextPeerError::InvalidResponse), // we expect at most one peer
+                        None => Ok((Some(id), hello)),
+                    }
+                },
+                Some(Err(e)) => Err(e),
+                None => Ok((None, None)),
+            }
+        })
+}
+
 fn list_peer_helper(cfg: &Cfg, pk_string: String) -> Result<Peers, IteratePeersError> {
     let (sr, mut sw) = try!(connect(cfg, "peerinfo"));
 
@@ -119,6 +138,27 @@ fn list_peer_helper(cfg: &Cfg, pk_string: String) -> Result<Peers, IteratePeersE
     let msg = ListPeerMessage::new(0, id);
     try!(sw.send(msg));
     Ok(Peers { service: sr })
+}
+
+fn list_peer_helper_async(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<Peers_Async, IteratePeersError> {
+    let pk = & mut [0; 32];
+    string_to_data(&pk_string, pk);
+    let id =
+        ll::Struct_GNUNET_PeerIdentity {
+            public_key : ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
+                q_y: *pk,
+            }
+        };
+
+    connect_async(cfg, "peerinfo", network)
+        .lift()
+        .then(move |(sr, mut sw)| {
+            sw.send(ListPeerMessage::new(0, id))
+                .lift()
+                .map(move |()| {
+                    Ok(Peers_Async { service: sr })
+                })
+        })
 }
 
 pub fn self_id(cfg: &Cfg) -> Result<PeerIdentity, TransportServiceInitError> {
