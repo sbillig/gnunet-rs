@@ -2,17 +2,6 @@
 //!
 //! This library does not implement a GNUnet peer. You must have the GNUnet software installed and
 //! running in order to use this library.
-//!
-//! # Examples
-//!
-//! Perform a [GNS](https://gnunet.org/gns) lookup.
-//!
-//! ```rust
-//! use gnunet::{Cfg, gns};
-//!
-//! let c = Cfg::default().unwrap();
-//! let r = gns::lookup_in_master(&c, "gnu.org", gns::RecordType::A, None).unwrap();
-//! println!("Got the following IPv4 record for gnu.org: {}", r);
 //! ```
 
 #![feature(unboxed_closures)]
@@ -106,7 +95,7 @@ pub mod paths;
 //pub mod dht;
 //mod crypto;
 //pub mod identity;
-mod util;
+pub mod util;
 pub mod peerinfo;
 pub mod hello;
 //pub mod cadet;

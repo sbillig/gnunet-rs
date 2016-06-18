@@ -2,16 +2,8 @@ extern crate gnunet;
 extern crate gjio;
 extern crate gj;
 
-use std::io::{Error, ErrorKind};
-use gj::{EventLoop, Promise};
+use gj::{EventLoop};
 use gjio::{EventPort, Network};
-
-fn cancel<T, E>(p: Promise<T, E>) -> Promise<T, E>
-    where E: From<Error>
-{
-    let err = Promise::err(Error::new(ErrorKind::Interrupted, "Promise cancelled"));
-    err.lift().exclusive_join(p)
-}
 
 fn main() {
     EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
@@ -41,7 +33,7 @@ fn main() {
         println!("Our id is: {}", local_id);
 
         // cancellation example
-        match cancel(gnunet::self_id(&config, &network)).wait(wait_scope, &mut event_port) {
+        match gnunet::util::async::cancel(gnunet::self_id(&config, &network)).wait(wait_scope, &mut event_port) {
             Err(e) => println!("Error: {}", e),
             Ok(_)  => assert!(false),
         }

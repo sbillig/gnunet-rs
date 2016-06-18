@@ -2,20 +2,12 @@
 //! that are common to all services.
 
 use std::io::{self, Cursor};
-use byteorder::{BigEndian, ByteOrder, ReadBytesExt};
+use byteorder::{BigEndian, ReadBytesExt};
 
 use gj::{Promise};
 use gjio::{AsyncWrite, AsyncRead, SocketStream, Network};
 
 use configuration::{self, Cfg};
-
-// TODO better if this is a part of gjio
-pub fn read_u16_from_socket(socket: & mut SocketStream) -> Promise<u16, io::Error>{
-    socket.read(vec![0;2], 2).then(move |(buf, len)| {
-        assert!(len == 2);
-        Promise::ok(BigEndian::read_u16(&buf[..]))
-    })
-}
 
 /// Created by `service::connect`. Used to read messages from a GNUnet service.
 pub struct ServiceReader {
@@ -77,7 +69,7 @@ error_def! ReadMessageError {
 impl ServiceReader {
     pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
         let mut conn =  self.connection.clone(); // TODO is  this ok?
-        read_u16_from_socket(& mut conn)
+        ::util::async::read_u16_from_socket(& mut conn)
             .lift()
             .then(move |len| {
                 if len < 4 {
