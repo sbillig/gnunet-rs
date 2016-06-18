@@ -1,26 +1,13 @@
 //! Module for communicating with GNUnet services. Implements the parts of the GNUnet IPC protocols
 //! that are common to all services.
 
-use std::io::{self, Write, Cursor};
-use std::thread;
-use std::net::Shutdown;
-use unix_socket::UnixStream;
+use std::io::{self, Cursor};
 use byteorder::{BigEndian, ByteOrder, ReadBytesExt};
 
 use gj::{Promise};
 use gjio::{AsyncWrite, AsyncRead, SocketStream, Network};
 
 use configuration::{self, Cfg};
-use util::io::ReadUtil;
-
-/*
-pub struct Service<'c> {
-  //connection: Box<Stream + 'static>,
-  //pub connection: Box<UnixStream>,
-  pub connection: UnixStream,
-  pub cfg: &'c Cfg,
-}
-*/
 
 // TODO better if this is a part of gjio
 pub fn read_u16_from_socket(socket: & mut SocketStream) -> Promise<u16, io::Error>{
