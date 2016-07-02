@@ -12,12 +12,10 @@ fn main() {
         let network: Network = event_port.get_network();
 
         // example to get all peers
-        let mut peers = gnunet::iterate_peers(&config, &network).wait(wait_scope, &mut event_port).unwrap();
-        let mut peer = peers.iterate().wait(wait_scope, &mut event_port).unwrap();
-        while peer.is_some() {
+        let peers = gnunet::iterate_peers(&config, &network).wait(wait_scope, &mut event_port).unwrap();
+        for peer in peers.to_iter(wait_scope, &mut event_port) {
             let (peerinfo, _) = peer.unwrap();
             println!("Peer: {}\n", peerinfo);
-            peer = peers.iterate().wait(wait_scope, &mut event_port).unwrap();
         }
 
         // example to get a single peer
