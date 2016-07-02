@@ -4,6 +4,8 @@ use hello::HelloDeserializeError;
 use Hello;
 use Cfg;
 use ll;
+use gj::{Promise};
+use gjio::{Network};
 
 pub struct TransportService {
   //service_reader: ServiceReader,
@@ -25,32 +27,40 @@ error_def! TransportServiceInitError {
 }
 
 impl TransportService {
-  pub fn init(cfg: &Cfg) -> Result<TransportService, TransportServiceInitError> {
-    let (mut sr, mut sw) = try!(service::connect(cfg, "transport"));
-    let msg = StartMessage::new(0,
-                        ll::Struct_GNUNET_PeerIdentity {
-                            public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
-                                q_y: [0; 32],
-                            }
-                        });
-    let mw = sw.write_message(msg);
-    try!(mw.send());
-    let (ty, mut mr) = try!(sr.read_message());
-    if ty != ll::GNUNET_MESSAGE_TYPE_HELLO {
-      return Err(TransportServiceInitError::NonHelloMessage { ty: ty });
-    };
-    let hello = try!(Hello::deserialize(&mut mr));
-    Ok(TransportService {
-      //service_reader: sr,
-      //service_writer: sw,
-      our_hello:      hello,
-    })
-  }
+    pub fn init(cfg: &Cfg, network: &Network) -> Promise<TransportService, TransportServiceInitError> {
+        service::connect(cfg, "transport", network)
+            .lift()
+            .then(move |(sr, mut sw)| {
+                let id = ll::Struct_GNUNET_PeerIdentity {
+                    public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
+                        q_y: [0; 32]
+                    }
+                };
+                let msg = StartMessage::new(0, id);
+                sw.send(msg)
+                    .lift()
+                    .map(|_| {
+                        Ok(sr)
+                    })
+            })
+            .then(move |mut sr| { sr.read_message().lift() })
+            .map(move |(ty, mut mr)| {
+                if ty != ll::GNUNET_MESSAGE_TYPE_HELLO {
+                    return Err(TransportServiceInitError::NonHelloMessage { ty: ty });
+                }
+                let hello = try!(Hello::deserialize(&mut mr));
+                Ok(TransportService {
+                    our_hello: hello,
+                })
+            })
+    }
 }
 
-pub fn self_hello(cfg: &Cfg) -> Result<Hello, TransportServiceInitError> {
-  let ts = try!(TransportService::init(cfg));
-  Ok(ts.our_hello)
+pub fn self_hello(cfg: &Cfg, network: &Network) -> Promise<Hello, TransportServiceInitError> {
+    TransportService::init(cfg, network)
+        .map(|ts| {
+            Ok(ts.our_hello)
+        })
 }
 
 #[repr(C, packed)]

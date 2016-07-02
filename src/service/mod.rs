@@ -1,34 +1,24 @@
 //! Module for communicating with GNUnet services. Implements the parts of the GNUnet IPC protocols
 //! that are common to all services.
 
-use std::io::{self, Write, Cursor};
-use std::thread;
-use std::net::Shutdown;
-use unix_socket::UnixStream;
+use std::io::{self, Cursor};
 use byteorder::{BigEndian, ReadBytesExt};
 
-use configuration::{self, Cfg};
-use util::io::ReadUtil;
+use gj::{Promise};
+use gjio::{AsyncWrite, AsyncRead, SocketStream, Network};
 
-/*
-pub struct Service<'c> {
-  //connection: Box<Stream + 'static>,
-  //pub connection: Box<UnixStream>,
-  pub connection: UnixStream,
-  pub cfg: &'c Cfg,
-}
-*/
+use configuration::{self, Cfg};
 
 /// Created by `service::connect`. Used to read messages from a GNUnet service.
 pub struct ServiceReader {
     /// The underlying socket wrapped by `ServiceReader`. This is a read-only socket.
-    pub connection: UnixStream, // TODO: should be UnixReader
+    pub connection: SocketStream,
 }
 
 /// Created by `service::connect`. Used to send messages to a GNUnet service.
 pub struct ServiceWriter {
     /// The underlying socket wrapped by `ServiceWriter`. This is a write-only socket.
-    pub connection: UnixStream, // TODO: should be UnixWriter
+    pub connection: SocketStream,
 }
 
 /// Callbacks passed to `ServiceReader::spawn_callback_loop` return a `ProcessMessageResult` to
@@ -56,21 +46,17 @@ error_def! ConnectError {
 ///
 /// eg. `connect(cfg, "arm")` will attempt to connect to the locally-running `gnunet-arm` service
 /// using the congfiguration details (eg. socket address, port etc.) in `cfg`.
-pub fn connect(cfg: &Cfg, name: &str) -> Result<(ServiceReader, ServiceWriter), ConnectError> {
-  let unixpath = try!(cfg.get_filename(name, "UNIXPATH"));
-
-  // TODO: use UnixStream::split() instead when it exists
-  let path = unixpath.into_os_string().into_string().unwrap();
-  let in_stream = try!(UnixStream::connect(path));
-  let out_stream = try!(in_stream.try_clone());
-
-  let r = ServiceReader {
-    connection: in_stream,
-  };
-  let w = ServiceWriter {
-    connection: out_stream,
-  };
-  Ok((r, w))
+pub fn connect(cfg: &Cfg, name: &str, network: &Network)
+                     -> Promise<(ServiceReader, ServiceWriter), ConnectError> {
+    let unixpath = pry!(cfg.get_filename(name, "UNIXPATH"));
+    let addr = pry!(network.get_unix_address(unixpath.as_path()));
+    addr.connect()
+        .lift()
+        .then(move |in_stream| {
+            let out_stream = in_stream.clone();
+            Promise::ok((ServiceReader{ connection: in_stream },
+                         ServiceWriter{ connection: out_stream }))
+        })
 }
 
 /// Error that can be generated when attempting to receive data from a service.
@@ -81,100 +67,34 @@ error_def! ReadMessageError {
 }
 
 impl ServiceReader {
-  pub fn spawn_callback_loop<F>(mut self, mut cb: F) -> Result<ServiceReadLoop, io::Error>
-      where F: FnMut(u16, Cursor<Vec<u8>>) -> ProcessMessageResult,
-            F: Send,
-            F: 'static
-  {
-    let reader = try!(self.connection.try_clone());
-    let callback_loop = thread::spawn(move || -> ServiceReader {
-      //TODO: implement reconnection (currently fails)
-      loop {
-        let (tpe, mr) = match self.read_message() {
-          Ok(x)   => x,
-          Err(_)  => return self, // TODO: reconnect
-        };
-        match cb(tpe, mr) {
-          ProcessMessageResult::Continue  => (),
-          ProcessMessageResult::Reconnect => return self, //TODO: auto reconnect
-          ProcessMessageResult::Shutdown  => return self,
-        };
-      }
-    });
-    Ok(ServiceReadLoop {
-      reader:        reader,
-      _callback_loop: callback_loop,
-    })
-  }
-
-  pub fn read_message(&mut self) -> Result<(u16, Cursor<Vec<u8>>), ReadMessageError> {
-    let len = try!(self.connection.read_u16::<BigEndian>());
-    if len < 4 {
-      return Err(ReadMessageError::ShortMessage { len: len });
-    };
-    let v = try!(self.connection.read_exact_alloc(len as usize - 2));
-    let mut mr = Cursor::new(v);
-    let tpe = try!(mr.read_u16::<BigEndian>());
-    Ok((tpe, mr))
-  }
+    pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
+        let mut conn =  self.connection.clone(); // TODO is  this ok?
+        ::util::async::read_u16_from_socket(& mut conn)
+            .lift()
+            .then(move |len| {
+                if len < 4 {
+                    return Promise::err(ReadMessageError::ShortMessage { len: len });
+                }
+                let rem = len as usize - 2;
+                conn.read(vec![0; rem], rem).lift()
+            })
+            .map(move |(buf, _)| {
+                let mut mr = Cursor::new(buf);
+                let tpe = try!(mr.read_u16::<BigEndian>());
+                Ok((tpe, mr))
+            })
+    }
 }
 
 impl ServiceWriter {
-  pub fn write_message<'a, T: MessageTrait>(&'a mut self, msg: T) -> MessageWriter<'a, T> {
-    MessageWriter {
-      service_writer: self,
-      message: msg,
+    pub fn send<T: MessageTrait>(& mut self, message: T) -> Promise<(), io::Error> {
+        let x = message.into_slice().to_vec(); // TODO this makes a copy is it ok?
+        self.connection.write(x)
+            .map(|_| {
+                Ok(())
+            })
     }
-  }
 }
-
-/// Used to form messsages before sending them to the GNUnet service.
-pub struct MessageWriter<'a, T: MessageTrait> {
-  service_writer: &'a mut ServiceWriter,
-  message: T,
-}
-
-impl<'a, T: MessageTrait> MessageWriter<'a, T> {
-  pub fn send(self) -> Result<(), io::Error> {
-    self.service_writer.connection.write_all(self.message.into_slice())
-  }
-}
-
-
-
-/// A thread that loops, recieving messages from the service and passing them to a callback.
-/// Created with `ServiceReader::spawn_callback_loop`.
-pub struct ServiceReadLoop {
-  reader: UnixStream,
-  _callback_loop: thread::JoinHandle<ServiceReader>,
-}
-
-impl ServiceReadLoop {
-  /*
-  fn join(mut self) -> ServiceReader {
-    let _ = self.reader.shutdown(Shutdown::Read);
-    self.callback_loop.join().unwrap()
-  }
-  */
-}
-
-impl Drop for ServiceReadLoop {
-  fn drop(&mut self) {
-    let _ = self.reader.shutdown(Shutdown::Read);
-    //let _ = self.callback_loop.join();
-  }
-}
-
-/*
-// TODO: why do I need this unsafe bizo?
-#[unsafe_destructor]
-impl Drop for ServiceReader {
-  fn drop(&mut self) {
-    // cause the loop task to exit
-    let _ = self.connection.close_read();
-  }
-}
-*/
 
 #[repr(C, packed)]
 pub struct MessageHeader {
