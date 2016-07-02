@@ -4,8 +4,8 @@ use std::str::{FromStr};
 use std::io::{self, Read, Write, Cursor};
 use byteorder::{BigEndian, ReadBytesExt};
 
-use gj::{Promise};
-use gjio::{Network};
+use gj::{Promise, WaitScope};
+use gjio::{Network, EventPort};
 
 use ll;
 use Cfg;
@@ -148,18 +148,6 @@ error_def! NextPeerError {
         => "The service disconnected unexpectedly"
 }
 
-impl Iterator for Peers {
-    type Item = Result<(PeerIdentity, Option<Hello>), NextPeerError>;
-
-    fn next(&mut self) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
-        // promises and iterators don't play nicely
-        // we need to force the iterator to evaluate the promise on every iteration otherwise `next` will never return None
-        // but keeping WaitScope and EventPort as a part of the Iterator isn't easy
-        // see workaround in Peers::iterate
-        unimplemented!()
-    }
-}
-
 impl Peers {
     pub fn iterate(&mut self) -> Promise<Option<(PeerIdentity, Option<Hello>)>, NextPeerError> {
         self.service.read_message()
@@ -169,6 +157,14 @@ impl Peers {
                     Ok((tpe, mr))   => parse_peer(tpe, mr),
                 }
             })
+    }
+
+    pub fn to_iter<'a>(self, wait_scope: &'a WaitScope, event_port: &'a mut EventPort) -> PeersIterator<'a> {
+        PeersIterator {
+            peers: self,
+            event_port: event_port,
+            wait_scope: wait_scope,
+        }
     }
 }
 
@@ -281,3 +277,28 @@ struct InfoMessage {
     peer: ll::Struct_GNUNET_PeerIdentity,
 }
     */
+
+
+// Promises and iterators don't play nicely with iterators
+// We need to force the iterator to evaluate the promise on every iteration otherwise `next` will never return None
+// But keeping WaitScope and EventPort as a part of the Iterator is tricky due to lifetime constraints
+// So this struct is created as a workaround
+pub struct PeersIterator<'a> {
+    peers: Peers,
+    wait_scope: &'a WaitScope,
+    event_port: &'a mut EventPort,
+}
+
+impl <'a>Iterator for PeersIterator<'a> {
+    type Item = Result<(PeerIdentity, Option<Hello>), NextPeerError>;
+
+    fn next(&mut self) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
+        match self.peers.iterate().wait(self.wait_scope, self.event_port) {
+            Ok(x) => match x {
+                Some(x) => Some(Ok(x)),
+                None    => None,
+            },
+            Err(e) => Some(Err(e)),
+        }
+    }
+}
