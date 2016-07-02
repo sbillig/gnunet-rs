@@ -5,7 +5,7 @@ use byteorder::{BigEndian, ByteOrder};
 
 pub fn cancel<T, E: From<Error>>(p: Promise<T, E>) -> Promise<T, E> {
     let err = Promise::err(Error::new(ErrorKind::Interrupted, "Promise cancelled"));
-    err.lift().exclusive_join(p)
+    err.lift().eagerly_evaluate().exclusive_join(p)
 }
 
 
