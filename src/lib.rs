@@ -24,7 +24,7 @@ extern crate regex;
 extern crate gjio;
 
 pub use configuration::Cfg;
-//pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
+pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
 
 //pub use gns::{Record, RecordType};
 //pub use gns::{GNS, LocalOptions};
@@ -93,8 +93,8 @@ pub mod time;
 pub mod paths;
 //pub mod gns;
 //pub mod dht;
-//mod crypto;
-//pub mod identity;
+mod crypto;
+pub mod identity;
 pub mod util;
 pub mod peerinfo;
 pub mod hello;

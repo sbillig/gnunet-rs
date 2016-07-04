@@ -13,6 +13,9 @@ use service::{self, ServiceReader, ServiceWriter};
 use configuration::Cfg;
 use util::{ReadCString, ReadCStringError, ReadCStringWithLenError};
 
+use gj::{Promise};
+use gjio::{Network};
+
 /// A GNUnet identity.
 ///
 /// An ego consists of a public/private key pair and a name.
@@ -112,129 +115,143 @@ error_def! GetDefaultEgoError {
 }
 
 impl IdentityService {
-  /// Connect to the identity service.
-  ///
-  /// Returns either a handle to the identity service or a `ServiceConnectError`. `cfg` contains
-  /// the configuration to use to connect to the service.
-  pub fn connect(cfg: &Cfg) -> Result<IdentityService, ConnectError> {
-    /*
-    let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
-    let service = try!(Service::connect("identity", move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
-      loop {
+    /// Connect to the identity service.
+    ///
+    /// Returns either a handle to the identity service or a `ServiceConnectError`. `cfg` contains
+    /// the configuration to use to connect to the service.
+    pub fn connect(cfg: &Cfg, network: &Network) -> Promise<IdentityService, ConnectError> {
+      /*
+      let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
+      let service = try!(Service::connect("identity", move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
+        loop {
 
-      }
-    }));
-    */
-    let (mut service_reader, mut service_writer) = try!(service::connect(cfg, "identity"));
-    let mut egos: HashMap<HashCode, Ego> = HashMap::new();
-    {
-      let mw = service_writer.write_message(4, ll::GNUNET_MESSAGE_TYPE_IDENTITY_START);
-      try!(mw.send());
-    };
-    loop {
-      let (tpe, mut mr) = try!(service_reader.read_message());
-      match tpe {
-        ll::GNUNET_MESSAGE_TYPE_IDENTITY_UPDATE => {
-          let name_len = try!(mr.read_u16::<BigEndian>());
-          let eol = try!(mr.read_u16::<BigEndian>());
-          if eol != 0 {
-            break;
-          };
-          let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
-          let mut v: Vec<u8> = Vec::with_capacity(name_len as usize);
-          for r in mr.bytes() {
-            let b = try!(r);
-            if b == 0u8 {
-              break;
-            }
-            v.push(b)
-          };
-          let name = match String::from_utf8(v) {
-            Ok(n)   => n,
-            Err(v)  => return Err(ConnectError::InvalidName { cause: v }),
-          };
-          let id = pk.get_public().hash();
-          egos.insert(id.clone(), Ego {
-            pk: pk,
-            name: Some(name),
-            id: id,
-          });
-        },
-        _ => return Err(ConnectError::UnexpectedMessageType { ty: tpe }),
-      };
-    };
-    Ok(IdentityService {
-      service_reader: service_reader,
-      service_writer: service_writer,
-      egos: egos,
-    })
-  }
-
-  /// Get the default identity associated with a service.
-  ///
-  /// # Example
-  ///
-  /// Get the ego for the default master zone.
-  ///
-  /// ```rust
-  /// use gnunet::{Cfg, IdentityService};
-  ///
-  /// let config = Cfg::default().unwrap();
-  /// let mut ids = IdentityService::connect(&config).unwrap();
-  /// let ego = ids.get_default_ego("gns-master").unwrap();
-  /// ```
-  pub fn get_default_ego(&mut self, name: &str) -> Result<Ego, GetDefaultEgoError> {
-    let name_len = name.len();
-
-    let msg_length = match (8 + name_len + 1).to_u16() {
-      Some(l) => l,
-      None    => return Err(GetDefaultEgoError::NameTooLong { name: name.to_string() }),
-    };
-    {
-      let mut mw = self.service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT);
-      mw.write_u16::<BigEndian>((name_len + 1) as u16).unwrap();
-      mw.write_u16::<BigEndian>(0).unwrap();
-      mw.write_all(name.as_bytes()).unwrap();
-      mw.write_u8(0u8).unwrap();
-      try!(mw.send());
-    };
-
-    let (tpe, mut mr) = try!(self.service_reader.read_message());
-    match tpe {
-      ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
-        try!(mr.read_u32::<BigEndian>());
-        match mr.read_c_string() {
-          Err(e)  => match e {
-            ReadCStringError::Io { cause }       => Err(GetDefaultEgoError::Io { cause: cause }),
-            ReadCStringError::FromUtf8 { cause } => Err(GetDefaultEgoError::MalformedErrorResponse { cause: cause }),
-            ReadCStringError::Disconnected       => Err(GetDefaultEgoError::Disconnected),
-          },
-          Ok(s) => Err(GetDefaultEgoError::ServiceResponse { response: s }),
         }
-      },
-      ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => match try!(mr.read_u16::<BigEndian>()) {
-        0 => Err(GetDefaultEgoError::InvalidResponse),
-        reply_name_len => {
-          let zero = try!(mr.read_u16::<BigEndian>());
-          match zero {
-            0 => {
-              let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
-              let s = try!(mr.read_c_string_with_len((reply_name_len - 1) as usize));
-              match &s[..] == name {
-                true  =>  {
-                  let id = pk.get_public().hash();
-                  Ok(self.egos[&id].clone())
+      }));
+      */
+      // let (mut service_reader, mut service_writer) = service::connect(cfg, "identity", network);
+        service::connect(cfg, "identity", network)
+            .lift()
+            .then(move |(sr, mut sw)| {
+                sw.write_u32_be(ll::GNUNET_MESSAGE_TYPE_IDENTITY_START)
+                    .lift()
+                    .map(move |()| { Ok((sr, sw)) })
+            })
+            .then(move |(sr, sw)| {
+                let egos: HashMap<HashCode, Ego> = HashMap::new();
+                IdentityService::parse_egos(&mut sr, &mut egos)
+                    .map(move |()| {
+                        Ok(IdentityService {
+                            service_reader: sr,
+                            service_writer: sw,
+                            egos: egos,
+                        })
+                    })
+            })
+    }
+
+
+    fn parse_egos(sr: &'static mut ServiceReader, egos: &'static mut HashMap<HashCode, Ego>) -> Promise<(), ConnectError> {
+        sr.read_message()
+            .lift()
+            .then(move |(tpe, mut mr)| {
+                match tpe {
+                    ll::GNUNET_MESSAGE_TYPE_IDENTITY_UPDATE => {
+                        let name_len = pry!(mr.read_u16::<BigEndian>());
+                        let eol = pry!(mr.read_u16::<BigEndian>());
+                        if eol != 0 {
+                            return Promise::ok(());
+                        };
+                        let pk = pry!(EcdsaPrivateKey::deserialize(&mut mr));
+                        let mut v: Vec<u8> = Vec::with_capacity(name_len as usize);
+                        for r in mr.bytes() {
+                            let b = pry!(r);
+                            if b == 0u8 {
+                                break;
+                            }
+                            v.push(b)
+                        };
+                        let name = match String::from_utf8(v) {
+                            Ok(n)   => n,
+                            Err(v)  => return Promise::err(ConnectError::InvalidName { cause: v }),
+                        };
+                        let id = pk.get_public().hash();
+                        egos.insert(id.clone(), Ego {
+                            pk: pk,
+                            name: Some(name),
+                            id: id,
+                        });
+                        return IdentityService::parse_egos(sr, egos)
+                    },
+                    _ => return Promise::err(ConnectError::UnexpectedMessageType { ty: tpe }),
+                };
+            })
+    }
+
+    /// Get the default identity associated with a service.
+    ///
+    /// # Example
+    ///
+    /// Get the ego for the default master zone.
+    ///
+    /// ```rust
+    /// use gnunet::{Cfg, IdentityService};
+    ///
+    /// let config = Cfg::default().unwrap();
+    /// let mut ids = IdentityService::connect(&config).unwrap();
+    /// let ego = ids.get_default_ego("gns-master").unwrap();
+    /// ```
+    pub fn get_default_ego(&mut self, name: &str) -> Promise<Ego, GetDefaultEgoError> {
+        let name_len = name.len();
+
+        let msg_length = match (8 + name_len + 1).to_u16() {
+          Some(l) => l,
+          None    => return Promise::err(GetDefaultEgoError::NameTooLong { name: name.to_string() }),
+        };
+        {
+          let mut mw = self.service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT);
+          mw.write_u16::<BigEndian>((name_len + 1) as u16).unwrap();
+          mw.write_u16::<BigEndian>(0).unwrap();
+          mw.write_all(name.as_bytes()).unwrap();
+          mw.write_u8(0u8).unwrap();
+          try!(mw.send());
+        };
+
+        let (tpe, mut mr) = try!(self.service_reader.read_message());
+        match tpe {
+          ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
+            try!(mr.read_u32::<BigEndian>());
+            match mr.read_c_string() {
+              Err(e)  => match e {
+                ReadCStringError::Io { cause }       => Err(GetDefaultEgoError::Io { cause: cause }),
+                ReadCStringError::FromUtf8 { cause } => Err(GetDefaultEgoError::MalformedErrorResponse { cause: cause }),
+                ReadCStringError::Disconnected       => Err(GetDefaultEgoError::Disconnected),
+              },
+              Ok(s) => Err(GetDefaultEgoError::ServiceResponse { response: s }),
+            }
+          },
+          ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => match try!(mr.read_u16::<BigEndian>()) {
+            0 => Err(GetDefaultEgoError::InvalidResponse),
+            reply_name_len => {
+              let zero = try!(mr.read_u16::<BigEndian>());
+              match zero {
+                0 => {
+                  let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
+                  let s = try!(mr.read_c_string_with_len((reply_name_len - 1) as usize));
+                  match &s[..] == name {
+                    true  =>  {
+                      let id = pk.get_public().hash();
+                      Ok(self.egos[&id].clone())
+                    },
+                    false => Err(GetDefaultEgoError::InvalidResponse),
+                  }
                 },
-                false => Err(GetDefaultEgoError::InvalidResponse),
+                _ => Err(GetDefaultEgoError::InvalidResponse),
               }
             },
-            _ => Err(GetDefaultEgoError::InvalidResponse),
-          }
-        },
-      },
-      _ => Err(GetDefaultEgoError::InvalidResponse),
+          },
+          _ => Err(GetDefaultEgoError::InvalidResponse),
+        }
     }
-  }
 }
 
 /// Errors returned by `identity::get_default_ego`
@@ -265,9 +282,11 @@ error_def! ConnectGetDefaultEgoError {
 /// `IdentityService::connect` then use that handle to do the queries.
 pub fn get_default_ego(
     cfg: &Cfg,
-    name: &str) -> Result<Ego, ConnectGetDefaultEgoError> {
-  let mut is = try!(IdentityService::connect(cfg));
-  let ret = try!(is.get_default_ego(name));
-  Ok(ret)
+    name: &str,
+    network: &Network) -> Promise<Ego, ConnectGetDefaultEgoError> {
+    IdentityService::connect(cfg, network)
+        .then(move |is| {
+            is.get_default_ego(name);
+        })
 }
 

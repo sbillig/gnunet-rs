@@ -94,6 +94,19 @@ impl ServiceWriter {
                 Ok(())
             })
     }
+
+    pub fn write_buf<T>(&mut self, buf: T) -> Promise<(), io::Error> where T: AsRef<[u8]> + 'static {
+        self.connection.write(buf)
+            .map(|_| {
+                Ok(())
+            })
+    }
+
+    pub fn write_u32_be(&mut self, x: u32) -> Promise<(), io::Error> {
+        let mut wtr = vec![];
+        wtr.write_u32::<BigEndian>(x).unwrap();
+        self.write_buf(wtr)
+    }
 }
 
 #[repr(C, packed)]
