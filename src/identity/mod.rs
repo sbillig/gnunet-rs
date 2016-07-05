@@ -131,15 +131,15 @@ impl IdentityService {
       // let (mut service_reader, mut service_writer) = service::connect(cfg, "identity", network);
         service::connect(cfg, "identity", network)
             .lift()
-            .then(move |(sr, mut sw)| {
+            .then(|(sr, mut sw)| {
                 sw.send(IdentityStartMessage::new())
                     .lift()
                     .map(move |()| { Ok((sr, sw)) })
             })
-            .then(move |(sr, sw)| {
+            .then(|(sr, sw)| {
                 let egos: HashMap<HashCode, Ego> = HashMap::new();
-                IdentityService::parse_egos(&mut sr, &mut egos)
-                    .map(move |()| {
+                IdentityService::parse_egos(sr, egos)
+                    .map(move |(sr, egos)| {
                         Ok(IdentityService {
                             service_reader: sr,
                             service_writer: sw,
@@ -149,16 +149,17 @@ impl IdentityService {
             })
     }
 
-    fn parse_egos(sr: &'static mut ServiceReader, egos: &'static mut HashMap<HashCode, Ego>) -> Promise<(), ConnectError> {
+    fn parse_egos<'a>(mut sr: ServiceReader, mut egos: HashMap<HashCode, Ego>)
+                      -> Promise<(ServiceReader, HashMap<HashCode, Ego>), ConnectError> {
         sr.read_message()
             .lift()
-            .then(move |(tpe, mut mr)| {
+            .then(|(tpe, mut mr)| {
                 match tpe {
                     ll::GNUNET_MESSAGE_TYPE_IDENTITY_UPDATE => {
                         let name_len = pry!(mr.read_u16::<BigEndian>());
                         let eol = pry!(mr.read_u16::<BigEndian>());
                         if eol != 0 {
-                            return Promise::ok(());
+                            return Promise::ok((sr, egos));
                         };
                         let pk = pry!(EcdsaPrivateKey::deserialize(&mut mr));
                         let mut v: Vec<u8> = Vec::with_capacity(name_len as usize);

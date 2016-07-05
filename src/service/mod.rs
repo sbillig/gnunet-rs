@@ -96,7 +96,7 @@ impl ServiceWriter {
     }
 
     pub fn send_with_str<T: MessageTrait>(&mut self, message: T, string: &str) -> Promise<(), io::Error> {
-        let x = message.into_slice().to_vec();
+        let mut x = message.into_slice().to_vec();
         x.extend_from_slice(string.as_bytes());
         x.push(0u8.to_be()); // for null-termination of the string
         self.connection.write(x)
