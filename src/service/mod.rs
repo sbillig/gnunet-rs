@@ -87,7 +87,7 @@ impl ServiceReader {
 }
 
 impl ServiceWriter {
-    pub fn send<T: MessageTrait>(& mut self, message: T) -> Promise<(), io::Error> {
+    pub fn send<T: MessageTrait>(&mut self, message: T) -> Promise<(), io::Error> {
         let x = message.into_slice().to_vec(); // TODO this makes a copy is it ok?
         self.connection.write(x)
             .map(|_| {
@@ -95,17 +95,20 @@ impl ServiceWriter {
             })
     }
 
+    pub fn send_with_buf<T: MessageTrait>(&mut self, message: T, buf: &str) -> Promise<(), io::Error> {
+        let x = message.into_slice().to_vec();
+        x.extend_from_slice(buf.as_bytes());
+        self.connection.write(x)
+        .map(|_| {
+            Ok(())
+        })
+    }
+
     pub fn write_buf<T>(&mut self, buf: T) -> Promise<(), io::Error> where T: AsRef<[u8]> + 'static {
         self.connection.write(buf)
             .map(|_| {
                 Ok(())
             })
-    }
-
-    pub fn write_u32_be(&mut self, x: u32) -> Promise<(), io::Error> {
-        let mut wtr = vec![];
-        wtr.write_u32::<BigEndian>(x).unwrap();
-        self.write_buf(wtr)
     }
 }
 

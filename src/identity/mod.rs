@@ -9,7 +9,7 @@ use ll;
 use EcdsaPrivateKey;
 use EcdsaPublicKey;
 use HashCode;
-use service::{self, ServiceReader, ServiceWriter};
+use service::{self, ServiceReader, ServiceWriter, MessageHeader, MessageTrait};
 use configuration::Cfg;
 use util::{ReadCString, ReadCStringError, ReadCStringWithLenError};
 
@@ -132,7 +132,7 @@ impl IdentityService {
         service::connect(cfg, "identity", network)
             .lift()
             .then(move |(sr, mut sw)| {
-                sw.write_u32_be(ll::GNUNET_MESSAGE_TYPE_IDENTITY_START)
+                sw.send(IdentityStartMessage::new())
                     .lift()
                     .map(move |()| { Ok((sr, sw)) })
             })
@@ -288,5 +288,65 @@ pub fn get_default_ego(
         .then(move |is| {
             is.get_default_ego(name);
         })
+}
+
+#[repr(C, packed)]
+struct IdentityStartMessage {
+    header: MessageHeader,
+}
+
+impl IdentityStartMessage {
+    fn new () -> IdentityStartMessage {
+        IdentityStartMessage {
+            header: MessageHeader {
+                len: 4,
+                tpe: ll::GNUNET_MESSAGE_TYPE_IDENTITY_START.to_be(),
+            }
+        }
+    }
+}
+
+impl MessageTrait for IdentityStartMessage {
+    fn into_slice(&self) -> &[u8] {
+        message_to_slice!(IdentityStartMessage, self);
+    }
+}
+
+
+#[repr(C, packed)]
+struct GetDefaultMessage {
+    header: MessageHeader,
+    name_len: u16,
+    reserved: u16, // always zero
+    // followed by 0-terminated string
+}
+
+impl GetDefaultMessage {
+    fn new(name: &str) -> GetDefaultMessage {
+        let name_len = name.len();
+        let msg_len = match (8 + name_len + 1).to_u16() {
+            Some(l) => l,
+            None    => {
+                // TODO better error handling
+                assert!(false);
+                0
+            },
+        };
+
+        GetDefaultMessage {
+            header: MessageHeader {
+                len: (msg_len as u16).to_be(),
+                tpe: ll::GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT.to_be(),
+            },
+            name_len: ((name_len + 1) as u16).to_be(),
+            reserved: 0u16.to_be(),
+        }
+    }
+}
+
+impl MessageTrait for GetDefaultMessage {
+    fn into_slice(&self) -> &[u8] {
+        message_to_slice!(GetDefaultMessage, self);
+    }
 }
 
