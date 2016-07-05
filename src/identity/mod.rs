@@ -1,8 +1,8 @@
 use std::string;
 use std::collections::HashMap;
-use std::io::{self, Read, Write, Cursor};
+use std::io::{self, Read, Cursor};
 use std::fmt;
-use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
+use byteorder::{BigEndian, ReadBytesExt};
 use num::ToPrimitive;
 
 use ll;
@@ -139,7 +139,7 @@ impl IdentityService {
             .then(|(sr, sw)| {
                 let egos: HashMap<HashCode, Ego> = HashMap::new();
                 IdentityService::parse_egos(sr, egos)
-                    .map(move |(sr, egos)| {
+                    .map(|(sr, egos)| {
                         Ok(IdentityService {
                             service_reader: sr,
                             service_writer: sw,
@@ -250,6 +250,8 @@ error_def! ConnectGetDefaultEgoError {
     => "Ego lookup failed" ("Reason: {}", cause),
   Connect { #[from] cause: ConnectError }
     => "Failed to connect to the service and perform initialization" ("Reason: {}", cause),
+  Io { #[from] cause: io::Error }
+    => "An I/O error occured while communicating with the identity service" ("Specifically: {}", cause),
 }
 
 /// Get the default identity associated with a service.
