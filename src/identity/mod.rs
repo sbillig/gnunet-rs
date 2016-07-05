@@ -1,6 +1,6 @@
 use std::string;
 use std::collections::HashMap;
-use std::io::{self, Read, Write};
+use std::io::{self, Read, Write, Cursor};
 use std::fmt;
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
 use num::ToPrimitive;
@@ -149,7 +149,6 @@ impl IdentityService {
             })
     }
 
-
     fn parse_egos(sr: &'static mut ServiceReader, egos: &'static mut HashMap<HashCode, Ego>) -> Promise<(), ConnectError> {
         sr.read_message()
             .lift()
@@ -200,24 +199,14 @@ impl IdentityService {
     /// let mut ids = IdentityService::connect(&config).unwrap();
     /// let ego = ids.get_default_ego("gns-master").unwrap();
     /// ```
-    pub fn get_default_ego(&mut self, name: &str) -> Promise<Ego, GetDefaultEgoError> {
-        let name_len = name.len();
+    // only does a send
+    pub fn get_default_ego(&mut self, name: &str) -> Promise<(), GetDefaultEgoError> {
+        unimplemented!()
+    }
 
-        let msg_length = match (8 + name_len + 1).to_u16() {
-          Some(l) => l,
-          None    => return Promise::err(GetDefaultEgoError::NameTooLong { name: name.to_string() }),
-        };
-        {
-          let mut mw = self.service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT);
-          mw.write_u16::<BigEndian>((name_len + 1) as u16).unwrap();
-          mw.write_u16::<BigEndian>(0).unwrap();
-          mw.write_all(name.as_bytes()).unwrap();
-          mw.write_u8(0u8).unwrap();
-          try!(mw.send());
-        };
-
-        let (tpe, mut mr) = try!(self.service_reader.read_message());
-        match tpe {
+    fn parse_identity_result(egos: &HashMap<HashCode, Ego>, name: &str, tpe: u16, mut mr: Cursor<Vec<u8>>)
+                             -> Result<Ego, GetDefaultEgoError> {
+         match tpe {
           ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
             try!(mr.read_u32::<BigEndian>());
             match mr.read_c_string() {
@@ -236,11 +225,11 @@ impl IdentityService {
               match zero {
                 0 => {
                   let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
-                  let s = try!(mr.read_c_string_with_len((reply_name_len - 1) as usize));
+                  let s: String = try!(mr.read_c_string_with_len((reply_name_len - 1) as usize));
                   match &s[..] == name {
                     true  =>  {
                       let id = pk.get_public().hash();
-                      Ok(self.egos[&id].clone())
+                      Ok(egos[&id].clone())
                     },
                     false => Err(GetDefaultEgoError::InvalidResponse),
                   }
@@ -282,12 +271,25 @@ error_def! ConnectGetDefaultEgoError {
 /// `IdentityService::connect` then use that handle to do the queries.
 pub fn get_default_ego(
     cfg: &Cfg,
-    name: &str,
+    name: &'static str,
     network: &Network) -> Promise<Ego, ConnectGetDefaultEgoError> {
     IdentityService::connect(cfg, network)
-        .then(move |is| {
-            is.get_default_ego(name);
+        .lift()
+        .then(move |mut is| {
+            is.service_writer.send_with_str(GetDefaultMessage::new(name), name)
+                .lift()
+                .map(move |()| {
+                    Ok(is)
+                })
         })
+        .then(move |mut is| {
+            is.service_reader.read_message()
+            .lift()
+            .map(move |(tpe, mr)| {
+                IdentityService::parse_identity_result(&is.egos, name, tpe, mr)
+            })
+        })
+        .lift()
 }
 
 #[repr(C, packed)]
@@ -308,7 +310,7 @@ impl IdentityStartMessage {
 
 impl MessageTrait for IdentityStartMessage {
     fn into_slice(&self) -> &[u8] {
-        message_to_slice!(IdentityStartMessage, self);
+        message_to_slice!(IdentityStartMessage, self)
     }
 }
 
@@ -346,7 +348,7 @@ impl GetDefaultMessage {
 
 impl MessageTrait for GetDefaultMessage {
     fn into_slice(&self) -> &[u8] {
-        message_to_slice!(GetDefaultMessage, self);
+        message_to_slice!(GetDefaultMessage, self)
     }
 }
 
