@@ -201,8 +201,20 @@ impl IdentityService {
     /// let ego = ids.get_default_ego("gns-master").unwrap();
     /// ```
     // only does a send
-    pub fn get_default_ego(&mut self, name: &str) -> Promise<(), GetDefaultEgoError> {
-        unimplemented!()
+    pub fn get_default_ego(mut self, name: &'static str) -> Promise<(Ego, IdentityService), GetDefaultEgoError> {
+        self.service_writer.send_with_str(GetDefaultMessage::new(name), name)
+            .lift()
+            .then(move |_| {
+                self.service_reader.read_message()
+                    .lift()
+                    .map(move |(tpe, mr)| {
+                        match IdentityService::parse_identity_result(&self.egos, name, tpe, mr) {
+                            Ok(ego) => Ok((ego, self)),
+                            Err(e)       => Err(e),
+                        }
+                    })
+            })
+            .lift()
     }
 
     fn parse_identity_result(egos: &HashMap<HashCode, Ego>, name: &str, tpe: u16, mut mr: Cursor<Vec<u8>>)
@@ -278,19 +290,11 @@ pub fn get_default_ego(
     network: &Network) -> Promise<Ego, ConnectGetDefaultEgoError> {
     IdentityService::connect(cfg, network)
         .lift()
-        .then(move |mut is| {
-            is.service_writer.send_with_str(GetDefaultMessage::new(name), name)
-                .lift()
-                .map(move |()| {
-                    Ok(is)
+        .then(move |is| {
+            is.get_default_ego(name)
+                .map(|(ego, _)| {
+                    Ok((ego))
                 })
-        })
-        .then(move |mut is| {
-            is.service_reader.read_message()
-            .lift()
-            .map(move |(tpe, mr)| {
-                IdentityService::parse_identity_result(&is.egos, name, tpe, mr)
-            })
         })
         .lift()
 }
