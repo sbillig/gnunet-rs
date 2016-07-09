@@ -1,14 +1,8 @@
 use std::str::FromStr;
-use std::mem;
 use std::fmt::{self, Debug, Formatter};
-use std::mem::{uninitialized, size_of, size_of_val};
 use std::str::from_utf8;
-use std::slice::from_raw_parts;
 use std::io::{self, Read, Write};
-use std::os::raw::{c_void, c_char};
-use rcrypto::curve25519::ge_scalarmult_base;
 
-use ll::{self, size_t};
 use crypto::hashcode::HashCode;
 use util::strings::{data_to_string, string_to_data};
 

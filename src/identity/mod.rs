@@ -308,7 +308,7 @@ impl IdentityStartMessage {
     fn new () -> IdentityStartMessage {
         IdentityStartMessage {
             header: MessageHeader {
-                len: 4,
+                len: 4u16.to_be(),
                 tpe: ll::GNUNET_MESSAGE_TYPE_IDENTITY_START.to_be(),
             }
         }
