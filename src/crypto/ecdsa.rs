@@ -10,7 +10,7 @@ use util::strings::{data_to_string, string_to_data};
 /// A 256bit ECDSA public key.
 #[derive(Copy, Clone)]
 pub struct EcdsaPublicKey {
-  data: [u8; 32]
+    data: [u8; 32]
 }
 
 impl EcdsaPublicKey {
@@ -27,11 +27,11 @@ impl EcdsaPublicKey {
 
 /// Error generated when attempting to parse an ecdsa public key
 error_def! EcdsaPublicKeyFromStrError {
-  ParsingFailed => "Failed to parse the string as an ecdsa public key",
+    ParsingFailed => "Failed to parse the string as an ecdsa public key",
 }
 
 impl FromStr for EcdsaPublicKey {
-  type Err = EcdsaPublicKeyFromStrError;
+    type Err = EcdsaPublicKeyFromStrError;
 
     fn from_str(s: &str) -> Result<EcdsaPublicKey, EcdsaPublicKeyFromStrError> {
         let mut res = [0; 32];
@@ -44,16 +44,16 @@ impl FromStr for EcdsaPublicKey {
 }
 
 impl Debug for EcdsaPublicKey {
-  fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-      let res = data_to_string(&self.data);
-      fmt::Display::fmt(from_utf8(res.as_bytes()).unwrap(), f)
-  }
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        let res = data_to_string(&self.data);
+        fmt::Display::fmt(from_utf8(res.as_bytes()).unwrap(), f)
+    }
 }
 
 impl fmt::Display for EcdsaPublicKey {
-  fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-    Debug::fmt(self, f)
-  }
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        Debug::fmt(self, f)
+    }
 }
 
 /// A 256bit ECDSA private key.
@@ -81,6 +81,7 @@ impl EcdsaPrivateKey {
     pub fn get_public(&self) -> EcdsaPublicKey {
         use rcrypto::curve25519::ge_scalarmult_base;
         EcdsaPublicKey {
+            // TODO this function returns a different result compared to the libgcrypt one
             data: ge_scalarmult_base(&self.data).to_bytes()
         }
     }
@@ -92,42 +93,42 @@ impl EcdsaPrivateKey {
 }
 
 impl Clone for EcdsaPrivateKey {
-  fn clone(&self) -> EcdsaPrivateKey {
-    EcdsaPrivateKey {
-      data: self.data.clone(),
+    fn clone(&self) -> EcdsaPrivateKey {
+        EcdsaPrivateKey {
+        data: self.data.clone(),
+        }
     }
-  }
 }
 
 /*
 impl FromStr for EcdsaPrivateKey {
-  fn from_str(s: &str) -> Option<EcdsaPrivateKey> {
-    let bytes = s.as_bytes();
-    unsafe {
-      let mut ret: EcdsaPrivateKey = mem::uninitialized();
-      let res = ll::GNUNET_CRYPTO_ecdsa_private_key_from_string(
-          bytes.as_ptr() as *const i8,
-          bytes.len() as u64,
-          &mut ret.data);
-      match res {
-        ll::GNUNET_OK => Some(ret),
-        _             => None,
-      }
+    fn from_str(s: &str) -> Option<EcdsaPrivateKey> {
+        let bytes = s.as_bytes();
+        unsafe {
+            let mut ret: EcdsaPrivateKey = mem::uninitialized();
+            let res = ll::GNUNET_CRYPTO_ecdsa_private_key_from_string(
+                bytes.as_ptr() as *const i8,
+                bytes.len() as u64,
+                &mut ret.data);
+            match res {
+                ll::GNUNET_OK => Some(ret),
+                _             => None,
+            }
+        }
     }
-  }
 }
 */
 
 #[test]
 fn test_ecdsa_to_from_string() {
-  use EcdsaPublicKey;
+    use EcdsaPublicKey;
 
-  //let s0: &str = "JK55QA8JLAL64MBO8UM209KE93M9JBBO7M2UB8M3M03FKRFSUOMG";
-  let s0: &str = "JK55QA8J1A164MB08VM209KE93M9JBB07M2VB8M3M03FKRFSV0MG";
-  let key: EcdsaPublicKey = FromStr::from_str(s0).unwrap();
-  let s1: String = format!("{}", key);
-  println!("{} {}", s0, s0.len());
-  println!("{} {}", s1, s1.len());
-  assert!(s0 == &s1[..]);
+    //let s0: &str = "JK55QA8JLAL64MBO8UM209KE93M9JBBO7M2UB8M3M03FKRFSUOMG";
+    let s0: &str = "JK55QA8J1A164MB08VM209KE93M9JBB07M2VB8M3M03FKRFSV0MG";
+    let key: EcdsaPublicKey = FromStr::from_str(s0).unwrap();
+    let s1: String = format!("{}", key);
+    println!("{} {}", s0, s0.len());
+    println!("{} {}", s1, s1.len());
+    assert!(s0 == &s1[..]);
 }
 

@@ -21,7 +21,7 @@ use gjio::{Network};
 /// An ego consists of a public/private key pair and a name.
 #[derive(Clone)]
 pub struct Ego {
-    pk: EcdsaPrivateKey,
+    sk: EcdsaPrivateKey,
     name: Option<String>,
     id: HashCode,
 }
@@ -29,10 +29,10 @@ pub struct Ego {
 impl Ego {
     /// Get a copy of the global, anonymous ego.
     pub fn anonymous() -> Ego {
-        let pk = EcdsaPrivateKey::anonymous();
-        let id = pk.get_public().hash();
+        let sk = EcdsaPrivateKey::anonymous();
+        let id = sk.get_public().hash();
         Ego {
-            pk: pk,
+            sk: sk,
             name: None,
             id: id,
         }
@@ -40,12 +40,12 @@ impl Ego {
 
     /// Get the public key of an ego.
     pub fn get_public_key(&self) -> EcdsaPublicKey {
-        self.pk.get_public()
+        self.sk.get_public()
     }
 
     /// Get the private key of an ego.
     pub fn get_private_key(&self) -> EcdsaPrivateKey {
-        self.pk.clone()
+        self.sk.clone()
     }
 
     /// Get the name of an ego.
@@ -161,7 +161,7 @@ impl IdentityService {
                         if eol != 0 {
                             return Promise::ok((sr, egos));
                         };
-                        let pk = pry!(EcdsaPrivateKey::deserialize(&mut mr));
+                        let sk = pry!(EcdsaPrivateKey::deserialize(&mut mr));
                         let mut v: Vec<u8> = Vec::with_capacity(name_len as usize);
                         for r in mr.bytes() {
                             let b = pry!(r);
@@ -174,9 +174,9 @@ impl IdentityService {
                             Ok(n)   => n,
                             Err(v)  => return Promise::err(ConnectError::InvalidName { cause: v }),
                         };
-                        let id = pk.get_public().hash();
+                        let id = sk.get_public().hash();
                         egos.insert(id.clone(), Ego {
-                            pk: pk,
+                            sk: sk,
                             name: Some(name),
                             id: id,
                         });
@@ -224,12 +224,12 @@ impl IdentityService {
             ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
                 try!(mr.read_u32::<BigEndian>());
                 match mr.read_c_string() {
-                    Err(e)  => match e {
+                    Err(e) => match e {
                         ReadCStringError::Io { cause }       => Err(GetDefaultEgoError::Io { cause: cause }),
                         ReadCStringError::FromUtf8 { cause } => Err(GetDefaultEgoError::MalformedErrorResponse { cause: cause }),
                         ReadCStringError::Disconnected       => Err(GetDefaultEgoError::Disconnected),
                     },
-                    Ok(s) => Err(GetDefaultEgoError::ServiceResponse { response: s }),
+                    Ok(s)  => Err(GetDefaultEgoError::ServiceResponse { response: s }),
                 }
             },
             ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => match try!(mr.read_u16::<BigEndian>()) {
@@ -238,11 +238,11 @@ impl IdentityService {
                     let zero = try!(mr.read_u16::<BigEndian>());
                     match zero {
                         0 => {
-                            let pk = try!(EcdsaPrivateKey::deserialize(&mut mr));
+                            let sk = try!(EcdsaPrivateKey::deserialize(&mut mr));
                             let s: String = try!(mr.read_c_string_with_len((reply_name_len - 1) as usize));
                             match &s[..] == name {
                                 true  => {
-                                    let id = pk.get_public().hash();
+                                    let id = sk.get_public().hash();
                                     Ok(egos[&id].clone())
                                 },
                                 false => Err(GetDefaultEgoError::InvalidResponse),
