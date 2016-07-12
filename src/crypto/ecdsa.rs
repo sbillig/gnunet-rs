@@ -80,9 +80,12 @@ impl EcdsaPrivateKey {
     /// Get the corresponding public key to this private key.
     pub fn get_public(&self) -> EcdsaPublicKey {
         use rcrypto::curve25519::ge_scalarmult_base;
+        // the representation for scalarmult that rust-crypto expects is the reverse of libgcrypt
+        // so we create temporary data and then reverse it
+        let mut data = self.data.clone();
+        data.reverse();
         EcdsaPublicKey {
-            // TODO this function returns a different result compared to the libgcrypt one
-            data: ge_scalarmult_base(&self.data).to_bytes()
+            data: ge_scalarmult_base(&data).to_bytes()
         }
     }
 
