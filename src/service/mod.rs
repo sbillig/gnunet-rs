@@ -69,7 +69,7 @@ error_def! ReadMessageError {
 impl ServiceReader {
     pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
         let mut conn =  self.connection.clone(); // TODO is  this ok?
-        ::util::async::read_u16_from_socket(& mut conn)
+        ::util::async::read_u16_from_socket(&mut conn)
             .lift()
             .then(move |len| {
                 if len < 4 {
@@ -82,6 +82,24 @@ impl ServiceReader {
                 let mut mr = Cursor::new(buf);
                 let tpe = try!(mr.read_u16::<BigEndian>());
                 Ok((tpe, mr))
+            })
+    }
+
+    pub fn read_message2(mut sr: ServiceReader)
+                         -> Promise<(ServiceReader, (u16, Cursor<Vec<u8>>)), ReadMessageError> {
+        ::util::async::read_u16_from_socket(&mut sr.connection)
+            .lift()
+            .then(move |len| {
+                if len < 4 {
+                    return Promise::err(ReadMessageError::ShortMessage { len: len });
+                }
+                let rem = len as usize - 2;
+                sr.connection.read(vec![0; rem], rem).lift()
+                    .map(move |(buf, _)| {
+                        let mut mr = Cursor::new(buf);
+                        let tpe = try!(mr.read_u16::<BigEndian>());
+                        Ok((sr, (tpe, mr)))
+                    })
             })
     }
 }
