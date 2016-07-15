@@ -66,17 +66,19 @@ error_def! ReadMessageError {
   Disconnected                    => "The service disconnected unexpectedly",
 }
 
+
 impl ServiceReader {
     pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
-        let mut conn =  self.connection.clone(); // TODO is  this ok?
-        ::util::async::read_u16_from_socket(&mut conn)
+        use util::async::U16PromiseReader;
+        let mut connection2 =  self.connection.clone(); // this is ok we're just bumping Rc count
+        self.connection.read_u16()
             .lift()
             .then(move |len| {
                 if len < 4 {
                     return Promise::err(ReadMessageError::ShortMessage { len: len });
                 }
                 let rem = len as usize - 2;
-                conn.read(vec![0; rem], rem).lift()
+                connection2.read(vec![0; rem], rem).lift()
             })
             .map(move |(buf, _)| {
                 let mut mr = Cursor::new(buf);
@@ -84,29 +86,11 @@ impl ServiceReader {
                 Ok((tpe, mr))
             })
     }
-
-    pub fn read_message2(mut sr: ServiceReader)
-                         -> Promise<(ServiceReader, (u16, Cursor<Vec<u8>>)), ReadMessageError> {
-        ::util::async::read_u16_from_socket(&mut sr.connection)
-            .lift()
-            .then(move |len| {
-                if len < 4 {
-                    return Promise::err(ReadMessageError::ShortMessage { len: len });
-                }
-                let rem = len as usize - 2;
-                sr.connection.read(vec![0; rem], rem).lift()
-                    .map(move |(buf, _)| {
-                        let mut mr = Cursor::new(buf);
-                        let tpe = try!(mr.read_u16::<BigEndian>());
-                        Ok((sr, (tpe, mr)))
-                    })
-            })
-    }
 }
 
 impl ServiceWriter {
     pub fn send<T: MessageTrait>(&mut self, message: T) -> Promise<(), io::Error> {
-        let x = message.into_slice().to_vec(); // TODO this makes a copy is it ok?
+        let x = message.into_slice().to_vec();
         self.connection.write(x)
             .map(|_| {
                 Ok(())

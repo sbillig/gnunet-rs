@@ -8,9 +8,15 @@ pub fn cancel<T, E: From<Error>>(p: Promise<T, E>) -> Promise<T, E> {
     err.lift().eagerly_evaluate().exclusive_join(p)
 }
 
-pub fn read_u16_from_socket(socket: &mut SocketStream) -> Promise<u16, Error>{
-    socket.read(vec![0;2], 2).then(move |(buf, len)| {
-        assert!(len == 2);
-        Promise::ok(BigEndian::read_u16(&buf[..]))
-    })
+impl U16PromiseReader for SocketStream {
+    fn read_u16(&mut self) -> Promise<u16, Error> {
+        self.read(vec![0;2], 2).map(move |(buf, len)| {
+            assert!(len == 2);
+            Ok(BigEndian::read_u16(&buf[..]))
+        })
+    }
+}
+
+pub trait U16PromiseReader {
+    fn read_u16(&mut self) -> Promise<u16, Error>;
 }
