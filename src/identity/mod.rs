@@ -2,6 +2,7 @@ use std::string;
 use std::collections::HashMap;
 use std::io::{self, Read, Cursor};
 use std::fmt;
+use std::rc::*;
 use byteorder::{BigEndian, ReadBytesExt};
 use num::ToPrimitive;
 
@@ -73,7 +74,7 @@ impl fmt::Display for Ego {
 pub struct IdentityService {
     service_reader: ServiceReader,
     service_writer: ServiceWriter,
-    egos: HashMap<HashCode, Ego>,
+    egos: Rc<HashMap<HashCode, Ego>>,
 }
 
 /// Errors returned by `IdentityService::connect`
@@ -143,7 +144,7 @@ impl IdentityService {
                         Ok(IdentityService {
                             service_reader: sr,
                             service_writer: sw,
-                            egos: egos,
+                            egos: Rc::new(egos),
                         })
                     })
             })
@@ -200,26 +201,28 @@ impl IdentityService {
     /// let mut ids = IdentityService::connect(&config).unwrap();
     /// let ego = ids.get_default_ego("gns-master").unwrap();
     /// ```
-    // only does a send
-    pub fn get_default_ego(mut self, name: &'static str) -> Promise<(Ego, IdentityService), GetDefaultEgoError> {
+    pub fn get_default_ego(&mut self, name: &'static str) -> Promise<Ego, GetDefaultEgoError> {
         let msg = pry!(GetDefaultMessage::new(name));
+        let mut sr = self.service_reader.clone();
+        let egos = self.egos.clone();
         self.service_writer.send_with_str(msg, name)
             .lift()
             .then(move |_| {
-                self.service_reader.read_message()
+                sr.read_message()
                     .lift()
                     .map(move |(tpe, mr)| {
-                        match IdentityService::parse_identity_result(&self.egos, name, tpe, mr) {
-                            Ok(ego) => Ok((ego, self)),
-                            Err(e)       => Err(e),
+                        match IdentityService::parse_identity_result(egos, name, tpe, mr) {
+                            Ok(ego) => Ok(ego),
+                            Err(e)  => Err(e),
                         }
                     })
             })
             .lift()
     }
 
-    fn parse_identity_result(egos: &HashMap<HashCode, Ego>, name: &str, tpe: u16, mut mr: Cursor<Vec<u8>>)
+    fn parse_identity_result(rc_egos: Rc<HashMap<HashCode, Ego>>, name: &str, tpe: u16, mut mr: Cursor<Vec<u8>>)
                              -> Result<Ego, GetDefaultEgoError> {
+        let egos = rc_egos.as_ref();
         match tpe {
             ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
                 try!(mr.read_u32::<BigEndian>());
@@ -291,11 +294,8 @@ pub fn get_default_ego(
     network: &Network) -> Promise<Ego, ConnectGetDefaultEgoError> {
     IdentityService::connect(cfg, network)
         .lift()
-        .then(move |is| {
+        .then(move |mut is| {
             is.get_default_ego(name)
-                .map(|(ego, _)| {
-                    Ok((ego))
-                })
         })
         .lift()
 }

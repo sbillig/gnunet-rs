@@ -10,12 +10,14 @@ use gjio::{AsyncWrite, AsyncRead, SocketStream, Network};
 use configuration::{self, Cfg};
 
 /// Created by `service::connect`. Used to read messages from a GNUnet service.
+#[derive(Clone)]
 pub struct ServiceReader {
     /// The underlying socket wrapped by `ServiceReader`. This is a read-only socket.
     pub connection: SocketStream,
 }
 
 /// Created by `service::connect`. Used to send messages to a GNUnet service.
+#[derive(Clone)]
 pub struct ServiceWriter {
     /// The underlying socket wrapped by `ServiceWriter`. This is a write-only socket.
     pub connection: SocketStream,
