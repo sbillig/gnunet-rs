@@ -28,9 +28,9 @@ pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
 
 //pub use gns::{Record, RecordType};
 //pub use gns::{GNS, LocalOptions};
-//pub use identity::{Ego, IdentityService};
+pub use identity::{Ego, IdentityService};
 pub use hello::Hello;
-pub use peerinfo::{iterate_peers, get_peer, self_id, PeerIdentity};
+pub use peerinfo::{get_peers, get_peers_iterator, get_peer, self_id, PeerIdentity};
 //pub use dht::DHT;
 
 /*

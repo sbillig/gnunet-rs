@@ -287,7 +287,6 @@ struct StartMessage {
 }
 
 impl StartMessage {
-    /// Create an a StartMessage.
     fn new () -> StartMessage {
         StartMessage {
             header: MessageHeader {
@@ -299,7 +298,6 @@ impl StartMessage {
 }
 
 impl MessageTrait for StartMessage {
-    /// Convert StartMessage into a slice, maintaining the memory layout.
     fn into_slice(&self) -> &[u8] {
         message_to_slice!(StartMessage, self)
     }
@@ -316,7 +314,6 @@ struct GetDefaultMessage {
 }
 
 impl GetDefaultMessage {
-    /// Create an a GetDefaultMessage.
     fn new(name: &str) -> Result<GetDefaultMessage, GetDefaultEgoError> {
         let name_len = name.len();
         let msg_len = match (8 + name_len + 1).to_u16() {
@@ -336,8 +333,7 @@ impl GetDefaultMessage {
 }
 
 impl MessageTrait for GetDefaultMessage {
-    /// Convert GetDefaultMessage into a slice, maintaining the memory layout,
-    /// this does not include the 0-terminated string.
+    // Note that this does not include the 0-terminated string.
     fn into_slice(&self) -> &[u8] {
         message_to_slice!(GetDefaultMessage, self)
     }
