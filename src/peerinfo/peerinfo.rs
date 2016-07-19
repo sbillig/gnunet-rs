@@ -149,7 +149,7 @@ error_def! NextPeerError {
 }
 
 impl Peers {
-    pub fn iterate(&mut self) -> Promise<Option<(PeerIdentity, Option<Hello>)>, NextPeerError> {
+    fn iterate(&mut self) -> Promise<Option<(PeerIdentity, Option<Hello>)>, NextPeerError> {
         self.service.read_message()
             .map_else(move |x| {
                 match x {

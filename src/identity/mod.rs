@@ -74,7 +74,7 @@ impl fmt::Display for Ego {
 pub struct IdentityService {
     service_reader: ServiceReader,
     service_writer: ServiceWriter,
-    egos: Rc<HashMap<HashCode, Ego>>,
+    egos: Rc<HashMap<HashCode, Ego>>, // egos is only modified at connect
 }
 
 /// Errors returned by `IdentityService::connect`
@@ -118,8 +118,8 @@ error_def! GetDefaultEgoError {
 impl IdentityService {
     /// Connect to the identity service.
     ///
-    /// Returns either a handle to the identity service or a `ServiceConnectError`. `cfg` contains
-    /// the configuration to use to connect to the service.
+    /// Returns either a promise of a handle to the identity service or a `ServiceConnectError`.
+    /// `cfg` contains the configuration to use to connect to the service.
     pub fn connect(cfg: &Cfg, network: &Network) -> Promise<IdentityService, ConnectError> {
       /*
       let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
@@ -133,7 +133,7 @@ impl IdentityService {
         service::connect(cfg, "identity", network)
             .lift()
             .then(|(sr, mut sw)| {
-                sw.send(IdentityStartMessage::new())
+                sw.send(StartMessage::new())
                     .lift()
                     .map(move |()| { Ok((sr, sw)) })
             })
@@ -150,6 +150,8 @@ impl IdentityService {
             })
     }
 
+    /// This recursive function reads data from the ServiceReader `sr`
+    /// and attempts to parse the result into egos.
     fn parse_egos<'a>(mut sr: ServiceReader, mut egos: HashMap<HashCode, Ego>)
                       -> Promise<(ServiceReader, HashMap<HashCode, Ego>), ConnectError> {
         sr.read_message()
@@ -188,19 +190,7 @@ impl IdentityService {
             })
     }
 
-    /// Get the default identity associated with a service.
-    ///
-    /// # Example
-    ///
-    /// Get the ego for the default master zone.
-    ///
-    /// ```rust
-    /// use gnunet::{Cfg, IdentityService};
-    ///
-    /// let config = Cfg::default().unwrap();
-    /// let mut ids = IdentityService::connect(&config).unwrap();
-    /// let ego = ids.get_default_ego("gns-master").unwrap();
-    /// ```
+    /// Returns a promise to the default identity associated with a service.
     pub fn get_default_ego(&mut self, name: &'static str) -> Promise<Ego, GetDefaultEgoError> {
         let msg = pry!(GetDefaultMessage::new(name));
         let mut sr = self.service_reader.clone();
@@ -211,7 +201,7 @@ impl IdentityService {
                 sr.read_message()
                     .lift()
                     .map(move |(tpe, mr)| {
-                        match IdentityService::parse_identity_result(egos, name, tpe, mr) {
+                        match IdentityService::parse_identity(egos, name, tpe, mr) {
                             Ok(ego) => Ok(ego),
                             Err(e)  => Err(e),
                         }
@@ -220,7 +210,8 @@ impl IdentityService {
             .lift()
     }
 
-    fn parse_identity_result(rc_egos: Rc<HashMap<HashCode, Ego>>, name: &str, tpe: u16, mut mr: Cursor<Vec<u8>>)
+    /// Returns an identity by parsing data from `mr`.
+    fn parse_identity(rc_egos: Rc<HashMap<HashCode, Ego>>, name: &str, tpe: u16, mut mr: Cursor<Vec<u8>>)
                              -> Result<Ego, GetDefaultEgoError> {
         let egos = rc_egos.as_ref();
         match tpe {
@@ -272,17 +263,6 @@ error_def! ConnectGetDefaultEgoError {
 
 /// Get the default identity associated with a service.
 ///
-/// # Example
-///
-/// Get the ego for the default master zone.
-///
-/// ```rust
-/// use gnunet::{Cfg, identity};
-///
-/// let config = Cfg::default().unwrap();
-/// let ego = identity::get_default_ego(&config, "gns-master").unwrap();
-/// ```
-///
 /// # Note
 ///
 /// This a convenience function that connects to the identity service, does the query, then
@@ -300,14 +280,16 @@ pub fn get_default_ego(
         .lift()
 }
 
+/// Packed struct representing the initial message sent to the identity service.
 #[repr(C, packed)]
-struct IdentityStartMessage {
+struct StartMessage {
     header: MessageHeader,
 }
 
-impl IdentityStartMessage {
-    fn new () -> IdentityStartMessage {
-        IdentityStartMessage {
+impl StartMessage {
+    /// Create an a StartMessage.
+    fn new () -> StartMessage {
+        StartMessage {
             header: MessageHeader {
                 len: 4u16.to_be(),
                 tpe: ll::GNUNET_MESSAGE_TYPE_IDENTITY_START.to_be(),
@@ -316,13 +298,15 @@ impl IdentityStartMessage {
     }
 }
 
-impl MessageTrait for IdentityStartMessage {
+impl MessageTrait for StartMessage {
+    /// Convert StartMessage into a slice, maintaining the memory layout.
     fn into_slice(&self) -> &[u8] {
-        message_to_slice!(IdentityStartMessage, self)
+        message_to_slice!(StartMessage, self)
     }
 }
 
-
+/// Packed struct representing GNUNET_IDENTITY_GetDefaultMessage,
+/// note that it must be followed by a 0-terminated string.
 #[repr(C, packed)]
 struct GetDefaultMessage {
     header: MessageHeader,
@@ -332,6 +316,7 @@ struct GetDefaultMessage {
 }
 
 impl GetDefaultMessage {
+    /// Create an a GetDefaultMessage.
     fn new(name: &str) -> Result<GetDefaultMessage, GetDefaultEgoError> {
         let name_len = name.len();
         let msg_len = match (8 + name_len + 1).to_u16() {
@@ -351,6 +336,8 @@ impl GetDefaultMessage {
 }
 
 impl MessageTrait for GetDefaultMessage {
+    /// Convert GetDefaultMessage into a slice, maintaining the memory layout,
+    /// this does not include the 0-terminated string.
     fn into_slice(&self) -> &[u8] {
         message_to_slice!(GetDefaultMessage, self)
     }
