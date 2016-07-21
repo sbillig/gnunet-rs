@@ -10,6 +10,7 @@ fn print_help(executable: String) {
 }
 
 fn main() {
+    /*
     let mut args = std::env::args();
     let executable = args.next().unwrap();
     let domain     = match args.next() {
@@ -31,5 +32,6 @@ fn main() {
     let config = gnunet::Cfg::default().unwrap();
     let record = gnunet::gns::lookup_in_master(&config, &domain[..], gnunet::gns::RecordType::A, None).unwrap();
     println!("\t{}", record);
+    */
 }
 

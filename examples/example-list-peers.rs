@@ -3,13 +3,12 @@ extern crate gjio;
 extern crate gj;
 
 use gj::{EventLoop};
-use gjio::{EventPort, Network};
 
 fn main() {
     EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
         let config = gnunet::Cfg::default().unwrap();
-        let mut event_port: EventPort = gjio::EventPort::new().unwrap();
-        let network: Network = event_port.get_network();
+        let mut event_port = gnunet::util::async::new_event_port();
+        let network = event_port.get_network();
 
         // example to get all peers
         {
