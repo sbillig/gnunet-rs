@@ -203,6 +203,7 @@ impl IdentityService {
     /// let mut event_port = async::EventPort::new().unwrap();
     /// let network = event_port.get_network();
     /// let config = Cfg::default().unwrap();
+    ///
     /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
     ///     let ego_promise = IdentityService::connect(&config, &network).lift()
     ///                         .then(|mut is| { is.get_default_ego("gns-master") });
@@ -291,6 +292,7 @@ error_def! ConnectGetDefaultEgoError {
 /// let config = Cfg::default().unwrap();
 /// let mut event_port = async::EventPort::new().unwrap();
 /// let network = event_port.get_network();
+///
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let ego_promise = gnunet::get_default_ego(&config, "gns-master", &network);
 ///     let ego = ego_promise.wait(wait_scope, &mut event_port);

@@ -75,6 +75,7 @@ error_def! IteratePeersError {
 /// let mut event_port = async::EventPort::new().unwrap();
 /// let network = event_port.get_network();
 /// let pk_string = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0".to_string();
+///
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let peer_promise = gnunet::get_peer(&config, &network, pk_string).map(|(peer, _)| { Ok(peer) });
 ///     let peer = peer_promise.wait(wait_scope, &mut event_port);
@@ -134,6 +135,7 @@ pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Opt
 /// let config = Cfg::default().unwrap();
 /// let mut event_port = async::EventPort::new().unwrap();
 /// let network = event_port.get_network();
+///
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let peers_promise = gnunet::get_peers(&config, &network);
 ///     let peers = peers_promise.wait(wait_scope, &mut event_port);
@@ -160,6 +162,21 @@ pub fn get_peers(cfg: &Cfg, network: &Network)
 /// # Example
 ///
 /// ```rust
+/// use gnunet::Cfg;
+/// use gnunet::util::async;
+///
+/// let config = Cfg::default().unwrap();
+/// let mut event_port = async::EventPort::new().unwrap();
+/// let network = event_port.get_network();
+///
+/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+///     let peers_iter = gnunet::get_peers_iterator(&config, &network, wait_scope, &mut event_port).unwrap();
+///     for peer in peers_iter {
+///         let (peerinfo, _) = peer.unwrap();
+///         // do something with peerinfo
+///     }
+///     Ok(())
+/// }).expect("top_level");
 /// ```
 ///
 pub fn get_peers_iterator<'a>(cfg: &Cfg, network: &Network, wait_scope: &'a WaitScope, event_port: &'a mut EventPort)
