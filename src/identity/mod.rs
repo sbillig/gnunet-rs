@@ -200,10 +200,15 @@ impl IdentityService {
     /// use gnunet::{Cfg, IdentityService};
     /// use gnunet::util::async;
     ///
-    /// let network = async::new_event_port().get_network();
+    /// let mut event_port = async::EventPort::new().unwrap();
+    /// let network = event_port.get_network();
     /// let config = Cfg::default().unwrap();
-    /// let ego_promise = IdentityService::connect(&config, &network).lift()
-    ///                     .then(|mut is| { is.get_default_ego("gns-master") });
+    /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+    ///     let ego_promise = IdentityService::connect(&config, &network).lift()
+    ///                         .then(|mut is| { is.get_default_ego("gns-master") });
+    ///     let ego = ego_promise.wait(wait_scope, &mut event_port);
+    ///     Ok(())
+    /// }).expect("top_level");
     /// ```
     pub fn get_default_ego(&mut self, name: &'static str) -> Promise<Ego, GetDefaultEgoError> {
         let msg = pry!(GetDefaultMessage::new(name));
@@ -284,8 +289,13 @@ error_def! ConnectGetDefaultEgoError {
 /// use gnunet::util::async;
 ///
 /// let config = Cfg::default().unwrap();
-/// let network = async::new_event_port().get_network();
-/// let ego_promise = get_default_ego(&config, "gns-master", &network);
+/// let mut event_port = async::EventPort::new().unwrap();
+/// let network = event_port.get_network();
+/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+///     let ego_promise = gnunet::get_default_ego(&config, "gns-master", &network);
+///     let ego = ego_promise.wait(wait_scope, &mut event_port);
+///     Ok(())
+/// }).expect("top_level");
 /// ```
 ///
 /// # Note
