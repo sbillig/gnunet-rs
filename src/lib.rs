@@ -30,7 +30,7 @@ pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
 //pub use gns::{GNS, LocalOptions};
 pub use identity::{get_default_ego, Ego, IdentityService};
 pub use hello::Hello;
-pub use peerinfo::{get_peers, get_peers_iterator, get_peer, self_id, PeerIdentity};
+pub use peerinfo::{get_peers, get_peers_iterator, get_peer, get_self_id, PeerIdentity};
 //pub use dht::DHT;
 
 /*

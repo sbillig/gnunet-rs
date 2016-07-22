@@ -26,11 +26,11 @@ fn main() {
         }
 
         // example to get hello id
-        let local_id = gnunet::self_id(&config, &network).wait(wait_scope, &mut event_port).unwrap();
+        let local_id = gnunet::get_self_id(&config, &network).wait(wait_scope, &mut event_port).unwrap();
         println!("Our id is: {}", local_id);
 
         // cancellation example
-        match async::cancel(gnunet::self_id(&config, &network)).wait(wait_scope, &mut event_port) {
+        match async::cancel(gnunet::get_self_id(&config, &network)).wait(wait_scope, &mut event_port) {
             Err(e) => println!("Error: {}", e),
             Ok(_)  => assert!(false),
         }
