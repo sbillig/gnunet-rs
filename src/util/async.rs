@@ -1,7 +1,9 @@
 use std::io::{Error, ErrorKind};
-use gj::{Promise};
+use gj::{self, Promise};
 use gjio::{AsyncRead, SocketStream, EventPort};
 use byteorder::{BigEndian, ByteOrder};
+
+pub type EventLoop = gj::EventLoop;
 
 pub fn new_event_port() -> EventPort {
     EventPort::new().unwrap()

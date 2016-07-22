@@ -191,6 +191,20 @@ impl IdentityService {
     }
 
     /// Returns a promise to the default identity associated with a service.
+    ///
+    /// # Example
+    ///
+    /// Get the ego for the default master zone.
+    ///
+    /// ```rust
+    /// use gnunet::{Cfg, IdentityService};
+    /// use gnunet::util::async;
+    ///
+    /// let network = async::new_event_port().get_network();
+    /// let config = Cfg::default().unwrap();
+    /// let ego_promise = IdentityService::connect(&config, &network).lift()
+    ///                     .then(|mut is| { is.get_default_ego("gns-master") });
+    /// ```
     pub fn get_default_ego(&mut self, name: &'static str) -> Promise<Ego, GetDefaultEgoError> {
         let msg = pry!(GetDefaultMessage::new(name));
         let mut sr = self.service_reader.clone();
@@ -262,6 +276,17 @@ error_def! ConnectGetDefaultEgoError {
 }
 
 /// Get the default identity associated with a service.
+///
+/// # Example
+///
+/// ```rust
+/// use gnunet::Cfg;
+/// use gnunet::util::async;
+///
+/// let config = Cfg::default().unwrap();
+/// let network = async::new_event_port().get_network();
+/// let ego_promise = get_default_ego(&config, "gns-master", &network);
+/// ```
 ///
 /// # Note
 ///

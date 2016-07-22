@@ -64,6 +64,19 @@ error_def! IteratePeersError {
 }
 
 /// Get a peer by its key.
+///
+/// # Example
+///
+/// ```rust
+/// use gnunet::Cfg;
+/// use gnunet::util::async;
+///
+/// let network = async::new_event_port().get_network();
+/// let config = Cfg::default().unwrap();
+/// let pk_string = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0".to_string();
+/// let peer_promise = gnunet::get_peer(&config, &network, pk_string).map(|(peer, _)| { Ok(peer) });
+/// ```
+///
 pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Option<PeerIdentity>, Option<Hello>), NextPeerError> {
     // prepare peer identity
     let pk = &mut [0; 32];
@@ -106,6 +119,19 @@ pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Opt
 }
 
 /// Get an proimise to all the currently connected peers.
+///
+/// # Example
+///
+/// ```rust
+/// use gnunet::Cfg;
+/// use gnunet::util::async;
+///
+/// let network = async::new_event_port().get_network();
+/// let config = Cfg::default().unwrap();
+/// let peer_promise = gnunet::get_peers(&config, &network);
+/// // do things with peers, i.e. `to_iter` or `iterate`
+/// ```
+///
 pub fn get_peers(cfg: &Cfg, network: &Network)
                      -> Promise<Peers, IteratePeersError> {
     connect(cfg, "peerinfo", network)
@@ -120,6 +146,12 @@ pub fn get_peers(cfg: &Cfg, network: &Network)
 }
 
 /// Get an iterator over all the currently connected peers.
+///
+/// # Example
+///
+/// ```rust
+/// ```
+///
 pub fn get_peers_iterator<'a>(cfg: &Cfg, network: &Network, wait_scope: &'a WaitScope, event_port: &'a mut EventPort)
                      -> Result<PeersIterator<'a>, IteratePeersError> {
     let peers = try!(get_peers(cfg, network).wait(wait_scope, event_port));

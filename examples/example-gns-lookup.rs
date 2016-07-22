@@ -2,9 +2,6 @@ extern crate gnunet;
 extern crate gjio;
 extern crate gj;
 
-use gj::{EventLoop};
-use gjio::{EventPort, Network};
-
 fn print_help(executable: String) {
     println!("Usage: {} domain.name.gnu", executable);
 }

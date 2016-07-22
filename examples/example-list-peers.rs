@@ -1,13 +1,10 @@
 extern crate gnunet;
-extern crate gjio;
-extern crate gj;
-
-use gj::{EventLoop};
+use gnunet::util::async;
 
 fn main() {
-    EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+    async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
         let config = gnunet::Cfg::default().unwrap();
-        let mut event_port = gnunet::util::async::new_event_port();
+        let mut event_port = async::new_event_port();
         let network = event_port.get_network();
 
         // example to get all peers
@@ -33,7 +30,7 @@ fn main() {
         println!("Our id is: {}", local_id);
 
         // cancellation example
-        match gnunet::util::async::cancel(gnunet::self_id(&config, &network)).wait(wait_scope, &mut event_port) {
+        match async::cancel(gnunet::self_id(&config, &network)).wait(wait_scope, &mut event_port) {
             Err(e) => println!("Error: {}", e),
             Ok(_)  => assert!(false),
         }
