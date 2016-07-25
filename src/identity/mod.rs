@@ -2,6 +2,7 @@ use std::string;
 use std::collections::HashMap;
 use std::io::{self, Read, Cursor};
 use std::fmt;
+use std::rc::*;
 use byteorder::{BigEndian, ReadBytesExt};
 use num::ToPrimitive;
 
@@ -73,7 +74,7 @@ impl fmt::Display for Ego {
 pub struct IdentityService {
     service_reader: ServiceReader,
     service_writer: ServiceWriter,
-    egos: HashMap<HashCode, Ego>,
+    egos: Rc<HashMap<HashCode, Ego>>, // egos is only modified at connect
 }
 
 /// Errors returned by `IdentityService::connect`
@@ -117,8 +118,8 @@ error_def! GetDefaultEgoError {
 impl IdentityService {
     /// Connect to the identity service.
     ///
-    /// Returns either a handle to the identity service or a `ServiceConnectError`. `cfg` contains
-    /// the configuration to use to connect to the service.
+    /// Returns either a promise of a handle to the identity service or a `ServiceConnectError`.
+    /// `cfg` contains the configuration to use to connect to the service.
     pub fn connect(cfg: &Cfg, network: &Network) -> Promise<IdentityService, ConnectError> {
       /*
       let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
@@ -132,7 +133,7 @@ impl IdentityService {
         service::connect(cfg, "identity", network)
             .lift()
             .then(|(sr, mut sw)| {
-                sw.send(IdentityStartMessage::new())
+                sw.send(StartMessage::new())
                     .lift()
                     .map(move |()| { Ok((sr, sw)) })
             })
@@ -143,12 +144,14 @@ impl IdentityService {
                         Ok(IdentityService {
                             service_reader: sr,
                             service_writer: sw,
-                            egos: egos,
+                            egos: Rc::new(egos),
                         })
                     })
             })
     }
 
+    /// This recursive function reads data from the ServiceReader `sr`
+    /// and attempts to parse the result into egos.
     fn parse_egos<'a>(mut sr: ServiceReader, mut egos: HashMap<HashCode, Ego>)
                       -> Promise<(ServiceReader, HashMap<HashCode, Ego>), ConnectError> {
         sr.read_message()
@@ -187,7 +190,7 @@ impl IdentityService {
             })
     }
 
-    /// Get the default identity associated with a service.
+    /// Returns a promise to the default identity associated with a service.
     ///
     /// # Example
     ///
@@ -195,31 +198,42 @@ impl IdentityService {
     ///
     /// ```rust
     /// use gnunet::{Cfg, IdentityService};
+    /// use gnunet::util::async;
     ///
+    /// let mut event_port = async::EventPort::new().unwrap();
+    /// let network = event_port.get_network();
     /// let config = Cfg::default().unwrap();
-    /// let mut ids = IdentityService::connect(&config).unwrap();
-    /// let ego = ids.get_default_ego("gns-master").unwrap();
+    ///
+    /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+    ///     let ego_promise = IdentityService::connect(&config, &network).lift()
+    ///                         .then(|mut is| { is.get_default_ego("gns-master") });
+    ///     let ego = ego_promise.wait(wait_scope, &mut event_port);
+    ///     Ok(())
+    /// }).expect("top_level");
     /// ```
-    // only does a send
-    pub fn get_default_ego(mut self, name: &'static str) -> Promise<(Ego, IdentityService), GetDefaultEgoError> {
+    pub fn get_default_ego(&mut self, name: &'static str) -> Promise<Ego, GetDefaultEgoError> {
         let msg = pry!(GetDefaultMessage::new(name));
+        let mut sr = self.service_reader.clone();
+        let egos = self.egos.clone();
         self.service_writer.send_with_str(msg, name)
             .lift()
             .then(move |_| {
-                self.service_reader.read_message()
+                sr.read_message()
                     .lift()
                     .map(move |(tpe, mr)| {
-                        match IdentityService::parse_identity_result(&self.egos, name, tpe, mr) {
-                            Ok(ego) => Ok((ego, self)),
-                            Err(e)       => Err(e),
+                        match IdentityService::parse_identity(egos, name, tpe, mr) {
+                            Ok(ego) => Ok(ego),
+                            Err(e)  => Err(e),
                         }
                     })
             })
             .lift()
     }
 
-    fn parse_identity_result(egos: &HashMap<HashCode, Ego>, name: &str, tpe: u16, mut mr: Cursor<Vec<u8>>)
+    /// Returns an identity by parsing data from `mr`.
+    fn parse_identity(rc_egos: Rc<HashMap<HashCode, Ego>>, name: &str, tpe: u16, mut mr: Cursor<Vec<u8>>)
                              -> Result<Ego, GetDefaultEgoError> {
+        let egos = rc_egos.as_ref();
         match tpe {
             ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
                 try!(mr.read_u32::<BigEndian>());
@@ -271,13 +285,19 @@ error_def! ConnectGetDefaultEgoError {
 ///
 /// # Example
 ///
-/// Get the ego for the default master zone.
-///
 /// ```rust
-/// use gnunet::{Cfg, identity};
+/// use gnunet::Cfg;
+/// use gnunet::util::async;
 ///
 /// let config = Cfg::default().unwrap();
-/// let ego = identity::get_default_ego(&config, "gns-master").unwrap();
+/// let mut event_port = async::EventPort::new().unwrap();
+/// let network = event_port.get_network();
+///
+/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+///     let ego_promise = gnunet::get_default_ego(&config, "gns-master", &network);
+///     let ego = ego_promise.wait(wait_scope, &mut event_port);
+///     Ok(())
+/// }).expect("top_level");
 /// ```
 ///
 /// # Note
@@ -291,23 +311,21 @@ pub fn get_default_ego(
     network: &Network) -> Promise<Ego, ConnectGetDefaultEgoError> {
     IdentityService::connect(cfg, network)
         .lift()
-        .then(move |is| {
+        .then(move |mut is| {
             is.get_default_ego(name)
-                .map(|(ego, _)| {
-                    Ok((ego))
-                })
         })
         .lift()
 }
 
+/// Packed struct representing the initial message sent to the identity service.
 #[repr(C, packed)]
-struct IdentityStartMessage {
+struct StartMessage {
     header: MessageHeader,
 }
 
-impl IdentityStartMessage {
-    fn new () -> IdentityStartMessage {
-        IdentityStartMessage {
+impl StartMessage {
+    fn new () -> StartMessage {
+        StartMessage {
             header: MessageHeader {
                 len: 4u16.to_be(),
                 tpe: ll::GNUNET_MESSAGE_TYPE_IDENTITY_START.to_be(),
@@ -316,13 +334,14 @@ impl IdentityStartMessage {
     }
 }
 
-impl MessageTrait for IdentityStartMessage {
+impl MessageTrait for StartMessage {
     fn into_slice(&self) -> &[u8] {
-        message_to_slice!(IdentityStartMessage, self)
+        message_to_slice!(StartMessage, self)
     }
 }
 
-
+/// Packed struct representing GNUNET_IDENTITY_GetDefaultMessage,
+/// note that it must be followed by a 0-terminated string.
 #[repr(C, packed)]
 struct GetDefaultMessage {
     header: MessageHeader,
@@ -351,6 +370,7 @@ impl GetDefaultMessage {
 }
 
 impl MessageTrait for GetDefaultMessage {
+    // Note that this does not include the 0-terminated string.
     fn into_slice(&self) -> &[u8] {
         message_to_slice!(GetDefaultMessage, self)
     }

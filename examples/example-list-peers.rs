@@ -1,21 +1,20 @@
 extern crate gnunet;
-extern crate gjio;
-extern crate gj;
-
-use gj::{EventLoop};
-use gjio::{EventPort, Network};
+use gnunet::util::async;
 
 fn main() {
-    EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+    async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
         let config = gnunet::Cfg::default().unwrap();
-        let mut event_port: EventPort = gjio::EventPort::new().unwrap();
-        let network: Network = event_port.get_network();
+        let mut event_port = async::EventPort::new().unwrap();
+        let network = event_port.get_network();
 
-        // example to get all peers
-        let peers = gnunet::iterate_peers(&config, &network).wait(wait_scope, &mut event_port).unwrap();
-        for peer in peers.to_iter(wait_scope, &mut event_port) {
-            let (peerinfo, _) = peer.unwrap();
-            println!("Peer: {}\n", peerinfo);
+        // example to iterate over all peers
+        {
+            // peers_iter needs to go out of scope before using `&mut event_port` again
+            let peers_iter = gnunet::get_peers_iterator(&config, &network, wait_scope, &mut event_port).unwrap();
+            for peer in peers_iter {
+                let (peerinfo, _) = peer.unwrap();
+                println!("Peer: {}\n", peerinfo);
+            }
         }
 
         // example to get a single peer
@@ -27,11 +26,11 @@ fn main() {
         }
 
         // example to get hello id
-        let local_id = gnunet::self_id(&config, &network).wait(wait_scope, &mut event_port).unwrap();
+        let local_id = gnunet::get_self_id(&config, &network).wait(wait_scope, &mut event_port).unwrap();
         println!("Our id is: {}", local_id);
 
         // cancellation example
-        match gnunet::util::async::cancel(gnunet::self_id(&config, &network)).wait(wait_scope, &mut event_port) {
+        match async::cancel(gnunet::get_self_id(&config, &network)).wait(wait_scope, &mut event_port) {
             Err(e) => println!("Error: {}", e),
             Ok(_)  => assert!(false),
         }
