@@ -159,32 +159,27 @@ impl Record {
 }
 
 impl Debug for Record {
-  fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-    let tpe = self.data.record_type;
-    try!(write!(f, "{:?}: ", RecordType::from_u32(tpe).unwrap()));
-    unsafe {
-      let cs = ll::GNUNET_GNSRECORD_value_to_string(tpe, self.data.data, self.data.data_size);
-      match cs.is_null() {
-        true  => write!(f, "<malformed record data>"),
-        false => {
-          let constified = cs as *const c_char;
-          let s = from_utf8(CStr::from_ptr(constified).to_bytes());
-          let ret = match s {
-            Ok(ss)  => write!(f, "{}", ss),
-            Err(_)  => write!(f, "<invalid utf8>"),
-          };
-          // TODO: use the c-string wrapper that automatically dealloces when it exists
-          ::libc::free(cs as *mut ::libc::c_void);
-          ret
-        },
-      }
-    }
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        // TODO properly implement ll::GNUNET_GNSRECORD_value_to_string
+        use std::slice;
+        use std::net::Ipv4Addr;
+
+        if self.data.data_size < 4 {
+            write!(f, "<data_size less than 4>");
+            return;
+        }
+
+        let slice = unsafe {
+            slice::from_raw_parts(self.data.data, self.data.data_size)
+        };
+        let addr = Ipv4Addr::new(slice[0], slice[1], slice[2], slice[3]);
+        addr.fmt(f)
   }
 }
 
 impl fmt::Display for Record {
-  fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-    Debug::fmt(self, f)
-  }
+    fn fmt(&self, f: &mut Formatter) -> fmt::Result {
+        Debug::fmt(self, f)
+    }
 }
 
