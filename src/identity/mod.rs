@@ -352,8 +352,9 @@ struct GetDefaultMessage {
 
 impl GetDefaultMessage {
     fn new(name: &str) -> Result<GetDefaultMessage, GetDefaultEgoError> {
+        use std::mem;
         let name_len = name.len();
-        let msg_len = match (8 + name_len + 1).to_u16() {
+        let msg_len = match (mem::size_of::<GetDefaultMessage>() + name_len + 1).to_u16() {
             Some(l) => l,
             None    => return Err(GetDefaultEgoError::NameTooLong { name: name.to_string() }),
         };

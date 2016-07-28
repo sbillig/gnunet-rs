@@ -3,10 +3,12 @@ use std::marker::PhantomData;
 use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
 use std::io::{self, Write, Cursor};
 use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
+use gj::{Promise};
+use gjio::{Network};
 
 use identity;
 use ll;
-use service::{self, ServiceReadLoop, ServiceWriter, ProcessMessageResult, MessageTrait};
+use service::{self, ServiceWriter, ServiceReader, ProcessMessageResult, MessageTrait, MessageHeader};
 use EcdsaPublicKey;
 use EcdsaPrivateKey;
 use Cfg;
@@ -16,10 +18,8 @@ mod record;
 
 /// A handle to a locally-running instance of the GNS daemon.
 pub struct GNS {
-  service_writer: ServiceWriter,
-  _callback_loop: ServiceReadLoop,
-  lookup_id: u32,
-  lookup_tx: Sender<(u32, Sender<Record>)>,
+    service_reader: ServiceReader,
+    service_writer: ServiceWriter,
 }
 
 /// Options for GNS lookups.
@@ -43,71 +43,43 @@ error_def! LookupError {
 }
 
 impl GNS {
-  /// Connect to the GNS service.
-  ///
-  /// Returns either a handle to the GNS service or a `service::ConnectError`. `cfg` contains the
-  /// configuration to use to connect to the service.
-  pub fn connect(cfg: &Cfg) -> Result<GNS, service::ConnectError> {
-    let (lookup_tx, lookup_rx) = channel::<(u32, Sender<Record>)>();
-    let mut handles: HashMap<u32, Sender<Record>> = HashMap::new();
+    /// Connect to the GNS service.
+    ///
+    /// Returns either a handle to the GNS service or a `service::ConnectError`. `cfg` contains the
+    /// configuration to use to connect to the service.
+    pub fn connect(cfg: &Cfg, network: &Network) -> Promise<GNS, service::ConnectError> {
+        service::connect(cfg, "gns", network)
+            .map(|(sr, sw)| {
+                Ok(GNS {
+                    service_reader: sr,
+                    service_writer: sw,
+                })
+            })
+    }
 
-    let (service_reader, service_writer) = try!(service::connect(cfg, "gns"));
-    let callback_loop = try!(service_reader.spawn_callback_loop(move |tpe: u16, mut reader: Cursor<Vec<u8>>| -> ProcessMessageResult {
-      println!("GNS got message!");
-      loop {
-        match lookup_rx.try_recv() {
-          Ok((id, sender)) => {
-            handles.insert(id, sender);
-          },
-          Err(e)  => match e {
-            TryRecvError::Empty         => break,
-            TryRecvError::Disconnected  => return ProcessMessageResult::Shutdown,
-          },
-        }
-      }
-
-      println!("tpe == {}", tpe);
-
-      // TODO: drop expired senders, this currently leaks memory as `handles` only gets bigger
-      //       need a way to detect when the remote Receiver has hung up
-      match tpe {
-        ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
-          let id = match reader.read_u32::<BigEndian>() {
-            Ok(id)  => id,
-            Err(_)  => return ProcessMessageResult::Reconnect,
-          };
-          println!("WOW id == {}", id);
-          match handles.get(&id) {
-            Some(sender) => {
-              println!("WOW there's a sender for that");
-              let rd_count = match reader.read_u32::<BigEndian>() {
-                Ok(x)   => x,
-                Err(_)  => return ProcessMessageResult::Reconnect,
-              };
-              println!("WOW rd_count == {}", rd_count);
-              for _ in 0..rd_count {
-                let rec = match Record::deserialize(&mut reader) {
-                  Ok(r)   => r,
-                  Err(_)  => return ProcessMessageResult::Reconnect,
+    fn parse_lookup_result(&self, tpe: u16, reader: Cursor<Vec<u8>>) -> ProcessMessageResult {
+        match tpe {
+            ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
+                let id = match reader.read_u32::<BigEndian>() {
+                    Ok(id)  => id,
+                    Err(_)  => return ProcessMessageResult::Reconnect,
                 };
-                println!("WOW we deserialised it");
-                let _ = sender.send(rec);
-              };
+                let rd_count = match reader.read_u32::<BigEndian>() {
+                    Ok(x)   => x,
+                    Err(_)  => return ProcessMessageResult::Reconnect,
+                };
+                println!("WOW rd_count == {}", rd_count);
+                for _ in 0..rd_count {
+                    let rec = match Record::deserialize(&mut reader) {
+                        Ok(r)   => r,
+                        Err(_)  => return ProcessMessageResult::Reconnect,
+                    };
+                    println!("WOW we deserialised it");
+                };
             },
-            _ => (),
-          };
-        },
-        _ => return ProcessMessageResult::Reconnect,
-      };
-      ProcessMessageResult::Continue
-    }));
-    Ok(GNS {
-      service_writer: service_writer,
-      _callback_loop: callback_loop,
-      lookup_id: 0,
-      lookup_tx: lookup_tx,
-    })
-  }
+            _ => return ProcessMessageResult::Reconnect,
+        };
+    }
 
   /// Lookup a GNS record in the given zone.
   ///
@@ -167,40 +139,56 @@ impl GNS {
   }
 }
 
-struct GnsMessage<'a> {
-  id: u32,
-  zone: &'a EcdsaPublicKey,
-  options: LocalOptions,
-  shorten: Option<&'a EcdsaPrivateKey>,
-  record_type: RecordType,
-  name: &'a str,
+#[repr(C, packed)]
+struct LookupMessage {
+    header: MessageHeader,
+    id: u32,
+    zone: EcdsaPublicKey,
+    options: i16, // LocalOptions
+    have_key: i16, // 0 or 1
+    record_type: i32, // RecordType
+    shorten_key: EcdsaPrivateKey,
+    // followed by 0-terminated name to look up
 }
 
-impl <'a>MessageTrait for GnsMessage<'a> {
-  fn msg_type(&self) -> u16 {
-    ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP
-  }
-  fn msg_body(&self) -> Cursor<Vec<u8>> {
-    let mut cursor = Cursor::new(Vec::new());
-    cursor.write_u32::<BigEndian>(self.id).unwrap();
-    self.zone.serialize(&mut cursor).unwrap();
-    cursor.write_i16::<BigEndian>(self.options as i16).unwrap();
-    cursor.write_i16::<BigEndian>(self.shorten.is_some() as i16).unwrap();
-    cursor.write_i32::<BigEndian>(self.record_type as i32).unwrap();
-    match self.shorten {
-      Some(z) => z.serialize(&mut cursor).unwrap(),
-      None    => cursor.write_all(&[0u8; 32]).unwrap(),
-    };
-    cursor.write_all(self.name.as_bytes()).unwrap();
-    cursor.write_u8(0u8).unwrap();
-    cursor
-  }
+impl LookupMessage {
+    fn new(id: u32,
+           zone: EcdsaPublicKey,
+           options: LocalOptions,
+           shorten: Option<EcdsaPrivateKey>,
+           record_type: RecordType,
+           name: &str) -> LookupMessage {
+        use std::mem;
+        let name_len =  name.len();
+        let msg_len = (mem::size_of::<LookupMessage>() + name_len + 1).to_u16().unwrap(); // TODO better error handling
+        LookupMessage {
+            header: MessageHeader {
+                len: msg_len.to_be(),
+                tpe: ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP.to_be(),
+            },
+            id: id.to_be(),
+            zone: zone,
+            options: (options as i16).unwrap().to_be(),
+            have_key: (shorten.is_some() as i16).unwrap().to_be(),
+            record_type: (record_type as i32).unwrap().to_be(),
+            shorten_key: match shorten {
+                Some(x) => x,
+                None    => EcdsaPrivateKey{ data: [0u8; 32] },
+            }
+        }
+    }
 }
 
+impl MessageTrait for LookupMessage {
+    // Note that this does not include the 0-terminated string.
+    fn into_slice(&self) -> &[u8] {
+        message_to_slice!(LookupMessage, self)
+    }
+}
 
 /// Errors returned by `gns::lookup`.
 error_def! ConnectLookupError {
-  Connect { #[from] cause: service::ConnectError } 
+  Connect { #[from] cause: service::ConnectError }
     => "Failed to connect to the GNS service" ("Reason: {}", cause),
   Lookup { #[from] cause: LookupError }
     => "Failed to perform the lookup." ("Reason: {}", cause),
