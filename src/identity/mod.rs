@@ -217,7 +217,7 @@ impl IdentityService {
         let egos = self.egos.clone();
         self.service_writer.send_with_str(msg, name)
             .lift()
-            .then(move |_| {
+            .then(move |()| {
                 sr.read_message()
                     .lift()
                     .map(move |(tpe, mr)| {

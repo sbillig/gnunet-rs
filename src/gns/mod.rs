@@ -1,14 +1,12 @@
-use std::collections::HashMap;
-use std::marker::PhantomData;
-use std::sync::mpsc::{channel, Sender, Receiver, TryRecvError};
-use std::io::{self, Write, Cursor};
-use byteorder::{BigEndian, ReadBytesExt, WriteBytesExt};
+use std::io::{self, Cursor};
+use byteorder::{BigEndian, ReadBytesExt};
+use num::ToPrimitive;
 use gj::{Promise};
 use gjio::{Network};
 
 use identity;
 use ll;
-use service::{self, ServiceWriter, ServiceReader, ProcessMessageResult, MessageTrait, MessageHeader};
+use service::{self, ServiceWriter, ServiceReader, ReadMessageError, MessageTrait, MessageHeader};
 use EcdsaPublicKey;
 use EcdsaPrivateKey;
 use Cfg;
@@ -20,6 +18,7 @@ mod record;
 pub struct GNS {
     service_reader: ServiceReader,
     service_writer: ServiceWriter,
+    lookup_id: u32,
 }
 
 /// Options for GNS lookups.
@@ -36,10 +35,12 @@ pub enum LocalOptions {
 
 /// Possible errors returned by the GNS lookup functions.
 error_def! LookupError {
-  NameTooLong { name: String }
-    => "The domain name was too long" ("The domain name \"{}\" is too long to lookup.", name),
-  Io { #[from] cause: io::Error }
-    => "There was an I/O error communicating with the service" ("Specifically {}", cause),
+    NameTooLong { name: String }
+        => "The domain name was too long" ("The domain name \"{}\" is too long to lookup.", name),
+    Io { #[from] cause: io::Error }
+        => "There was an I/O error communicating with the service" ("Specifically {}", cause),
+    ReadMessage { #[from] cause: ReadMessageError }
+        => "Failed to receive the response from the GNS service" ("Reason: {}", cause),
 }
 
 impl GNS {
@@ -53,90 +54,75 @@ impl GNS {
                 Ok(GNS {
                     service_reader: sr,
                     service_writer: sw,
+                    lookup_id : 0,
                 })
             })
     }
 
-    fn parse_lookup_result(&self, tpe: u16, reader: Cursor<Vec<u8>>) -> ProcessMessageResult {
+    fn parse_lookup_result(tpe: u16, mut reader: Cursor<Vec<u8>>) -> Result<Vec<Record>, LookupError> {
+        let mut records = Vec::new();
         match tpe {
             ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
-                let id = match reader.read_u32::<BigEndian>() {
-                    Ok(id)  => id,
-                    Err(_)  => return ProcessMessageResult::Reconnect,
-                };
-                let rd_count = match reader.read_u32::<BigEndian>() {
-                    Ok(x)   => x,
-                    Err(_)  => return ProcessMessageResult::Reconnect,
-                };
-                println!("WOW rd_count == {}", rd_count);
+                let id = try!(reader.read_u32::<BigEndian>());
+                let rd_count = try!(reader.read_u32::<BigEndian>());
                 for _ in 0..rd_count {
-                    let rec = match Record::deserialize(&mut reader) {
-                        Ok(r)   => r,
-                        Err(_)  => return ProcessMessageResult::Reconnect,
-                    };
-                    println!("WOW we deserialised it");
+                    let rec = try!(Record::deserialize(&mut reader));
+                    records.push(rec);
                 };
             },
-            _ => return ProcessMessageResult::Reconnect,
+            _ => { assert!(false) }
         };
+        Ok(records)
     }
 
-  /// Lookup a GNS record in the given zone.
-  ///
-  /// If `shorten` is not `None` then the result is added to the given shorten zone. Returns
-  /// immediately with a handle that can be queried for results.
-  ///
-  /// # Example
-  ///
-  /// ```rust
-  /// use gnunet::{Cfg, IdentityService, GNS, gns};
-  ///
-  /// let config = Cfg::default().unwrap();
-  /// let mut ids = IdentityService::connect(&config).unwrap();
-  /// let gns_ego = ids.get_default_ego("gns-master").unwrap();
-  /// let mut gns = GNS::connect(&config).unwrap();
-  /// let mut lh = gns.lookup("gnu.org",
-  ///                         &gns_ego.get_public_key(),
-  ///                         gns::RecordType::A,
-  ///                         gns::LocalOptions::LocalMaster,
-  ///                         None).unwrap();
-  /// let record = lh.recv();
-  /// println!("Got the IPv4 record for gnu.org: {}", record);
-  /// ```
-  pub fn lookup<'a>(
-      &'a mut self,
-      name: &str,
-      zone: &EcdsaPublicKey,
-      record_type: RecordType,
-      options: LocalOptions,
-      shorten: Option<&EcdsaPrivateKey>
-    ) -> Result<LookupHandle<'a>, LookupError> {
+    /// Lookup a GNS record in the given zone.
+    ///
+    /// If `shorten` is not `None` then the result is added to the given shorten zone. Returns
+    /// immediately with a handle that can be queried for results.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use gnunet::{Cfg, IdentityService, GNS, gns};
+    ///
+    /// let config = Cfg::default().unwrap();
+    /// let mut ids = IdentityService::connect(&config).unwrap();
+    /// let gns_ego = ids.get_defaulit_ego("gns-master").unwrap();
+    /// let mut gns = GNS::connect(&config).unwrap();
+    /// let mut lh = gns.lookup("gnu.org",
+    ///                         &gns_ego.get_public_key(),
+    ///                         gns::RecordType::A,
+    ///                         gns::LocalOptions::LocalMaster,
+    ///                         None).unwrap();
+    /// let record = lh.recv();
+    /// println!("Got the IPv4 record for gnu.org: {}", record);
+    /// ```
+    pub fn lookup<'a>(&'a mut self,
+                      name: &str,
+                      zone: EcdsaPublicKey,
+                      record_type: RecordType,
+                      options: LocalOptions,
+                      shorten: Option<EcdsaPrivateKey>) -> Promise<Vec<Record>, LookupError> {
+        let name_len = name.len();
+        if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
+            return Promise::err(LookupError::NameTooLong { name: name.to_string() });
+        };
 
-    let name_len = name.len();
-    if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
-      return Err(LookupError::NameTooLong { name: name.to_string() });
-    };
+        let id = self.lookup_id;
+        self.lookup_id += 1;
 
-    let id = self.lookup_id;
-    self.lookup_id += 1;
-
-    let msg = GnsMessage {
-      id: id,
-      zone: zone,
-      options: options,
-      shorten: shorten,
-      record_type: record_type,
-      name: name,
-    };
-    let mw = self.service_writer.write_message2(msg);
-    let (tx, rx) = channel::<Record>();
-    self.lookup_tx.send((id, tx)).unwrap(); // panics if the callback loop has panicked
-    try!(mw.send());
-    Ok(LookupHandle {
-      marker: PhantomData,
-      receiver: rx,
-    })
-  }
+        let msg = LookupMessage::new(id, zone, options, shorten, record_type, name);
+        let mut sr = self.service_reader.clone();
+        self.service_writer.send_with_str(msg, name)
+            .lift()
+            .then(move |()| {
+                sr.read_message()
+                    .lift()
+                    .map(move |(tpe, mr)| {
+                        GNS::parse_lookup_result(tpe, mr)
+                    } )
+            })
+    }
 }
 
 #[repr(C, packed)]
@@ -159,7 +145,7 @@ impl LookupMessage {
            record_type: RecordType,
            name: &str) -> LookupMessage {
         use std::mem;
-        let name_len =  name.len();
+        let name_len = name.len();
         let msg_len = (mem::size_of::<LookupMessage>() + name_len + 1).to_u16().unwrap(); // TODO better error handling
         LookupMessage {
             header: MessageHeader {
@@ -168,12 +154,12 @@ impl LookupMessage {
             },
             id: id.to_be(),
             zone: zone,
-            options: (options as i16).unwrap().to_be(),
-            have_key: (shorten.is_some() as i16).unwrap().to_be(),
-            record_type: (record_type as i32).unwrap().to_be(),
+            options: (options as i16).to_be(),
+            have_key: (shorten.is_some() as i16).to_be(),
+            record_type: (record_type as i32).to_be(),
             shorten_key: match shorten {
                 Some(x) => x,
-                None    => EcdsaPrivateKey{ data: [0u8; 32] },
+                None    => EcdsaPrivateKey { data: [0u8; 32] }
             }
         }
     }
@@ -220,19 +206,20 @@ error_def! ConnectLookupError {
 /// This is a convenience function that connects to the GNS service, performs the lookup, retrieves
 /// one result, then disconects. If you are performing multiple lookups this function should be
 /// avoided and `GNS::lookup_in_zone` used instead.
-pub fn lookup(
-    cfg: &Cfg,
-    name: &str,
-    zone: &EcdsaPublicKey,
-    record_type: RecordType,
-    options: LocalOptions,
-    shorten: Option<&EcdsaPrivateKey>) -> Result<Record, ConnectLookupError> {
+pub fn lookup(cfg: &Cfg,
+              network: &Network,
+              name: &'static str,
+              zone: EcdsaPublicKey,
+              record_type: RecordType,
+              options: LocalOptions,
+              shorten: Option<EcdsaPrivateKey>) -> Promise<Vec<Record>, ConnectLookupError> {
   println!("connecting to GNS");
-  let mut gns = try!(GNS::connect(cfg));
-  println!("connected to GNS");
-  let mut h = try!(gns.lookup(name, zone, record_type, options, shorten));
-  println!("doing lookup");
-  Ok(h.recv())
+    GNS::connect(cfg, network)
+        .lift()
+        .then(move |mut gns| {
+            println!("connected to GNS");
+            gns.lookup(name, zone, record_type, options, shorten).lift()
+        })
 }
 
 /// Errors returned by `gns::lookup_in_master`.
@@ -266,42 +253,24 @@ error_def! ConnectLookupInMasterError {
 /// for gns-master, then connects to the GNS service, performs the lookup, retrieves one result,
 /// then disconnects from everything. If you are performing lots of lookups this function should be
 /// avoided and `GNS::lookup_in_zone` used instead.
-pub fn lookup_in_master(
-    cfg: &Cfg,
-    name: &str,
-    record_type: RecordType,
-    shorten: Option<&EcdsaPrivateKey>) -> Result<Record, ConnectLookupInMasterError> {
-  println!("Getting default ego");
-  let ego = try!(identity::get_default_ego(cfg, "gns-master"));
-  println!("got default ego: {}", ego);
-  let pk = ego.get_public_key();
-  let mut it = name.split('.');
-  let opt = match (it.next(), it.next(), it.next()) {
-    (Some(_), Some("gnu"), None)  => LocalOptions::NoDHT,
-    _                             => LocalOptions::LocalMaster,
-  };
-  println!("doing lookup");
-  let ret = try!(lookup(cfg, name, &pk, record_type, opt, shorten));
-  println!("lookup succeeded");
-  Ok(ret)
+pub fn lookup_in_master(cfg: &Cfg,
+                        network: &Network,
+                        name: &'static str,
+                        record_type: RecordType,
+                        shorten: Option<EcdsaPrivateKey>) -> Promise<Vec<Record>, ConnectLookupInMasterError> {
+    println!("Getting default ego");
+    let network2 = network.clone();
+    let cfg2 = cfg.clone();
+    identity::get_default_ego(cfg, "gns-master", network)
+        .lift()
+        .then(move |ego| {
+            let pk = ego.get_public_key();
+            let mut it = name.split('.');
+            let opt = match (it.next(), it.next(), it.next()) {
+                (Some(_), Some("gnu"), None)  => LocalOptions::NoDHT,
+                _                             => LocalOptions::LocalMaster,
+            };
+            println!("doing lookup");
+            lookup(&cfg2, &network2, name, pk, record_type, opt, shorten).lift()
+        })
 }
-
-/// A handle returned by `GNS::lookup`.
-///
-/// Used to retrieve the results of a lookup.
-pub struct LookupHandle<'a> {
-  marker: PhantomData<&'a GNS>,
-  receiver: Receiver<Record>,
-}
-
-impl<'a> LookupHandle<'a> {
-  /// Receive a single result from a lookup.
-  ///
-  /// Blocks until a result is available. This function can be called multiple times on a handle to
-  /// receive multiple results.
-  pub fn recv(&mut self) -> Record {
-    // unwrap is safe because the LookupHandle cannot outlive the remote sender.
-    self.receiver.recv().unwrap()
-  }
-}
-

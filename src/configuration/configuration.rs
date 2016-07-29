@@ -11,6 +11,7 @@ use util;
 use paths;
 use time;
 
+#[derive(Clone)]
 pub struct Cfg {
     data: HashMap<String, HashMap<String, String>>,
 }

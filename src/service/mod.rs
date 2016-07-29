@@ -71,7 +71,7 @@ error_def! ReadMessageError {
 
 impl ServiceReader {
     pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
-        use util::async::U16PromiseReader;
+        use util::async::PromiseReader;
         let mut connection2 =  self.connection.clone(); // this is ok we're just bumping Rc count
         self.connection.read_u16()
             .lift()

@@ -1,11 +1,8 @@
 use std::str::FromStr;
 use std::fmt::{Debug, Formatter};
 use std::fmt;
-use std::str::from_utf8;
-use std::ffi::CStr;
 use std::io::{self, Read};
-use std::os::raw::{c_char, c_void};
-//use std::c_str::CString;
+use std::os::raw::{c_void};
 use byteorder::{BigEndian, ReadBytesExt};
 
 use ll::{self, size_t};
@@ -164,13 +161,10 @@ impl Debug for Record {
         use std::slice;
         use std::net::Ipv4Addr;
 
-        if self.data.data_size < 4 {
-            write!(f, "<data_size less than 4>");
-            return;
-        }
+        assert!(self.data.data_size < 4);
 
         let slice = unsafe {
-            slice::from_raw_parts(self.data.data, self.data.data_size)
+            slice::from_raw_parts(self.data.data as *mut u8, self.data.data_size as usize)
         };
         let addr = Ipv4Addr::new(slice[0], slice[1], slice[2], slice[3]);
         addr.fmt(f)
