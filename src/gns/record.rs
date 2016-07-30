@@ -158,15 +158,12 @@ impl Record {
 impl Debug for Record {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         // TODO properly implement ll::GNUNET_GNSRECORD_value_to_string
-        use std::slice;
-        use std::net::Ipv4Addr;
-
-        assert!(self.data.data_size < 4);
+        assert!(self.data.data_size == 4);
 
         let slice = unsafe {
-            slice::from_raw_parts(self.data.data as *mut u8, self.data.data_size as usize)
+            ::std::slice::from_raw_parts(self.data.data as *mut u8, self.data.data_size as usize)
         };
-        let addr = Ipv4Addr::new(slice[0], slice[1], slice[2], slice[3]);
+        let addr = ::std::net::Ipv4Addr::new(slice[0], slice[1], slice[2], slice[3]);
         addr.fmt(f)
   }
 }

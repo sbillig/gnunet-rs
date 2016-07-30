@@ -98,22 +98,22 @@ impl GNS {
     /// println!("Got the IPv4 record for gnu.org: {}", record);
     /// ```
     pub fn lookup<'a>(&'a mut self,
-                      name: &str,
+                      name: String,
                       zone: EcdsaPublicKey,
                       record_type: RecordType,
                       options: LocalOptions,
                       shorten: Option<EcdsaPrivateKey>) -> Promise<Vec<Record>, LookupError> {
         let name_len = name.len();
         if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
-            return Promise::err(LookupError::NameTooLong { name: name.to_string() });
+            return Promise::err(LookupError::NameTooLong { name: name });
         };
 
         let id = self.lookup_id;
         self.lookup_id += 1;
 
-        let msg = LookupMessage::new(id, zone, options, shorten, record_type, name);
+        let msg = LookupMessage::new(id, zone, options, shorten, record_type, name.as_str());
         let mut sr = self.service_reader.clone();
-        self.service_writer.send_with_str(msg, name)
+        self.service_writer.send_with_str(msg, name.as_str())
             .lift()
             .then(move |()| {
                 sr.read_message()
@@ -208,12 +208,11 @@ error_def! ConnectLookupError {
 /// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup(cfg: &Cfg,
               network: &Network,
-              name: &'static str,
+              name: String,
               zone: EcdsaPublicKey,
               record_type: RecordType,
               options: LocalOptions,
               shorten: Option<EcdsaPrivateKey>) -> Promise<Vec<Record>, ConnectLookupError> {
-  println!("connecting to GNS");
     GNS::connect(cfg, network)
         .lift()
         .then(move |mut gns| {
@@ -257,21 +256,24 @@ error_def! ConnectLookupInMasterError {
 /// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup_in_master(cfg: &Cfg,
                         network: &Network,
-                        name: &'static str,
+                        name: String,
                         record_type: RecordType,
                         shorten: Option<EcdsaPrivateKey>) -> Promise<Vec<Record>, ConnectLookupInMasterError> {
     println!("Getting default ego");
     let network2 = network.clone();
-    let cfg2 = cfg.clone();
+    let cfg2 = cfg.clone(); // TODO possibly use Rc?
     identity::get_default_ego(cfg, "gns-master", network)
         .lift()
         .then(move |ego| {
             let pk = ego.get_public_key();
-            let mut it = name.split('.');
-            let opt = match (it.next(), it.next(), it.next()) {
-                (Some(_), Some("gnu"), None)  => LocalOptions::NoDHT,
-                _                             => LocalOptions::LocalMaster,
-            };
+            let opt: LocalOptions;
+            {
+                let mut it = name.split('.');
+                opt = match (it.next(), it.next(), it.next()) {
+                    (Some(_), Some("gnu"), None)  => LocalOptions::NoDHT,
+                    _                             => LocalOptions::LocalMaster,
+                };
+            }
             println!("doing lookup");
             lookup(&cfg2, &network2, name, pk, record_type, opt, shorten).lift()
         })
