@@ -2,6 +2,8 @@ extern crate gnunet;
 extern crate gjio;
 extern crate gj;
 
+use gnunet::util::async;
+
 fn print_help(executable: String) {
     println!("Usage: {} domain.name.gnu", executable);
 }
@@ -26,9 +28,19 @@ fn main() {
         },
         None  => (),
     }
-    let config = gnunet::Cfg::default().unwrap();
-    let record = gnunet::gns::lookup_in_master(&config, &domain[..], gnunet::gns::RecordType::A, None).unwrap();
-    println!("\t{}", record);
     */
+
+    async::EventLoop::top_level(move |wait_scope| -> Result<(), ::std::io::Error> {
+        let config = gnunet::Cfg::default().unwrap();
+        let mut event_port = async::EventPort::new().unwrap();
+        let network = event_port.get_network();
+
+        let record_promise = gnunet::gns::lookup_in_master(&config, &network, "gnu.org", gnunet::gns::RecordType::A, None);
+        match record_promise.wait(wait_scope, &mut event_port) {
+            Ok(r)  => { println!("record: {:?}", r) },
+            Err(e) => { println!("error:  {}", e) },
+        }
+        Ok(())
+    }).expect("top level");
 }
 

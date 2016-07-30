@@ -10,7 +10,7 @@ use util::strings::{data_to_string, string_to_data};
 /// A 256bit ECDSA public key.
 #[derive(Copy, Clone)]
 pub struct EcdsaPublicKey {
-    pub data: [u8; 32]
+    data: [u8; 32]
 }
 
 impl EcdsaPublicKey {
@@ -59,7 +59,7 @@ impl fmt::Display for EcdsaPublicKey {
 /// A 256bit ECDSA private key.
 #[derive(Copy, Clone)]
 pub struct EcdsaPrivateKey {
-    pub data: [u8; 32]
+    data: [u8; 32]
 }
 
 impl EcdsaPrivateKey {
@@ -92,6 +92,10 @@ impl EcdsaPrivateKey {
     /// Return the private key of the global, anonymous user.
     pub fn anonymous() -> EcdsaPrivateKey {
         unimplemented!()
+    }
+
+    pub fn zeros() -> EcdsaPrivateKey {
+        EcdsaPrivateKey { data: [0u8; 32] }
     }
 }
 

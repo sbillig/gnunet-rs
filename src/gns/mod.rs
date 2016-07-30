@@ -159,7 +159,7 @@ impl LookupMessage {
             record_type: (record_type as i32).to_be(),
             shorten_key: match shorten {
                 Some(x) => x,
-                None    => EcdsaPrivateKey { data: [0u8; 32] }
+                None    => EcdsaPrivateKey::zeros(),
             }
         }
     }
@@ -224,10 +224,12 @@ pub fn lookup(cfg: &Cfg,
 
 /// Errors returned by `gns::lookup_in_master`.
 error_def! ConnectLookupInMasterError {
-  GnsLookup { #[from] cause: ConnectLookupError }
-    => "Failed to connect to the GNS service and perform the lookup" ("Reason: {}", cause),
-  IdentityGetDefaultEgo { #[from] cause: identity::ConnectGetDefaultEgoError }
-    => "Failed to retrieve the default identity for gns-master from the identity service" ("Reason: {}", cause),
+    GnsLookup { #[from] cause: ConnectLookupError }
+        => "Failed to connect to the GNS service and perform the lookup" ("Reason: {}", cause),
+    IdentityGetDefaultEgo { #[from] cause: identity::ConnectGetDefaultEgoError }
+        => "Failed to retrieve the default identity for gns-master from the identity service" ("Reason: {}", cause),
+    Io { #[from] cause: io::Error }
+        => "There was an I/O error communicating with the service" ("Specifically {}", cause),
 }
 
 /// Lookup a GNS record in the master zone.
