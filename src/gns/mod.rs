@@ -70,7 +70,7 @@ impl GNS {
                     records.push(rec);
                 };
             },
-            _ => { assert!(false) }
+            _ => { assert!(false) } // TODO better error handling
         };
         Ok(records)
     }
@@ -116,11 +116,25 @@ impl GNS {
         self.service_writer.send_with_str(msg, name.as_str())
             .lift()
             .then(move |()| {
-                sr.read_message()
-                    .lift()
-                    .map(move |(tpe, mr)| {
-                        GNS::parse_lookup_result(tpe, mr)
-                    } )
+                GNS::lookup_loop(&mut sr)
+            })
+    }
+
+    fn lookup_loop(sr: &mut ServiceReader) -> Promise<Vec<Record>, LookupError> {
+        let mut sr2 = sr.clone();
+        sr.read_message()
+            .lift()
+            .then(move |(tpe, mr)| {
+                match GNS::parse_lookup_result(tpe, mr) {
+                    Ok(v) => {
+                        // recursively read again if the result is empty
+                        if v.is_empty() {
+                            return GNS::lookup_loop(&mut sr2)
+                        }
+                        return Promise::ok(v)
+                    },
+                    Err(e) => return Promise::err(e),
+                }
             })
     }
 }

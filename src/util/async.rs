@@ -14,14 +14,14 @@ pub fn cancel<T, E: From<Error>>(p: Promise<T, E>) -> Promise<T, E> {
 
 impl PromiseReader for SocketStream {
     fn read_u16(&mut self) -> Promise<u16, Error> {
-        self.read(vec![0;2], 2).map(move |(buf, len)| {
+        self.read(vec![0;2], 2).map(|(buf, len)| {
             assert!(len == 2);
             Ok(BigEndian::read_u16(&buf[..]))
         })
     }
 
     fn read_u32(&mut self) -> Promise<u32, Error> {
-        self.read(vec![0;4], 4).map(move |(buf, len)| {
+        self.read(vec![0;4], 4).map(|(buf, len)| {
             assert!(len == 4);
             Ok(BigEndian::read_u32(&buf[..]))
         })
