@@ -9,7 +9,6 @@
 #![feature(plugin)]
 
 #![plugin(error_def)]
-#![plugin(regex_macros)]
 
 #![crate_name = "gnunet"]
 

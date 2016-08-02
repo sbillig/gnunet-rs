@@ -113,6 +113,11 @@ impl Cfg {
 
     pub fn deserialize<R: Read>(read: R, allow_inline: bool) -> Result<Cfg, CfgDeserializeError> {
         use self::CfgDeserializeError::*;
+        use regex::Regex;
+
+        let re_section = Regex::new(r"^\[(.+)\]$").unwrap();
+        let re_key_value = Regex::new(r"^(.+)=(.*)$").unwrap();
+        let re_inline = Regex::new(r"^(?i)@inline@ (.+)$").unwrap();
 
         let mut cfg = Cfg::empty();
         let mut section = String::new();
@@ -120,7 +125,7 @@ impl Cfg {
         for (i, res_line) in br.lines().enumerate() {
             let line_num = i + 1;
             let line_buf = try!(res_line);
-            
+
             {
                 let line = line_buf.trim();
 
@@ -135,7 +140,6 @@ impl Cfg {
                     continue;
                 }
 
-                let re_inline = regex!(r"^(?i)@inline@ (.+)$");
                 if let Some(caps) = re_inline.captures(line) {
                     let filename = caps.at(1).unwrap().trim(); // panic is logically impossible
                     if allow_inline {
@@ -158,13 +162,11 @@ impl Cfg {
                     continue;
                 }
 
-                let re_section = regex!(r"^\[(.+)\]$");
                 if let Some(caps) = re_section.captures(line) {
                     section = caps.at(1).unwrap().to_string(); // panic is logically impossible
                     continue;
                 }
 
-                let re_key_value = regex!(r"^(.+)=(.*)$");
                 if let Some(caps) = re_key_value.captures(line) {
                     let key = caps.at(1).unwrap().trim();
                     let value = caps.at(2).unwrap().trim();
