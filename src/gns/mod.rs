@@ -103,11 +103,11 @@ impl GNS {
     /// println!("Got the IPv4 record for gnu.org: {}", record);
     /// ```
     pub fn lookup(&mut self,
-                      name: String,
-                      zone: EcdsaPublicKey,
-                      record_type: RecordType,
-                      options: LocalOptions,
-                      shorten: Option<EcdsaPrivateKey>) -> Promise<Vec<Record>, LookupError> {
+                  name: String,
+                  zone: EcdsaPublicKey,
+                  record_type: RecordType,
+                  options: LocalOptions,
+                  shorten: Option<EcdsaPrivateKey>) -> Promise<Option<Record>, LookupError> {
         let name_len = name.len();
         if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
             return Promise::err(LookupError::NameTooLong { name: name });
@@ -124,7 +124,11 @@ impl GNS {
                 let hm = HashMap::new();
                 GNS::lookup_loop(&mut sr, hm)
                     .map(move |mut result| {
-                        Ok(result.remove(&id).unwrap())
+                        let mut vec = match result.remove(&id) {
+                            Some(x) => x,
+                            None    => return Ok(None),
+                        };
+                        Ok(Some(vec.remove(0)))
                     })
             })
     }
@@ -235,7 +239,7 @@ pub fn lookup(cfg: &Cfg,
               zone: EcdsaPublicKey,
               record_type: RecordType,
               options: LocalOptions,
-              shorten: Option<EcdsaPrivateKey>) -> Promise<Vec<Record>, ConnectLookupError> {
+              shorten: Option<EcdsaPrivateKey>) -> Promise<Option<Record>, ConnectLookupError> {
     GNS::connect(cfg, network)
         .lift()
         .then(move |mut gns| {
@@ -281,7 +285,7 @@ pub fn lookup_in_master(cfg: &Cfg,
                         network: &Network,
                         name: String,
                         record_type: RecordType,
-                        shorten: Option<EcdsaPrivateKey>) -> Promise<Vec<Record>, ConnectLookupInMasterError> {
+                        shorten: Option<EcdsaPrivateKey>) -> Promise<Option<Record>, ConnectLookupInMasterError> {
     println!("Getting default ego");
     let network2 = network.clone();
     let cfg2 = cfg.clone(); // TODO possibly use Rc?
