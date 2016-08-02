@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::io::{self, Cursor};
 use byteorder::{BigEndian, ReadBytesExt};
 use num::ToPrimitive;
@@ -35,6 +36,8 @@ pub enum LocalOptions {
 
 /// Possible errors returned by the GNS lookup functions.
 error_def! LookupError {
+    InvalidType { tpe: u16 }
+        => "The received message type is invalid" ("The received message type \"{}\" is invalid.", tpe),
     NameTooLong { name: String }
         => "The domain name was too long" ("The domain name \"{}\" is too long to lookup.", name),
     Io { #[from] cause: io::Error }
@@ -59,7 +62,8 @@ impl GNS {
             })
     }
 
-    fn parse_lookup_result(tpe: u16, mut reader: Cursor<Vec<u8>>) -> Result<Vec<Record>, LookupError> {
+    fn parse_lookup_result(tpe: u16, mut reader: Cursor<Vec<u8>>, mut hashmap: HashMap<u32, Vec<Record>>)
+                           -> Result<HashMap<u32, Vec<Record>>, LookupError> {
         let mut records = Vec::new();
         match tpe {
             ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
@@ -69,10 +73,11 @@ impl GNS {
                     let rec = try!(Record::deserialize(&mut reader));
                     records.push(rec);
                 };
+                hashmap.insert(id, records);
             },
-            _ => { assert!(false) } // TODO better error handling
+            x => return Err(LookupError::InvalidType { tpe: x }),
         };
-        Ok(records)
+        Ok(hashmap)
     }
 
     /// Lookup a GNS record in the given zone.
@@ -97,7 +102,7 @@ impl GNS {
     /// let record = lh.recv();
     /// println!("Got the IPv4 record for gnu.org: {}", record);
     /// ```
-    pub fn lookup<'a>(&'a mut self,
+    pub fn lookup(&mut self,
                       name: String,
                       zone: EcdsaPublicKey,
                       record_type: RecordType,
@@ -116,20 +121,24 @@ impl GNS {
         self.service_writer.send_with_str(msg, name.as_str())
             .lift()
             .then(move |()| {
-                GNS::lookup_loop(&mut sr)
+                let hm = HashMap::new();
+                GNS::lookup_loop(&mut sr, hm)
+                    .map(move |mut result| {
+                        Ok(result.remove(&id).unwrap())
+                    })
             })
     }
 
-    fn lookup_loop(sr: &mut ServiceReader) -> Promise<Vec<Record>, LookupError> {
+    fn lookup_loop(sr: &mut ServiceReader, hashmap: HashMap<u32, Vec<Record>>) -> Promise<HashMap<u32, Vec<Record>>, LookupError> {
         let mut sr2 = sr.clone();
         sr.read_message()
             .lift()
             .then(move |(tpe, mr)| {
-                match GNS::parse_lookup_result(tpe, mr) {
+                match GNS::parse_lookup_result(tpe, mr, hashmap) {
                     Ok(v) => {
                         // recursively read again if the result is empty
                         if v.is_empty() {
-                            return GNS::lookup_loop(&mut sr2)
+                            return GNS::lookup_loop(&mut sr2, v)
                         }
                         return Promise::ok(v)
                     },
