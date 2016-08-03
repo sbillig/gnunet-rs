@@ -33,7 +33,7 @@ fn main() {
         let mut event_port = async::EventPort::new().unwrap();
         let network = event_port.get_network();
 
-        let record_promise = gnunet::gns::lookup_in_master(&config, &network, domain, gnunet::gns::RecordType::A, None);
+        let record_promise = gnunet::gns::lookup_in_master2(&config, &network, domain, gnunet::gns::RecordType::A, None);
         match record_promise.wait(wait_scope, &mut event_port) {
             Ok(r)  => { println!("record: {:?}", r) },
             Err(e) => { println!("error:  {}", e) },

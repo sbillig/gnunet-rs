@@ -88,6 +88,22 @@ impl ServiceReader {
                 Ok((tpe, mr))
             })
     }
+
+    // the callback `cb` should not block
+    pub fn spawn_callback_loop<F>(&mut self, mut cb: F) -> Promise<(), ReadMessageError>
+        where F: FnMut(u16, Cursor<Vec<u8>>) -> ProcessMessageResult,
+              F: Send,
+              F: 'static
+    {
+        let mut sr = self.clone();
+        self.read_message().then(move |(tpe, mr)| {
+            match cb(tpe, mr) {
+                ProcessMessageResult::Continue  => sr.spawn_callback_loop(cb),
+                ProcessMessageResult::Reconnect => Promise::ok(()), //TODO: auto reconnect
+                ProcessMessageResult::Shutdown => Promise::ok(()),
+            }
+        })
+    }
 }
 
 impl ServiceWriter {
