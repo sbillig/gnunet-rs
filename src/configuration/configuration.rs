@@ -115,6 +115,7 @@ impl Cfg {
         use self::CfgDeserializeError::*;
         use regex::Regex;
 
+        // TODO consider using regex! from regex_macro which should compile quicker
         let re_section = Regex::new(r"^\[(.+)\]$").unwrap();
         let re_key_value = Regex::new(r"^(.+)=(.*)$").unwrap();
         let re_inline = Regex::new(r"^(?i)@inline@ (.+)$").unwrap();
