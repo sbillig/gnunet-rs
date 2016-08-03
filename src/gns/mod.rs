@@ -64,16 +64,20 @@ impl GNS {
 
     fn parse_lookup_result(tpe: u16, mut reader: Cursor<Vec<u8>>, mut hashmap: HashMap<u32, Vec<Record>>)
                            -> Result<HashMap<u32, Vec<Record>>, LookupError> {
-        let mut records = Vec::new();
         match tpe {
             ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
+                let mut records = Vec::new();
+
                 let id = try!(reader.read_u32::<BigEndian>());
                 let rd_count = try!(reader.read_u32::<BigEndian>());
                 for _ in 0..rd_count {
                     let rec = try!(Record::deserialize(&mut reader));
                     records.push(rec);
                 };
-                hashmap.insert(id, records);
+
+                if !records.is_empty() {
+                    hashmap.insert(id, records);
+                }
             },
             x => return Err(LookupError::InvalidType { tpe: x }),
         };
