@@ -25,13 +25,13 @@ pub struct GNS {
 /// Options for GNS lookups.
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
 pub enum LocalOptions {
-  /// Default behaviour. Look in the local cache, then in the DHT.
-  Default     = 0,
-  /// Do not look in the DHT, keep the request to the local cache.
-  NoDHT       = 1,
-  /// For domains controlled by our master zone only look in the cache. Otherwise look in the
-  /// cache, then in the DHT.
-  LocalMaster = 2,
+    /// Default behaviour. Look in the local cache, then in the DHT.
+    Default     = 0,
+    /// Do not look in the DHT, keep the request to the local cache.
+    NoDHT       = 1,
+    /// For domains controlled by our master zone only look in the cache. Otherwise look in the
+    /// cache, then in the DHT.
+    LocalMaster = 2,
 }
 
 /// Possible errors returned by the GNS lookup functions.
@@ -62,28 +62,6 @@ impl GNS {
             })
     }
 
-    fn parse_lookup_result(tpe: u16, mut reader: Cursor<Vec<u8>>, mut hashmap: HashMap<u32, Vec<Record>>)
-                           -> Result<HashMap<u32, Vec<Record>>, LookupError> {
-        match tpe {
-            ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
-                let mut records = Vec::new();
-
-                let id = try!(reader.read_u32::<BigEndian>());
-                let rd_count = try!(reader.read_u32::<BigEndian>());
-                for _ in 0..rd_count {
-                    let rec = try!(Record::deserialize(&mut reader));
-                    records.push(rec);
-                };
-
-                if !records.is_empty() {
-                    hashmap.insert(id, records);
-                }
-            },
-            x => return Err(LookupError::InvalidType { tpe: x }),
-        };
-        Ok(hashmap)
-    }
-
     /// Lookup a GNS record in the given zone.
     ///
     /// If `shorten` is not `None` then the result is added to the given shorten zone. Returns
@@ -106,62 +84,27 @@ impl GNS {
     /// let record = lh.recv();
     /// println!("Got the IPv4 record for gnu.org: {}", record);
     /// ```
-    pub fn lookup(&mut self,
-                  name: String,
-                  zone: EcdsaPublicKey,
-                  record_type: RecordType,
-                  options: LocalOptions,
-                  shorten: Option<EcdsaPrivateKey>) -> Promise<Option<Record>, LookupError> {
-        let name_len = name.len();
-        if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
-            return Promise::err(LookupError::NameTooLong { name: name });
-        };
-
-        let id = self.lookup_id;
-        self.lookup_id += 1;
-
-        let msg = LookupMessage::new(id, zone, options, shorten, record_type, name.as_str());
-        let mut sr = self.service_reader.clone();
-        self.service_writer.send_with_str(msg, name.as_str())
-            .lift()
-            .then(move |()| {
-                let hm = HashMap::new();
-                GNS::lookup_loop(&mut sr, hm)
-                    .map(move |mut result| {
-                        let mut vec = match result.remove(&id) {
-                            Some(x) => x,
-                            None    => return Ok(None),
-                        };
-                        Ok(Some(vec.remove(0)))
-                    })
-            })
-    }
-
-    pub fn lookup2(&mut self, query: Vec<LookupQuery>) -> Promise<HashMap<u32, Vec<Record>>, LookupError> {
+    pub fn lookup(&mut self, query: Vec<LookupQuery>) -> Promise<HashMap<u32, Vec<Record>>, LookupError> {
         let mut sr = self.service_reader.clone();
 
-        let write_promises = query.into_iter().map(|item| {
-            self.write_message(item)
+        let write_promises = query.into_iter().map(|x| {
+            let name_len = x.name.len();
+            if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
+                return Promise::err(LookupError::NameTooLong { name: x.name });
+            };
+
+            let id = self.lookup_id;
+            self.lookup_id += 1;
+
+            let msg = LookupMessage::new(id, x.zone, x.options, x.shorten, x.record_type, x.name.as_str());
+
+            self.service_writer.send_with_str(msg, x.name.as_str()).lift()
         });
 
         Promise::all(write_promises).then(move |_| {
             let hm = HashMap::new();
             GNS::lookup_loop(&mut sr, hm)
         })
-    }
-
-    fn write_message(&mut self, query: LookupQuery) -> Promise<(), LookupError> {
-        let name_len = query.name.len();
-        if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
-            return Promise::err(LookupError::NameTooLong { name: query.name });
-        };
-
-        let id = self.lookup_id;
-        self.lookup_id += 1;
-
-        let msg = LookupMessage::new(id, query.zone, query.options, query.shorten, query.record_type, query.name.as_str());
-
-        self.service_writer.send_with_str(msg, query.name.as_str()).lift()
     }
 
     fn lookup_loop(sr: &mut ServiceReader, hashmap: HashMap<u32, Vec<Record>>) -> Promise<HashMap<u32, Vec<Record>>, LookupError> {
@@ -181,6 +124,29 @@ impl GNS {
                 }
             })
     }
+
+    fn parse_lookup_result(tpe: u16, mut reader: Cursor<Vec<u8>>, mut hashmap: HashMap<u32, Vec<Record>>)
+                           -> Result<HashMap<u32, Vec<Record>>, LookupError> {
+        match tpe {
+            ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
+                let mut records = Vec::new();
+
+                let id = try!(reader.read_u32::<BigEndian>());
+                let rd_count = try!(reader.read_u32::<BigEndian>());
+                for _ in 0..rd_count {
+                    let rec = try!(Record::deserialize(&mut reader));
+                    records.push(rec);
+                };
+
+                if !records.is_empty() {
+                    hashmap.insert(id, records);
+                }
+            },
+            x => return Err(LookupError::InvalidType { tpe: x }),
+        };
+        Ok(hashmap)
+    }
+
 }
 
 pub struct LookupQuery {
@@ -240,10 +206,10 @@ impl MessageTrait for LookupMessage {
 
 /// Errors returned by `gns::lookup`.
 error_def! ConnectLookupError {
-  Connect { #[from] cause: service::ConnectError }
-    => "Failed to connect to the GNS service" ("Reason: {}", cause),
-  Lookup { #[from] cause: LookupError }
-    => "Failed to perform the lookup." ("Reason: {}", cause),
+    Connect { #[from] cause: service::ConnectError }
+        => "Failed to connect to the GNS service" ("Reason: {}", cause),
+    Lookup { #[from] cause: LookupError }
+        => "Failed to perform the lookup." ("Reason: {}", cause),
 }
 
 /// Lookup a GNS record in the given zone.
@@ -278,28 +244,22 @@ pub fn lookup(cfg: &Cfg,
               zone: EcdsaPublicKey,
               record_type: RecordType,
               options: LocalOptions,
-              shorten: Option<EcdsaPrivateKey>) -> Promise<Option<Record>, ConnectLookupError> {
+              shorten: Option<EcdsaPrivateKey>) -> Promise<Record, ConnectLookupError> {
     GNS::connect(cfg, network)
         .lift()
         .then(move |mut gns| {
             println!("connected to GNS");
-            gns.lookup(name, zone, record_type, options, shorten).lift()
-        })
-}
-
-pub fn lookup2(cfg: &Cfg,
-              network: &Network,
-              name: String,
-              zone: EcdsaPublicKey,
-              record_type: RecordType,
-              options: LocalOptions,
-              shorten: Option<EcdsaPrivateKey>) -> Promise<HashMap<u32, Vec<Record>>, ConnectLookupError> {
-    GNS::connect(cfg, network)
-        .lift()
-        .then(move |mut gns| {
-            println!("connected to GNS");
-            let query = LookupQuery { name: name, zone: zone, record_type: record_type, options: options, shorten: shorten };
-            gns.lookup2(vec![query]).lift()
+            let query = LookupQuery { name: name,
+                                      zone: zone,
+                                      record_type: record_type,
+                                      options: options,
+                                      shorten: shorten };
+            let id = gns.lookup_id;
+            gns.lookup(vec![query]).lift()
+                .map(move |mut result| {
+                    // it's ok to unwrap here because gns.lookup does not stop if it hasn't found a result
+                    Ok(result.remove(&id).map(|mut vec| { vec.remove(0) }).unwrap())
+                })
         })
 }
 
@@ -340,10 +300,10 @@ pub fn lookup_in_master(cfg: &Cfg,
                         network: &Network,
                         name: String,
                         record_type: RecordType,
-                        shorten: Option<EcdsaPrivateKey>) -> Promise<Option<Record>, ConnectLookupInMasterError> {
+                        shorten: Option<EcdsaPrivateKey>) -> Promise<Record, ConnectLookupInMasterError> {
     println!("Getting default ego");
     let network2 = network.clone();
-    let cfg2 = cfg.clone(); // TODO possibly use Rc?
+    let cfg2 = cfg.clone();
     identity::get_default_ego(cfg, "gns-master", network)
         .lift()
         .then(move |ego| {
@@ -358,30 +318,5 @@ pub fn lookup_in_master(cfg: &Cfg,
             }
             println!("doing lookup");
             lookup(&cfg2, &network2, name, pk, record_type, opt, shorten).lift()
-        })
-}
-
-pub fn lookup_in_master2(cfg: &Cfg,
-                        network: &Network,
-                        name: String,
-                        record_type: RecordType,
-                        shorten: Option<EcdsaPrivateKey>) -> Promise<HashMap<u32, Vec<Record>>, ConnectLookupInMasterError> {
-    println!("Getting default ego");
-    let network2 = network.clone();
-    let cfg2 = cfg.clone(); // TODO possibly use Rc?
-    identity::get_default_ego(cfg, "gns-master", network)
-        .lift()
-        .then(move |ego| {
-            let pk = ego.get_public_key();
-            let opt: LocalOptions;
-            {
-                let mut it = name.split('.');
-                opt = match (it.next(), it.next(), it.next()) {
-                    (Some(_), Some("gnu"), None)  => LocalOptions::NoDHT,
-                    _                             => LocalOptions::LocalMaster,
-                };
-            }
-            println!("doing lookup");
-            lookup2(&cfg2, &network2, name, pk, record_type, opt, shorten).lift()
         })
 }
