@@ -8,13 +8,9 @@ fn main() {
         let network = event_port.get_network();
 
         // example to iterate over all peers
-        {
-            // peers_iter needs to go out of scope before using `&mut event_port` again
-            let peers_iter = gnunet::get_peers_iterator(&config, &network, wait_scope, &mut event_port).unwrap();
-            for peer in peers_iter {
-                let (peerinfo, _) = peer.unwrap();
-                println!("Peer: {}\n", peerinfo);
-            }
+        let peers_vec = gnunet::get_peers_vec(&config, &network).wait(wait_scope, &mut event_port).unwrap();
+        for (peerinfo, _) in peers_vec.into_iter() {
+            println!("Peer: {}\n", peerinfo);
         }
 
         // example to get a single peer
