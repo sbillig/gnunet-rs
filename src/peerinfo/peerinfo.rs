@@ -87,33 +87,21 @@ pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Opt
             }
         };
 
-    // connect to the service
-    connect(cfg, "peerinfo", network)
-        .then(move |(sr, mut sw)| {
-            sw.send(ListPeerMessage::new(0, id))
-                .lift()
-                .map(move |()| {
-                    Ok(Peers { service: sr })
-                })
-        })
-        .map_err(|_| { PeerInfoError::InvalidResponse }) // TODO need better error handling
-        .then(move |mut peer| {
-            peer.iterate()
-                .map(|x| {
-                    match x {
-                        Some((id, hello)) => Ok((Some(id), hello)),
-                        None => Ok((None, None)),
+    connect(cfg, "peerinfo", network).lift().then(move |(sr, mut sw)| {
+            sw.send(ListPeerMessage::new(0, id)).lift().then(move |()| {
+                let mut peers = Peers { service: sr };
+                peers.get_vec().map(|mut vec| {
+                    match vec.len() {
+                        0 | 1 => {
+                            match vec.pop() {
+                                Some((id, hello)) => Ok((Some(id), hello)),
+                                None => Ok((None, None)),
+                            }
+                        },
+                        _ => Err(PeerInfoError::InvalidResponse),
                     }
                 })
-                .then(move |x| {
-                    peer.iterate()
-                        .map(|y| {
-                            match y {
-                                Some(_) => Err(PeerInfoError::InvalidResponse), // wrong if we manage to read two peers
-                                None => Ok(x),
-                            }
-                        })
-                })
+            })
         })
 }
 
@@ -132,7 +120,7 @@ pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Opt
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let peers_promise = gnunet::get_peers(&config, &network);
 ///     let peers = peers_promise.wait(wait_scope, &mut event_port);
-///     // do things with `peers`, i.e. use its methods such as `to_iter` or `iterate`
+///     // do things with `peers`, i.e. use its methods such as `iterate` or `get_vec`
 ///     Ok(())
 /// }).expect("top_level");
 /// ```
@@ -150,7 +138,6 @@ pub fn get_peers(cfg: &Cfg, network: &Network)
         })
 }
 
-// TODO fix doc test
 /// Get an iterator over all the currently connected peers.
 ///
 /// # Example
@@ -164,9 +151,8 @@ pub fn get_peers(cfg: &Cfg, network: &Network)
 /// let network = event_port.get_network();
 ///
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-///     let peers_iter = gnunet::get_peers_iterator(&config, &network, wait_scope, &mut event_port).unwrap();
-///     for peer in peers_iter {
-///         let (peerinfo, _) = peer.unwrap();
+///     let peers_vec = gnunet::get_peers_vec(&config, &network).wait(wait_scope, &mut event_port).unwrap();
+///     for (peerinfo, _) in peers_vec {
 ///         // do something with `peerinfo`
 ///     }
 ///     Ok(())

@@ -9,7 +9,7 @@ fn main() {
 
         // example to iterate over all peers
         let peers_vec = gnunet::get_peers_vec(&config, &network).wait(wait_scope, &mut event_port).unwrap();
-        for (peerinfo, _) in peers_vec.into_iter() {
+        for (peerinfo, _) in peers_vec {
             println!("Peer: {}\n", peerinfo);
         }
 
