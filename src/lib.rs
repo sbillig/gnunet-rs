@@ -25,7 +25,7 @@ extern crate gjio;
 pub use configuration::Cfg;
 pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
 
-pub use gns::{Record, RecordType, GNS, LocalOptions};
+pub use gns::{lookup_in_master, Record, RecordType, GNS, LocalOptions};
 pub use identity::{get_default_ego, Ego, IdentityService};
 pub use hello::Hello;
 pub use peerinfo::{get_peers, get_peers_vec, get_peer, get_self_id, PeerIdentity};

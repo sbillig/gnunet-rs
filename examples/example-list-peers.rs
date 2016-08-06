@@ -25,12 +25,6 @@ fn main() {
         let local_id = gnunet::get_self_id(&config, &network).wait(wait_scope, &mut event_port).unwrap();
         println!("Our id is: {}", local_id);
 
-        // cancellation example
-        match async::cancel(gnunet::get_self_id(&config, &network)).wait(wait_scope, &mut event_port) {
-            Err(e) => println!("Error: {}", e),
-            Ok(_)  => assert!(false),
-        }
-
         Ok(())
     }).expect("top level");
 }

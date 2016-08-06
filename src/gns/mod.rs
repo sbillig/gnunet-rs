@@ -114,7 +114,7 @@ impl GNS {
             .then(move |(tpe, mr)| {
                 match GNS::parse_lookup_result(tpe, mr, hashmap) {
                     Ok(v) => {
-                        // recursively read again if the result is empty
+                        // read again if the result is empty
                         if v.is_empty() {
                             return GNS::lookup_loop(&mut sr2, v)
                         }
@@ -210,6 +210,8 @@ error_def! ConnectLookupError {
         => "Failed to connect to the GNS service" ("Reason: {}", cause),
     Lookup { #[from] cause: LookupError }
         => "Failed to perform the lookup." ("Reason: {}", cause),
+    Io { #[from] cause: io::Error }
+        => "There was an I/O error communicating with the service" ("Specifically {}", cause),
 }
 
 /// Lookup a GNS record in the given zone.
@@ -221,16 +223,25 @@ error_def! ConnectLookupError {
 ///
 /// ```rust
 /// use gnunet::{Cfg, identity, gns};
+/// use gnunet::util::async;
 ///
 /// let config = Cfg::default().unwrap();
-/// let gns_ego = identity::get_default_ego(&config, "gns-master").unwrap();
-/// let record = gns::lookup(&config,
-///                          "gnu.org",
-///                          &gns_ego.get_public_key(),
-///                          gns::RecordType::A,
-///                          gns::LocalOptions::LocalMaster,
-///                          None).unwrap();
-/// println!("Got the IPv4 record for gnu.org: {}", record);
+/// let mut event_port = async::EventPort::new().unwrap();
+/// let network = event_port.get_network();
+///
+/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+///     let ego = identity::get_default_ego(&config, "gns-master", &network).wait(wait_scope, &mut event_port).unwrap();
+///     let pk = ego.get_public_key();
+///     let record = gns::lookup(&config,
+///                              &network,
+///                              "gnu.org".to_string(),
+///                              pk,
+///                              gns::RecordType::A,
+///                              gns::LocalOptions::LocalMaster,
+///                              None).wait(wait_scope, &mut event_port).unwrap();
+///     println!("Got the IPv4 record for gnu.org: {}", record);
+///     Ok(())
+/// }).expect("top_level");
 /// ```
 ///
 /// # Note
@@ -275,19 +286,25 @@ error_def! ConnectLookupInMasterError {
 
 /// Lookup a GNS record in the master zone.
 ///
-/// If `shorten` is not `None` then the result is added to the given shorten zone. This function
-/// will block until it returns the first matching record that it can find.
+/// If `shorten` is not `None` then the result is added to the given shorten zone.
+/// The promise cannot be fulfilled until a record is found.
 ///
 /// # Example
 ///
 /// ```rust
 /// use gnunet::{Cfg, gns};
-///
-/// println!("in test lookup_in_master");
+/// use gnunet::util::async;
 ///
 /// let config = Cfg::default().unwrap();
-/// let record = gns::lookup_in_master(&config, "gnu.org", gns::RecordType::A, None).unwrap();
-/// println!("Got the IPv4 record for gnu.org: {}", record);
+/// let mut event_port = async::EventPort::new().unwrap();
+/// let network = event_port.get_network();
+///
+/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+///     let record_promise = gnunet::lookup_in_master(&config, &network, "gnu.org".to_string(), gns::RecordType::A, None);
+///     let record = record_promise.wait(wait_scope, &mut event_port).unwrap();
+///     println!("Got the IPv4 record for gnu.org: {}", record);
+///     Ok(())
+/// }).expect("top_level");
 /// ```
 ///
 /// # Note
@@ -295,7 +312,7 @@ error_def! ConnectLookupInMasterError {
 /// This is a convenience function that connects to the identity service, fetches the default ego
 /// for gns-master, then connects to the GNS service, performs the lookup, retrieves one result,
 /// then disconnects from everything. If you are performing lots of lookups this function should be
-/// avoided and `GNS::lookup_in_zone` used instead.
+/// avoided and `GNS::lookup` should be used instead.
 pub fn lookup_in_master(cfg: &Cfg,
                         network: &Network,
                         name: String,
