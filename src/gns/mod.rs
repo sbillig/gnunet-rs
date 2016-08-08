@@ -92,8 +92,9 @@ impl GNS {
     ///     Ok(())
     /// }).expect("top_level");
     /// ```
-    pub fn lookup(&mut self, query: Vec<LookupQuery>) -> Promise<HashMap<u32, Vec<Record>>, LookupError> {
+    pub fn lookup(&mut self, query: Vec<LookupQuery>) -> Promise<Vec<Vec<Record>>, LookupError> {
         let mut sr = self.service_reader.clone();
+        let start_id = self.lookup_id;
 
         let write_promises = query.into_iter().map(|x| {
             let name_len = x.name.len();
@@ -111,7 +112,14 @@ impl GNS {
 
         Promise::all(write_promises).then(move |_| {
             let hm = HashMap::new();
-            GNS::lookup_loop(&mut sr, hm)
+            GNS::lookup_loop(&mut sr, hm).map(move |hm| {
+                let mut counter = start_id;
+                Ok(hm.into_iter().map(|(id, v)| {
+                    assert_eq!(id, counter);
+                    counter += 1;
+                    v
+                }).collect())
+            })
         })
     }
 
@@ -276,11 +284,10 @@ pub fn lookup(cfg: &Cfg,
                                       record_type: record_type,
                                       options: options,
                                       shorten: shorten };
-            let id = gns.lookup_id;
             gns.lookup(vec![query]).lift()
                 .map(move |mut result| {
                     // it's ok to unwrap here because gns.lookup does not stop if it hasn't found a result
-                    Ok(result.remove(&id).map(|mut vec| { vec.remove(0) }).unwrap())
+                    Ok(result.pop().unwrap().pop().unwrap())
                 })
         })
 }
