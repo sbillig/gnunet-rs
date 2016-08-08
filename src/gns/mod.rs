@@ -49,7 +49,7 @@ error_def! LookupError {
 impl GNS {
     /// Connect to the GNS service.
     ///
-    /// Returns either a handle to the GNS service or a `service::ConnectError`. `cfg` contains the
+    /// Returns either a promise to the GNS service or a `service::ConnectError`. `cfg` contains the
     /// configuration to use to connect to the service.
     pub fn connect(cfg: &Cfg, network: &Network) -> Promise<GNS, service::ConnectError> {
         service::connect(cfg, "gns", network)
@@ -62,27 +62,33 @@ impl GNS {
             })
     }
 
-    /// Lookup a GNS record in the given zone.
+    /// Lookup a vector of GNS records.
     ///
-    /// If `shorten` is not `None` then the result is added to the given shorten zone. Returns
-    /// immediately with a handle that can be queried for results.
+    /// If `shorten` is not `None` then the result is added to the given shorten zone.
     ///
     /// # Example
     ///
     /// ```rust
-    /// use gnunet::{Cfg, IdentityService, GNS, gns};
+    /// use gnunet::{Cfg, identity, gns, GNS};
+    /// use gnunet::util::async;
     ///
     /// let config = Cfg::default().unwrap();
-    /// let mut ids = IdentityService::connect(&config).unwrap();
-    /// let gns_ego = ids.get_defaulit_ego("gns-master").unwrap();
-    /// let mut gns = GNS::connect(&config).unwrap();
-    /// let mut lh = gns.lookup("gnu.org",
-    ///                         &gns_ego.get_public_key(),
-    ///                         gns::RecordType::A,
-    ///                         gns::LocalOptions::LocalMaster,
-    ///                         None).unwrap();
-    /// let record = lh.recv();
-    /// println!("Got the IPv4 record for gnu.org: {}", record);
+    /// let mut event_port = async::EventPort::new().unwrap();
+    /// let network = event_port.get_network();
+    ///
+    /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+    ///     let ego = identity::get_default_ego(&config, "gns-master", &network).wait(wait_scope, &mut event_port).unwrap();
+    ///     let pk = ego.get_public_key();
+    ///     let mut gns = GNS::connect(&config, &network).wait(wait_scope, &mut event_port).unwrap();
+    ///     let query = gns::LookupQuery { name: "gnu.org".to_string(),
+    ///                                    zone: pk,
+    ///                                    record_type: gns::RecordType::A,
+    ///                                    options: gns::LocalOptions::LocalMaster,
+    ///                                    shorten: None };
+    ///     let result = gns.lookup(vec![query]).wait(wait_scope, &mut event_port).unwrap();
+    ///     println!("{:?}", result);
+    ///     Ok(())
+    /// }).expect("top_level");
     /// ```
     pub fn lookup(&mut self, query: Vec<LookupQuery>) -> Promise<HashMap<u32, Vec<Record>>, LookupError> {
         let mut sr = self.service_reader.clone();
@@ -150,11 +156,11 @@ impl GNS {
 }
 
 pub struct LookupQuery {
-    name: String,
-    zone: EcdsaPublicKey,
-    record_type: RecordType,
-    options: LocalOptions,
-    shorten: Option<EcdsaPrivateKey>,
+    pub name: String,
+    pub zone: EcdsaPublicKey,
+    pub record_type: RecordType,
+    pub options: LocalOptions,
+    pub shorten: Option<EcdsaPrivateKey>,
 }
 
 #[repr(C, packed)]
@@ -216,8 +222,9 @@ error_def! ConnectLookupError {
 
 /// Lookup a GNS record in the given zone.
 ///
-/// If `shorten` is not `None` then the result is added to the given shorten zone. This function
-/// will block until it returns the first matching record that it can find.
+/// If `shorten` is not `None` then the result is added to the given shorten zone.
+/// The returned promise can only be fulfilled when a record is found.
+/// The user should consider setting a timeout in case no record can be found.
 ///
 /// # Example
 ///
@@ -287,7 +294,8 @@ error_def! ConnectLookupInMasterError {
 /// Lookup a GNS record in the master zone.
 ///
 /// If `shorten` is not `None` then the result is added to the given shorten zone.
-/// The promise cannot be fulfilled until a record is found.
+/// The returned promise can only be fulfilled when a record is found.
+/// The user should consider setting a timeout in case no record can be found.
 ///
 /// # Example
 ///
