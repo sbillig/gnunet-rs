@@ -1,14 +1,15 @@
 use std::collections::HashMap;
 use std::io::{self, Cursor};
 use std::rc::Rc;
+use std::cell::RefCell;
 use byteorder::{BigEndian, ReadBytesExt};
 use num::ToPrimitive;
-use gj::{Promise};
+use gj::{Promise, PromiseFulfiller};
 use gjio::{Network};
 
 use identity;
 use ll;
-use service::{self, ServiceWriter, ServiceReader, ReadMessageError, MessageTrait, MessageHeader};
+use service::{self, ServiceWriter, ReadMessageError, MessageTrait, MessageHeader, ProcessMessageResult};
 use EcdsaPublicKey;
 use EcdsaPrivateKey;
 use Cfg;
@@ -18,9 +19,10 @@ mod record;
 
 /// A handle to a locally-running instance of the GNS daemon.
 pub struct GNS {
-    service_reader: ServiceReader,
+    callback_loop: Promise<(), ReadMessageError>,
     service_writer: ServiceWriter,
     lookup_id: u32,
+    fulfiller_table: Rc<RefCell<HashMap<u32, PromiseFulfiller<Vec<Record>, ReadMessageError>>>>,
 }
 
 /// Options for GNS lookups.
@@ -54,11 +56,56 @@ impl GNS {
     /// configuration to use to connect to the service.
     pub fn connect(cfg: &Cfg, network: &Network) -> Promise<GNS, service::ConnectError> {
         service::connect(cfg, "gns", network)
-            .map(|(sr, sw)| {
+            .map(|(mut sr, sw)| {
+                let table: Rc<RefCell<HashMap<u32, PromiseFulfiller<Vec<Record>, ReadMessageError>>>>
+                    = Rc::new(RefCell::new(HashMap::new()));
+
+                let table2 = table.clone();
+                let cb = move |tpe: u16, mut reader: Cursor<Vec<u8>>| {
+                    match tpe {
+                        ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
+
+                            let id = match reader.read_u32::<BigEndian>() {
+                                Ok(id) => id,
+                                Err(_) => return ProcessMessageResult::Reconnect,
+                            };
+                            println!("WOW id == {}", id);
+
+                            match table2.borrow_mut().remove(&id) {
+                                Some(fulfiller) => {
+                                    println!("WOW there's a fulfiller for that");
+                                    let rd_count = match reader.read_u32::<BigEndian>() {
+                                        Ok(x) => x,
+                                        Err(_) => return ProcessMessageResult::Reconnect,
+                                    };
+                                    println!("WOW rd_count == {}", rd_count);
+
+                                    let mut records = Vec::new();
+                                    for _ in 0..rd_count {
+                                        let rec = match Record::deserialize(&mut reader) {
+                                            Ok(r)   => r,
+                                            Err(_) => return ProcessMessageResult::Reconnect,
+                                        };
+                                        records.push(rec);
+                                    };
+                                    // TODO check whether records is empty?
+                                    fulfiller.fulfill(records);
+                                }
+                                // fulfiller not found, error here?
+                                None => (),
+                            };
+                        },
+                        // tpe does not match
+                        _ => return ProcessMessageResult::Reconnect
+                    };
+                    ProcessMessageResult::Continue
+                };
+
                 Ok(GNS {
-                    service_reader: sr,
+                    callback_loop: sr.spawn_callback_loop(cb),
                     service_writer: sw,
                     lookup_id : 0,
+                    fulfiller_table: table,
                 })
             })
     }
@@ -92,77 +139,28 @@ impl GNS {
     ///     Ok(())
     /// }).expect("top_level");
     /// ```
-    pub fn lookup(&mut self, query: Vec<LookupQuery>) -> Promise<Vec<Vec<Record>>, LookupError> {
-        let mut sr = self.service_reader.clone();
-        let start_id = self.lookup_id;
+    pub fn lookup(&mut self,
+                   name: Rc<String>,
+                   zone: EcdsaPublicKey,
+                   record_type: RecordType,
+                   options: LocalOptions,
+                   shorten: Option<EcdsaPrivateKey>)
+                   -> Promise<Vec<Record>, LookupError>
+    {
+        let id = self.lookup_id;
+        self.lookup_id += 1;
+        let msg = pry!(LookupMessage::new(id, zone, options, shorten, record_type, &name));
 
-        let write_promises = query.into_iter().map(|x| {
-            let name_len = x.name.len();
-            if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
-                return Promise::err(LookupError::NameTooLong { name: x.name.to_string() });
-            };
+        // create promise fulfiller pair and add to the results table
+        let (promise, fulfiller) = Promise::and_fulfiller();
+        {
+            self.fulfiller_table.borrow_mut().insert(id, fulfiller);
+        }
 
-            let id = self.lookup_id;
-            self.lookup_id += 1;
-
-            let msg = LookupMessage::new(id, x.zone, x.options, x.shorten, x.record_type, x.name);
-
-            self.service_writer.send_with_str(msg, x.name).lift()
-        });
-
-        Promise::all(write_promises).then(move |_| {
-            let hm = HashMap::new();
-            GNS::lookup_loop(&mut sr, hm).map(move |hm| {
-                let mut counter = start_id;
-                Ok(hm.into_iter().map(|(id, v)| {
-                    assert_eq!(id, counter);
-                    counter += 1;
-                    v
-                }).collect())
-            })
-        })
+        self.service_writer.send_with_str(msg, &name).lift().then(move |_| {
+            promise
+        }).lift()
     }
-
-    fn lookup_loop(sr: &mut ServiceReader, hashmap: HashMap<u32, Vec<Record>>) -> Promise<HashMap<u32, Vec<Record>>, LookupError> {
-        let mut sr2 = sr.clone();
-        sr.read_message()
-            .lift()
-            .then(move |(tpe, mr)| {
-                match GNS::parse_lookup_result(tpe, mr, hashmap) {
-                    Ok(v) => {
-                        // read again if the result is empty
-                        if v.is_empty() {
-                            return GNS::lookup_loop(&mut sr2, v)
-                        }
-                        return Promise::ok(v)
-                    },
-                    Err(e) => return Promise::err(e),
-                }
-            })
-    }
-
-    fn parse_lookup_result(tpe: u16, mut reader: Cursor<Vec<u8>>, mut hashmap: HashMap<u32, Vec<Record>>)
-                           -> Result<HashMap<u32, Vec<Record>>, LookupError> {
-        match tpe {
-            ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
-                let mut records = Vec::new();
-
-                let id = try!(reader.read_u32::<BigEndian>());
-                let rd_count = try!(reader.read_u32::<BigEndian>());
-                for _ in 0..rd_count {
-                    let rec = try!(Record::deserialize(&mut reader));
-                    records.push(rec);
-                };
-
-                if !records.is_empty() {
-                    hashmap.insert(id, records);
-                }
-            },
-            x => return Err(LookupError::InvalidType { tpe: x }),
-        };
-        Ok(hashmap)
-    }
-
 }
 
 pub struct LookupQuery<'a> {
@@ -191,11 +189,16 @@ impl LookupMessage {
            options: LocalOptions,
            shorten: Option<EcdsaPrivateKey>,
            record_type: RecordType,
-           name: &str) -> LookupMessage {
-        use std::mem;
+           name: &str) -> Result<LookupMessage, LookupError> {
+
         let name_len = name.len();
-        let msg_len = (mem::size_of::<LookupMessage>() + name_len + 1).to_u16().unwrap(); // TODO better error handling
-        LookupMessage {
+        if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
+            return Err(LookupError::NameTooLong { name: name.to_string() });
+        };
+
+        use std::mem;
+        let msg_len = (mem::size_of::<LookupMessage>() + name_len + 1).to_u16().unwrap();
+        Ok(LookupMessage {
             header: MessageHeader {
                 len: msg_len.to_be(),
                 tpe: ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP.to_be(),
@@ -209,7 +212,7 @@ impl LookupMessage {
                 Some(x) => x,
                 None    => EcdsaPrivateKey::zeros(),
             }
-        }
+        })
     }
 }
 
@@ -279,15 +282,10 @@ pub fn lookup(cfg: &Cfg,
         .lift()
         .then(move |mut gns| {
             println!("connected to GNS");
-            let query = LookupQuery { name: &name,
-                                      zone: zone,
-                                      record_type: record_type,
-                                      options: options,
-                                      shorten: shorten };
-            gns.lookup(vec![query]).lift()
+            gns.lookup(name, zone, record_type, options, shorten).lift()
                 .map(move |mut result| {
                     // it's ok to unwrap here because gns.lookup does not stop if it hasn't found a result
-                    Ok(result.pop().unwrap().pop().unwrap())
+                    Ok(result.pop().unwrap())
                 })
         })
 }

@@ -4,7 +4,7 @@
 use std::io::{self, Cursor};
 use byteorder::{BigEndian, ReadBytesExt};
 
-use gj::{Promise};
+use gj::{Promise, FulfillerDropped};
 use gjio::{AsyncWrite, AsyncRead, SocketStream, Network};
 
 use configuration::{self, Cfg};
@@ -63,11 +63,17 @@ pub fn connect(cfg: &Cfg, name: &str, network: &Network)
 
 /// Error that can be generated when attempting to receive data from a service.
 error_def! ReadMessageError {
-  Io { #[from] cause: io::Error } => "There was an I/O error communicating with the service" ("Specifically {}", cause),
-  ShortMessage { len: u16 }       => "The message received from the service was too short" ("Length was {} bytes.", len),
-  Disconnected                    => "The service disconnected unexpectedly",
+    Io { #[from] cause: io::Error } => "There was an I/O error communicating with the service" ("Specifically {}", cause),
+    ShortMessage { len: u16 }       => "The message received from the service was too short" ("Length was {} bytes.", len),
+    Disconnected                    => "The service disconnected unexpectedly",
+    FulfillerDropped => "Promise fulfiller was dropped",
 }
 
+impl FulfillerDropped for ReadMessageError {
+    fn fulfiller_dropped() -> ReadMessageError {
+        ReadMessageError::FulfillerDropped
+    }
+}
 
 impl ServiceReader {
     pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
@@ -92,7 +98,6 @@ impl ServiceReader {
     // the callback `cb` should not block
     pub fn spawn_callback_loop<F>(&mut self, mut cb: F) -> Promise<(), ReadMessageError>
         where F: FnMut(u16, Cursor<Vec<u8>>) -> ProcessMessageResult,
-              F: Send,
               F: 'static
     {
         let mut sr = self.clone();
