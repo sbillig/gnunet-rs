@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use std::io::{self, Cursor};
+use std::rc::Rc;
 use byteorder::{BigEndian, ReadBytesExt};
 use num::ToPrimitive;
 use gj::{Promise};
@@ -75,12 +76,13 @@ impl GNS {
     /// let config = Cfg::default().unwrap();
     /// let mut event_port = async::EventPort::new().unwrap();
     /// let network = event_port.get_network();
+    /// let gns_master = ::std::rc::Rc::new("gns-master".to_string());
     ///
     /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-    ///     let ego = identity::get_default_ego(&config, "gns-master", &network).wait(wait_scope, &mut event_port).unwrap();
+    ///     let ego = identity::get_default_ego(&config, gns_master, &network).wait(wait_scope, &mut event_port).unwrap();
     ///     let pk = ego.get_public_key();
     ///     let mut gns = GNS::connect(&config, &network).wait(wait_scope, &mut event_port).unwrap();
-    ///     let query = gns::LookupQuery { name: "gnu.org".to_string(),
+    ///     let query = gns::LookupQuery { name: "gnu.org",
     ///                                    zone: pk,
     ///                                    record_type: gns::RecordType::A,
     ///                                    options: gns::LocalOptions::LocalMaster,
@@ -96,15 +98,15 @@ impl GNS {
         let write_promises = query.into_iter().map(|x| {
             let name_len = x.name.len();
             if name_len > ll::GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
-                return Promise::err(LookupError::NameTooLong { name: x.name });
+                return Promise::err(LookupError::NameTooLong { name: x.name.to_string() });
             };
 
             let id = self.lookup_id;
             self.lookup_id += 1;
 
-            let msg = LookupMessage::new(id, x.zone, x.options, x.shorten, x.record_type, x.name.as_str());
+            let msg = LookupMessage::new(id, x.zone, x.options, x.shorten, x.record_type, x.name);
 
-            self.service_writer.send_with_str(msg, x.name.as_str()).lift()
+            self.service_writer.send_with_str(msg, x.name).lift()
         });
 
         Promise::all(write_promises).then(move |_| {
@@ -155,8 +157,8 @@ impl GNS {
 
 }
 
-pub struct LookupQuery {
-    pub name: String,
+pub struct LookupQuery<'a> {
+    pub name: &'a str,
     pub zone: EcdsaPublicKey,
     pub record_type: RecordType,
     pub options: LocalOptions,
@@ -235,13 +237,15 @@ error_def! ConnectLookupError {
 /// let config = Cfg::default().unwrap();
 /// let mut event_port = async::EventPort::new().unwrap();
 /// let network = event_port.get_network();
+/// let gns_master = ::std::rc::Rc::new("gns-master".to_string());
+/// let gnu_org = ::std::rc::Rc::new("gnu.org".to_string());
 ///
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-///     let ego = identity::get_default_ego(&config, "gns-master", &network).wait(wait_scope, &mut event_port).unwrap();
+///     let ego = identity::get_default_ego(&config, gns_master, &network).wait(wait_scope, &mut event_port).unwrap();
 ///     let pk = ego.get_public_key();
 ///     let record = gns::lookup(&config,
 ///                              &network,
-///                              "gnu.org".to_string(),
+///                              gnu_org,
 ///                              pk,
 ///                              gns::RecordType::A,
 ///                              gns::LocalOptions::LocalMaster,
@@ -258,7 +262,7 @@ error_def! ConnectLookupError {
 /// avoided and `GNS::lookup_in_zone` used instead.
 pub fn lookup(cfg: &Cfg,
               network: &Network,
-              name: String,
+              name: Rc<String>,
               zone: EcdsaPublicKey,
               record_type: RecordType,
               options: LocalOptions,
@@ -267,7 +271,7 @@ pub fn lookup(cfg: &Cfg,
         .lift()
         .then(move |mut gns| {
             println!("connected to GNS");
-            let query = LookupQuery { name: name,
+            let query = LookupQuery { name: &name,
                                       zone: zone,
                                       record_type: record_type,
                                       options: options,
@@ -306,9 +310,10 @@ error_def! ConnectLookupInMasterError {
 /// let config = Cfg::default().unwrap();
 /// let mut event_port = async::EventPort::new().unwrap();
 /// let network = event_port.get_network();
+/// let gnu_org = ::std::rc::Rc::new("gnu.org".to_string());
 ///
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-///     let record_promise = gnunet::lookup_in_master(&config, &network, "gnu.org".to_string(), gns::RecordType::A, None);
+///     let record_promise = gnunet::lookup_in_master(&config, &network, gnu_org, gns::RecordType::A, None);
 ///     let record = record_promise.wait(wait_scope, &mut event_port).unwrap();
 ///     println!("Got the IPv4 record for gnu.org: {}", record);
 ///     Ok(())
@@ -323,13 +328,13 @@ error_def! ConnectLookupInMasterError {
 /// avoided and `GNS::lookup` should be used instead.
 pub fn lookup_in_master(cfg: &Cfg,
                         network: &Network,
-                        name: String,
+                        name: Rc<String>,
                         record_type: RecordType,
                         shorten: Option<EcdsaPrivateKey>) -> Promise<Record, ConnectLookupInMasterError> {
     println!("Getting default ego");
     let network2 = network.clone();
     let cfg2 = cfg.clone();
-    identity::get_default_ego(cfg, "gns-master", network)
+    identity::get_default_ego(cfg, Rc::new("gns-master".to_string()), network)
         .lift()
         .then(move |ego| {
             let pk = ego.get_public_key();

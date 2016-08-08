@@ -2,7 +2,7 @@ use std::string;
 use std::collections::HashMap;
 use std::io::{self, Read, Cursor};
 use std::fmt;
-use std::rc::*;
+use std::rc::Rc;
 use byteorder::{BigEndian, ReadBytesExt};
 use num::ToPrimitive;
 
@@ -203,25 +203,26 @@ impl IdentityService {
     /// let mut event_port = async::EventPort::new().unwrap();
     /// let network = event_port.get_network();
     /// let config = Cfg::default().unwrap();
+    /// let gns_master = ::std::rc::Rc::new("gns-master".to_string());
     ///
     /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
     ///     let ego_promise = IdentityService::connect(&config, &network).lift()
-    ///                         .then(|mut is| { is.get_default_ego("gns-master") });
+    ///                         .then(|mut is| { is.get_default_ego(gns_master) });
     ///     let ego = ego_promise.wait(wait_scope, &mut event_port);
     ///     Ok(())
     /// }).expect("top_level");
     /// ```
-    pub fn get_default_ego(&mut self, name: &'static str) -> Promise<Ego, GetDefaultEgoError> {
-        let msg = pry!(GetDefaultMessage::new(name));
+    pub fn get_default_ego(&mut self, name: Rc<String>) -> Promise<Ego, GetDefaultEgoError> {
+        let msg = pry!(GetDefaultMessage::new(&name));
         let mut sr = self.service_reader.clone();
         let egos = self.egos.clone();
-        self.service_writer.send_with_str(msg, name)
+        self.service_writer.send_with_str(msg, &name)
             .lift()
             .then(move |()| {
                 sr.read_message()
                     .lift()
                     .map(move |(tpe, mr)| {
-                        match IdentityService::parse_identity(egos, name, tpe, mr) {
+                        match IdentityService::parse_identity(egos, &name, tpe, mr) {
                             Ok(ego) => Ok(ego),
                             Err(e)  => Err(e),
                         }
@@ -232,7 +233,8 @@ impl IdentityService {
 
     /// Returns an identity by parsing data from `mr`.
     fn parse_identity(rc_egos: Rc<HashMap<HashCode, Ego>>, name: &str, tpe: u16, mut mr: Cursor<Vec<u8>>)
-                             -> Result<Ego, GetDefaultEgoError> {
+                      -> Result<Ego, GetDefaultEgoError>
+    {
         let egos = rc_egos.as_ref();
         match tpe {
             ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
@@ -292,9 +294,10 @@ error_def! ConnectGetDefaultEgoError {
 /// let config = Cfg::default().unwrap();
 /// let mut event_port = async::EventPort::new().unwrap();
 /// let network = event_port.get_network();
+/// let gns_master = ::std::rc::Rc::new("gns-master".to_string());
 ///
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-///     let ego_promise = gnunet::get_default_ego(&config, "gns-master", &network);
+///     let ego_promise = gnunet::get_default_ego(&config, gns_master, &network);
 ///     let ego = ego_promise.wait(wait_scope, &mut event_port);
 ///     Ok(())
 /// }).expect("top_level");
@@ -307,7 +310,7 @@ error_def! ConnectGetDefaultEgoError {
 /// `IdentityService::connect` then use that handle to do the queries.
 pub fn get_default_ego(
     cfg: &Cfg,
-    name: &'static str,
+    name: Rc<String>,
     network: &Network) -> Promise<Ego, ConnectGetDefaultEgoError> {
     IdentityService::connect(cfg, network)
         .lift()
