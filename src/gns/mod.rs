@@ -83,17 +83,16 @@ impl GNS {
     /// let mut event_port = async::EventPort::new().unwrap();
     /// let network = event_port.get_network();
     /// let gns_master = ::std::rc::Rc::new("gns-master".to_string());
+    /// let gnu_org = ::std::rc::Rc::new("gnu.org".to_string());
     ///
     /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
     ///     let ego = identity::get_default_ego(&config, gns_master, &network).wait(wait_scope, &mut event_port).unwrap();
-    ///     let pk = ego.get_public_key();
     ///     let mut gns = GNS::connect(&config, &network).wait(wait_scope, &mut event_port).unwrap();
-    ///     let query = gns::LookupQuery { name: "gnu.org",
-    ///                                    zone: pk,
-    ///                                    record_type: gns::RecordType::A,
-    ///                                    options: gns::LocalOptions::LocalMaster,
-    ///                                    shorten: None };
-    ///     let result = gns.lookup(vec![query]).wait(wait_scope, &mut event_port).unwrap();
+    ///     let result = gns.lookup(gnu_org,
+    ///                             ego.get_public_key(),
+    ///                             gns::RecordType::A,
+    ///                             gns::LocalOptions::LocalMaster,
+    ///                             None).wait(wait_scope, &mut event_port).unwrap();
     ///     println!("{:?}", result);
     ///     Ok(())
     /// }).expect("top_level");
@@ -159,14 +158,6 @@ impl GNS {
         };
         Ok(())
 }
-}
-
-pub struct LookupQuery<'a> {
-    pub name: &'a str,
-    pub zone: EcdsaPublicKey,
-    pub record_type: RecordType,
-    pub options: LocalOptions,
-    pub shorten: Option<EcdsaPrivateKey>,
 }
 
 #[repr(C, packed)]
@@ -352,4 +343,30 @@ pub fn lookup_in_master(cfg: &Cfg,
             println!("doing lookup");
             lookup(&cfg2, &network2, name, pk, record_type, opt, shorten).lift()
         })
+}
+
+#[test]
+fn test_multiple_lookup() {
+    use ::util::async;
+
+    let config = Cfg::default().unwrap();
+    let mut event_port = async::EventPort::new().unwrap();
+    let network = event_port.get_network();
+    let gns_master = ::std::rc::Rc::new("gns-master".to_string());
+
+    async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+        let ego = identity::get_default_ego(&config, gns_master, &network).wait(wait_scope, &mut event_port).unwrap();
+        let pk = ego.get_public_key();
+        let mut gns = GNS::connect(&config, &network).wait(wait_scope, &mut event_port).unwrap();
+        let promises = vec!["gnu.org", "gnunet.org", "freebsd.org"].into_iter().map(|d| {
+            gns.lookup(::std::rc::Rc::new(d.to_string()),
+                       pk,
+                       RecordType::A,
+                       LocalOptions::LocalMaster,
+                       None)
+        });
+        let ips = Promise::all(promises).wait(wait_scope, &mut event_port);
+        println!("{:?}", ips);
+        Ok(())
+    }).expect("top_level");
 }
