@@ -76,6 +76,7 @@ impl FulfillerDropped for ReadMessageError {
 }
 
 impl ServiceReader {
+    // this function needs to happen atomically
     pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
         use util::async::PromiseReader;
         let mut connection2 =  self.connection.clone(); // this is ok we're just bumping Rc count
@@ -87,11 +88,11 @@ impl ServiceReader {
                 }
                 let rem = len as usize - 2;
                 connection2.read(vec![0; rem], rem).lift()
-            })
-            .map(move |(buf, _)| {
-                let mut mr = Cursor::new(buf);
-                let tpe = try!(mr.read_u16::<BigEndian>());
-                Ok((tpe, mr))
+                    .map(move |(buf, _)| {
+                        let mut mr = Cursor::new(buf);
+                        let tpe = try!(mr.read_u16::<BigEndian>());
+                        Ok((tpe, mr))
+                    })
             })
     }
 
@@ -128,13 +129,6 @@ impl ServiceWriter {
         .map(|_| {
             Ok(())
         })
-    }
-
-    pub fn write_buf<T>(&mut self, buf: T) -> Promise<(), io::Error> where T: AsRef<[u8]> + 'static {
-        self.connection.write(buf)
-            .map(|_| {
-                Ok(())
-            })
     }
 }
 

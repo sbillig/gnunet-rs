@@ -35,10 +35,8 @@ fn main() {
         let network = event_port.get_network();
 
         let record_promise = gnunet::gns::lookup_in_master(&config, &network, Rc::new(domain), gnunet::gns::RecordType::A, None);
-        match record_promise.wait(wait_scope, &mut event_port) {
-            Ok(r)  => { println!("record: {}", r) },
-            Err(e) => { println!("error:  {}", e) },
-        }
+        let record = record_promise.wait(wait_scope, &mut event_port).unwrap();
+        println!("{}", record);
         Ok(())
     }).expect("top level");
 }

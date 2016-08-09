@@ -9,10 +9,9 @@ fn main() {
         let network = event_port.get_network();
 
         // identity example
-        match gnunet::get_default_ego(&config, Rc::new("gns-master".to_string()), &network).wait(wait_scope, &mut event_port) {
-            Ok(ego) => println!("{}", ego),
-            Err(e)  => println!("{}", e),
-        }
+        let ego = gnunet::get_default_ego(&config, Rc::new("gns-master".to_string()), &network)
+            .wait(wait_scope, &mut event_port).unwrap();
+        println!("{}", ego);
         Ok(())
     }).expect("top level");
 }

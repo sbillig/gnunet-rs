@@ -19,7 +19,6 @@ mod record;
 
 /// A handle to a locally-running instance of the GNS daemon.
 pub struct GNS {
-    // callback_loop: Promise<(), ReadMessageError>,
     service_reader: ServiceReader,
     service_writer: ServiceWriter,
     lookup_id: u32,
@@ -60,7 +59,6 @@ impl GNS {
         let table = Rc::new(RefCell::new(HashMap::new()));
         service::connect(cfg, "gns", network).lift().map(move |(sr, sw)| {
             Ok(GNS {
-                // callback_loop: sr.spawn_callback_loop(cb).eagerly_evaluate(),
                 service_reader: sr,
                 service_writer: sw,
                 lookup_id : 0,
@@ -154,7 +152,7 @@ impl GNS {
                     map.borrow_mut().insert(id, records);
                 }
             },
-            x => return Err(LookupError::InvalidType { tpe: x }),
+            x => return Err(LookupError::InvalidType { tpe: x }), // TODO reconnect here instead of returning error
         };
         Ok(())
 }
@@ -358,14 +356,14 @@ fn test_multiple_lookup() {
         let ego = identity::get_default_ego(&config, gns_master, &network).wait(wait_scope, &mut event_port).unwrap();
         let pk = ego.get_public_key();
         let mut gns = GNS::connect(&config, &network).wait(wait_scope, &mut event_port).unwrap();
-        let promises = vec!["gnu.org", "gnunet.org", "freebsd.org"].into_iter().map(|d| {
+        let promises = vec!["gnu.org", "gnunet.org"].into_iter().map(|d| {
             gns.lookup(::std::rc::Rc::new(d.to_string()),
                        pk,
                        RecordType::A,
                        LocalOptions::LocalMaster,
                        None)
         });
-        let ips = Promise::all(promises).wait(wait_scope, &mut event_port);
+        let ips = Promise::all(promises).wait(wait_scope, &mut event_port).unwrap();
         println!("{:?}", ips);
         Ok(())
     }).expect("top_level");

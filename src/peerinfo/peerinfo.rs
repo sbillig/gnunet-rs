@@ -66,7 +66,7 @@ impl FromStr for PeerIdentity {
 /// let config = Cfg::default().unwrap();
 /// let mut event_port = async::EventPort::new().unwrap();
 /// let network = event_port.get_network();
-/// let pk_string = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0".to_string();
+/// let pk_string = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0";
 ///
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let peer_promise = gnunet::get_peer(&config, &network, pk_string).map(|(peer, _)| { Ok(peer) });
@@ -76,10 +76,10 @@ impl FromStr for PeerIdentity {
 /// }).expect("top_level");
 /// ```
 ///
-pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Option<PeerIdentity>, Option<Hello>), PeerInfoError> {
+pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: &str) -> Promise<(Option<PeerIdentity>, Option<Hello>), PeerInfoError> {
     // prepare peer identity
     let pk = &mut [0; 32];
-    string_to_data(&pk_string, pk);
+    string_to_data(pk_string, pk);
     let id =
         ll::Struct_GNUNET_PeerIdentity {
             public_key : ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
