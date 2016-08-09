@@ -4,12 +4,12 @@ use std::rc::Rc;
 use std::cell::RefCell;
 use byteorder::{BigEndian, ReadBytesExt};
 use num::ToPrimitive;
-use gj::{Promise, PromiseFulfiller};
+use gj::{Promise};
 use gjio::{Network};
 
 use identity;
 use ll;
-use service::{self, ServiceWriter, ReadMessageError, MessageTrait, MessageHeader, ProcessMessageResult};
+use service::{self, ServiceReader, ServiceWriter, ReadMessageError, MessageTrait, MessageHeader};
 use EcdsaPublicKey;
 use EcdsaPrivateKey;
 use Cfg;
@@ -19,10 +19,11 @@ mod record;
 
 /// A handle to a locally-running instance of the GNS daemon.
 pub struct GNS {
-    callback_loop: Promise<(), ReadMessageError>,
+    // callback_loop: Promise<(), ReadMessageError>,
+    service_reader: ServiceReader,
     service_writer: ServiceWriter,
     lookup_id: u32,
-    fulfiller_table: Rc<RefCell<HashMap<u32, PromiseFulfiller<Vec<Record>, ReadMessageError>>>>,
+    results_table: Rc<RefCell<HashMap<u32, Vec<Record>>>>,
 }
 
 /// Options for GNS lookups.
@@ -55,59 +56,17 @@ impl GNS {
     /// Returns either a promise to the GNS service or a `service::ConnectError`. `cfg` contains the
     /// configuration to use to connect to the service.
     pub fn connect(cfg: &Cfg, network: &Network) -> Promise<GNS, service::ConnectError> {
-        service::connect(cfg, "gns", network)
-            .map(|(mut sr, sw)| {
-                let table: Rc<RefCell<HashMap<u32, PromiseFulfiller<Vec<Record>, ReadMessageError>>>>
-                    = Rc::new(RefCell::new(HashMap::new()));
 
-                let table2 = table.clone();
-                let cb = move |tpe: u16, mut reader: Cursor<Vec<u8>>| {
-                    match tpe {
-                        ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
-
-                            let id = match reader.read_u32::<BigEndian>() {
-                                Ok(id) => id,
-                                Err(_) => return ProcessMessageResult::Reconnect,
-                            };
-                            println!("WOW id == {}", id);
-
-                            match table2.borrow_mut().remove(&id) {
-                                Some(fulfiller) => {
-                                    println!("WOW there's a fulfiller for that");
-                                    let rd_count = match reader.read_u32::<BigEndian>() {
-                                        Ok(x) => x,
-                                        Err(_) => return ProcessMessageResult::Reconnect,
-                                    };
-                                    println!("WOW rd_count == {}", rd_count);
-
-                                    let mut records = Vec::new();
-                                    for _ in 0..rd_count {
-                                        let rec = match Record::deserialize(&mut reader) {
-                                            Ok(r)   => r,
-                                            Err(_) => return ProcessMessageResult::Reconnect,
-                                        };
-                                        records.push(rec);
-                                    };
-                                    // TODO check whether records is empty?
-                                    fulfiller.fulfill(records);
-                                }
-                                // fulfiller not found, error here?
-                                None => (),
-                            };
-                        },
-                        // tpe does not match
-                        _ => return ProcessMessageResult::Reconnect
-                    };
-                    ProcessMessageResult::Continue
-                };
-
-                Ok(GNS {
-                    callback_loop: sr.spawn_callback_loop(cb),
-                    service_writer: sw,
-                    lookup_id : 0,
-                    fulfiller_table: table,
-                })
+        let table = Rc::new(RefCell::new(HashMap::new()));
+        service::connect(cfg, "gns", network).lift().map(move |(sr, sw)| {
+            Ok(GNS {
+                // callback_loop: sr.spawn_callback_loop(cb).eagerly_evaluate(),
+                service_reader: sr,
+                service_writer: sw,
+                lookup_id : 0,
+                results_table: table,
             })
+        })
     }
 
     /// Lookup a vector of GNS records.
@@ -150,17 +109,56 @@ impl GNS {
         let id = self.lookup_id;
         self.lookup_id += 1;
         let msg = pry!(LookupMessage::new(id, zone, options, shorten, record_type, &name));
-
-        // create promise fulfiller pair and add to the results table
-        let (promise, fulfiller) = Promise::and_fulfiller();
-        {
-            self.fulfiller_table.borrow_mut().insert(id, fulfiller);
-        }
+        let mut sr = self.service_reader.clone();
+        let map = self.results_table.clone();
 
         self.service_writer.send_with_str(msg, &name).lift().then(move |_| {
-            promise
+            GNS::lookup_loop(&mut sr, id, map)
         }).lift()
     }
+
+    fn lookup_loop(sr: &mut ServiceReader, id: u32, map: Rc<RefCell<HashMap<u32, Vec<Record>>>>) -> Promise<Vec<Record>, LookupError> {
+        let mut sr2 = sr.clone();
+        let map2 = map.clone();
+        sr.read_message()
+            .lift()
+            .then(move |(tpe, mr)| {
+                match GNS::parse_lookup_result(tpe, mr, map) {
+                    Ok(()) => {
+                        // read again if the id is not available yet
+                        let result = map2.borrow_mut().remove(&id);
+                        match result {
+                            Some(x) => return Promise::ok(x),
+                            None    => return GNS::lookup_loop(&mut sr2, id, map2),
+                        };
+                    },
+                    Err(e) => return Promise::err(e),
+                }
+            })
+    }
+
+    // results are inserted in to the map
+    fn parse_lookup_result(tpe: u16, mut reader: Cursor<Vec<u8>>, map: Rc<RefCell<HashMap<u32, Vec<Record>>>>)
+                           -> Result<(), LookupError> {
+        match tpe {
+            ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
+                let mut records = Vec::new();
+
+                let id = try!(reader.read_u32::<BigEndian>());
+                let rd_count = try!(reader.read_u32::<BigEndian>());
+                for _ in 0..rd_count {
+                    let rec = try!(Record::deserialize(&mut reader));
+                    records.push(rec);
+                };
+
+                if !records.is_empty() {
+                    map.borrow_mut().insert(id, records);
+                }
+            },
+            x => return Err(LookupError::InvalidType { tpe: x }),
+        };
+        Ok(())
+}
 }
 
 pub struct LookupQuery<'a> {
