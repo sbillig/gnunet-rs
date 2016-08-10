@@ -4,7 +4,7 @@
 use std::io::{self, Cursor};
 use byteorder::{BigEndian, ReadBytesExt};
 
-use gj::{Promise};
+use gj::{Promise, FulfillerDropped};
 use gjio::{AsyncWrite, AsyncRead, SocketStream, Network};
 
 use configuration::{self, Cfg};
@@ -63,15 +63,24 @@ pub fn connect(cfg: &Cfg, name: &str, network: &Network)
 
 /// Error that can be generated when attempting to receive data from a service.
 error_def! ReadMessageError {
-  Io { #[from] cause: io::Error } => "There was an I/O error communicating with the service" ("Specifically {}", cause),
-  ShortMessage { len: u16 }       => "The message received from the service was too short" ("Length was {} bytes.", len),
-  Disconnected                    => "The service disconnected unexpectedly",
+    Io { #[from] cause: io::Error } => "There was an I/O error communicating with the service" ("Specifically {}", cause),
+    ShortMessage { len: u16 }       => "The message received from the service was too short" ("Length was {} bytes.", len),
+    Disconnected                    => "The service disconnected unexpectedly",
+    FulfillerDropped => "Promise fulfiller was dropped",
 }
 
+impl FulfillerDropped for ReadMessageError {
+    fn fulfiller_dropped() -> ReadMessageError {
+        ReadMessageError::FulfillerDropped
+    }
+}
 
 impl ServiceReader {
+    // NOTE When using this function multiple times on the same socket
+    // the caller needs to make sure the reads are chained together,
+    // otherwise it may return bogus results.
     pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
-        use util::async::U16PromiseReader;
+        use util::async::PromiseReader;
         let mut connection2 =  self.connection.clone(); // this is ok we're just bumping Rc count
         self.connection.read_u16()
             .lift()
@@ -81,12 +90,27 @@ impl ServiceReader {
                 }
                 let rem = len as usize - 2;
                 connection2.read(vec![0; rem], rem).lift()
+                    .map(move |(buf, _)| {
+                        let mut mr = Cursor::new(buf);
+                        let tpe = try!(mr.read_u16::<BigEndian>());
+                        Ok((tpe, mr))
+                    })
             })
-            .map(move |(buf, _)| {
-                let mut mr = Cursor::new(buf);
-                let tpe = try!(mr.read_u16::<BigEndian>());
-                Ok((tpe, mr))
-            })
+    }
+
+    // NOTE the callback `cb` should not block
+    pub fn spawn_callback_loop<F>(&mut self, mut cb: F) -> Promise<(), ReadMessageError>
+        where F: FnMut(u16, Cursor<Vec<u8>>) -> ProcessMessageResult,
+              F: 'static
+    {
+        let mut sr = self.clone();
+        self.read_message().then(move |(tpe, mr)| {
+            match cb(tpe, mr) {
+                ProcessMessageResult::Continue  => sr.spawn_callback_loop(cb),
+                ProcessMessageResult::Reconnect => Promise::ok(()), // TODO auto reconnect
+                ProcessMessageResult::Shutdown => Promise::ok(()),
+            }
+        })
     }
 }
 
@@ -99,6 +123,7 @@ impl ServiceWriter {
             })
     }
 
+    // NOTE the caller needs to ensure that `message` corresponds to `string`, i.e. the message length should add up
     pub fn send_with_str<T: MessageTrait>(&mut self, message: T, string: &str) -> Promise<(), io::Error> {
         let mut x = message.into_slice().to_vec();
         x.extend_from_slice(string.as_bytes());
@@ -107,13 +132,6 @@ impl ServiceWriter {
         .map(|_| {
             Ok(())
         })
-    }
-
-    pub fn write_buf<T>(&mut self, buf: T) -> Promise<(), io::Error> where T: AsRef<[u8]> + 'static {
-        self.connection.write(buf)
-            .map(|_| {
-                Ok(())
-            })
     }
 }
 

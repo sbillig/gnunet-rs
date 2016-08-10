@@ -9,7 +9,6 @@
 #![feature(plugin)]
 
 #![plugin(error_def)]
-#![plugin(regex_macros)]
 
 #![crate_name = "gnunet"]
 
@@ -26,11 +25,10 @@ extern crate gjio;
 pub use configuration::Cfg;
 pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
 
-//pub use gns::{Record, RecordType};
-//pub use gns::{GNS, LocalOptions};
+pub use gns::{lookup_in_master, GNS, LocalOptions};
 pub use identity::{get_default_ego, Ego, IdentityService};
 pub use hello::Hello;
-pub use peerinfo::{get_peers, get_peers_iterator, get_peer, get_self_id, PeerIdentity};
+pub use peerinfo::{get_peers, get_peers_vec, get_peer, get_self_id, PeerIdentity};
 //pub use dht::DHT;
 
 /*
@@ -91,7 +89,7 @@ pub mod service;
 pub mod configuration;
 pub mod time;
 pub mod paths;
-//pub mod gns;
+pub mod gns;
 //pub mod dht;
 mod crypto;
 pub mod identity;

@@ -4,8 +4,8 @@ use std::str::{FromStr};
 use std::io::{self, Read, Write, Cursor};
 use byteorder::{BigEndian, ReadBytesExt};
 
-use gj::{Promise, WaitScope};
-use gjio::{Network, EventPort};
+use gj::Promise;
+use gjio::Network;
 
 use ll;
 use Cfg;
@@ -55,14 +55,6 @@ impl FromStr for PeerIdentity {
     }
 }
 
-/// Errors returned by `iterate_peers`.
-error_def! IteratePeersError {
-    Io { #[from] cause: io::Error }
-        => "There as an I/O error communicating with the peerinfo service" ("Specifically: {}", cause),
-    Connect { #[from] cause: service::ConnectError }
-        => "Failed to connect to the peerinfo service" ("Reason: {}", cause)
-}
-
 /// Get a peer by its key.
 ///
 /// # Example
@@ -74,7 +66,7 @@ error_def! IteratePeersError {
 /// let config = Cfg::default().unwrap();
 /// let mut event_port = async::EventPort::new().unwrap();
 /// let network = event_port.get_network();
-/// let pk_string = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0".to_string();
+/// let pk_string = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0";
 ///
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let peer_promise = gnunet::get_peer(&config, &network, pk_string).map(|(peer, _)| { Ok(peer) });
@@ -84,10 +76,10 @@ error_def! IteratePeersError {
 /// }).expect("top_level");
 /// ```
 ///
-pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Option<PeerIdentity>, Option<Hello>), NextPeerError> {
+pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: &str) -> Promise<(Option<PeerIdentity>, Option<Hello>), PeerInfoError> {
     // prepare peer identity
     let pk = &mut [0; 32];
-    string_to_data(&pk_string, pk);
+    string_to_data(pk_string, pk);
     let id =
         ll::Struct_GNUNET_PeerIdentity {
             public_key : ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
@@ -95,33 +87,21 @@ pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Opt
             }
         };
 
-    // connect to the service
-    connect(cfg, "peerinfo", network)
-        .then(move |(sr, mut sw)| {
-            sw.send(ListPeerMessage::new(0, id))
-                .lift()
-                .map(move |()| {
-                    Ok(Peers { service: sr })
-                })
-        })
-        .map_err(|_| { NextPeerError::InvalidResponse }) // TODO need better error handling
-        .then(move |mut peer| {
-            peer.iterate()
-                .map(|x| {
-                    match x {
-                        Some((id, hello)) => Ok((Some(id), hello)),
-                        None => Ok((None, None)),
+    connect(cfg, "peerinfo", network).lift().then(move |(sr, mut sw)| {
+            sw.send(ListPeerMessage::new(0, id)).lift().then(move |()| {
+                let mut peers = Peers { service: sr };
+                peers.get_vec().map(|mut vec| {
+                    match vec.len() {
+                        0 | 1 => {
+                            match vec.pop() {
+                                Some((id, hello)) => Ok((Some(id), hello)),
+                                None => Ok((None, None)),
+                            }
+                        },
+                        _ => Err(PeerInfoError::InvalidResponse),
                     }
                 })
-                .then(move |x| {
-                    peer.iterate()
-                        .map(|y| {
-                            match y {
-                                Some(_) => Err(NextPeerError::InvalidResponse), // wrong if we manage to read two peers
-                                None => Ok(x),
-                            }
-                        })
-                })
+            })
         })
 }
 
@@ -140,13 +120,13 @@ pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: String) -> Promise<(Opt
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let peers_promise = gnunet::get_peers(&config, &network);
 ///     let peers = peers_promise.wait(wait_scope, &mut event_port);
-///     // do things with `peers`, i.e. use its methods such as `to_iter` or `iterate`
+///     // do things with `peers`, i.e. use its methods such as `iterate` or `get_vec`
 ///     Ok(())
 /// }).expect("top_level");
 /// ```
 ///
 pub fn get_peers(cfg: &Cfg, network: &Network)
-                     -> Promise<Peers, IteratePeersError> {
+                     -> Promise<Peers, PeerInfoError> {
     connect(cfg, "peerinfo", network)
         .lift()
         .then(move |(sr, mut sw)| {
@@ -171,19 +151,18 @@ pub fn get_peers(cfg: &Cfg, network: &Network)
 /// let network = event_port.get_network();
 ///
 /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-///     let peers_iter = gnunet::get_peers_iterator(&config, &network, wait_scope, &mut event_port).unwrap();
-///     for peer in peers_iter {
-///         let (peerinfo, _) = peer.unwrap();
+///     let peers_vec = gnunet::get_peers_vec(&config, &network).wait(wait_scope, &mut event_port).unwrap();
+///     for (peerinfo, _) in peers_vec {
 ///         // do something with `peerinfo`
 ///     }
 ///     Ok(())
 /// }).expect("top_level");
 /// ```
 ///
-pub fn get_peers_iterator<'a>(cfg: &Cfg, network: &Network, wait_scope: &'a WaitScope, event_port: &'a mut EventPort)
-                     -> Result<PeersIterator<'a>, IteratePeersError> {
-    let peers = try!(get_peers(cfg, network).wait(wait_scope, event_port));
-    Ok(peers.to_iter(wait_scope, event_port))
+pub fn get_peers_vec(cfg: &Cfg, network: &Network) -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
+    get_peers(cfg, network).then(|mut peers| {
+        peers.get_vec()
+    })
 }
 
 /// Get our own identity.
@@ -219,7 +198,7 @@ pub struct Peers {
 }
 
 /// Errors returned by `Peers::next`.
-error_def! NextPeerError {
+error_def! PeerInfoError {
     InvalidResponse
         => "The response from the gnunet-peerinfo service was incoherent",
     UnexpectedMessageType { ty: u16 }
@@ -229,43 +208,63 @@ error_def! NextPeerError {
     ReadMessage { #[from] cause: ReadMessageError }
         => "Failed to receive the response from the peerinfo service" ("Reason: {}", cause),
     Disconnected
-        => "The service disconnected unexpectedly"
+        => "The service disconnected unexpectedly",
+    Connect { #[from] cause: service::ConnectError }
+        => "Failed to connect to the peerinfo service" ("Reason: {}", cause)
 }
 
 impl Peers {
     /// Returns a promise to the next iteration.
-    pub fn iterate(&mut self) -> Promise<Option<(PeerIdentity, Option<Hello>)>, NextPeerError> {
+    pub fn iterate(&mut self) -> Promise<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
         self.service.read_message()
             .map_else(move |x| {
                 match x {
-                    Err(e)  => return Err(NextPeerError::ReadMessage { cause: e }),
+                    Err(e)  => return Err(PeerInfoError::ReadMessage { cause: e }),
                     Ok((tpe, mr))   => parse_peer(tpe, mr),
                 }
             })
     }
 
-    /// Converts Peers into an Iterator.
-    pub fn to_iter<'a>(self, wait_scope: &'a WaitScope, event_port: &'a mut EventPort) -> PeersIterator<'a> {
-        PeersIterator {
-            peers: self,
-            event_port: event_port,
-            wait_scope: wait_scope,
-        }
+    pub fn get_vec(&mut self) -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
+        let v = Vec::new();
+        let mut sr = self.service.clone();
+        Peers::peers_loop(&mut sr, v)
+    }
+
+    fn peers_loop(sr: &mut ServiceReader, mut v: Vec<(PeerIdentity, Option<Hello>)>)
+                       -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError>
+    {
+        let mut sr2 = sr.clone();
+        sr.read_message().then_else(move |x| {
+            match x {
+                Err(e)  => return Promise::err(PeerInfoError::ReadMessage { cause: e }),
+                Ok((tpe, mr))   => {
+                    match parse_peer(tpe, mr) {
+                        Ok(Some(x)) => {
+                            v.push(x);
+                            Peers::peers_loop(&mut sr2, v)
+                        },
+                        Ok(None) => return Promise::ok(v),
+                        Err(e) => return Promise::err(e),
+                    }
+                }
+            }
+        })
     }
 }
 
 /// Parse some data in `mr` into a tuple of `PeerIdentity` and optionally a `Hello`.
-fn parse_peer(tpe: u16, mut mr: Cursor<Vec<u8>>) -> Result<Option<(PeerIdentity, Option<Hello>)>, NextPeerError> {
+fn parse_peer(tpe: u16, mut mr: Cursor<Vec<u8>>) -> Result<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
     match tpe {
         ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
             Err(e)  => match e.kind() {
-                io::ErrorKind::UnexpectedEof => Err(NextPeerError::Disconnected),
-                _                            => Err(NextPeerError::Io { cause: e }),
+                io::ErrorKind::UnexpectedEof => Err(PeerInfoError::Disconnected),
+                _                            => Err(PeerInfoError::Io { cause: e }),
             },
             Ok(x)   => match x == 0 {
-                false => Err(NextPeerError::InvalidResponse),
+                false => Err(PeerInfoError::InvalidResponse),
                 true  => match PeerIdentity::deserialize(&mut mr) {
-                    Err(e)  => Err(NextPeerError::Io { cause: e }),
+                    Err(e)  => Err(PeerInfoError::Io { cause: e }),
                     Ok(pi)  => {
                         Ok(Some((pi, None)))
                         /*
@@ -282,7 +281,7 @@ fn parse_peer(tpe: u16, mut mr: Cursor<Vec<u8>>) -> Result<Option<(PeerIdentity,
             },
         },
         ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO_END => Ok(None),
-        x => Err(NextPeerError::UnexpectedMessageType { ty: x }),
+        x => Err(PeerInfoError::UnexpectedMessageType { ty: x }),
     }
 }
 
@@ -355,30 +354,5 @@ impl ListPeerMessage {
 impl MessageTrait for ListPeerMessage {
     fn into_slice(&self) -> &[u8] {
         message_to_slice!(ListPeerMessage, self)
-    }
-}
-
-
-// Promises and iterators don't play nicely with iterators
-// We need to force the iterator to evaluate the promise on every iteration otherwise `next` will never return None
-// But keeping WaitScope and EventPort as a part of the Iterator is tricky due to lifetime constraints
-// So this struct is created as a workaround
-pub struct PeersIterator<'a> {
-    peers: Peers,
-    wait_scope: &'a WaitScope,
-    event_port: &'a mut EventPort,
-}
-
-impl <'a>Iterator for PeersIterator<'a> {
-    type Item = Result<(PeerIdentity, Option<Hello>), NextPeerError>;
-
-    fn next(&mut self) -> Option<Result<(PeerIdentity, Option<Hello>), NextPeerError>> {
-        match self.peers.iterate().wait(self.wait_scope, self.event_port) {
-            Ok(x) => match x {
-                Some(x) => Some(Ok(x)),
-                None    => None,
-            },
-            Err(e) => Some(Err(e)),
-        }
     }
 }

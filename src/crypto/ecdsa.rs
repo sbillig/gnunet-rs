@@ -57,7 +57,7 @@ impl fmt::Display for EcdsaPublicKey {
 }
 
 /// A 256bit ECDSA private key.
-#[derive(Copy)]
+#[derive(Copy, Clone)]
 pub struct EcdsaPrivateKey {
     data: [u8; 32]
 }
@@ -82,6 +82,7 @@ impl EcdsaPrivateKey {
         use rcrypto::curve25519::ge_scalarmult_base;
         // the representation for scalarmult that rust-crypto expects is the reverse of libgcrypt
         // so we create temporary data and then reverse it
+        // TODO cloning data every time this fn is called isn't ideal, consider reversing the representation in the struct
         let mut data = self.data.clone();
         data.reverse();
         EcdsaPublicKey {
@@ -93,13 +94,9 @@ impl EcdsaPrivateKey {
     pub fn anonymous() -> EcdsaPrivateKey {
         unimplemented!()
     }
-}
 
-impl Clone for EcdsaPrivateKey {
-    fn clone(&self) -> EcdsaPrivateKey {
-        EcdsaPrivateKey {
-        data: self.data.clone(),
-        }
+    pub fn zeros() -> EcdsaPrivateKey {
+        EcdsaPrivateKey { data: [0u8; 32] }
     }
 }
 
@@ -125,8 +122,6 @@ impl FromStr for EcdsaPrivateKey {
 #[test]
 fn test_ecdsa_to_from_string() {
     use EcdsaPublicKey;
-
-    //let s0: &str = "JK55QA8JLAL64MBO8UM209KE93M9JBBO7M2UB8M3M03FKRFSUOMG";
     let s0: &str = "JK55QA8J1A164MB08VM209KE93M9JBB07M2VB8M3M03FKRFSV0MG";
     let key: EcdsaPublicKey = FromStr::from_str(s0).unwrap();
     let s1: String = format!("{}", key);
