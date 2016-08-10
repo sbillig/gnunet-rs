@@ -23,6 +23,7 @@ pub struct GNS {
     service_writer: ServiceWriter,
     lookup_id: u32,
     results_table: Rc<RefCell<HashMap<u32, Vec<Record>>>>,
+    read_queue: Rc<RefCell<Option<Promise<(), ()>>>>,
 }
 
 /// Options for GNS lookups.
@@ -63,6 +64,7 @@ impl GNS {
                 service_writer: sw,
                 lookup_id : 0,
                 results_table: table,
+                read_queue: Rc::new(RefCell::new(None)),
             })
         })
     }
@@ -108,9 +110,31 @@ impl GNS {
         let msg = pry!(LookupMessage::new(id, zone, options, shorten, record_type, &name));
         let mut sr = self.service_reader.clone();
         let map = self.results_table.clone();
+        let read_queue = self.read_queue.clone();
 
         self.service_writer.send_with_str(msg, &name).lift().then(move |_| {
-            GNS::lookup_loop(&mut sr, id, map)
+            let result = map.borrow_mut().remove(&id);
+            match result {
+                // first check whether we already have the result
+                Some(x) => Promise::ok(x),
+
+                // if there are no results then add task to the read queue
+                None => {
+                    let maybe_queue = read_queue.borrow_mut().take();
+                    let promise = match maybe_queue {
+                        Some(queue) => queue.then_else(move |_| { GNS::lookup_loop(&mut sr, id, map) }),
+                        None        => GNS::lookup_loop(&mut sr, id, map),
+                    };
+
+                    let (p, f) = Promise::and_fulfiller();
+                    *read_queue.borrow_mut() = Some(p);
+
+                    promise.map_else(|r| {
+                        f.resolve(Ok(()));
+                        r
+                    })
+                },
+            }
         }).lift()
     }
 
