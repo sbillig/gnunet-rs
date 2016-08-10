@@ -76,7 +76,9 @@ impl FulfillerDropped for ReadMessageError {
 }
 
 impl ServiceReader {
-    // this function needs to happen atomically
+    // NOTE When using this function multiple times on the same socket
+    // the caller needs to make sure the reads are chained together,
+    // otherwise it may return bogus results.
     pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
         use util::async::PromiseReader;
         let mut connection2 =  self.connection.clone(); // this is ok we're just bumping Rc count
@@ -96,7 +98,7 @@ impl ServiceReader {
             })
     }
 
-    // the callback `cb` should not block
+    // NOTE the callback `cb` should not block
     pub fn spawn_callback_loop<F>(&mut self, mut cb: F) -> Promise<(), ReadMessageError>
         where F: FnMut(u16, Cursor<Vec<u8>>) -> ProcessMessageResult,
               F: 'static
@@ -105,7 +107,7 @@ impl ServiceReader {
         self.read_message().then(move |(tpe, mr)| {
             match cb(tpe, mr) {
                 ProcessMessageResult::Continue  => sr.spawn_callback_loop(cb),
-                ProcessMessageResult::Reconnect => Promise::ok(()), //TODO: auto reconnect
+                ProcessMessageResult::Reconnect => Promise::ok(()), // TODO auto reconnect
                 ProcessMessageResult::Shutdown => Promise::ok(()),
             }
         })
@@ -121,6 +123,7 @@ impl ServiceWriter {
             })
     }
 
+    // NOTE the caller needs to ensure that `message` corresponds to `string`, i.e. the message length should add up
     pub fn send_with_str<T: MessageTrait>(&mut self, message: T, string: &str) -> Promise<(), io::Error> {
         let mut x = message.into_slice().to_vec();
         x.extend_from_slice(string.as_bytes());

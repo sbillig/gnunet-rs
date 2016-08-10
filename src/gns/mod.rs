@@ -70,6 +70,7 @@ impl GNS {
     }
 
     /// Lookup a vector of GNS records.
+    /// A promise of the result is returned.
     ///
     /// If `shorten` is not `None` then the result is added to the given shorten zone.
     ///
@@ -83,17 +84,20 @@ impl GNS {
     /// let mut event_port = async::EventPort::new().unwrap();
     /// let network = event_port.get_network();
     /// let gns_master = ::std::rc::Rc::new("gns-master".to_string());
-    /// let gnu_org = ::std::rc::Rc::new("gnu.org".to_string());
     ///
     /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
     ///     let ego = identity::get_default_ego(&config, gns_master, &network).wait(wait_scope, &mut event_port).unwrap();
+    ///     let pk = ego.get_public_key();
     ///     let mut gns = GNS::connect(&config, &network).wait(wait_scope, &mut event_port).unwrap();
-    ///     let result = gns.lookup(gnu_org,
-    ///                             ego.get_public_key(),
-    ///                             gns::RecordType::A,
-    ///                             gns::LocalOptions::LocalMaster,
-    ///                             None).wait(wait_scope, &mut event_port).unwrap();
-    ///     println!("{:?}", result);
+    ///     let promises = vec!["gnu.org", "gnunet.org", "freebsd.org"].into_iter().map(|d| {
+    ///         gns.lookup(::std::rc::Rc::new(d.to_string()),
+    ///                    pk,
+    ///                    gns::RecordType::A,
+    ///                    gns::LocalOptions::LocalMaster,
+    ///                    None)
+    ///     });
+    ///     let ips = async::Promise::all(promises).wait(wait_scope, &mut event_port).unwrap();
+    ///     println!("{:?}", ips);
     ///     Ok(())
     /// }).expect("top_level");
     /// ```
@@ -138,7 +142,8 @@ impl GNS {
         }).lift()
     }
 
-    fn lookup_loop(sr: &mut ServiceReader, id: u32, map: Rc<RefCell<HashMap<u32, Vec<Record>>>>) -> Promise<Vec<Record>, LookupError> {
+    fn lookup_loop(sr: &mut ServiceReader, id: u32, map: Rc<RefCell<HashMap<u32, Vec<Record>>>>)
+                   -> Promise<Vec<Record>, LookupError> {
         let mut sr2 = sr.clone();
         let map2 = map.clone();
         sr.read_message()
@@ -158,7 +163,7 @@ impl GNS {
             })
     }
 
-    // results are inserted in to the map
+    // in this function, results are inserted in to the map
     fn parse_lookup_result(tpe: u16, mut reader: Cursor<Vec<u8>>, map: Rc<RefCell<HashMap<u32, Vec<Record>>>>)
                            -> Result<(), LookupError> {
         match tpe {
@@ -179,7 +184,7 @@ impl GNS {
             x => return Err(LookupError::InvalidType { tpe: x }), // TODO reconnect here instead of returning error
         };
         Ok(())
-}
+    }
 }
 
 #[repr(C, packed)]
@@ -354,41 +359,14 @@ pub fn lookup_in_master(cfg: &Cfg,
         .lift()
         .then(move |ego| {
             let pk = ego.get_public_key();
-            let opt: LocalOptions;
-            {
+            let opt = {
                 let mut it = name.split('.');
-                opt = match (it.next(), it.next(), it.next()) {
+                match (it.next(), it.next(), it.next()) {
                     (Some(_), Some("gnu"), None)  => LocalOptions::NoDHT,
                     _                             => LocalOptions::LocalMaster,
-                };
-            }
+                }
+            };
             println!("doing lookup");
             lookup(&cfg2, &network2, name, pk, record_type, opt, shorten).lift()
         })
-}
-
-#[test]
-fn test_multiple_lookup() {
-    use ::util::async;
-
-    let config = Cfg::default().unwrap();
-    let mut event_port = async::EventPort::new().unwrap();
-    let network = event_port.get_network();
-    let gns_master = ::std::rc::Rc::new("gns-master".to_string());
-
-    async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-        let ego = identity::get_default_ego(&config, gns_master, &network).wait(wait_scope, &mut event_port).unwrap();
-        let pk = ego.get_public_key();
-        let mut gns = GNS::connect(&config, &network).wait(wait_scope, &mut event_port).unwrap();
-        let promises = vec!["gnu.org", "gnunet.org"].into_iter().map(|d| {
-            gns.lookup(::std::rc::Rc::new(d.to_string()),
-                       pk,
-                       RecordType::A,
-                       LocalOptions::LocalMaster,
-                       None)
-        });
-        let ips = Promise::all(promises).wait(wait_scope, &mut event_port).unwrap();
-        println!("{:?}", ips);
-        Ok(())
-    }).expect("top_level");
 }

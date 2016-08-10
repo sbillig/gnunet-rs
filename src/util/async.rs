@@ -1,11 +1,13 @@
 use std::io::{Error, ErrorKind};
-use gj::{self, Promise};
+use gj::{self};
 use gjio::{self, AsyncRead, SocketStream};
 use byteorder::{BigEndian, ByteOrder};
 
 pub type EventLoop = gj::EventLoop;
 
 pub type EventPort = gjio::EventPort;
+
+pub type Promise<T, E> = gj::Promise<T, E>;
 
 pub fn cancel<T, E: From<Error>>(p: Promise<T, E>) -> Promise<T, E> {
     let err = Promise::err(Error::new(ErrorKind::Interrupted, "Promise cancelled"));
