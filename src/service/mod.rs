@@ -158,3 +158,18 @@ macro_rules! message_to_slice {
         res
     }}
 }
+
+#[test]
+fn test_message_to_slice() {
+    #[repr(C, packed)]
+    struct S {
+        a: u16,
+        b: u32,
+    }
+
+    let s = &S { a: 0, b: 0 };
+    let slice = message_to_slice!(S, s);
+
+    assert!(slice.iter().all(|&x| x == 0));
+    assert_eq!(slice.len(), 6);
+}
