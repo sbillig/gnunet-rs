@@ -66,7 +66,7 @@ error_def! ReadMessageError {
     Io { #[from] cause: io::Error } => "There was an I/O error communicating with the service" ("Specifically {}", cause),
     ShortMessage { len: u16 }       => "The message received from the service was too short" ("Length was {} bytes.", len),
     Disconnected                    => "The service disconnected unexpectedly",
-    FulfillerDropped => "Promise fulfiller was dropped",
+    FulfillerDropped                => "Promise fulfiller was dropped",
 }
 
 impl FulfillerDropped for ReadMessageError {
@@ -96,21 +96,6 @@ impl ServiceReader {
                         Ok((tpe, mr))
                     })
             })
-    }
-
-    // NOTE the callback `cb` should not block
-    pub fn spawn_callback_loop<F>(&mut self, mut cb: F) -> Promise<(), ReadMessageError>
-        where F: FnMut(u16, Cursor<Vec<u8>>) -> ProcessMessageResult,
-              F: 'static
-    {
-        let mut sr = self.clone();
-        self.read_message().then(move |(tpe, mr)| {
-            match cb(tpe, mr) {
-                ProcessMessageResult::Continue  => sr.spawn_callback_loop(cb),
-                ProcessMessageResult::Reconnect => Promise::ok(()), // TODO auto reconnect
-                ProcessMessageResult::Shutdown => Promise::ok(()),
-            }
-        })
     }
 }
 
@@ -172,4 +157,64 @@ fn test_message_to_slice() {
 
     assert!(slice.iter().all(|&x| x == 0));
     assert_eq!(slice.len(), 6);
+}
+
+#[test]
+fn test_service() {
+    use gj::EventLoop;
+    use gjio::EventPort;
+    use std::io::Read;
+    use std::mem::size_of;
+    use byteorder::ByteOrder;
+
+    const DUMMY_TYPE: u16 = 24;
+
+    #[repr(C, packed)]
+    struct DummyMsg {
+        header: MessageHeader,
+        body: u32,
+    }
+
+    impl MessageTrait for DummyMsg {
+        fn into_slice(&self) -> &[u8] {
+            message_to_slice!(DummyMsg, self)
+        }
+    }
+
+    impl DummyMsg {
+        fn new(body: u32) -> DummyMsg {
+            let len = size_of::<DummyMsg>() as u16;
+            DummyMsg {
+                header: MessageHeader {
+                    len: len.to_be(),
+                    tpe: DUMMY_TYPE.to_be(),
+                },
+                body: body,
+            }
+        }
+    }
+
+    EventLoop::top_level(move |wait_scope| -> Result<(), ::std::io::Error> {
+        let mut event_port = EventPort::new().unwrap();
+        let network = event_port.get_network();
+        let (reader, writer) = network.new_socket_pair().unwrap();
+
+        let mut sr = ServiceReader { connection: reader };
+        let mut sw = ServiceWriter { connection: writer };
+        let msg_body: u32 = 42;
+
+        let msg = DummyMsg::new(msg_body);
+
+        sw.send(msg).lift().then(move |()| {
+            sr.read_message().map(move |(tpe, mut mr)| {
+                let mut buf = vec![0u8; 4];
+                try!(mr.read_exact(&mut buf));
+                assert_eq!(msg_body.to_be(), BigEndian::read_u32(&buf));
+                assert_eq!(DUMMY_TYPE, tpe);
+                Ok(())
+            })
+        }).wait(wait_scope, &mut event_port).unwrap();
+
+        Ok(())
+    }).expect("top level");
 }
