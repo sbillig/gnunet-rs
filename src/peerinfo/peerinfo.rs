@@ -329,6 +329,7 @@ impl MessageTrait for ListAllPeersMessage {
     }
 }
 
+/// Packed struct representing GNUNET_PEERINFO_ListPeerMessage.
 #[repr(C, packed)]
 struct ListPeerMessage {
     header: MessageHeader,
@@ -336,7 +337,6 @@ struct ListPeerMessage {
     peer: ll::Struct_GNUNET_PeerIdentity,
 }
 
-/// Packed struct representing GNUNET_PEERINFO_ListPeerMessage.
 impl ListPeerMessage {
     fn new(include_friend_only: u32, peer: ll::Struct_GNUNET_PeerIdentity) -> ListPeerMessage {
         let len = size_of::<ListPeerMessage>();
