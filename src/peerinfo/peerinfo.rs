@@ -20,12 +20,14 @@ pub struct PeerIdentity {
 }
 
 impl PeerIdentity {
+    /// Deserializes into PeerIdentity from a reader, the reader should have 32 bytes available.
     pub fn deserialize<R>(r: &mut R) -> Result<PeerIdentity, io::Error> where R: Read {
         let mut ret: PeerIdentity = unsafe { uninitialized() };
         try!(r.read_exact(&mut ret.data.public_key.q_y[..]));
         Ok(ret)
     }
 
+    /// Serializes and writes the identity into a writer.
     pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error> where T: Write {
         w.write_all(&self.data.public_key.q_y[..])
     }
@@ -55,7 +57,7 @@ impl FromStr for PeerIdentity {
     }
 }
 
-/// Get a peer by its key.
+/// Get a promise of a peer by its key.
 ///
 /// # Example
 ///
@@ -105,7 +107,7 @@ pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: &str) -> Promise<(Optio
         })
 }
 
-/// Get an proimise to all the currently connected peers.
+/// Get a proimise to all the currently connected peers.
 ///
 /// # Example
 ///
@@ -138,7 +140,7 @@ pub fn get_peers(cfg: &Cfg, network: &Network)
         })
 }
 
-/// Get an iterator over all the currently connected peers.
+/// Get a promise to a vector of all the currently connected peers.
 ///
 /// # Example
 ///
@@ -192,7 +194,7 @@ pub fn get_self_id(cfg: &Cfg, network: &Network) -> Promise<PeerIdentity, Transp
         })
 }
 
-/// An iterator over all the currently connected peers.
+/// Struct representing all the currently connected peers.
 pub struct Peers {
     service: ServiceReader,
 }
@@ -225,6 +227,7 @@ impl Peers {
             })
     }
 
+    /// Returns a promise to a vector of all connected peers.
     pub fn get_vec(&mut self) -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
         let v = Vec::new();
         let mut sr = self.service.clone();

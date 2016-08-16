@@ -187,6 +187,7 @@ impl GNS {
     }
 }
 
+/// Packed struct representing GNUNET_GNS_ClientLookupMessage.
 #[repr(C, packed)]
 struct LookupMessage {
     header: MessageHeader,
@@ -212,8 +213,11 @@ impl LookupMessage {
             return Err(LookupError::NameTooLong { name: name.to_string() });
         };
 
-        use std::mem;
-        let msg_len = (mem::size_of::<LookupMessage>() + name_len + 1).to_u16().unwrap();
+        let msg_len = match (::std::mem::size_of::<LookupMessage>() + name_len + 1).to_u16() {
+            Some(x) => x,
+            _     => return Err(LookupError::NameTooLong { name: name.to_string() }),
+        };
+
         Ok(LookupMessage {
             header: MessageHeader {
                 len: msg_len.to_be(),

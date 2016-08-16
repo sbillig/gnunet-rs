@@ -14,16 +14,16 @@ pub struct TransportService {
 }
 
 error_def! TransportServiceInitError {
-  NonHelloMessage { ty: u16 }
-    => "Expected a HELLO message from the service but received a different message type" ("Received message type {} instead.", ty),
-  Io { #[from] cause: io::Error }
-    => "There was an I/O error communicating with the service" ("Error: {}", cause),
-  ReadMessage { #[from] cause: ReadMessageError }
-    => "Failed to receive a message from the service" ("Reason: {}", cause),
-  Connect { #[from] cause: service::ConnectError } 
-    => "Failed to connect to the transport service" ("Reason: {}", cause),
-  HelloDeserialize { #[from] cause: HelloDeserializeError }
-    => "Failed to serialize the hello message from the service" ("Reason {}", cause),
+    NonHelloMessage { ty: u16 }
+        => "Expected a HELLO message from the service but received a different message type" ("Received message type {} instead.", ty),
+    Io { #[from] cause: io::Error }
+        => "There was an I/O error communicating with the service" ("Error: {}", cause),
+    ReadMessage { #[from] cause: ReadMessageError }
+        => "Failed to receive a message from the service" ("Reason: {}", cause),
+    Connect { #[from] cause: service::ConnectError }
+        => "Failed to connect to the transport service" ("Reason: {}", cause),
+    HelloDeserialize { #[from] cause: HelloDeserializeError }
+        => "Failed to serialize the hello message from the service" ("Reason {}", cause),
 }
 
 impl TransportService {
@@ -63,6 +63,7 @@ pub fn self_hello(cfg: &Cfg, network: &Network) -> Promise<Hello, TransportServi
         })
 }
 
+/// Representing StartMessage in transport.
 #[repr(C, packed)]
 struct StartMessage {
     header: MessageHeader,
