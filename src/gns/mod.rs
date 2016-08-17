@@ -1,3 +1,5 @@
+//! Module for connecting to and querying the GNUnet GNS service.
+
 use std::collections::HashMap;
 use std::io::{self, Cursor};
 use std::rc::Rc;

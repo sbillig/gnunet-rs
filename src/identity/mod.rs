@@ -1,3 +1,5 @@
+//! Module for connecting to and querying the GNUnet identity service.
+
 use std::string;
 use std::collections::HashMap;
 use std::io::{self, Read, Cursor};
