@@ -1,6 +1,34 @@
 gnunet-rs
 =========
 
+This is a fork of [kc1212's gsoc fork](https://github.com/kc1212/gnunet-rs)
+of [Andrew Cann's gnunet-rs](https://github.com/canndrew/gnunet-rs).
+
+Short-term goals:
+
+- [x] make it build on a recent nightly rustc (`rustc 1.45.0-nightly (a74d1862d 2020-05-14)`)
+- [] make it build on a recent stable rustc
+- [] fix warnings
+- [] make it work with a recent gnunet release
+- [] make the tests pass
+- [] remove (most?) uses of `unsafe`
+- [] replace gj with futures-rs and async-std or tokio
+
+Tests
+-----
+
+Some tests require the gnunet system to be running, and some additional setup.
+Do something like the following:
+```
+gnunet-arm -s
+gnunet-identity -c my_cool_name
+gnunet-identity -s gns-master -e my_cool_name
+```
+
+If you don't run the last command above, some tests will fail with a "no default known" error.
+If you *do* run the last command above, some tests will fail with a "Premature EOF" error (TODO).
+
+
 Google Summer of Code
 ---------------------
 This branch (gsoc) is kept as a reference for the work I did for GSoC 2016 with the GNU organisation.
@@ -36,4 +64,3 @@ Next on the list:
 See http://canndrew.org/rust-doc/gnunet for documentation.
 See examples directory for example code.
 Feedback and pull requests are encouraged!
-
