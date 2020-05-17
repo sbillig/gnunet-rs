@@ -7,7 +7,6 @@
 #![feature(unboxed_closures)]
 #![feature(plugin)]
 #![crate_name = "gnunet"]
-#![allow(deprecated)]
 
 extern crate byteorder;
 extern crate crypto as rcrypto;
@@ -56,18 +55,6 @@ macro_rules! byteorder_error_chain {
   )
 }
 */
-
-macro_rules! unwrap_result {
-    ($e:expr) => {
-        match $e {
-            Ok(o) => o,
-            Err(ref e) => {
-                ::print_error(e, file!(), line!());
-                panic!();
-            }
-        }
-    };
-}
 
 #[cfg(test)]
 fn print_error<E: ::std::error::Error>(error: &E, file: &str, line: u32) {

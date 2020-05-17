@@ -4,7 +4,6 @@ use rcrypto::sha2::Sha512;
 use std::cmp::Ordering;
 use std::fmt;
 use std::hash;
-use std::mem;
 use std::num::Wrapping;
 use std::ops::{Add, BitXor, Sub};
 use std::slice;
@@ -31,9 +30,7 @@ impl HashCode {
 
     /// Create a HashCode by computing the sha512 hash of a buffer.
     pub fn from_buffer(buf: &[u8]) -> HashCode {
-        let mut ret = HashCode {
-            data: unsafe { mem::uninitialized() },
-        };
+        let mut ret = HashCode { data: [0; 16] };
         let mut hasher = Sha512::new();
         hasher.input(buf);
         hasher.result(ret.as_mut_slice());
@@ -112,9 +109,7 @@ impl FromStr for HashCode {
     type Err = data::CrockfordDecodeError;
 
     fn from_str(s: &str) -> Result<HashCode, data::CrockfordDecodeError> {
-        let mut ret = HashCode {
-            data: unsafe { mem::uninitialized() },
-        };
+        let mut ret = HashCode { data: [0; 16] };
         data::crockford_decode(s, ret.as_mut_slice())?;
         Ok(ret)
     }
@@ -125,9 +120,7 @@ impl Rand for HashCode {
     where
         R: Rng,
     {
-        let mut ret = HashCode {
-            data: unsafe { mem::uninitialized() },
-        };
+        let mut ret = HashCode { data: [0; 16] };
         for u in ret.data.iter_mut() {
             *u = rng.next_u32();
         }
@@ -139,9 +132,7 @@ impl Add<HashCode> for HashCode {
     type Output = HashCode;
 
     fn add(self, rhs: HashCode) -> HashCode {
-        let mut ret = HashCode {
-            data: unsafe { mem::uninitialized() },
-        };
+        let mut ret = HashCode { data: [0; 16] };
         for i in 0..ret.data.len() {
             ret.data[i] = (Wrapping(self.data[i]) + Wrapping(rhs.data[i])).0;
         }
@@ -153,9 +144,7 @@ impl Sub<HashCode> for HashCode {
     type Output = HashCode;
 
     fn sub(self, rhs: HashCode) -> HashCode {
-        let mut ret = HashCode {
-            data: unsafe { mem::uninitialized() },
-        };
+        let mut ret = HashCode { data: [0; 16] };
         for i in 0..ret.data.len() {
             ret.data[i] = (Wrapping(self.data[i]) - Wrapping(rhs.data[i])).0;
         }
@@ -167,9 +156,7 @@ impl BitXor<HashCode> for HashCode {
     type Output = HashCode;
 
     fn bitxor(self, rhs: HashCode) -> HashCode {
-        let mut ret = HashCode {
-            data: unsafe { mem::uninitialized() },
-        };
+        let mut ret = HashCode { data: [0; 16] };
         for i in 0..ret.data.len() {
             ret.data[i] = self.data[i] ^ rhs.data[i];
         }

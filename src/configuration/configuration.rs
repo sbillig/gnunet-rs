@@ -539,7 +539,7 @@ mod tests {
         std::env::set_var("IN_ENV", "in_env");
 
         let unexpanded = "foo $IN_PATHS $IN_ENV ${NOT_ANYWHERE:-${IN_ENV}_wub}_blah";
-        let expanded = unwrap_result!(cfg.expand_dollar(unexpanded));
+        let expanded = cfg.expand_dollar(unexpanded).unwrap();
         assert_eq!(expanded, "foo in_paths in_env in_env_wub_blah");
     }
 }

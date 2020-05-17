@@ -7,12 +7,12 @@ of [Andrew Cann's gnunet-rs](https://github.com/canndrew/gnunet-rs).
 Short-term goals:
 
 - [x] make it build on a recent nightly rustc (`rustc 1.45.0-nightly (a74d1862d 2020-05-14)`)
-- [] make it build on a recent stable rustc
-- [] fix warnings
-- [] make it work with a recent gnunet release
-- [] make the tests pass
-- [] remove (most?) uses of `unsafe`
-- [] replace gj with futures-rs and async-std or tokio
+- [ ] make it build on a recent stable rustc
+- [ ] fix warnings
+- [ ] make it work with a recent gnunet release
+- [ ] make the tests pass
+- [ ] remove (most?) uses of `unsafe`
+- [ ] replace gj with futures-rs and async-std or tokio
 
 Tests
 -----
