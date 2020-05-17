@@ -23,7 +23,7 @@ impl PeerIdentity {
     /// Deserializes into PeerIdentity from a reader, the reader should have 32 bytes available.
     pub fn deserialize<R>(r: &mut R) -> Result<PeerIdentity, io::Error> where R: Read {
         let mut ret: PeerIdentity = unsafe { uninitialized() };
-        try!(r.read_exact(&mut ret.data.public_key.q_y[..]));
+        r.read_exact(&mut ret.data.public_key.q_y[..])?;
         Ok(ret)
     }
 
@@ -34,8 +34,10 @@ impl PeerIdentity {
 }
 
 /// Error generated when attempting to parse a PeerIdentity
-error_def! PeerIdentityFromStrError {
-    ParsingFailed => "Failed to parse the string as a PeerIdentity"
+#[derive(Debug, Error)]
+pub enum PeerIdentityFromStrError {
+    #[error("Failed to parse the string as a PeerIdentity")]
+    ParsingFailed,
 }
 
 impl FromStr for PeerIdentity {
@@ -200,19 +202,26 @@ pub struct Peers {
 }
 
 /// Errors returned by `Peers::next`.
-error_def! PeerInfoError {
+#[derive(Debug, Error)]
+pub enum PeerInfoError {
+    #[error("The response from the gnunet-peerinfo service was incoherent")]
     InvalidResponse
-        => "The response from the gnunet-peerinfo service was incoherent",
+       ,
+    #[error("The peerinfo service sent an unexpected response message type: {ty}.")]
     UnexpectedMessageType { ty: u16 }
-        => "The peerinfo service sent an unexpected response message type" ("Message type {} was not expected", ty),
-    Io { #[from] cause: io::Error }
-        => "There was an I/O error communicating with the peerinfo service" ("Specifically: {}", cause),
-    ReadMessage { #[from] cause: ReadMessageError }
-        => "Failed to receive the response from the peerinfo service" ("Reason: {}", cause),
+       ,
+    #[error("There was an I/O error communicating with the peerinfo service. Specifically: {source}")]
+    Io { #[from] source: io::Error }
+       ,
+    #[error("Failed to receive the response from the peerinfo service. Reason: {source}")]
+    ReadMessage { #[from] source: ReadMessageError }
+       ,
+    #[error("The service disconnected unexpectedly")]
     Disconnected
-        => "The service disconnected unexpectedly",
-    Connect { #[from] cause: service::ConnectError }
-        => "Failed to connect to the peerinfo service" ("Reason: {}", cause)
+       ,
+    #[error("Failed to connect to the peerinfo service. Reason: {source}")]
+    Connect { #[from] source: service::ConnectError }
+       ,
 }
 
 impl Peers {
@@ -221,7 +230,7 @@ impl Peers {
         self.service.read_message()
             .map_else(move |x| {
                 match x {
-                    Err(e)  => return Err(PeerInfoError::ReadMessage { cause: e }),
+                    Err(e)  => return Err(PeerInfoError::ReadMessage { source: e }),
                     Ok((tpe, mr))   => parse_peer(tpe, mr),
                 }
             })
@@ -240,7 +249,7 @@ impl Peers {
         let mut sr2 = sr.clone();
         sr.read_message().then_else(move |x| {
             match x {
-                Err(e)  => return Promise::err(PeerInfoError::ReadMessage { cause: e }),
+                Err(e)  => return Promise::err(PeerInfoError::ReadMessage { source: e }),
                 Ok((tpe, mr))   => {
                     match parse_peer(tpe, mr) {
                         Ok(Some(x)) => {
@@ -262,12 +271,12 @@ fn parse_peer(tpe: u16, mut mr: Cursor<Vec<u8>>) -> Result<Option<(PeerIdentity,
         ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
             Err(e)  => match e.kind() {
                 io::ErrorKind::UnexpectedEof => Err(PeerInfoError::Disconnected),
-                _                            => Err(PeerInfoError::Io { cause: e }),
+                _                            => Err(PeerInfoError::Io { source: e }),
             },
             Ok(x)   => match x == 0 {
                 false => Err(PeerInfoError::InvalidResponse),
                 true  => match PeerIdentity::deserialize(&mut mr) {
-                    Err(e)  => Err(PeerInfoError::Io { cause: e }),
+                    Err(e)  => Err(PeerInfoError::Io { source: e }),
                     Ok(pi)  => {
                         Ok(Some((pi, None)))
                         /*

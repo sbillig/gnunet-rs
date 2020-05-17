@@ -122,7 +122,7 @@ pub struct DHT {
 
 impl DHT {
   pub fn connect(cfg: Option<&Cfg>) -> Result<DHT, ConnectError> {
-    let mut service = ttry!(Service::connect(cfg, "dht"));
+    let mut service = Service::connect(cfg, "dht")?;
     service.init_callback_loop(move |&mut: tpe: u16, mut read: LimitReader<UnixStream>| -> ProcessMessageResult {
       ProcessMessageResult::Continue
     });
@@ -147,7 +147,7 @@ impl DHT {
     let (tx, rx) = channel::<GetGnsNameRecordResult>();
     spawn(move |:| {
       loop {
-        let pull = try!(gh.receiver.recv_opt());
+        let pull = gh.receiver.recv_opt()?;
         if pull.key != check_key {
           continue;
         }
@@ -160,7 +160,7 @@ impl DHT {
           put_path: pull.put_path,
           data: pull.data,
         }
-        try!(tx.send_opt(push).map_err(|_| ()));
+        tx.send_opt(push).map_err(|_| ())?;
       }
     });
     Ok(GetGnsNameRecordHandle {
@@ -179,20 +179,19 @@ impl DHT {
   {
     let msg_length = 88 + xquery.len();
     let mut mw = self.service.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_DHT_CLIENT_GET);
-    ttry!(mw.write_be_u32(route_options.bits));
-    ttry!(mw.write_be_u32(desired_replication_level));
-    ttry!(mw.write_be_u32(block_type));
-    ttry!(key.serialize(mw));
+    mw.write_be_u32(route_options.bits)?;
+    mw.write_be_u32(desired_replication_level)?;
+    mw.write_be_u32(block_type)?;
+    key.serialize(mw)?;
     let id = self.next_get_id;
-    ttry!(mw.write_be_u64(id));
+    mw.write_be_u64(id)?;
     self.next_get_id += 1;
     let (tx, rx) = channel::<GetResult>();
     self.lookup_tx.send((id, tx));
-    ttry!(mw.send());
+    mw.send()?;
     Ok(GetHandle {
       marker: InvariantLifetime,
       receiver: rx,
     })
   }
 }
-

@@ -10,93 +10,125 @@ use std::str::FromStr;
 use util;
 use paths;
 use time;
+use thiserror::Error;
 
 #[derive(Clone)]
 pub struct Cfg {
     data: HashMap<String, HashMap<String, String>>,
 }
 
-error_def! CfgDefaultError {
+#[derive(Debug, Error)]
+pub enum CfgDefaultError {
+    #[error("Failed to determine GNUnet installation data directory")]
     NoDataDir
-        => "Failed to determine GNUnet installation data directory",
-    ReadDataDir { #[from] cause: io::Error }
-        => "Failed to read Gnunet installation data directory" ("Reason: {}", cause),
-    LoadFile { #[from] cause: CfgLoadRawError }
-        => "Failed to load config file" ("Reason: {}", cause),
+       ,
+    #[error("Failed to read Gnunet installation data directory. Reason: {source}")]
+    ReadDataDir { #[from] source: io::Error }
+       ,
+    #[error("Failed to load config file. Reason: {source}")]
+    LoadFile { #[from] source: CfgLoadRawError }
+       ,
 }
 
-error_def! CfgLoadRawError {
-    FileOpen { #[from] cause: io::Error }
-        => "Failed to open file" ("Reason: {}", cause),
-    Deserialize { #[from] cause: CfgDeserializeError }
-        => "Failed to deserialize config" ("Reason: {}", cause),
+#[derive(Debug, Error)]
+pub enum CfgLoadRawError {
+    #[error("Failed to open file. Reason: {source}")]
+    FileOpen { #[from] source: io::Error }
+       ,
+    #[error("Failed to deserialize config. Reason: {source}")]
+    Deserialize { #[from] source: CfgDeserializeError }
+       ,
 }
 
-error_def! CfgDeserializeError {
-    Io { #[from] cause: io::Error }
-        => "I/O error reading from reader" ("Specifically: {}", cause),
+#[derive(Debug, Error)]
+pub enum CfgDeserializeError {
+    #[error("I/O error reading from reader. Specifically: {source}")]
+    Io { #[from] source: io::Error }
+    ,
+    #[error("Failed to load inline configuration file. line {line_number}: Failed to load \"{filename}\" ({source})")]
     LoadInline {
-        cause: Box<CfgLoadRawError>,
+        source: Box<CfgLoadRawError>,
         line_number: usize,
         filename: String,
-    }   => "Failed to load inline configuration file" ("line {}: Failed to load \"{}\" ({})", line_number, filename, cause),
+    }  ,
+    #[error("@INLINE@ directive in config but allow_inline is disabled. line {line_number}: Will not load file \"{filename}\"")]
     InlineDisabled {
         line_number: usize,
         filename: String,
-    } => "@INLINE@ directive in config but allow_inline is disabled" ("line {}: Will not load file \"{}\"", line_number, filename),
+    },
+#[error("Syntax error in configuration. line {line_number}: Failed to parse \"{line}\"")]
     Syntax {
         line_number: usize,
         line: String,
-    } => "Syntax error in configuration" ("line {}: Failed to parse \"{}\"", line_number, line),
+    },
 }
 
-error_def! CfgLoadError {
-    LoadDefault { #[from] cause: CfgDefaultError }
-        => "Failed to load system default configuration" ("Reason: {}", cause),
-    LoadFile { #[from] cause: CfgLoadRawError }
-        => "Failed to load the config file" ("Reason: {}", cause),
+#[derive(Debug, Error)]
+pub enum CfgLoadError {
+    #[error("Failed to load system default configuration. Reason: {source}")]
+    LoadDefault { #[from] source: CfgDefaultError },
+    #[error("Failed to load the config file. Reason: {source}")]
+    LoadFile { #[from] source: CfgLoadRawError },
 }
 
-error_def! CfgGetIntError {
-    NoSection   => "The config does not contain a section with that name",
-    NoKey       => "The config section does contain that key",
-    Parse { #[from] cause: ParseIntError }
-                => "The value is not a valid u64" ("Details: {}", cause),
+#[derive(Debug, Error)]
+pub enum CfgGetIntError {
+    #[error("The config does not contain a section with that name")]
+    NoSection  ,
+    #[error("The config section does contain that key")]
+    NoKey      ,
+    #[error("The value is not a valid u64. Details: {source}")]
+    Parse { #[from] source: ParseIntError }
+
+               ,
+}
+#[derive(Debug, Error)]
+pub enum CfgGetFloatError {
+    #[error("The config does not contain a section with that name")]
+    NoSection  ,
+    #[error("The config section does contain that key")]
+    NoKey      ,
+    #[error("The value is not a valid f32. Details: {source}")]
+    Parse { #[from] source: ParseFloatError }
+}
+#[derive(Debug, Error)]
+pub enum CfgGetRelativeTimeError {
+    #[error("The config does not contain a section with that name")]
+    NoSection  ,
+    #[error("The config section does contain that key")]
+    NoKey      ,
+    #[error("The value is not a valid relative time. Reason: {source}")]
+    Parse { #[from] source: util::strings::ParseQuantityWithUnitsError }
+
+               ,
 }
 
-error_def! CfgGetFloatError {
-    NoSection   => "The config does not contain a section with that name",
-    NoKey       => "The config section does contain that key",
-    Parse { #[from] cause: ParseFloatError }
-                => "The value is not a valid f32" ("Details: {}", cause),
+#[derive(Debug, Error)]
+pub enum CfgGetFilenameError {
+    #[error("The config does not contain a section with that name")]
+    NoSection  ,
+    #[error("The config section does contain that key")]
+    NoKey      ,
+    #[error("Failed to '$'-expand the config entry. Reason: {source}")]
+    ExpandDollar { #[from] source: CfgExpandDollarError }
+
+               ,
 }
 
-error_def! CfgGetRelativeTimeError {
-    NoSection   => "The config does not contain a section with that name",
-    NoKey       => "The config section does contain that key",
-    Parse { #[from] cause: util::strings::ParseQuantityWithUnitsError }
-                => "The value is not a valid relative time" ("Reason: {}", cause),
-}
-
-error_def! CfgGetFilenameError {
-    NoSection   => "The config does not contain a section with that name",
-    NoKey       => "The config section does contain that key",
-    ExpandDollar { #[from] cause: CfgExpandDollarError }
-                => "Failed to '$'-expand the config entry" ("Reason: {}", cause),
-}
-
-error_def! CfgExpandDollarError {
+#[derive(Debug, Error)]
+pub enum CfgExpandDollarError {
+    #[error("Tried to expand to an environment variable containing invalid unicode. variable: '{var_name}'")]
     NonUnicodeEnvVar { var_name: String }
-        => "Tried to expand to an environment variable containing invalid unicode"
-            ("variable: \"{}\"", var_name),
+    ,
+    #[error("Syntax error in '$'-expansion. Error at byte position {pos}")]
     Syntax { pos: usize }
-        => "Syntax error in '$'-expansion"
-            ("Error at byte position {}", pos),
+       ,
+    #[error("Failed to expand variable. Variable not found in PATHS section or process environment: '{var_name}'")]
     UnknownVariable { var_name: String }
-        => "Failed to expand variable"
-            ("Variable not found in PATHS section or process environment: {}", var_name),
+       ,
+    #[error("'$'-expansion includes an unclosed '{{'")]
     UnclosedBraces
-        => "'$'-expansion includes an unclosed '{{'",
+       ,
 }
 
 impl Cfg {
@@ -107,8 +139,8 @@ impl Cfg {
     }
 
     pub fn load_raw<P: AsRef<Path>>(path: P) -> Result<Cfg, CfgLoadRawError> {
-        let f = try!(File::open(path));
-        Ok(try!(Cfg::deserialize(f, true)))
+        let f = File::open(path)?;
+        Ok(Cfg::deserialize(f, true)?)
     }
 
     pub fn deserialize<R: Read>(read: R, allow_inline: bool) -> Result<Cfg, CfgDeserializeError> {
@@ -125,7 +157,7 @@ impl Cfg {
         let br = BufReader::new(read);
         for (i, res_line) in br.lines().enumerate() {
             let line_num = i + 1;
-            let line_buf = try!(res_line);
+            let line_buf = res_line?;
 
             {
                 let line = line_buf.trim();
@@ -147,7 +179,7 @@ impl Cfg {
                         let cfg_raw = match Cfg::load_raw(filename) {
                             Ok(cfg_raw) => cfg_raw,
                             Err(e)      => return Err(LoadInline {
-                                cause: Box::new(e),
+                                source: Box::new(e),
                                 line_number: line_num,
                                 filename: filename.to_string(),
                             })
@@ -230,18 +262,18 @@ impl Cfg {
         let mut cfg = Cfg::empty();
         let rd = match std::fs::read_dir(data_dir) {
             Ok(dirent)  => dirent,
-            Err(e)      => return Err(ReadDataDir { cause: e }),
+            Err(e)      => return Err(ReadDataDir { source: e }),
         };
 
         for res_dirent in rd {
             let dirent = match res_dirent {
                 Ok(dirent)  => dirent,
-                Err(e)      => return Err(ReadDataDir { cause: e }),
+                Err(e)      => return Err(ReadDataDir { source: e }),
             };
             let path = dirent.path();
             if let Ok(file_type) = dirent.file_type() {
                 if path.extension() == Some(OsStr::new("conf")) && file_type.is_file() {
-                    let cfg_raw = try!(Cfg::load_raw(path));
+                    let cfg_raw = Cfg::load_raw(path)?;
                     cfg.merge(cfg_raw);
                 }
             }
@@ -251,8 +283,8 @@ impl Cfg {
     }
 
     pub fn load<P: AsRef<Path>>(path: P) -> Result<Cfg, CfgLoadError> {
-        let mut cfg = try!(Cfg::default());
-        let cfg_raw = try!(Cfg::load_raw(path));
+        let mut cfg = Cfg::default()?;
+        let cfg_raw = Cfg::load_raw(path)?;
         cfg.merge(cfg_raw);
         Ok(cfg)
     }
@@ -262,7 +294,7 @@ impl Cfg {
 
         match self.data.get(section) {
             Some(map) => match map.get(key) {
-                Some(value) => Ok(try!(u64::from_str(value))),
+                Some(value) => Ok(u64::from_str(value)?),
                 None        => Err(NoKey),
             },
             None    => Err(NoSection),
@@ -274,7 +306,7 @@ impl Cfg {
 
         match self.data.get(section) {
             Some(map) => match map.get(key) {
-                Some(value) => Ok(try!(f32::from_str(value))),
+                Some(value) => Ok(f32::from_str(value)?),
                 None        => Err(NoKey),
             },
             None    => Err(NoSection),
@@ -286,7 +318,7 @@ impl Cfg {
 
         match self.data.get(section) {
             Some(map) => match map.get(key) {
-                Some(value) => Ok(try!(time::Relative::from_str(value))),
+                Some(value) => Ok(time::Relative::from_str(value)?),
                 None        => Err(NoKey),
             },
             None    => Err(NoSection),
@@ -299,7 +331,7 @@ impl Cfg {
         match self.data.get(section) {
             Some(map) => match map.get(key) {
                 Some(value) => {
-                    let expanded = try!(self.expand_dollar(value));
+                    let expanded = self.expand_dollar(value)?;
                     Ok(PathBuf::from(expanded))
                 },
                 None        => Err(NoKey),
@@ -313,8 +345,8 @@ impl Cfg {
         let section: Cow<str> = Cow::Owned(section.to_owned());
         let key: Cow<str> = Cow::Owned(key.to_owned());
 
-        if let Some(mut map) = self.data.get_mut(&*section) {
-            if let Some(mut val) = map.get_mut(&*key) {
+        if let Some(map) = self.data.get_mut(&*section) {
+            if let Some(val) = map.get_mut(&*key) {
                 std::mem::swap(val, &mut value);
                 return Some(value);
             }
@@ -384,7 +416,7 @@ impl Cfg {
                                 match c {
                                     '}' => {
                                         match lookup(name) {
-                                            Some(expanded)  => ret.push_str(try!(expanded).borrow()),
+                                            Some(expanded)  => ret.push_str(expanded?.borrow()),
                                             None            => return Err(UnknownVariable { var_name: name.to_string() }),
                                         }
                                     }
@@ -419,13 +451,13 @@ impl Cfg {
                                                 if let Some(expanded) = lookup(name) {
                                                     // have "${name:-def}" and we were able to
                                                     // resolve `name` to `expanded`
-                                                    ret.push_str(try!(expanded).borrow());
+                                                    ret.push_str(&(expanded?)).borrow();
                                                 }
                                                 else {
                                                     // have "${name:-def}" and we were not able
                                                     // to resolve name
                                                     let def = unsafe { orig.slice_unchecked(start, end) };
-                                                    ret.push_str(try!(self.expand_dollar(def)).borrow());
+                                                    ret.push_str(&(self.expand_dollar(def))?).borrow();
                                                 }
                                             }
                                             else {
@@ -456,7 +488,7 @@ impl Cfg {
                         let (name, nchars) = get_name(chars);
                         chars = nchars;
                         match lookup(name) {
-                            Some(expanded)  => ret.push_str(try!(expanded).borrow()),
+                            Some(expanded)  => ret.push_str(expanded?.borrow()),
                             None            => return Err(UnknownVariable { var_name: name.to_string() }),
                         }
                     }
@@ -491,4 +523,3 @@ mod tests {
         assert_eq!(expanded, "foo in_paths in_env in_env_wub_blah");
     }
 }
-

@@ -13,17 +13,23 @@ pub struct TransportService {
   our_hello:      Hello,
 }
 
-error_def! TransportServiceInitError {
+#[derive(Debug, Error)]
+pub enum TransportServiceInitError {
+    #[error("Expected a HELLO message from the service but received a different message type. Received message type {ty} instead.")]
     NonHelloMessage { ty: u16 }
-        => "Expected a HELLO message from the service but received a different message type" ("Received message type {} instead.", ty),
-    Io { #[from] cause: io::Error }
-        => "There was an I/O error communicating with the service" ("Error: {}", cause),
-    ReadMessage { #[from] cause: ReadMessageError }
-        => "Failed to receive a message from the service" ("Reason: {}", cause),
-    Connect { #[from] cause: service::ConnectError }
-        => "Failed to connect to the transport service" ("Reason: {}", cause),
-    HelloDeserialize { #[from] cause: HelloDeserializeError }
-        => "Failed to serialize the hello message from the service" ("Reason {}", cause),
+       ,
+    #[error("There was an I/O error communicating with the service. Error: {source}")]
+    Io { #[from] source: io::Error }
+       ,
+    #[error("Failed to receive a message from the service. Reason: {source}")]
+    ReadMessage { #[from] source: ReadMessageError }
+       ,
+    #[error("Failed to connect to the transport service. Reason: {source}")]
+    Connect { #[from] source: service::ConnectError }
+       ,
+    #[error("Failed to serialize the hello message from the service. Reason {source}")]
+    HelloDeserialize { #[from] source: HelloDeserializeError }
+       ,
 }
 
 impl TransportService {
@@ -48,7 +54,7 @@ impl TransportService {
                 if ty != ll::GNUNET_MESSAGE_TYPE_HELLO {
                     return Err(TransportServiceInitError::NonHelloMessage { ty: ty });
                 }
-                let hello = try!(Hello::deserialize(&mut mr));
+                let hello = Hello::deserialize(&mut mr)?;
                 Ok(TransportService {
                     our_hello: hello,
                 })

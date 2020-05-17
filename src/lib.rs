@@ -5,12 +5,10 @@
 //! ```
 
 #![feature(unboxed_closures)]
-#![feature(libc)]
 #![feature(plugin)]
-
-#![plugin(error_def)]
-
 #![crate_name = "gnunet"]
+
+#![allow(deprecated)]
 
 extern crate libc;
 extern crate unix_socket;
@@ -21,6 +19,7 @@ extern crate num;
 extern crate regex;
 #[macro_use] extern crate gj;
 extern crate gjio;
+#[macro_use] extern crate thiserror;
 
 pub use configuration::Cfg;
 pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
@@ -99,4 +98,3 @@ pub mod hello;
 //pub mod cadet;
 pub mod data;
 pub mod transport;
-

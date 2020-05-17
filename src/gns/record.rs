@@ -84,8 +84,10 @@ impl RecordType {
 }
 
 /// Error generated when attempting to parse a `RecordType`
-error_def! RecordTypeFromStrError {
-  ParsingFailed => "Failed to parse the string as a RecordType",
+#[derive(Debug, Error)]
+pub enum RecordTypeFromStrError {
+    #[error("Failed to parse the string as a RecordType")]
+  ParsingFailed,
 }
 
 impl FromStr for RecordType {
@@ -129,12 +131,12 @@ pub struct Record {
 impl Record {
   /// Deserialize a record from a byte stream.
   pub fn deserialize<T>(reader: &mut T) -> Result<Record, io::Error> where T: Read {
-    let expiration_time = try!(reader.read_u64::<BigEndian>());
-    let data_size = try!(reader.read_u32::<BigEndian>()) as u64;
-    let record_type = try!(reader.read_u32::<BigEndian>());
-    let flags = try!(reader.read_u32::<BigEndian>());
+    let expiration_time = reader.read_u64::<BigEndian>()?;
+    let data_size = reader.read_u32::<BigEndian>()? as u64;
+    let record_type = reader.read_u32::<BigEndian>()?;
+    let flags = reader.read_u32::<BigEndian>()?;
     let flags: ll::Enum_GNUNET_GNSRECORD_Flags = unsafe { ::std::mem::transmute(flags) };
-    let buff = try!(reader.read_exact_alloc(data_size as usize));
+    let buff = reader.read_exact_alloc(data_size as usize)?;
     let data = buff.as_ptr() as *const c_void;
 
     Ok(Record {
@@ -173,4 +175,3 @@ impl fmt::Display for Record {
         Debug::fmt(self, f)
     }
 }
-

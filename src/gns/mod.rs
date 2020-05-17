@@ -8,6 +8,7 @@ use byteorder::{BigEndian, ReadBytesExt};
 use num::ToPrimitive;
 use gj::{Promise};
 use gjio::{Network};
+use thiserror::Error;
 
 use identity;
 use ll;
@@ -41,15 +42,20 @@ pub enum LocalOptions {
 }
 
 /// Possible errors returned by the GNS lookup functions.
-error_def! LookupError {
+#[derive(Debug, Error)]
+pub enum LookupError {
+    #[error("The received message type '{tpe}' is invalid.")]
     InvalidType { tpe: u16 }
-        => "The received message type is invalid" ("The received message type \"{}\" is invalid.", tpe),
+       ,
+    #[error("The domain name '{name}' is too long to lookup.")]
     NameTooLong { name: String }
-        => "The domain name was too long" ("The domain name \"{}\" is too long to lookup.", name),
-    Io { #[from] cause: io::Error }
-        => "There was an I/O error communicating with the service" ("Specifically {}", cause),
-    ReadMessage { #[from] cause: ReadMessageError }
-        => "Failed to receive the response from the GNS service" ("Reason: {}", cause),
+       ,
+    #[error("There was an I/O error communicating with the service. Specifically {source}")]
+    Io { #[from] source: io::Error }
+       ,
+    #[error("Failed to receive the response from the GNS service. Reason: {source}")]
+    ReadMessage { #[from] source: ReadMessageError }
+       ,
 }
 
 impl GNS {
@@ -172,10 +178,10 @@ impl GNS {
             ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
                 let mut records = Vec::new();
 
-                let id = try!(reader.read_u32::<BigEndian>());
-                let rd_count = try!(reader.read_u32::<BigEndian>());
+                let id = reader.read_u32::<BigEndian>()?;
+                let rd_count = reader.read_u32::<BigEndian>()?;
                 for _ in 0..rd_count {
-                    let rec = try!(Record::deserialize(&mut reader));
+                    let rec = Record::deserialize(&mut reader)?;
                     records.push(rec);
                 };
 
@@ -246,13 +252,17 @@ impl MessageTrait for LookupMessage {
 }
 
 /// Errors returned by `gns::lookup`.
-error_def! ConnectLookupError {
-    Connect { #[from] cause: service::ConnectError }
-        => "Failed to connect to the GNS service" ("Reason: {}", cause),
-    Lookup { #[from] cause: LookupError }
-        => "Failed to perform the lookup." ("Reason: {}", cause),
-    Io { #[from] cause: io::Error }
-        => "There was an I/O error communicating with the service" ("Specifically {}", cause),
+#[derive(Debug, Error)]
+pub enum ConnectLookupError {
+    #[error("Failed to connect to the GNS service. Reason: {source}")]
+    Connect { #[from] source: service::ConnectError }
+       ,
+    #[error("Failed to perform the lookup.. Reason: {source}")]
+    Lookup { #[from] source: LookupError }
+       ,
+    #[error("There was an I/O error communicating with the service. Specifically {source}")]
+    Io { #[from] source: io::Error }
+       ,
 }
 
 /// Lookup a GNS record in the given zone.
@@ -313,13 +323,17 @@ pub fn lookup(cfg: &Cfg,
 }
 
 /// Errors returned by `gns::lookup_in_master`.
-error_def! ConnectLookupInMasterError {
-    GnsLookup { #[from] cause: ConnectLookupError }
-        => "Failed to connect to the GNS service and perform the lookup" ("Reason: {}", cause),
-    IdentityGetDefaultEgo { #[from] cause: identity::ConnectGetDefaultEgoError }
-        => "Failed to retrieve the default identity for gns-master from the identity service" ("Reason: {}", cause),
-    Io { #[from] cause: io::Error }
-        => "There was an I/O error communicating with the service" ("Specifically {}", cause),
+#[derive(Debug, Error)]
+pub enum ConnectLookupInMasterError {
+    #[error("Failed to connect to the GNS service and perform the lookup. Reason: {source}")]
+    GnsLookup { #[from] source: ConnectLookupError }
+       ,
+    #[error("Failed to retrieve the default identity for gns-master from the identity service. Reason: {source}")]
+    IdentityGetDefaultEgo { #[from] source: identity::ConnectGetDefaultEgoError }
+       ,
+    #[error("There was an I/O error communicating with the service. Specifically {source}")]
+    Io { #[from] source: io::Error }
+       ,
 }
 
 /// Lookup a GNS record in the master zone.

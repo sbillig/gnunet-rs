@@ -26,8 +26,10 @@ impl EcdsaPublicKey {
 }
 
 /// Error generated when attempting to parse an ecdsa public key
-error_def! EcdsaPublicKeyFromStrError {
-    ParsingFailed => "Failed to parse the string as an ecdsa public key",
+#[derive(Debug, Error)]
+pub enum EcdsaPublicKeyFromStrError {
+    #[error("Failed to parse the string as an ecdsa public key")]
+    ParsingFailed,
 }
 
 impl FromStr for EcdsaPublicKey {
@@ -73,7 +75,7 @@ impl EcdsaPrivateKey {
         let mut sk = EcdsaPrivateKey {
             data: [0; 32]
         };
-        try!(r.read_exact(&mut sk.data[..]));
+        r.read_exact(&mut sk.data[..])?;
         Ok(sk)
     }
 
@@ -129,4 +131,3 @@ fn test_ecdsa_to_from_string() {
     println!("{} {}", s1, s1.len());
     assert!(s0 == &s1[..]);
 }
-

@@ -30,7 +30,7 @@ static RELATIVE_UNITS: [(&'static str, u64); 17] = [
 impl FromStr for Relative {
     type Err = util::strings::ParseQuantityWithUnitsError;
     fn from_str(s: &str) -> Result<Relative, util::strings::ParseQuantityWithUnitsError> {
-        let micros = try!(util::strings::parse_quantity_with_units(s, &RELATIVE_UNITS[..]));
+        let micros = util::strings::parse_quantity_with_units(s, &RELATIVE_UNITS[..])?;
         Ok(Relative {
             micros: micros,
         })
@@ -96,4 +96,3 @@ mod test {
         Relative::from_str("days").unwrap();
     }
 }
-

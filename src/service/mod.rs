@@ -36,12 +36,14 @@ pub enum ProcessMessageResult {
 }
 
 /// Error that can be generated when attempting to connect to a service.
-error_def! ConnectError {
-    NotConfigured { #[from] cause: configuration::CfgGetFilenameError }
-        => "The configuration does not describe how to connect to the service"
-            ("Config does not contain an entry for UNIXPATH in the service's section: {}", cause),
-    Io { #[from] cause: io::Error }
-        => "There was an I/O error communicating with the service" ("Specifically {}", cause),
+#[derive(Debug, Error)]
+pub enum ConnectError {
+    #[error("The configuration does not describe how to connect to the service.\nConfig does not contain an entry for UNIXPATH in the service's section: {source}")]
+    NotConfigured { #[from] source: configuration::CfgGetFilenameError }
+    ,
+    #[error("There was an I/O error communicating with the service. Specifically {source}")]
+    Io { #[from] source: io::Error }
+       ,
 }
 
 /// Attempt to connect to the local GNUnet service named `name`.
@@ -62,11 +64,16 @@ pub fn connect(cfg: &Cfg, name: &str, network: &Network)
 }
 
 /// Error that can be generated when attempting to receive data from a service.
-error_def! ReadMessageError {
-    Io { #[from] cause: io::Error } => "There was an I/O error communicating with the service" ("Specifically {}", cause),
-    ShortMessage { len: u16 }       => "The message received from the service was too short" ("Length was {} bytes.", len),
-    Disconnected                    => "The service disconnected unexpectedly",
-    FulfillerDropped                => "Promise fulfiller was dropped",
+#[derive(Debug, Error)]
+pub enum ReadMessageError {
+    #[error("There was an I/O error communicating with the service. Specifically {source}")]
+    Io { #[from] source: io::Error },
+    #[error("The message received from the service was too short. Length was {len} bytes.")]
+    ShortMessage { len: u16 }      ,
+    #[error("The service disconnected unexpectedly")]
+    Disconnected                   ,
+    #[error("Promise fulfiller was dropped")]
+    FulfillerDropped               ,
 }
 
 impl FulfillerDropped for ReadMessageError {
@@ -93,7 +100,7 @@ impl ServiceReader {
                 connection2.read(vec![0; rem], rem).lift()
                     .map(move |(buf, _)| {
                         let mut mr = Cursor::new(buf);
-                        let tpe = try!(mr.read_u16::<BigEndian>());
+                        let tpe = mr.read_u16::<BigEndian>()?;
                         Ok((tpe, mr))
                     })
             })
@@ -214,7 +221,7 @@ fn test_service() {
         sw.send(msg).lift().then(move |()| {
             sr.read_message().map(move |(tpe, mut mr)| {
                 let mut buf = vec![0u8; 4];
-                try!(mr.read_exact(&mut buf));
+                mr.read_exact(&mut buf)?;
                 assert_eq!(msg_body.to_be(), BigEndian::read_u32(&buf));
                 assert_eq!(DUMMY_TYPE, tpe);
                 Ok(())

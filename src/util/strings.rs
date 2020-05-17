@@ -1,15 +1,20 @@
 use std::num::ParseIntError;
 use std::str::FromStr;
 
-error_def! ParseQuantityWithUnitsError {
-    ParseInt { #[from] cause: ParseIntError }
-        => "Failed to parse a number" ("Specifically: {}", cause),
+#[derive(Debug, Error)]
+pub enum ParseQuantityWithUnitsError {
+    #[error("Failed to parse a number. Specifically: {source}")]
+    ParseInt { #[from] source: ParseIntError }
+       ,
+    #[error("Empty string given as argument")]
     EmptyString
-        => "Empty string given as argument",
+       ,
+    #[error("Missing unit on the final number")]
     MissingUnit
-        => "Missing unit on the final number",
+       ,
+    #[error("Unrecognized unit. '{unit}' is not a valid unit")]
     NoSuchUnit { unit: String }
-        => "Unrecognized unit" ("\"{}\" is not a valid unit", unit),
+       ,
 }
 
 pub fn parse_quantity_with_units<'a>(s: &'a str, units: &[(&str, u64)]) -> Result<u64, ParseQuantityWithUnitsError> {
@@ -29,7 +34,7 @@ pub fn parse_quantity_with_units<'a>(s: &'a str, units: &[(&str, u64)]) -> Resul
                     continue;
                 }
                 else {
-                    let amount = try!(u64::from_str(amount_str));
+                    let amount = u64::from_str(amount_str)?;
                     loop {
                         match iter.next() {
                             None       => return Err(MissingUnit),

@@ -11,11 +11,10 @@ fn uninitialised_vec(len: usize) -> Vec<u8> {
 pub trait ReadUtil: Read {
   fn read_exact_alloc(&mut self, len: usize) -> Result<Vec<u8>, io::Error> {
     let mut ret = uninitialised_vec(len);
-    try!(self.read_exact(&mut ret[..]));
+    self.read_exact(&mut ret[..])?;
     Ok(ret)
   }
 }
 
 impl<R> ReadUtil for R where R: Read {
 }
-

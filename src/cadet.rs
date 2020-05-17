@@ -37,7 +37,7 @@ pub struct Channel {
 
 impl Cadet {
   pub fn init(cfg: &Cfg, listen_ports: Vec<u32>) -> Result<Cadet, service::ConnectError> {
-    let (service_reader, mut service_writer) = try!(service::connect(cfg, "cadet"));
+    let (service_reader, mut service_writer) = service::connect(cfg, "cadet")?;
     let callback_loop = try!(service_reader.spawn_callback_loop(move |tpe: u16, mut reader: Cursor<Vec<u8>>| -> ProcessMessageResult {
       println!("Got message!: tpe == {}", tpe);
       ProcessMessageResult::Continue
@@ -48,7 +48,7 @@ impl Cadet {
       for port in listen_ports.iter() {
         mw.write_u32::<BigEndian>(*port).unwrap();
       }
-      try!(mw.send());
+      mw.send()?;
     };
     Ok(Cadet {
       service_writer: service_writer,
@@ -66,10 +66,9 @@ impl Cadet {
     peer.serialize(&mut mw).unwrap();
     mw.write_u32::<BigEndian>(port).unwrap();
     mw.write_u32::<BigEndian>(opt.as_u32()).unwrap();
-    try!(mw.send());
+    mw.send()?;
     Ok(Channel {
       id: id,
     })
   }
 }
-

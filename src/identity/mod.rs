@@ -1,23 +1,23 @@
 //! Module for connecting to and querying the GNUnet identity service.
 
-use std::string;
-use std::collections::HashMap;
-use std::io::{self, Read, Cursor};
-use std::fmt;
-use std::rc::Rc;
 use byteorder::{BigEndian, ReadBytesExt};
 use num::ToPrimitive;
+use std::collections::HashMap;
+use std::fmt;
+use std::io::{self, Cursor, Read};
+use std::rc::Rc;
+use std::string;
 
+use configuration::Cfg;
 use ll;
+use service::{self, MessageHeader, MessageTrait, ServiceReader, ServiceWriter};
+use util::{ReadCString, ReadCStringError, ReadCStringWithLenError};
 use EcdsaPrivateKey;
 use EcdsaPublicKey;
 use HashCode;
-use service::{self, ServiceReader, ServiceWriter, MessageHeader, MessageTrait};
-use configuration::Cfg;
-use util::{ReadCString, ReadCStringError, ReadCStringWithLenError};
 
-use gj::{Promise};
-use gjio::{Network};
+use gj::Promise;
+use gjio::Network;
 
 /// A GNUnet identity.
 ///
@@ -80,41 +80,51 @@ pub struct IdentityService {
 }
 
 /// Errors returned by `IdentityService::connect`
-error_def! ConnectError {
-    Connect { #[from] cause: service::ConnectError }
-        => "Failed to connect to the service" ("Reason: {}", cause),
-    Disconnected
-        => "The service disconnected unexpectedly",
-    Io { #[from] cause: io::Error }
-        => "An I/O error occured while communicating with the identity service" ("Specifically: {}", cause),
-    ReadMessage { #[from] cause: service::ReadMessageError }
-        => "Failed to read a message from the server" ("Specifically: {}", cause),
-    InvalidName { #[from] cause: string::FromUtf8Error }
-        => "The service responded with a name containing invalid utf-8 during initial exchange. *(It is a bug to see this error)*" ("Utf8-error: {}", cause),
-    UnexpectedMessageType { ty: u16 }
-        => "Received an unexpected message from the service during initial exchange. *(It is a bug to see this error)*" ("Message type {} was not expected.", ty)
+#[derive(Debug, Error)]
+pub enum ConnectError {
+    #[error("Failed to connect to the service. Reason: {source}")]
+    Connect { #[from] source: service::ConnectError },
+    #[error("The service disconnected unexpectedly")]
+    Disconnected,
+    #[error(
+        "An I/O error occured while communicating with the identity service. Specifically: {source}"
+    )]
+    Io { #[from] source: io::Error },
+    #[error("Failed to read a message from the server. Specifically: {source}")]
+    ReadMessage { #[from] source: service::ReadMessageError },
+    #[error("The service responded with a name containing invalid utf-8 during initial exchange. *(It is a bug to see this error)*. Utf8-error: {source}")]
+    InvalidName { #[from] source: string::FromUtf8Error },
+    #[error("Received an unexpected message from the service during initial exchange. *(It is a bug to see this error)*. Message type {ty} was not expected.")]
+    UnexpectedMessageType { ty: u16 },
 }
 
 /// Errors returned by `IdentityService::get_default_ego`
-error_def! GetDefaultEgoError {
-    NameTooLong { name: String }
-        => "The name of the service was too long" ("\"{}\" is too long to be the name of a service.", name),
-    Io { #[from] cause: io::Error }
-        => "An I/O error occured while communicating with the identity service" ("Specifically: {}", cause),
-    ReadMessage { #[from] cause: service::ReadMessageError }
-        => "Failed to read a message from the server" ("Specifically: {}", cause),
-    ServiceResponse { response: String }
-        => "The service responded with an error message" ("Error: \"{}\"", response),
-    MalformedErrorResponse { #[from] cause: string::FromUtf8Error }
-        => "The service responded with an error message but the message contained invalid utf-8" ("Utf8-error: {}", cause),
-    ReceiveName { #[from] cause: ReadCStringWithLenError }
-        => "Failed to receive the identity name from the service" ("Reason: {}", cause),
-    Connect { #[from] cause: ConnectError }
-        => "Failed to connect to the identity service" ("Reason: {}", cause),
-    InvalidResponse
-        => "The service response was incoherent. You should file a bug-report if you encounter this error.",
-    Disconnected
-        => "The service disconnected unexpectedly",
+#[derive(Debug, Error)]
+pub enum GetDefaultEgoError {
+    #[error(
+        "The name of the service was too long. \"{name}\" is too long to be the name of a service."
+    )]
+    NameTooLong { name: String },
+    #[error(
+        "An I/O error occured while communicating with the identity service. Specifically: {source}"
+    )]
+    Io { #[from] source: io::Error },
+    #[error("Failed to read a message from the server. Specifically: {source}")]
+    ReadMessage { #[from] source: service::ReadMessageError },
+    #[error("The service responded with an error message. Error: \"{response}\"")]
+    ServiceResponse { response: String },
+    #[error("The service responded with an error message but the message contained invalid utf-8. Utf8-error: {source}")]
+    MalformedErrorResponse { #[from] source: string::FromUtf8Error },
+    #[error(
+        "Failed to receive the identity name from the service. Reason: {source}"
+    )]
+    ReceiveName { #[from] source: ReadCStringWithLenError },
+    #[error("Failed to connect to the identity service. Reason: {source}")]
+    Connect { #[from] source: ConnectError },
+    #[error("The service response was incoherent. You should file a bug-report if you encounter this error.")]
+    InvalidResponse,
+    #[error("The service disconnected unexpectedly")]
+    Disconnected,
 }
 
 impl IdentityService {
@@ -123,73 +133,75 @@ impl IdentityService {
     /// Returns either a promise of a handle to the identity service or a `ServiceConnectError`.
     /// `cfg` contains the configuration to use to connect to the service.
     pub fn connect(cfg: &Cfg, network: &Network) -> Promise<IdentityService, ConnectError> {
-      /*
-      let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
-      let service = try!(Service::connect("identity", move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
-        loop {
+        /*
+        let (get_tx, get_rx) = channel::<(String, Sender<Option<Ego>>>();
+        let service = try!(Service::connect("identity", move |&mut: tpe: u16, mut reader: LimitReader<UnixStream>| -> ProcessMessageResult {
+          loop {
 
-        }
-      }));
-      */
-      // let (mut service_reader, mut service_writer) = service::connect(cfg, "identity", network);
+          }
+        }));
+        */
+        // let (mut service_reader, mut service_writer) = service::connect(cfg, "identity", network);
         service::connect(cfg, "identity", network)
             .lift()
             .then(|(sr, mut sw)| {
                 sw.send(StartMessage::new())
                     .lift()
-                    .map(move |()| { Ok((sr, sw)) })
+                    .map(move |()| Ok((sr, sw)))
             })
             .then(|(sr, sw)| {
                 let egos: HashMap<HashCode, Ego> = HashMap::new();
-                IdentityService::parse_egos(sr, egos)
-                    .map(|(sr, egos)| {
-                        Ok(IdentityService {
-                            service_reader: sr,
-                            service_writer: sw,
-                            egos: Rc::new(egos),
-                        })
+                IdentityService::parse_egos(sr, egos).map(|(sr, egos)| {
+                    Ok(IdentityService {
+                        service_reader: sr,
+                        service_writer: sw,
+                        egos: Rc::new(egos),
                     })
+                })
             })
     }
 
     /// This recursive function reads data from the ServiceReader `sr`
     /// and attempts to parse the result into egos.
-    fn parse_egos<'a>(mut sr: ServiceReader, mut egos: HashMap<HashCode, Ego>)
-                      -> Promise<(ServiceReader, HashMap<HashCode, Ego>), ConnectError> {
-        sr.read_message()
-            .lift()
-            .then(|(tpe, mut mr)| {
-                match tpe {
-                    ll::GNUNET_MESSAGE_TYPE_IDENTITY_UPDATE => {
-                        let name_len = pry!(mr.read_u16::<BigEndian>());
-                        let eol = pry!(mr.read_u16::<BigEndian>());
-                        if eol != 0 {
-                            return Promise::ok((sr, egos));
-                        };
-                        let sk = pry!(EcdsaPrivateKey::deserialize(&mut mr));
-                        let mut v: Vec<u8> = Vec::with_capacity(name_len as usize);
-                        for r in mr.bytes() {
-                            let b = pry!(r);
-                            if b == 0u8 {
-                                break;
-                            }
-                            v.push(b)
-                        };
-                        let name = match String::from_utf8(v) {
-                            Ok(n)   => n,
-                            Err(v)  => return Promise::err(ConnectError::InvalidName { cause: v }),
-                        };
-                        let id = sk.get_public().hash();
-                        egos.insert(id.clone(), Ego {
+    fn parse_egos<'a>(
+        mut sr: ServiceReader,
+        mut egos: HashMap<HashCode, Ego>,
+    ) -> Promise<(ServiceReader, HashMap<HashCode, Ego>), ConnectError> {
+        sr.read_message().lift().then(|(tpe, mut mr)| {
+            match tpe {
+                ll::GNUNET_MESSAGE_TYPE_IDENTITY_UPDATE => {
+                    let name_len = pry!(mr.read_u16::<BigEndian>());
+                    let eol = pry!(mr.read_u16::<BigEndian>());
+                    if eol != 0 {
+                        return Promise::ok((sr, egos));
+                    };
+                    let sk = pry!(EcdsaPrivateKey::deserialize(&mut mr));
+                    let mut v: Vec<u8> = Vec::with_capacity(name_len as usize);
+                    for r in mr.bytes() {
+                        let b = pry!(r);
+                        if b == 0u8 {
+                            break;
+                        }
+                        v.push(b)
+                    }
+                    let name = match String::from_utf8(v) {
+                        Ok(n) => n,
+                        Err(v) => return Promise::err(ConnectError::InvalidName { source: v }),
+                    };
+                    let id = sk.get_public().hash();
+                    egos.insert(
+                        id.clone(),
+                        Ego {
                             sk: sk,
                             name: Some(name),
                             id: id,
-                        });
-                        return IdentityService::parse_egos(sr, egos)
-                    },
-                    _ => return Promise::err(ConnectError::UnexpectedMessageType { ty: tpe }),
-                };
-            })
+                        },
+                    );
+                    return IdentityService::parse_egos(sr, egos);
+                }
+                _ => return Promise::err(ConnectError::UnexpectedMessageType { ty: tpe }),
+            };
+        })
     }
 
     /// Returns a promise to the default identity associated with a service.
@@ -218,57 +230,64 @@ impl IdentityService {
         let msg = pry!(GetDefaultMessage::new(&name));
         let mut sr = self.service_reader.clone();
         let egos = self.egos.clone();
-        self.service_writer.send_with_str(msg, &name)
+        self.service_writer
+            .send_with_str(msg, &name)
             .lift()
             .then(move |()| {
-                sr.read_message()
-                    .lift()
-                    .map(move |(tpe, mr)| {
-                        match IdentityService::parse_identity(egos, &name, tpe, mr) {
-                            Ok(ego) => Ok(ego),
-                            Err(e)  => Err(e),
-                        }
-                    })
+                sr.read_message().lift().map(
+                    move |(tpe, mr)| match IdentityService::parse_identity(egos, &name, tpe, mr) {
+                        Ok(ego) => Ok(ego),
+                        Err(e) => Err(e),
+                    },
+                )
             })
             .lift()
     }
 
     /// Returns an identity by parsing data from `mr`.
-    fn parse_identity(rc_egos: Rc<HashMap<HashCode, Ego>>, name: &str, tpe: u16, mut mr: Cursor<Vec<u8>>)
-                      -> Result<Ego, GetDefaultEgoError>
-    {
+    fn parse_identity(
+        rc_egos: Rc<HashMap<HashCode, Ego>>,
+        name: &str,
+        tpe: u16,
+        mut mr: Cursor<Vec<u8>>,
+    ) -> Result<Ego, GetDefaultEgoError> {
         let egos = rc_egos.as_ref();
         match tpe {
             ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
-                try!(mr.read_u32::<BigEndian>());
+                mr.read_u32::<BigEndian>()?;
                 match mr.read_c_string() {
                     Err(e) => match e {
-                        ReadCStringError::Io { cause }       => Err(GetDefaultEgoError::Io { cause: cause }),
-                        ReadCStringError::FromUtf8 { cause } => Err(GetDefaultEgoError::MalformedErrorResponse { cause: cause }),
-                        ReadCStringError::Disconnected       => Err(GetDefaultEgoError::Disconnected),
+                        ReadCStringError::Io { source } => {
+                            Err(GetDefaultEgoError::Io { source })
+                        }
+                        ReadCStringError::FromUtf8 { source } => {
+                            Err(GetDefaultEgoError::MalformedErrorResponse { source })
+                        }
+                        ReadCStringError::Disconnected => Err(GetDefaultEgoError::Disconnected),
                     },
-                    Ok(s)  => Err(GetDefaultEgoError::ServiceResponse { response: s }),
+                    Ok(s) => Err(GetDefaultEgoError::ServiceResponse { response: s }),
                 }
-            },
-            ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => match try!(mr.read_u16::<BigEndian>()) {
+            }
+            ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => match mr.read_u16::<BigEndian>()? {
                 0 => Err(GetDefaultEgoError::InvalidResponse),
                 reply_name_len => {
-                    let zero = try!(mr.read_u16::<BigEndian>());
+                    let zero = mr.read_u16::<BigEndian>()?;
                     match zero {
                         0 => {
-                            let sk = try!(EcdsaPrivateKey::deserialize(&mut mr));
-                            let s: String = try!(mr.read_c_string_with_len((reply_name_len - 1) as usize));
+                            let sk = EcdsaPrivateKey::deserialize(&mut mr)?;
+                            let s: String =
+                                mr.read_c_string_with_len((reply_name_len - 1) as usize)?;
                             match &s[..] == name {
-                                true  => {
+                                true => {
                                     let id = sk.get_public().hash();
                                     Ok(egos[&id].clone())
-                                },
+                                }
                                 false => Err(GetDefaultEgoError::InvalidResponse),
                             }
-                        },
+                        }
                         _ => Err(GetDefaultEgoError::InvalidResponse),
                     }
-                },
+                }
             },
             _ => Err(GetDefaultEgoError::InvalidResponse),
         }
@@ -276,13 +295,18 @@ impl IdentityService {
 }
 
 /// Errors returned by `identity::get_default_ego`
-error_def! ConnectGetDefaultEgoError {
-    GetDefaultEgo { #[from] cause: GetDefaultEgoError }
-        => "Ego lookup failed" ("Reason: {}", cause),
-    Connect { #[from] cause: ConnectError }
-        => "Failed to connect to the service and perform initialization" ("Reason: {}", cause),
-    Io { #[from] cause: io::Error }
-        => "An I/O error occured while communicating with the identity service" ("Specifically: {}", cause),
+#[derive(Debug, Error)]
+pub enum ConnectGetDefaultEgoError {
+    #[error("Ego lookup failed. Reason: {source}")]
+    GetDefaultEgo { #[from] source: GetDefaultEgoError },
+    #[error(
+        "Failed to connect to the service and perform initialization. Reason: {source}"
+    )]
+    Connect { #[from] source: ConnectError },
+    #[error(
+        "An I/O error occured while communicating with the identity service. Specifically: {source}"
+    )]
+    Io { #[from] source: io::Error },
 }
 
 /// Get the default identity associated with a service.
@@ -313,12 +337,11 @@ error_def! ConnectGetDefaultEgoError {
 pub fn get_default_ego(
     cfg: &Cfg,
     name: Rc<String>,
-    network: &Network) -> Promise<Ego, ConnectGetDefaultEgoError> {
+    network: &Network,
+) -> Promise<Ego, ConnectGetDefaultEgoError> {
     IdentityService::connect(cfg, network)
         .lift()
-        .then(move |mut is| {
-            is.get_default_ego(name)
-        })
+        .then(move |mut is| is.get_default_ego(name))
         .lift()
 }
 
@@ -329,12 +352,12 @@ struct StartMessage {
 }
 
 impl StartMessage {
-    fn new () -> StartMessage {
+    fn new() -> StartMessage {
         StartMessage {
             header: MessageHeader {
                 len: 4u16.to_be(),
                 tpe: ll::GNUNET_MESSAGE_TYPE_IDENTITY_START.to_be(),
-            }
+            },
         }
     }
 }
@@ -352,7 +375,7 @@ struct GetDefaultMessage {
     header: MessageHeader,
     name_len: u16,
     reserved: u16, // always zero
-    // followed by 0-terminated string
+                   // followed by 0-terminated string
 }
 
 impl GetDefaultMessage {
@@ -361,7 +384,11 @@ impl GetDefaultMessage {
         let name_len = name.len();
         let msg_len = match (mem::size_of::<GetDefaultMessage>() + name_len + 1).to_u16() {
             Some(l) => l,
-            None    => return Err(GetDefaultEgoError::NameTooLong { name: name.to_string() }),
+            None => {
+                return Err(GetDefaultEgoError::NameTooLong {
+                    name: name.to_string(),
+                })
+            }
         };
 
         Ok(GetDefaultMessage {
@@ -381,4 +408,3 @@ impl MessageTrait for GetDefaultMessage {
         message_to_slice!(GetDefaultMessage, self)
     }
 }
-

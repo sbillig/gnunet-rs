@@ -1,6 +1,7 @@
 use std::fmt;
 use std::io::{self, Read};
 use byteorder::{ReadBytesExt, BigEndian};
+use thiserror::Error;
 
 use PeerIdentity;
 
@@ -13,11 +14,14 @@ pub struct Hello {
   pub id: PeerIdentity,
 }
 
-error_def! HelloDeserializeError {
+#[derive(Debug, Error)]
+pub enum HelloDeserializeError {
+    #[error("Unexpected EOF when deserializing the hello")]
   ShortMessage
-    => "Unexpected EOF when deserializing the hello",
-  Io { #[from] cause: io::Error }
-    => "There was an I/O error reading the hello" ("Error: {}", cause),
+   ,
+    #[error("There was an I/O error reading the hello. Error: {source}")]
+  Io { #[from] source: io::Error }
+   ,
 }
 
 impl Hello {
@@ -28,10 +32,10 @@ impl Hello {
       Ok(x)  => x != 0,
       Err(e) => return Err(match e.kind() {
         io::ErrorKind::UnexpectedEof => HelloDeserializeError::ShortMessage,
-        _                            => HelloDeserializeError::Io { cause: e },
+        _                            => HelloDeserializeError::Io { source: e },
       }),
     };
-    let id = try!(PeerIdentity::deserialize(r));
+    let id = PeerIdentity::deserialize(r)?;
     Ok(Hello {
       friend_only: friend_only,
       id:          id,
@@ -44,4 +48,3 @@ impl fmt::Display for Hello {
     write!(f, "Hello!")
   }
 }
-

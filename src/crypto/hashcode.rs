@@ -119,7 +119,7 @@ impl FromStr for HashCode {
     let mut ret = HashCode {
       data: unsafe { mem::uninitialized() },
     };
-    try!(data::crockford_decode(s, ret.as_mut_slice()));
+    data::crockford_decode(s, ret.as_mut_slice())?;
     Ok(ret)
   }
 }
@@ -216,4 +216,3 @@ fn test_hashcode_rand_add_sub() {
   let sum = h0.clone() + diff;
   assert!(sum == h1);
 }
-
