@@ -1,18 +1,18 @@
-use std::mem::{size_of, uninitialized, size_of_val};
-use std::fmt;
-use std::str::{FromStr};
-use std::io::{self, Read, Write, Cursor};
 use byteorder::{BigEndian, ReadBytesExt};
+use std::fmt;
+use std::io::{self, Cursor, Read, Write};
+use std::mem::{size_of, size_of_val, uninitialized};
+use std::str::FromStr;
 
 use gj::Promise;
 use gjio::Network;
 
 use ll;
-use Cfg;
-use service::{self, connect, ServiceReader, ReadMessageError, MessageTrait, MessageHeader};
-use Hello;
+use service::{self, connect, MessageHeader, MessageTrait, ReadMessageError, ServiceReader};
 use transport::{self, TransportServiceInitError};
 use util::strings::{data_to_string, string_to_data};
+use Cfg;
+use Hello;
 
 /// The identity of a GNUnet peer.
 pub struct PeerIdentity {
@@ -21,14 +21,20 @@ pub struct PeerIdentity {
 
 impl PeerIdentity {
     /// Deserializes into PeerIdentity from a reader, the reader should have 32 bytes available.
-    pub fn deserialize<R>(r: &mut R) -> Result<PeerIdentity, io::Error> where R: Read {
+    pub fn deserialize<R>(r: &mut R) -> Result<PeerIdentity, io::Error>
+    where
+        R: Read,
+    {
         let mut ret: PeerIdentity = unsafe { uninitialized() };
         r.read_exact(&mut ret.data.public_key.q_y[..])?;
         Ok(ret)
     }
 
     /// Serializes and writes the identity into a writer.
-    pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error> where T: Write {
+    pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error>
+    where
+        T: Write,
+    {
         w.write_all(&self.data.public_key.q_y[..])
     }
 }
@@ -49,10 +55,8 @@ impl FromStr for PeerIdentity {
         match res {
             true => Ok(PeerIdentity {
                 data: ll::Struct_GNUNET_PeerIdentity {
-                    public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
-                        q_y: *pk,
-                    }
-                }
+                    public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey { q_y: *pk },
+                },
             }),
             _ => Err(PeerIdentityFromStrError::ParsingFailed),
         }
@@ -80,30 +84,29 @@ impl FromStr for PeerIdentity {
 /// }).expect("top_level");
 /// ```
 ///
-pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: &str) -> Promise<(Option<PeerIdentity>, Option<Hello>), PeerInfoError> {
+pub fn get_peer(
+    cfg: &Cfg,
+    network: &Network,
+    pk_string: &str,
+) -> Promise<(Option<PeerIdentity>, Option<Hello>), PeerInfoError> {
     // prepare peer identity
     let pk = &mut [0; 32];
     string_to_data(pk_string, pk);
-    let id =
-        ll::Struct_GNUNET_PeerIdentity {
-            public_key : ll::Struct_GNUNET_CRYPTO_EddsaPublicKey {
-                q_y: *pk,
-            }
-        };
+    let id = ll::Struct_GNUNET_PeerIdentity {
+        public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey { q_y: *pk },
+    };
 
-    connect(cfg, "peerinfo", network).lift().then(move |(sr, mut sw)| {
+    connect(cfg, "peerinfo", network)
+        .lift()
+        .then(move |(sr, mut sw)| {
             sw.send(ListPeerMessage::new(0, id)).lift().then(move |()| {
                 let mut peers = Peers { service: sr };
-                peers.get_vec().map(|mut vec| {
-                    match vec.len() {
-                        0 | 1 => {
-                            match vec.pop() {
-                                Some((id, hello)) => Ok((Some(id), hello)),
-                                None => Ok((None, None)),
-                            }
-                        },
-                        _ => Err(PeerInfoError::InvalidResponse),
-                    }
+                peers.get_vec().map(|mut vec| match vec.len() {
+                    0 | 1 => match vec.pop() {
+                        Some((id, hello)) => Ok((Some(id), hello)),
+                        None => Ok((None, None)),
+                    },
+                    _ => Err(PeerInfoError::InvalidResponse),
                 })
             })
         })
@@ -129,16 +132,13 @@ pub fn get_peer(cfg: &Cfg, network: &Network, pk_string: &str) -> Promise<(Optio
 /// }).expect("top_level");
 /// ```
 ///
-pub fn get_peers(cfg: &Cfg, network: &Network)
-                     -> Promise<Peers, PeerInfoError> {
+pub fn get_peers(cfg: &Cfg, network: &Network) -> Promise<Peers, PeerInfoError> {
     connect(cfg, "peerinfo", network)
         .lift()
         .then(move |(sr, mut sw)| {
             sw.send(ListAllPeersMessage::new(0))
                 .lift()
-                .map(move |()| {
-                    Ok(Peers { service: sr })
-                })
+                .map(move |()| Ok(Peers { service: sr }))
         })
 }
 
@@ -163,10 +163,11 @@ pub fn get_peers(cfg: &Cfg, network: &Network)
 /// }).expect("top_level");
 /// ```
 ///
-pub fn get_peers_vec(cfg: &Cfg, network: &Network) -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-    get_peers(cfg, network).then(|mut peers| {
-        peers.get_vec()
-    })
+pub fn get_peers_vec(
+    cfg: &Cfg,
+    network: &Network,
+) -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
+    get_peers(cfg, network).then(|mut peers| peers.get_vec())
 }
 
 /// Get our own identity.
@@ -189,11 +190,11 @@ pub fn get_peers_vec(cfg: &Cfg, network: &Network) -> Promise<Vec<(PeerIdentity,
 /// }).expect("top_level");
 /// ```
 ///
-pub fn get_self_id(cfg: &Cfg, network: &Network) -> Promise<PeerIdentity, TransportServiceInitError> {
-    transport::self_hello(cfg, network)
-        .map(|hello| {
-            Ok(hello.id)
-        })
+pub fn get_self_id(
+    cfg: &Cfg,
+    network: &Network,
+) -> Promise<PeerIdentity, TransportServiceInitError> {
+    transport::self_hello(cfg, network).map(|hello| Ok(hello.id))
 }
 
 /// Struct representing all the currently connected peers.
@@ -205,35 +206,37 @@ pub struct Peers {
 #[derive(Debug, Error)]
 pub enum PeerInfoError {
     #[error("The response from the gnunet-peerinfo service was incoherent")]
-    InvalidResponse
-       ,
+    InvalidResponse,
     #[error("The peerinfo service sent an unexpected response message type: {ty}.")]
-    UnexpectedMessageType { ty: u16 }
-       ,
-    #[error("There was an I/O error communicating with the peerinfo service. Specifically: {source}")]
-    Io { #[from] source: io::Error }
-       ,
+    UnexpectedMessageType { ty: u16 },
+    #[error(
+        "There was an I/O error communicating with the peerinfo service. Specifically: {source}"
+    )]
+    Io {
+        #[from]
+        source: io::Error,
+    },
     #[error("Failed to receive the response from the peerinfo service. Reason: {source}")]
-    ReadMessage { #[from] source: ReadMessageError }
-       ,
+    ReadMessage {
+        #[from]
+        source: ReadMessageError,
+    },
     #[error("The service disconnected unexpectedly")]
-    Disconnected
-       ,
+    Disconnected,
     #[error("Failed to connect to the peerinfo service. Reason: {source}")]
-    Connect { #[from] source: service::ConnectError }
-       ,
+    Connect {
+        #[from]
+        source: service::ConnectError,
+    },
 }
 
 impl Peers {
     /// Returns a promise to the next iteration.
     pub fn iterate(&mut self) -> Promise<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-        self.service.read_message()
-            .map_else(move |x| {
-                match x {
-                    Err(e)  => return Err(PeerInfoError::ReadMessage { source: e }),
-                    Ok((tpe, mr))   => parse_peer(tpe, mr),
-                }
-            })
+        self.service.read_message().map_else(move |x| match x {
+            Err(e) => return Err(PeerInfoError::ReadMessage { source: e }),
+            Ok((tpe, mr)) => parse_peer(tpe, mr),
+        })
     }
 
     /// Returns a promise to a vector of all connected peers.
@@ -243,52 +246,52 @@ impl Peers {
         Peers::peers_loop(&mut sr, v)
     }
 
-    fn peers_loop(sr: &mut ServiceReader, mut v: Vec<(PeerIdentity, Option<Hello>)>)
-                       -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError>
-    {
+    fn peers_loop(
+        sr: &mut ServiceReader,
+        mut v: Vec<(PeerIdentity, Option<Hello>)>,
+    ) -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
         let mut sr2 = sr.clone();
-        sr.read_message().then_else(move |x| {
-            match x {
-                Err(e)  => return Promise::err(PeerInfoError::ReadMessage { source: e }),
-                Ok((tpe, mr))   => {
-                    match parse_peer(tpe, mr) {
-                        Ok(Some(x)) => {
-                            v.push(x);
-                            Peers::peers_loop(&mut sr2, v)
-                        },
-                        Ok(None) => return Promise::ok(v),
-                        Err(e) => return Promise::err(e),
-                    }
+        sr.read_message().then_else(move |x| match x {
+            Err(e) => return Promise::err(PeerInfoError::ReadMessage { source: e }),
+            Ok((tpe, mr)) => match parse_peer(tpe, mr) {
+                Ok(Some(x)) => {
+                    v.push(x);
+                    Peers::peers_loop(&mut sr2, v)
                 }
-            }
+                Ok(None) => return Promise::ok(v),
+                Err(e) => return Promise::err(e),
+            },
         })
     }
 }
 
 /// Parse some data in `mr` into a tuple of `PeerIdentity` and optionally a `Hello`.
-fn parse_peer(tpe: u16, mut mr: Cursor<Vec<u8>>) -> Result<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
+fn parse_peer(
+    tpe: u16,
+    mut mr: Cursor<Vec<u8>>,
+) -> Result<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
     match tpe {
         ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
-            Err(e)  => match e.kind() {
+            Err(e) => match e.kind() {
                 io::ErrorKind::UnexpectedEof => Err(PeerInfoError::Disconnected),
-                _                            => Err(PeerInfoError::Io { source: e }),
+                _ => Err(PeerInfoError::Io { source: e }),
             },
-            Ok(x)   => match x == 0 {
+            Ok(x) => match x == 0 {
                 false => Err(PeerInfoError::InvalidResponse),
-                true  => match PeerIdentity::deserialize(&mut mr) {
-                    Err(e)  => Err(PeerInfoError::Io { source: e }),
-                    Ok(pi)  => {
+                true => match PeerIdentity::deserialize(&mut mr) {
+                    Err(e) => Err(PeerInfoError::Io { source: e }),
+                    Ok(pi) => {
                         Ok(Some((pi, None)))
                         /*
-                            * when we have hello parsing
-                            match mr.eof() {
-                            true  => Some(Ok(pi, None)),
-                            false => {
+                                * when we have hello parsing
+                                match mr.eof() {
+                                true  => Some(Ok(pi, None)),
+                                false => {
 
-                    },
+                        },
+                        }
+                                */
                     }
-                            */
-                    },
                 },
             },
         },
@@ -333,7 +336,6 @@ impl ListAllPeersMessage {
         }
     }
 }
-
 
 impl MessageTrait for ListAllPeersMessage {
     fn into_slice(&self) -> &[u8] {

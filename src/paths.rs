@@ -1,7 +1,7 @@
-use std::path::PathBuf;
 use std::env;
 use std::ffi::OsStr;
 use std::fs;
+use std::path::PathBuf;
 
 /**
  * Find the path of an executable. Similar to the unix `where` command.
@@ -40,7 +40,6 @@ pub fn prefix_dir() -> Option<PathBuf> {
 
     None
 
-
     /*
     #[cfg(linux)]
     {
@@ -49,7 +48,7 @@ pub fn prefix_dir() -> Option<PathBuf> {
         /*
          * TODO: adapt get_path_from_proc_maps
          * need to use this lib not libgnunetutil
-        
+
         let maps = format!("/proc/{}/maps", getpid());
         if let Ok(f) = File::open(maps) {
             let mut br = BufReader::new(f);
@@ -62,9 +61,6 @@ pub fn prefix_dir() -> Option<PathBuf> {
         */
     }
     */
-
-
-
 }
 
 /**
@@ -74,9 +70,7 @@ pub fn data_dir() -> Option<PathBuf> {
     if let Some(mut prefix) = prefix_dir() {
         prefix.push("share/gnunet");
         Some(prefix)
-    }
-    else {
+    } else {
         None
     }
 }
-

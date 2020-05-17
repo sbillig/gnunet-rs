@@ -1,11 +1,11 @@
 //! Module for communicating with GNUnet services. Implements the parts of the GNUnet IPC protocols
 //! that are common to all services.
 
-use std::io::{self, Cursor};
 use byteorder::{BigEndian, ReadBytesExt};
+use std::io::{self, Cursor};
 
-use gj::{Promise, FulfillerDropped};
-use gjio::{AsyncWrite, AsyncRead, SocketStream, Network};
+use gj::{FulfillerDropped, Promise};
+use gjio::{AsyncRead, AsyncWrite, Network, SocketStream};
 
 use configuration::{self, Cfg};
 
@@ -27,53 +27,67 @@ pub struct ServiceWriter {
 /// tell the callback loop what action to take next.
 #[derive(Copy, Clone)]
 pub enum ProcessMessageResult {
-  /// Continue talking to the service and passing received messages to the callback.
-  Continue,
-  /// Attempt to reconnect to the service.
-  Reconnect,
-  /// Exit the callback loop, shutting down it's thread.
-  Shutdown,
+    /// Continue talking to the service and passing received messages to the callback.
+    Continue,
+    /// Attempt to reconnect to the service.
+    Reconnect,
+    /// Exit the callback loop, shutting down it's thread.
+    Shutdown,
 }
 
 /// Error that can be generated when attempting to connect to a service.
 #[derive(Debug, Error)]
 pub enum ConnectError {
     #[error("The configuration does not describe how to connect to the service.\nConfig does not contain an entry for UNIXPATH in the service's section: {source}")]
-    NotConfigured { #[from] source: configuration::CfgGetFilenameError }
-    ,
+    NotConfigured {
+        #[from]
+        source: configuration::CfgGetFilenameError,
+    },
     #[error("There was an I/O error communicating with the service. Specifically {source}")]
-    Io { #[from] source: io::Error }
-       ,
+    Io {
+        #[from]
+        source: io::Error,
+    },
 }
 
 /// Attempt to connect to the local GNUnet service named `name`.
 ///
 /// eg. `connect(cfg, "arm")` will attempt to connect to the locally-running `gnunet-arm` service
 /// using the congfiguration details (eg. socket address, port etc.) in `cfg`.
-pub fn connect(cfg: &Cfg, name: &str, network: &Network)
-                     -> Promise<(ServiceReader, ServiceWriter), ConnectError> {
+pub fn connect(
+    cfg: &Cfg,
+    name: &str,
+    network: &Network,
+) -> Promise<(ServiceReader, ServiceWriter), ConnectError> {
     let unixpath = pry!(cfg.get_filename(name, "UNIXPATH"));
     let addr = pry!(network.get_unix_address(unixpath.as_path()));
-    addr.connect()
-        .lift()
-        .then(move |in_stream| {
-            let out_stream = in_stream.clone();
-            Promise::ok((ServiceReader{ connection: in_stream },
-                         ServiceWriter{ connection: out_stream }))
-        })
+    addr.connect().lift().then(move |in_stream| {
+        let out_stream = in_stream.clone();
+        Promise::ok((
+            ServiceReader {
+                connection: in_stream,
+            },
+            ServiceWriter {
+                connection: out_stream,
+            },
+        ))
+    })
 }
 
 /// Error that can be generated when attempting to receive data from a service.
 #[derive(Debug, Error)]
 pub enum ReadMessageError {
     #[error("There was an I/O error communicating with the service. Specifically {source}")]
-    Io { #[from] source: io::Error },
+    Io {
+        #[from]
+        source: io::Error,
+    },
     #[error("The message received from the service was too short. Length was {len} bytes.")]
-    ShortMessage { len: u16 }      ,
+    ShortMessage { len: u16 },
     #[error("The service disconnected unexpectedly")]
-    Disconnected                   ,
+    Disconnected,
     #[error("Promise fulfiller was dropped")]
-    FulfillerDropped               ,
+    FulfillerDropped,
 }
 
 impl FulfillerDropped for ReadMessageError {
@@ -89,21 +103,21 @@ impl ServiceReader {
     /// otherwise it may return bogus results.
     pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
         use util::async::PromiseReader;
-        let mut connection2 =  self.connection.clone(); // this is ok we're just bumping Rc count
-        self.connection.read_u16()
-            .lift()
-            .then(move |len| {
-                if len < 4 {
-                    return Promise::err(ReadMessageError::ShortMessage { len: len });
-                }
-                let rem = len as usize - 2;
-                connection2.read(vec![0; rem], rem).lift()
-                    .map(move |(buf, _)| {
-                        let mut mr = Cursor::new(buf);
-                        let tpe = mr.read_u16::<BigEndian>()?;
-                        Ok((tpe, mr))
-                    })
-            })
+        let mut connection2 = self.connection.clone(); // this is ok we're just bumping Rc count
+        self.connection.read_u16().lift().then(move |len| {
+            if len < 4 {
+                return Promise::err(ReadMessageError::ShortMessage { len: len });
+            }
+            let rem = len as usize - 2;
+            connection2
+                .read(vec![0; rem], rem)
+                .lift()
+                .map(move |(buf, _)| {
+                    let mut mr = Cursor::new(buf);
+                    let tpe = mr.read_u16::<BigEndian>()?;
+                    Ok((tpe, mr))
+                })
+        })
     }
 }
 
@@ -113,23 +127,21 @@ impl ServiceWriter {
     /// The message should not have a null-terminated string, otherwise use `send_with_str`.
     pub fn send<T: MessageTrait>(&mut self, message: T) -> Promise<(), io::Error> {
         let x = message.into_slice().to_vec();
-        self.connection.write(x)
-            .map(|_| {
-                Ok(())
-            })
+        self.connection.write(x).map(|_| Ok(()))
     }
 
     /// Sends a message with a null-terminated string to the connected socket.
     ///
     /// The caller needs to ensure that the message corresponds to the string, i.e. the message length should add up.
-    pub fn send_with_str<T: MessageTrait>(&mut self, message: T, string: &str) -> Promise<(), io::Error> {
+    pub fn send_with_str<T: MessageTrait>(
+        &mut self,
+        message: T,
+        string: &str,
+    ) -> Promise<(), io::Error> {
         let mut x = message.into_slice().to_vec();
         x.extend_from_slice(string.as_bytes());
         x.push(0u8.to_be()); // for null-termination of the string
-        self.connection.write(x)
-        .map(|_| {
-            Ok(())
-        })
+        self.connection.write(x).map(|_| Ok(()))
     }
 }
 
@@ -146,15 +158,13 @@ pub trait MessageTrait {
 #[macro_export]
 macro_rules! message_to_slice {
     ($t:ty, $i:ident) => {{
-        use std::slice;
         use std::mem;
+        use std::slice;
         let p: *const $t = $i;
         let p: *const u8 = p as *const u8;
-        let res : &[u8] = unsafe {
-            slice::from_raw_parts(p, mem::size_of::<$t>())
-        };
+        let res: &[u8] = unsafe { slice::from_raw_parts(p, mem::size_of::<$t>()) };
         res
-    }}
+    }};
 }
 
 #[test]
@@ -174,11 +184,11 @@ fn test_message_to_slice() {
 
 #[test]
 fn test_service() {
+    use byteorder::ByteOrder;
     use gj::EventLoop;
     use gjio::EventPort;
     use std::io::Read;
     use std::mem::size_of;
-    use byteorder::ByteOrder;
 
     const DUMMY_TYPE: u16 = 24;
 
@@ -218,16 +228,21 @@ fn test_service() {
 
         let msg = DummyMsg::new(msg_body);
 
-        sw.send(msg).lift().then(move |()| {
-            sr.read_message().map(move |(tpe, mut mr)| {
-                let mut buf = vec![0u8; 4];
-                mr.read_exact(&mut buf)?;
-                assert_eq!(msg_body.to_be(), BigEndian::read_u32(&buf));
-                assert_eq!(DUMMY_TYPE, tpe);
-                Ok(())
+        sw.send(msg)
+            .lift()
+            .then(move |()| {
+                sr.read_message().map(move |(tpe, mut mr)| {
+                    let mut buf = vec![0u8; 4];
+                    mr.read_exact(&mut buf)?;
+                    assert_eq!(msg_body.to_be(), BigEndian::read_u32(&buf));
+                    assert_eq!(DUMMY_TYPE, tpe);
+                    Ok(())
+                })
             })
-        }).wait(wait_scope, &mut event_port).unwrap();
+            .wait(wait_scope, &mut event_port)
+            .unwrap();
 
         Ok(())
-    }).expect("top level");
+    })
+    .expect("top level");
 }

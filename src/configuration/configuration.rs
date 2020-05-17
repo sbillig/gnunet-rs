@@ -1,16 +1,16 @@
-use std;
-use std::collections::{hash_map, HashMap};
-use std::borrow::{Borrow, Cow};
-use std::io::{self, Read, BufRead, BufReader};
-use std::num::{ParseIntError, ParseFloatError};
-use std::path::{Path, PathBuf};
-use std::fs::File;
-use std::ffi::OsStr;
-use std::str::FromStr;
-use util;
 use paths;
-use time;
+use std;
+use std::borrow::{Borrow, Cow};
+use std::collections::{hash_map, HashMap};
+use std::ffi::OsStr;
+use std::fs::File;
+use std::io::{self, BufRead, BufReader, Read};
+use std::num::{ParseFloatError, ParseIntError};
+use std::path::{Path, PathBuf};
+use std::str::FromStr;
 use thiserror::Error;
+use time;
+use util;
 
 #[derive(Clone)]
 pub struct Cfg {
@@ -20,115 +20,129 @@ pub struct Cfg {
 #[derive(Debug, Error)]
 pub enum CfgDefaultError {
     #[error("Failed to determine GNUnet installation data directory")]
-    NoDataDir
-       ,
+    NoDataDir,
     #[error("Failed to read Gnunet installation data directory. Reason: {source}")]
-    ReadDataDir { #[from] source: io::Error }
-       ,
+    ReadDataDir {
+        #[from]
+        source: io::Error,
+    },
     #[error("Failed to load config file. Reason: {source}")]
-    LoadFile { #[from] source: CfgLoadRawError }
-       ,
+    LoadFile {
+        #[from]
+        source: CfgLoadRawError,
+    },
 }
 
 #[derive(Debug, Error)]
 pub enum CfgLoadRawError {
     #[error("Failed to open file. Reason: {source}")]
-    FileOpen { #[from] source: io::Error }
-       ,
+    FileOpen {
+        #[from]
+        source: io::Error,
+    },
     #[error("Failed to deserialize config. Reason: {source}")]
-    Deserialize { #[from] source: CfgDeserializeError }
-       ,
+    Deserialize {
+        #[from]
+        source: CfgDeserializeError,
+    },
 }
 
 #[derive(Debug, Error)]
 pub enum CfgDeserializeError {
     #[error("I/O error reading from reader. Specifically: {source}")]
-    Io { #[from] source: io::Error }
-    ,
+    Io {
+        #[from]
+        source: io::Error,
+    },
     #[error("Failed to load inline configuration file. line {line_number}: Failed to load \"{filename}\" ({source})")]
     LoadInline {
         source: Box<CfgLoadRawError>,
         line_number: usize,
         filename: String,
-    }  ,
+    },
     #[error("@INLINE@ directive in config but allow_inline is disabled. line {line_number}: Will not load file \"{filename}\"")]
     InlineDisabled {
         line_number: usize,
         filename: String,
     },
-#[error("Syntax error in configuration. line {line_number}: Failed to parse \"{line}\"")]
-    Syntax {
-        line_number: usize,
-        line: String,
-    },
+    #[error("Syntax error in configuration. line {line_number}: Failed to parse \"{line}\"")]
+    Syntax { line_number: usize, line: String },
 }
 
 #[derive(Debug, Error)]
 pub enum CfgLoadError {
     #[error("Failed to load system default configuration. Reason: {source}")]
-    LoadDefault { #[from] source: CfgDefaultError },
+    LoadDefault {
+        #[from]
+        source: CfgDefaultError,
+    },
     #[error("Failed to load the config file. Reason: {source}")]
-    LoadFile { #[from] source: CfgLoadRawError },
+    LoadFile {
+        #[from]
+        source: CfgLoadRawError,
+    },
 }
 
 #[derive(Debug, Error)]
 pub enum CfgGetIntError {
     #[error("The config does not contain a section with that name")]
-    NoSection  ,
+    NoSection,
     #[error("The config section does contain that key")]
-    NoKey      ,
+    NoKey,
     #[error("The value is not a valid u64. Details: {source}")]
-    Parse { #[from] source: ParseIntError }
-
-               ,
+    Parse {
+        #[from]
+        source: ParseIntError,
+    },
 }
 #[derive(Debug, Error)]
 pub enum CfgGetFloatError {
     #[error("The config does not contain a section with that name")]
-    NoSection  ,
+    NoSection,
     #[error("The config section does contain that key")]
-    NoKey      ,
+    NoKey,
     #[error("The value is not a valid f32. Details: {source}")]
-    Parse { #[from] source: ParseFloatError }
+    Parse {
+        #[from]
+        source: ParseFloatError,
+    },
 }
 #[derive(Debug, Error)]
 pub enum CfgGetRelativeTimeError {
     #[error("The config does not contain a section with that name")]
-    NoSection  ,
+    NoSection,
     #[error("The config section does contain that key")]
-    NoKey      ,
+    NoKey,
     #[error("The value is not a valid relative time. Reason: {source}")]
-    Parse { #[from] source: util::strings::ParseQuantityWithUnitsError }
-
-               ,
+    Parse {
+        #[from]
+        source: util::strings::ParseQuantityWithUnitsError,
+    },
 }
 
 #[derive(Debug, Error)]
 pub enum CfgGetFilenameError {
     #[error("The config does not contain a section with that name")]
-    NoSection  ,
+    NoSection,
     #[error("The config section does contain that key")]
-    NoKey      ,
+    NoKey,
     #[error("Failed to '$'-expand the config entry. Reason: {source}")]
-    ExpandDollar { #[from] source: CfgExpandDollarError }
-
-               ,
+    ExpandDollar {
+        #[from]
+        source: CfgExpandDollarError,
+    },
 }
 
 #[derive(Debug, Error)]
 pub enum CfgExpandDollarError {
     #[error("Tried to expand to an environment variable containing invalid unicode. variable: '{var_name}'")]
-    NonUnicodeEnvVar { var_name: String }
-    ,
+    NonUnicodeEnvVar { var_name: String },
     #[error("Syntax error in '$'-expansion. Error at byte position {pos}")]
-    Syntax { pos: usize }
-       ,
+    Syntax { pos: usize },
     #[error("Failed to expand variable. Variable not found in PATHS section or process environment: '{var_name}'")]
-    UnknownVariable { var_name: String }
-       ,
+    UnknownVariable { var_name: String },
     #[error("'$'-expansion includes an unclosed '{{'")]
-    UnclosedBraces
-       ,
+    UnclosedBraces,
 }
 
 impl Cfg {
@@ -168,8 +182,7 @@ impl Cfg {
                 }
 
                 // ignore comments
-                if line.starts_with('#') ||
-                   line.starts_with('%') {
+                if line.starts_with('#') || line.starts_with('%') {
                     continue;
                 }
 
@@ -178,19 +191,20 @@ impl Cfg {
                     if allow_inline {
                         let cfg_raw = match Cfg::load_raw(filename) {
                             Ok(cfg_raw) => cfg_raw,
-                            Err(e)      => return Err(LoadInline {
-                                source: Box::new(e),
-                                line_number: line_num,
-                                filename: filename.to_string(),
-                            })
+                            Err(e) => {
+                                return Err(LoadInline {
+                                    source: Box::new(e),
+                                    line_number: line_num,
+                                    filename: filename.to_string(),
+                                })
+                            }
                         };
                         cfg.merge(cfg_raw);
-                    }
-                    else {
+                    } else {
                         return Err(InlineDisabled {
                             line_number: line_num,
                             filename: filename.to_string(),
-                        })
+                        });
                     }
                     continue;
                 }
@@ -209,18 +223,20 @@ impl Cfg {
                      * and copying happening here.
                      */
                     match cfg.data.entry(section.clone()) {
-                        hash_map::Entry::Occupied(mut soe)  => match soe.get_mut().entry(key.to_string()) {
-                            hash_map::Entry::Occupied(mut koe)  => {
-                                koe.insert(value.to_string());
-                            },
-                            hash_map::Entry::Vacant(kve)    => {
-                                kve.insert(value.to_string());
-                            },
-                        },
-                        hash_map::Entry::Vacant(sve)    => {
+                        hash_map::Entry::Occupied(mut soe) => {
+                            match soe.get_mut().entry(key.to_string()) {
+                                hash_map::Entry::Occupied(mut koe) => {
+                                    koe.insert(value.to_string());
+                                }
+                                hash_map::Entry::Vacant(kve) => {
+                                    kve.insert(value.to_string());
+                                }
+                            }
+                        }
+                        hash_map::Entry::Vacant(sve) => {
                             let map = sve.insert(HashMap::new());
                             map.insert(key.to_string(), value.to_string());
-                        },
+                        }
                     }
                     continue;
                 };
@@ -229,7 +245,7 @@ impl Cfg {
             return Err(Syntax {
                 line_number: line_num,
                 line: line_buf,
-            })
+            });
         }
         Ok(cfg)
     }
@@ -237,15 +253,15 @@ impl Cfg {
     pub fn merge(&mut self, mut other: Cfg) {
         for (k, mut v) in other.data.drain() {
             match self.data.entry(k) {
-                hash_map::Entry::Occupied(oe)    => {
+                hash_map::Entry::Occupied(oe) => {
                     let map = oe.into_mut();
                     for (k, v) in v.drain() {
                         map.insert(k, v);
                     }
-                },
+                }
                 hash_map::Entry::Vacant(ve) => {
                     ve.insert(v);
-                },
+                }
             }
         }
     }
@@ -254,21 +270,21 @@ impl Cfg {
         use self::CfgDefaultError::*;
 
         let mut data_dir = match paths::data_dir() {
-            Some(dd)    => dd,
-            None        => return Err(NoDataDir),
+            Some(dd) => dd,
+            None => return Err(NoDataDir),
         };
 
         data_dir.push("config.d");
         let mut cfg = Cfg::empty();
         let rd = match std::fs::read_dir(data_dir) {
-            Ok(dirent)  => dirent,
-            Err(e)      => return Err(ReadDataDir { source: e }),
+            Ok(dirent) => dirent,
+            Err(e) => return Err(ReadDataDir { source: e }),
         };
 
         for res_dirent in rd {
             let dirent = match res_dirent {
-                Ok(dirent)  => dirent,
-                Err(e)      => return Err(ReadDataDir { source: e }),
+                Ok(dirent) => dirent,
+                Err(e) => return Err(ReadDataDir { source: e }),
             };
             let path = dirent.path();
             if let Ok(file_type) = dirent.file_type() {
@@ -277,7 +293,7 @@ impl Cfg {
                     cfg.merge(cfg_raw);
                 }
             }
-        };
+        }
 
         Ok(cfg)
     }
@@ -295,9 +311,9 @@ impl Cfg {
         match self.data.get(section) {
             Some(map) => match map.get(key) {
                 Some(value) => Ok(u64::from_str(value)?),
-                None        => Err(NoKey),
+                None => Err(NoKey),
             },
-            None    => Err(NoSection),
+            None => Err(NoSection),
         }
     }
 
@@ -307,21 +323,25 @@ impl Cfg {
         match self.data.get(section) {
             Some(map) => match map.get(key) {
                 Some(value) => Ok(f32::from_str(value)?),
-                None        => Err(NoKey),
+                None => Err(NoKey),
             },
-            None    => Err(NoSection),
+            None => Err(NoSection),
         }
     }
 
-    pub fn get_relative_time(&self, section: &str, key: &str) -> Result<time::Relative, CfgGetRelativeTimeError> {
+    pub fn get_relative_time(
+        &self,
+        section: &str,
+        key: &str,
+    ) -> Result<time::Relative, CfgGetRelativeTimeError> {
         use self::CfgGetRelativeTimeError::*;
 
         match self.data.get(section) {
             Some(map) => match map.get(key) {
                 Some(value) => Ok(time::Relative::from_str(value)?),
-                None        => Err(NoKey),
+                None => Err(NoKey),
             },
-            None    => Err(NoSection),
+            None => Err(NoSection),
         }
     }
 
@@ -333,15 +353,14 @@ impl Cfg {
                 Some(value) => {
                     let expanded = self.expand_dollar(value)?;
                     Ok(PathBuf::from(expanded))
-                },
-                None        => Err(NoKey),
+                }
+                None => Err(NoKey),
             },
-            None    => Err(NoSection),
+            None => Err(NoSection),
         }
     }
 
-    pub fn set_string(&mut self, section: &str, key: &str, mut value: String) -> Option<String>
-    {
+    pub fn set_string(&mut self, section: &str, key: &str, mut value: String) -> Option<String> {
         let section: Cow<str> = Cow::Owned(section.to_owned());
         let key: Cow<str> = Cow::Owned(key.to_owned());
 
@@ -368,13 +387,17 @@ impl Cfg {
 
             match self.data.get("PATHS").and_then(|m| m.get(name)) {
                 Some(v) => Some(self.expand_dollar(v)),
-                None    => match std::env::var(name) {
-                    Ok(s)   => Some(self.expand_dollar(s.borrow())),
-                    Err(e)  => match e {
-                        VarError::NotPresent    => return None,
-                        VarError::NotUnicode(_) => return Some(Err(NonUnicodeEnvVar { var_name: name.to_string() })),
-                    }
-                }
+                None => match std::env::var(name) {
+                    Ok(s) => Some(self.expand_dollar(s.borrow())),
+                    Err(e) => match e {
+                        VarError::NotPresent => return None,
+                        VarError::NotUnicode(_) => {
+                            return Some(Err(NonUnicodeEnvVar {
+                                var_name: name.to_string(),
+                            }))
+                        }
+                    },
+                },
             }
         };
 
@@ -391,15 +414,14 @@ impl Cfg {
                         };
                         loop {
                             if let Some(&(end, c)) = chars.peek() {
-                                if ! (c.is_alphanumeric() || c == '_') {
+                                if !(c.is_alphanumeric() || c == '_') {
                                     let name = unsafe { orig.slice_unchecked(start, end) };
                                     return (name, chars);
                                 }
                                 chars.next();
-                            }
-                            else {
+                            } else {
                                 let name = unsafe { orig.slice_unchecked(start, orig.len()) };
-                                return (name, chars)
+                                return (name, chars);
                             }
                         }
                     };
@@ -414,12 +436,14 @@ impl Cfg {
                             }
                             if let Some((pos, c)) = chars.next() {
                                 match c {
-                                    '}' => {
-                                        match lookup(name) {
-                                            Some(expanded)  => ret.push_str(expanded?.borrow()),
-                                            None            => return Err(UnknownVariable { var_name: name.to_string() }),
+                                    '}' => match lookup(name) {
+                                        Some(expanded) => ret.push_str(expanded?.borrow()),
+                                        None => {
+                                            return Err(UnknownVariable {
+                                                var_name: name.to_string(),
+                                            })
                                         }
-                                    }
+                                    },
                                     ':' => {
                                         if let Some((pos, c)) = chars.next() {
                                             if c != '-' {
@@ -436,15 +460,13 @@ impl Cfg {
                                                                 if depth == 0 {
                                                                     end = e;
                                                                     break;
-                                                                }
-                                                                else {
+                                                                } else {
                                                                     depth -= 1;
                                                                 }
-                                                            },
-                                                            _   => (),
+                                                            }
+                                                            _ => (),
                                                         }
-                                                    }
-                                                    else {
+                                                    } else {
                                                         return Err(UnclosedBraces);
                                                     }
                                                 }
@@ -452,52 +474,50 @@ impl Cfg {
                                                     // have "${name:-def}" and we were able to
                                                     // resolve `name` to `expanded`
                                                     ret.push_str(&(expanded?)).borrow();
-                                                }
-                                                else {
+                                                } else {
                                                     // have "${name:-def}" and we were not able
                                                     // to resolve name
-                                                    let def = unsafe { orig.slice_unchecked(start, end) };
-                                                    ret.push_str(&(self.expand_dollar(def))?).borrow();
+                                                    let def =
+                                                        unsafe { orig.slice_unchecked(start, end) };
+                                                    ret.push_str(&(self.expand_dollar(def))?)
+                                                        .borrow();
                                                 }
-                                            }
-                                            else {
+                                            } else {
                                                 // string ended after "${name:-"
                                                 return Err(UnclosedBraces);
                                             }
-                                        }
-                                        else {
+                                        } else {
                                             // string ended after "${name:"
                                             return Err(UnclosedBraces);
                                         }
-                                    },
-                                    _   => {
+                                    }
+                                    _ => {
                                         // got string "${name_" where _ is an invalid character
                                         return Err(Syntax { pos: pos });
-                                    },
+                                    }
                                 }
-                            }
-                            else {
+                            } else {
                                 return Err(UnclosedBraces);
                             }
-                        }
-                        else {
+                        } else {
                             return Err(UnclosedBraces);
                         }
-                    }
-                    else {
+                    } else {
                         let (name, nchars) = get_name(chars);
                         chars = nchars;
                         match lookup(name) {
-                            Some(expanded)  => ret.push_str(expanded?.borrow()),
-                            None            => return Err(UnknownVariable { var_name: name.to_string() }),
+                            Some(expanded) => ret.push_str(expanded?.borrow()),
+                            None => {
+                                return Err(UnknownVariable {
+                                    var_name: name.to_string(),
+                                })
+                            }
                         }
                     }
-                }
-                else {
+                } else {
                     return Err(Syntax { pos: orig.len() });
                 }
-            }
-            else {
+            } else {
                 ret.push(c);
             }
         }
@@ -507,8 +527,8 @@ impl Cfg {
 
 #[cfg(test)]
 mod tests {
-    use std;
     use super::*;
+    use std;
 
     #[test]
     fn test_expand_dollar() {

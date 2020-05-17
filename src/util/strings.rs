@@ -4,20 +4,22 @@ use std::str::FromStr;
 #[derive(Debug, Error)]
 pub enum ParseQuantityWithUnitsError {
     #[error("Failed to parse a number. Specifically: {source}")]
-    ParseInt { #[from] source: ParseIntError }
-       ,
+    ParseInt {
+        #[from]
+        source: ParseIntError,
+    },
     #[error("Empty string given as argument")]
-    EmptyString
-       ,
+    EmptyString,
     #[error("Missing unit on the final number")]
-    MissingUnit
-       ,
+    MissingUnit,
     #[error("Unrecognized unit. '{unit}' is not a valid unit")]
-    NoSuchUnit { unit: String }
-       ,
+    NoSuchUnit { unit: String },
 }
 
-pub fn parse_quantity_with_units<'a>(s: &'a str, units: &[(&str, u64)]) -> Result<u64, ParseQuantityWithUnitsError> {
+pub fn parse_quantity_with_units<'a>(
+    s: &'a str,
+    units: &[(&str, u64)],
+) -> Result<u64, ParseQuantityWithUnitsError> {
     use self::ParseQuantityWithUnitsError::*;
 
     if s.trim().is_empty() {
@@ -28,21 +30,19 @@ pub fn parse_quantity_with_units<'a>(s: &'a str, units: &[(&str, u64)]) -> Resul
     let mut iter = s.split(' ');
     loop {
         match iter.next() {
-            None             => return Ok(result),
+            None => return Ok(result),
             Some(amount_str) => {
                 if amount_str.is_empty() {
                     continue;
-                }
-                else {
+                } else {
                     let amount = u64::from_str(amount_str)?;
                     loop {
                         match iter.next() {
-                            None       => return Err(MissingUnit),
+                            None => return Err(MissingUnit),
                             Some(unit) => {
                                 if unit.is_empty() {
                                     continue;
-                                }
-                                else {
+                                } else {
                                     let mut found = false;
                                     for &(u, multiplier) in units.iter() {
                                         if u == unit {
@@ -53,9 +53,10 @@ pub fn parse_quantity_with_units<'a>(s: &'a str, units: &[(&str, u64)]) -> Resul
                                     }
                                     if found {
                                         break;
-                                    }
-                                    else {
-                                        return Err(NoSuchUnit { unit: unit.to_string() });
+                                    } else {
+                                        return Err(NoSuchUnit {
+                                            unit: unit.to_string(),
+                                        });
                                     }
                                 }
                             }
@@ -89,7 +90,7 @@ pub fn data_to_string(data: &[u8]) -> String {
             vbit = 5;
         }
         let pos = ((bits >> (vbit - 5)) & 31) as usize;
-        out.push_str(&enc_table[pos..pos+1]);
+        out.push_str(&enc_table[pos..pos + 1]);
         vbit -= 5;
     }
     assert!(out.len() == get_encoded_string_len(data.len()));
@@ -108,9 +109,9 @@ pub fn string_to_data(string: &str, out_data: &mut [u8]) -> bool {
 
     if 0 == enc_len {
         if 0 == encoded_len {
-            return true
+            return true;
         }
-        return false
+        return false;
     }
 
     wpos = out_data.len();
@@ -124,8 +125,7 @@ pub fn string_to_data(string: &str, out_data: &mut [u8]) -> bool {
         rpos -= 1;
         ret = get_value(string.as_bytes()[rpos]) as i64;
         bits = ret >> (5 - (encoded_len % 5));
-    }
-    else {
+    } else {
         vbit = 5;
         shift = 0;
         rpos -= 1;
@@ -164,7 +164,7 @@ fn get_encoded_string_len(data_size: usize) -> usize {
     return (data_size * 8 + 4) / 5;
 }
 
-fn get_value (a: u8) -> i32 {
+fn get_value(a: u8) -> i32 {
     //       '0'          '9'
     if (a >= 48) && (a <= 57) {
         return a as i32 - 48;

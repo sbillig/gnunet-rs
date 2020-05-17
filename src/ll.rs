@@ -30,7 +30,9 @@ pub struct Struct_Unnamed1 {
     pub __val: [::std::os::raw::c_int; 2usize],
 }
 impl ::std::default::Default for Struct_Unnamed1 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type __fsid_t = Struct_Unnamed1;
 pub type __clock_t = ::std::os::raw::c_long;
@@ -67,7 +69,9 @@ pub struct Struct_Unnamed2 {
     pub __val: [::std::os::raw::c_ulong; 16usize],
 }
 impl ::std::default::Default for Struct_Unnamed2 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type __sigset_t = Struct_Unnamed2;
 pub type sigset_t = __sigset_t;
@@ -79,7 +83,9 @@ pub struct Struct_timespec {
     pub tv_nsec: __syscall_slong_t,
 }
 impl ::std::default::Default for Struct_timespec {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -88,7 +94,9 @@ pub struct Struct_timeval {
     pub tv_usec: __suseconds_t,
 }
 impl ::std::default::Default for Struct_timeval {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type suseconds_t = __suseconds_t;
 pub type __fd_mask = ::std::os::raw::c_long;
@@ -98,7 +106,9 @@ pub struct Struct_Unnamed3 {
     pub __fds_bits: [__fd_mask; 16usize],
 }
 impl ::std::default::Default for Struct_Unnamed3 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type fd_set = Struct_Unnamed3;
 pub type fd_mask = __fd_mask;
@@ -174,8 +184,7 @@ pub struct Union_pthread_attr_t {
     pub _bindgen_data_: [u64; 7usize],
 }
 impl Union_pthread_attr_t {
-    pub unsafe fn __size(&mut self)
-     -> *mut [::std::os::raw::c_char; 56usize] {
+    pub unsafe fn __size(&mut self) -> *mut [::std::os::raw::c_char; 56usize] {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
@@ -185,10 +194,14 @@ impl Union_pthread_attr_t {
     }
 }
 impl ::std::clone::Clone for Union_pthread_attr_t {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Union_pthread_attr_t {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type pthread_attr_t = Union_pthread_attr_t;
 #[repr(C)]
@@ -198,7 +211,9 @@ pub struct Struct___pthread_internal_list {
     pub __next: *mut Struct___pthread_internal_list,
 }
 impl ::std::default::Default for Struct___pthread_internal_list {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type __pthread_list_t = Struct___pthread_internal_list;
 #[repr(C)]
@@ -211,8 +226,7 @@ impl Union_Unnamed4 {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
-    pub unsafe fn __size(&mut self)
-     -> *mut [::std::os::raw::c_char; 40usize] {
+    pub unsafe fn __size(&mut self) -> *mut [::std::os::raw::c_char; 40usize] {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
@@ -222,10 +236,14 @@ impl Union_Unnamed4 {
     }
 }
 impl ::std::clone::Clone for Union_Unnamed4 {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Union_Unnamed4 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -240,7 +258,9 @@ pub struct Struct___pthread_mutex_s {
     pub __list: __pthread_list_t,
 }
 impl ::std::default::Default for Struct___pthread_mutex_s {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type pthread_mutex_t = Union_Unnamed4;
 #[repr(C)]
@@ -259,7 +279,9 @@ impl Union_Unnamed5 {
     }
 }
 impl ::std::default::Default for Union_Unnamed5 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type pthread_mutexattr_t = Union_Unnamed5;
 #[repr(C)]
@@ -272,8 +294,7 @@ impl Union_Unnamed6 {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
-    pub unsafe fn __size(&mut self)
-     -> *mut [::std::os::raw::c_char; 48usize] {
+    pub unsafe fn __size(&mut self) -> *mut [::std::os::raw::c_char; 48usize] {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
@@ -283,10 +304,14 @@ impl Union_Unnamed6 {
     }
 }
 impl ::std::clone::Clone for Union_Unnamed6 {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Union_Unnamed6 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -301,7 +326,9 @@ pub struct Struct_Unnamed7 {
     pub __broadcast_seq: ::std::os::raw::c_uint,
 }
 impl ::std::default::Default for Struct_Unnamed7 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type pthread_cond_t = Union_Unnamed6;
 #[repr(C)]
@@ -320,7 +347,9 @@ impl Union_Unnamed8 {
     }
 }
 impl ::std::default::Default for Union_Unnamed8 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type pthread_condattr_t = Union_Unnamed8;
 pub type pthread_key_t = ::std::os::raw::c_uint;
@@ -335,8 +364,7 @@ impl Union_Unnamed9 {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
-    pub unsafe fn __size(&mut self)
-     -> *mut [::std::os::raw::c_char; 56usize] {
+    pub unsafe fn __size(&mut self) -> *mut [::std::os::raw::c_char; 56usize] {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
@@ -346,10 +374,14 @@ impl Union_Unnamed9 {
     }
 }
 impl ::std::clone::Clone for Union_Unnamed9 {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Union_Unnamed9 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -368,7 +400,9 @@ pub struct Struct_Unnamed10 {
     pub __flags: ::std::os::raw::c_uint,
 }
 impl ::std::default::Default for Struct_Unnamed10 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type pthread_rwlock_t = Union_Unnamed9;
 #[repr(C)]
@@ -387,7 +421,9 @@ impl Union_Unnamed11 {
     }
 }
 impl ::std::default::Default for Union_Unnamed11 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type pthread_rwlockattr_t = Union_Unnamed11;
 pub type pthread_spinlock_t = ::std::os::raw::c_int;
@@ -397,8 +433,7 @@ pub struct Union_Unnamed12 {
     pub _bindgen_data_: [u64; 4usize],
 }
 impl Union_Unnamed12 {
-    pub unsafe fn __size(&mut self)
-     -> *mut [::std::os::raw::c_char; 32usize] {
+    pub unsafe fn __size(&mut self) -> *mut [::std::os::raw::c_char; 32usize] {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
@@ -408,7 +443,9 @@ impl Union_Unnamed12 {
     }
 }
 impl ::std::default::Default for Union_Unnamed12 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type pthread_barrier_t = Union_Unnamed12;
 #[repr(C)]
@@ -427,7 +464,9 @@ impl Union_Unnamed13 {
     }
 }
 impl ::std::default::Default for Union_Unnamed13 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type pthread_barrierattr_t = Union_Unnamed13;
 #[repr(C)]
@@ -437,7 +476,9 @@ pub struct Struct_iovec {
     pub iov_len: size_t,
 }
 impl ::std::default::Default for Struct_iovec {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type socklen_t = __socklen_t;
 #[derive(Copy, Clone)]
@@ -461,7 +502,9 @@ pub struct Struct_sockaddr {
     pub sa_data: [::std::os::raw::c_char; 14usize],
 }
 impl ::std::default::Default for Struct_sockaddr {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -471,10 +514,14 @@ pub struct Struct_sockaddr_storage {
     pub __ss_padding: [::std::os::raw::c_char; 112usize],
 }
 impl ::std::clone::Clone for Struct_sockaddr_storage {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_sockaddr_storage {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -511,7 +558,9 @@ pub struct Struct_msghdr {
     pub msg_flags: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct_msghdr {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -522,11 +571,15 @@ pub struct Struct_cmsghdr {
     pub __cmsg_data: [::std::os::raw::c_uchar; 0usize],
 }
 impl ::std::default::Default for Struct_cmsghdr {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
-pub enum Enum_Unnamed15 { SCM_RIGHTS = 1, }
+pub enum Enum_Unnamed15 {
+    SCM_RIGHTS = 1,
+}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_linger {
@@ -534,7 +587,9 @@ pub struct Struct_linger {
     pub l_linger: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct_linger {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -543,11 +598,17 @@ pub struct Struct_osockaddr {
     pub sa_data: [::std::os::raw::c_uchar; 14usize],
 }
 impl ::std::default::Default for Struct_osockaddr {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
-pub enum Enum_Unnamed16 { SHUT_RD = 0, SHUT_WR = 1, SHUT_RDWR = 2, }
+pub enum Enum_Unnamed16 {
+    SHUT_RD = 0,
+    SHUT_WR = 1,
+    SHUT_RDWR = 2,
+}
 pub type in_addr_t = uint32_t;
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -555,7 +616,9 @@ pub struct Struct_in_addr {
     pub s_addr: in_addr_t,
 }
 impl ::std::default::Default for Struct_in_addr {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -564,10 +627,14 @@ pub struct Struct_ip_opts {
     pub ip_opts: [::std::os::raw::c_char; 40usize],
 }
 impl ::std::clone::Clone for Struct_ip_opts {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_ip_opts {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -577,7 +644,9 @@ pub struct Struct_ip_mreqn {
     pub imr_ifindex: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct_ip_mreqn {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -587,7 +656,9 @@ pub struct Struct_in_pktinfo {
     pub ipi_addr: Struct_in_addr,
 }
 impl ::std::default::Default for Struct_in_pktinfo {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -632,10 +703,8 @@ pub enum Enum_Unnamed18 {
 }
 pub type in_port_t = uint16_t;
 pub const IPPORT_BIFFUDP: Enum_Unnamed19 = Enum_Unnamed19::IPPORT_EXECSERVER;
-pub const IPPORT_WHOSERVER: Enum_Unnamed19 =
-    Enum_Unnamed19::IPPORT_LOGINSERVER;
-pub const IPPORT_ROUTESERVER: Enum_Unnamed19 =
-    Enum_Unnamed19::IPPORT_EFSSERVER;
+pub const IPPORT_WHOSERVER: Enum_Unnamed19 = Enum_Unnamed19::IPPORT_LOGINSERVER;
+pub const IPPORT_ROUTESERVER: Enum_Unnamed19 = Enum_Unnamed19::IPPORT_EFSSERVER;
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_Unnamed19 {
@@ -669,7 +738,9 @@ pub struct Struct_in6_addr {
     pub __in6_u: Union_Unnamed20,
 }
 impl ::std::default::Default for Struct_in6_addr {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -691,7 +762,9 @@ impl Union_Unnamed20 {
     }
 }
 impl ::std::default::Default for Union_Unnamed20 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -702,7 +775,9 @@ pub struct Struct_sockaddr_in {
     pub sin_zero: [::std::os::raw::c_uchar; 8usize],
 }
 impl ::std::default::Default for Struct_sockaddr_in {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -714,7 +789,9 @@ pub struct Struct_sockaddr_in6 {
     pub sin6_scope_id: uint32_t,
 }
 impl ::std::default::Default for Struct_sockaddr_in6 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -723,7 +800,9 @@ pub struct Struct_ip_mreq {
     pub imr_interface: Struct_in_addr,
 }
 impl ::std::default::Default for Struct_ip_mreq {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -733,7 +812,9 @@ pub struct Struct_ip_mreq_source {
     pub imr_sourceaddr: Struct_in_addr,
 }
 impl ::std::default::Default for Struct_ip_mreq_source {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -742,7 +823,9 @@ pub struct Struct_ipv6_mreq {
     pub ipv6mr_interface: ::std::os::raw::c_uint,
 }
 impl ::std::default::Default for Struct_ipv6_mreq {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -751,10 +834,14 @@ pub struct Struct_group_req {
     pub gr_group: Struct_sockaddr_storage,
 }
 impl ::std::clone::Clone for Struct_group_req {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_group_req {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -764,10 +851,14 @@ pub struct Struct_group_source_req {
     pub gsr_source: Struct_sockaddr_storage,
 }
 impl ::std::clone::Clone for Struct_group_source_req {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_group_source_req {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -779,7 +870,9 @@ pub struct Struct_ip_msfilter {
     pub imsf_slist: [Struct_in_addr; 1usize],
 }
 impl ::std::default::Default for Struct_ip_msfilter {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -791,10 +884,14 @@ pub struct Struct_group_filter {
     pub gf_slist: [Struct_sockaddr_storage; 1usize],
 }
 impl ::std::clone::Clone for Struct_group_filter {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_group_filter {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -804,7 +901,9 @@ pub struct Struct_rpcent {
     pub r_number: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct_rpcent {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -815,7 +914,9 @@ pub struct Struct_netent {
     pub n_net: uint32_t,
 }
 impl ::std::default::Default for Struct_netent {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -827,7 +928,9 @@ pub struct Struct_hostent {
     pub h_addr_list: *mut *mut ::std::os::raw::c_char,
 }
 impl ::std::default::Default for Struct_hostent {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -838,7 +941,9 @@ pub struct Struct_servent {
     pub s_proto: *mut ::std::os::raw::c_char,
 }
 impl ::std::default::Default for Struct_servent {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -848,7 +953,9 @@ pub struct Struct_protoent {
     pub p_proto: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct_protoent {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -863,7 +970,9 @@ pub struct Struct_addrinfo {
     pub ai_next: *mut Struct_addrinfo,
 }
 impl ::std::default::Default for Struct_addrinfo {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -872,12 +981,16 @@ pub struct Struct_sockaddr_un {
     pub sun_path: [::std::os::raw::c_char; 108usize],
 }
 impl ::std::clone::Clone for Struct_sockaddr_un {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_sockaddr_un {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub enum Struct___locale_data { }
+pub enum Struct___locale_data {}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct___locale_struct {
@@ -888,7 +1001,9 @@ pub struct Struct___locale_struct {
     pub __names: [*const ::std::os::raw::c_char; 13usize],
 }
 impl ::std::default::Default for Struct___locale_struct {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type __locale_t = *mut Struct___locale_struct;
 pub type locale_t = __locale_t;
@@ -961,7 +1076,9 @@ impl Struct_tcphdr {
     }
 }
 impl ::std::default::Default for Struct_tcphdr {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -1024,7 +1141,9 @@ pub struct Struct_tcp_info {
     pub tcpi_total_retrans: u_int32_t,
 }
 impl ::std::default::Default for Struct_tcp_info {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -1036,10 +1155,14 @@ pub struct Struct_tcp_md5sig {
     pub tcpm_key: [u_int8_t; 80usize],
 }
 impl ::std::clone::Clone for Struct_tcp_md5sig {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_tcp_md5sig {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1048,7 +1171,9 @@ pub struct Struct_tcp_repair_opt {
     pub opt_val: u_int32_t,
 }
 impl ::std::default::Default for Struct_tcp_repair_opt {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -1069,10 +1194,14 @@ pub struct Struct_tcp_cookie_transactions {
     pub tcpct_value: [u_int8_t; 536usize],
 }
 impl ::std::clone::Clone for Struct_tcp_cookie_transactions {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_tcp_cookie_transactions {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1086,7 +1215,9 @@ pub struct Struct_passwd {
     pub pw_shell: *mut ::std::os::raw::c_char,
 }
 impl ::std::default::Default for Struct_passwd {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type FILE = Struct__IO_FILE;
 #[repr(C)]
@@ -1098,7 +1229,9 @@ pub struct Struct_winsize {
     pub ws_ypixel: ::std::os::raw::c_ushort,
 }
 impl ::std::default::Default for Struct_winsize {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1111,7 +1244,9 @@ pub struct Struct_termio {
     pub c_cc: [::std::os::raw::c_uchar; 8usize],
 }
 impl ::std::default::Default for Struct_termio {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type sig_atomic_t = __sig_atomic_t;
 #[repr(C)]
@@ -1130,7 +1265,9 @@ impl Union_sigval {
     }
 }
 impl ::std::default::Default for Union_sigval {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type sigval_t = Union_sigval;
 pub type __sigchld_clock_t = __clock_t;
@@ -1143,7 +1280,9 @@ pub struct Struct_Unnamed23 {
     pub _sifields: Union_Unnamed24,
 }
 impl ::std::default::Default for Struct_Unnamed23 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1185,7 +1324,9 @@ impl Union_Unnamed24 {
     }
 }
 impl ::std::default::Default for Union_Unnamed24 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1194,7 +1335,9 @@ pub struct Struct_Unnamed25 {
     pub si_uid: __uid_t,
 }
 impl ::std::default::Default for Struct_Unnamed25 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1204,7 +1347,9 @@ pub struct Struct_Unnamed26 {
     pub si_sigval: sigval_t,
 }
 impl ::std::default::Default for Struct_Unnamed26 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1214,7 +1359,9 @@ pub struct Struct_Unnamed27 {
     pub si_sigval: sigval_t,
 }
 impl ::std::default::Default for Struct_Unnamed27 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1226,7 +1373,9 @@ pub struct Struct_Unnamed28 {
     pub si_stime: __sigchld_clock_t,
 }
 impl ::std::default::Default for Struct_Unnamed28 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1236,7 +1385,9 @@ pub struct Struct_Unnamed29 {
     pub si_addr_bnd: Struct_Unnamed30,
 }
 impl ::std::default::Default for Struct_Unnamed29 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1245,7 +1396,9 @@ pub struct Struct_Unnamed30 {
     pub _upper: *mut ::std::os::raw::c_void,
 }
 impl ::std::default::Default for Struct_Unnamed30 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1254,7 +1407,9 @@ pub struct Struct_Unnamed31 {
     pub si_fd: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct_Unnamed31 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1264,7 +1419,9 @@ pub struct Struct_Unnamed32 {
     pub _arch: ::std::os::raw::c_uint,
 }
 impl ::std::default::Default for Struct_Unnamed32 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type siginfo_t = Struct_Unnamed23;
 #[derive(Copy, Clone)]
@@ -1306,7 +1463,10 @@ pub enum Enum_Unnamed35 {
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
-pub enum Enum_Unnamed36 { SEGV_MAPERR = 1, SEGV_ACCERR = 2, }
+pub enum Enum_Unnamed36 {
+    SEGV_MAPERR = 1,
+    SEGV_ACCERR = 2,
+}
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_Unnamed37 {
@@ -1345,7 +1505,9 @@ pub struct Struct_sigevent {
     pub _sigev_un: Union_Unnamed40,
 }
 impl ::std::default::Default for Struct_sigevent {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1367,7 +1529,9 @@ impl Union_Unnamed40 {
     }
 }
 impl ::std::default::Default for Union_Unnamed40 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1376,7 +1540,9 @@ pub struct Struct_Unnamed41 {
     pub _attribute: *mut pthread_attr_t,
 }
 impl ::std::default::Default for Struct_Unnamed41 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type sigevent_t = Struct_sigevent;
 #[derive(Copy, Clone)]
@@ -1387,8 +1553,7 @@ pub enum Enum_Unnamed42 {
     SIGEV_THREAD = 2,
     SIGEV_THREAD_ID = 4,
 }
-pub type __sighandler_t =
-    ::std::option::Option<extern "C" fn(arg1: ::std::os::raw::c_int)>;
+pub type __sighandler_t = ::std::option::Option<extern "C" fn(arg1: ::std::os::raw::c_int)>;
 pub type sig_t = __sighandler_t;
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1399,7 +1564,9 @@ pub struct Struct_sigaction {
     pub sa_restorer: ::std::option::Option<extern "C" fn()>,
 }
 impl ::std::default::Default for Struct_sigaction {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1411,19 +1578,23 @@ impl Union_Unnamed43 {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
-    pub unsafe fn sa_sigaction(&mut self)
-     ->
-         *mut ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                             ::std::os::raw::c_int,
-                                                         arg2: *mut siginfo_t,
-                                                         arg3:
-                                                             *mut ::std::os::raw::c_void)> {
+    pub unsafe fn sa_sigaction(
+        &mut self,
+    ) -> *mut ::std::option::Option<
+        unsafe extern "C" fn(
+            arg1: ::std::os::raw::c_int,
+            arg2: *mut siginfo_t,
+            arg3: *mut ::std::os::raw::c_void,
+        ),
+    > {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
 }
 impl ::std::default::Default for Union_Unnamed43 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1435,7 +1606,9 @@ pub struct Struct__fpx_sw_bytes {
     pub padding: [__uint32_t; 7usize],
 }
 impl ::std::default::Default for Struct__fpx_sw_bytes {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1444,7 +1617,9 @@ pub struct Struct__fpreg {
     pub exponent: ::std::os::raw::c_ushort,
 }
 impl ::std::default::Default for Struct__fpreg {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1454,7 +1629,9 @@ pub struct Struct__fpxreg {
     pub padding: [::std::os::raw::c_ushort; 3usize],
 }
 impl ::std::default::Default for Struct__fpxreg {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1462,7 +1639,9 @@ pub struct Struct__xmmreg {
     pub element: [__uint32_t; 4usize],
 }
 impl ::std::default::Default for Struct__xmmreg {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1480,7 +1659,9 @@ pub struct Struct__fpstate {
     pub padding: [__uint32_t; 24usize],
 }
 impl ::std::default::Default for Struct__fpstate {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1525,7 +1706,9 @@ impl Struct_sigcontext {
     }
 }
 impl ::std::default::Default for Struct_sigcontext {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1535,7 +1718,9 @@ pub struct Struct__xsave_hdr {
     pub reserved2: [__uint64_t; 5usize],
 }
 impl ::std::default::Default for Struct__xsave_hdr {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -1543,10 +1728,14 @@ pub struct Struct__ymmh_state {
     pub ymmh_space: [__uint32_t; 64usize],
 }
 impl ::std::clone::Clone for Struct__ymmh_state {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct__ymmh_state {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -1556,10 +1745,14 @@ pub struct Struct__xstate {
     pub ymmh: Struct__ymmh_state,
 }
 impl ::std::clone::Clone for Struct__xstate {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct__xstate {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1568,11 +1761,16 @@ pub struct Struct_sigstack {
     pub ss_onstack: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct_sigstack {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
-pub enum Enum_Unnamed44 { SS_ONSTACK = 1, SS_DISABLE = 2, }
+pub enum Enum_Unnamed44 {
+    SS_ONSTACK = 1,
+    SS_DISABLE = 2,
+}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_sigaltstack {
@@ -1581,7 +1779,9 @@ pub struct Struct_sigaltstack {
     pub ss_size: size_t,
 }
 impl ::std::default::Default for Struct_sigaltstack {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type stack_t = Struct_sigaltstack;
 pub type greg_t = ::std::os::raw::c_longlong;
@@ -1594,7 +1794,9 @@ pub struct Struct__libc_fpxreg {
     pub padding: [::std::os::raw::c_ushort; 3usize],
 }
 impl ::std::default::Default for Struct__libc_fpxreg {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1602,7 +1804,9 @@ pub struct Struct__libc_xmmreg {
     pub element: [__uint32_t; 4usize],
 }
 impl ::std::default::Default for Struct__libc_xmmreg {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1620,7 +1824,9 @@ pub struct Struct__libc_fpstate {
     pub padding: [__uint32_t; 24usize],
 }
 impl ::std::default::Default for Struct__libc_fpstate {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type fpregset_t = *mut Struct__libc_fpstate;
 #[repr(C)]
@@ -1631,7 +1837,9 @@ pub struct Struct_Unnamed45 {
     pub __reserved1: [::std::os::raw::c_ulonglong; 8usize],
 }
 impl ::std::default::Default for Struct_Unnamed45 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type mcontext_t = Struct_Unnamed45;
 #[repr(C)]
@@ -1645,12 +1853,18 @@ pub struct Struct_ucontext {
     pub __fpregs_mem: Struct__libc_fpstate,
 }
 impl ::std::default::Default for Struct_ucontext {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type ucontext_t = Struct_ucontext;
 #[derive(Copy, Clone)]
 #[repr(u32)]
-pub enum Enum_Unnamed46 { P_ALL = 0, P_PID = 1, P_PGID = 2, }
+pub enum Enum_Unnamed46 {
+    P_ALL = 0,
+    P_PID = 1,
+    P_PGID = 2,
+}
 pub type idtype_t = Enum_Unnamed46;
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1668,7 +1882,9 @@ impl Union_Unnamed47 {
     }
 }
 impl ::std::default::Default for Union_Unnamed47 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type __WAIT_STATUS = Union_Unnamed47;
 #[repr(C)]
@@ -1691,7 +1907,9 @@ impl Union_wait {
     }
 }
 impl ::std::default::Default for Union_wait {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1699,7 +1917,9 @@ pub struct Struct_Unnamed48 {
     pub _bindgen_bitfield_1_: ::std::os::raw::c_uint,
 }
 impl ::std::default::Default for Struct_Unnamed48 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1707,9 +1927,11 @@ pub struct Struct_Unnamed49 {
     pub _bindgen_bitfield_1_: ::std::os::raw::c_uint,
 }
 impl ::std::default::Default for Struct_Unnamed49 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub enum Struct_rusage { }
+pub enum Struct_rusage {}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_group {
@@ -1719,7 +1941,9 @@ pub struct Struct_group {
     pub gr_mem: *mut *mut ::std::os::raw::c_char,
 }
 impl ::std::default::Default for Struct_group {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type __FILE = Struct__IO_FILE;
 #[repr(C)]
@@ -1729,7 +1953,9 @@ pub struct Struct_Unnamed50 {
     pub __value: Union_Unnamed51,
 }
 impl ::std::default::Default for Struct_Unnamed50 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1747,7 +1973,9 @@ impl Union_Unnamed51 {
     }
 }
 impl ::std::default::Default for Union_Unnamed51 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type __mbstate_t = Struct_Unnamed50;
 #[repr(C)]
@@ -1757,7 +1985,9 @@ pub struct Struct_Unnamed52 {
     pub __state: __mbstate_t,
 }
 impl ::std::default::Default for Struct_Unnamed52 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type _G_fpos_t = Struct_Unnamed52;
 #[repr(C)]
@@ -1767,12 +1997,14 @@ pub struct Struct_Unnamed53 {
     pub __state: __mbstate_t,
 }
 impl ::std::default::Default for Struct_Unnamed53 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type _G_fpos64_t = Struct_Unnamed53;
 pub type va_list = __gnuc_va_list;
 pub type __gnuc_va_list = __builtin_va_list;
-pub enum Struct__IO_jump_t { }
+pub enum Struct__IO_jump_t {}
 pub type _IO_lock_t = ::std::os::raw::c_void;
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1782,7 +2014,9 @@ pub struct Struct__IO_marker {
     pub _pos: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct__IO_marker {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -1826,25 +2060,29 @@ pub struct Struct__IO_FILE {
     pub _unused2: [::std::os::raw::c_char; 20usize],
 }
 impl ::std::default::Default for Struct__IO_FILE {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type _IO_FILE = Struct__IO_FILE;
-pub enum Struct__IO_FILE_plus { }
-pub type __io_read_fn =
-    unsafe extern "C" fn(__cookie: *mut ::std::os::raw::c_void,
-                         __buf: *mut ::std::os::raw::c_char, __nbytes: size_t)
-        -> __ssize_t;
-pub type __io_write_fn =
-    unsafe extern "C" fn(__cookie: *mut ::std::os::raw::c_void,
-                         __buf: *const ::std::os::raw::c_char, __n: size_t)
-        -> __ssize_t;
-pub type __io_seek_fn =
-    unsafe extern "C" fn(__cookie: *mut ::std::os::raw::c_void,
-                         __pos: *mut __off64_t, __w: ::std::os::raw::c_int)
-        -> ::std::os::raw::c_int;
+pub enum Struct__IO_FILE_plus {}
+pub type __io_read_fn = unsafe extern "C" fn(
+    __cookie: *mut ::std::os::raw::c_void,
+    __buf: *mut ::std::os::raw::c_char,
+    __nbytes: size_t,
+) -> __ssize_t;
+pub type __io_write_fn = unsafe extern "C" fn(
+    __cookie: *mut ::std::os::raw::c_void,
+    __buf: *const ::std::os::raw::c_char,
+    __n: size_t,
+) -> __ssize_t;
+pub type __io_seek_fn = unsafe extern "C" fn(
+    __cookie: *mut ::std::os::raw::c_void,
+    __pos: *mut __off64_t,
+    __w: ::std::os::raw::c_int,
+) -> ::std::os::raw::c_int;
 pub type __io_close_fn =
-    unsafe extern "C" fn(__cookie: *mut ::std::os::raw::c_void)
-        -> ::std::os::raw::c_int;
+    unsafe extern "C" fn(__cookie: *mut ::std::os::raw::c_void) -> ::std::os::raw::c_int;
 pub type fpos_t = _G_fpos_t;
 pub type wchar_t = ::std::os::raw::c_int;
 #[repr(C)]
@@ -1854,7 +2092,9 @@ pub struct Struct_Unnamed54 {
     pub rem: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct_Unnamed54 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type div_t = Struct_Unnamed54;
 #[repr(C)]
@@ -1864,7 +2104,9 @@ pub struct Struct_Unnamed55 {
     pub rem: ::std::os::raw::c_long,
 }
 impl ::std::default::Default for Struct_Unnamed55 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type ldiv_t = Struct_Unnamed55;
 #[repr(C)]
@@ -1874,7 +2116,9 @@ pub struct Struct_Unnamed56 {
     pub rem: ::std::os::raw::c_longlong,
 }
 impl ::std::default::Default for Struct_Unnamed56 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type lldiv_t = Struct_Unnamed56;
 #[repr(C)]
@@ -1889,7 +2133,9 @@ pub struct Struct_random_data {
     pub end_ptr: *mut int32_t,
 }
 impl ::std::default::Default for Struct_random_data {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -1901,14 +2147,16 @@ pub struct Struct_drand48_data {
     pub __a: ::std::os::raw::c_ulonglong,
 }
 impl ::std::default::Default for Struct_drand48_data {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub type __compar_fn_t =
-    ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                   *const ::std::os::raw::c_void,
-                                               arg2:
-                                                   *const ::std::os::raw::c_void)
-                              -> ::std::os::raw::c_int>;
+pub type __compar_fn_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *const ::std::os::raw::c_void,
+        arg2: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int,
+>;
 pub type useconds_t = __useconds_t;
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -2242,7 +2490,9 @@ pub struct Struct_stat {
     pub __glibc_reserved: [__syscall_slong_t; 3usize],
 }
 impl ::std::default::Default for Struct_stat {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -2254,10 +2504,14 @@ pub struct Struct_dirent {
     pub d_name: [::std::os::raw::c_char; 256usize],
 }
 impl ::std::clone::Clone for Struct_dirent {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_dirent {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -2272,7 +2526,7 @@ pub enum Enum_Unnamed60 {
     DT_SOCK = 12,
     DT_WHT = 14,
 }
-pub enum Struct___dirstream { }
+pub enum Struct___dirstream {}
 pub type DIR = Struct___dirstream;
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -2284,7 +2538,9 @@ pub struct Struct_flock {
     pub l_pid: __pid_t,
 }
 impl ::std::default::Default for Struct_flock {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type float_t = ::std::os::raw::c_float;
 pub type double_t = ::std::os::raw::c_double;
@@ -2317,7 +2573,9 @@ pub struct Struct_exception {
     pub retval: ::std::os::raw::c_double,
 }
 impl ::std::default::Default for Struct_exception {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -2335,7 +2593,9 @@ pub struct Struct_tm {
     pub tm_zone: *const ::std::os::raw::c_char,
 }
 impl ::std::default::Default for Struct_tm {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -2344,7 +2604,9 @@ pub struct Struct_itimerspec {
     pub it_value: Struct_timespec,
 }
 impl ::std::default::Default for Struct_itimerspec {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -2370,10 +2632,12 @@ pub struct Struct_Unnamed64 {
     pub __clang_max_align_nonce2: ::std::os::raw::c_double,
 }
 impl ::std::default::Default for Struct_Unnamed64 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type max_align_t = Struct_Unnamed64;
-pub enum Struct_qelem { }
+pub enum Struct_qelem {}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_PLIBC_SEARCH_QELEM {
@@ -2382,18 +2646,23 @@ pub struct Struct_PLIBC_SEARCH_QELEM {
     pub q_data: [::std::os::raw::c_char; 1usize],
 }
 impl ::std::default::Default for Struct_PLIBC_SEARCH_QELEM {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub type PLIBC_SEARCH__compar_fn_t =
-    ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                   *const ::std::os::raw::c_void,
-                                               arg2:
-                                                   *const ::std::os::raw::c_void)
-                              -> ::std::os::raw::c_int>;
+pub type PLIBC_SEARCH__compar_fn_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *const ::std::os::raw::c_void,
+        arg2: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int,
+>;
 pub type _win_comparison_fn_t = PLIBC_SEARCH__compar_fn_t;
 #[derive(Copy, Clone)]
 #[repr(u32)]
-pub enum Enum_Unnamed65 { PLIBC_SEARCH_FIND = 0, PLIBC_SEARCH_ENTER = 1, }
+pub enum Enum_Unnamed65 {
+    PLIBC_SEARCH_FIND = 0,
+    PLIBC_SEARCH_ENTER = 1,
+}
 pub type PLIBC_SEARCH_ACTION = Enum_Unnamed65;
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -2402,7 +2671,9 @@ pub struct Struct_PLIBC_SEARCH_entry {
     pub data: *mut ::std::os::raw::c_void,
 }
 impl ::std::default::Default for Struct_PLIBC_SEARCH_entry {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type PLIBC_SEARCH_ENTRY = Struct_PLIBC_SEARCH_entry;
 #[repr(C)]
@@ -2412,7 +2683,9 @@ pub struct Struct__PLIBC_SEARCH_ENTRY {
     pub entry: PLIBC_SEARCH_ENTRY,
 }
 impl ::std::default::Default for Struct__PLIBC_SEARCH_ENTRY {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type _PLIBC_SEARCH_ENTRY = Struct__PLIBC_SEARCH_ENTRY;
 #[repr(C)]
@@ -2423,7 +2696,9 @@ pub struct Struct_PLIBC_SEARCH_hsearch_data {
     pub filled: ::std::os::raw::c_uint,
 }
 impl ::std::default::Default for Struct_PLIBC_SEARCH_hsearch_data {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -2434,15 +2709,15 @@ pub enum Enum_Unnamed66 {
     PLIBC_SEARCH_leaf = 3,
 }
 pub type PLIBC_SEARCH_VISIT = Enum_Unnamed66;
-pub type PLIBC_SEARCH__action_fn_t =
-    ::std::option::Option<unsafe extern "C" fn(__nodep:
-                                                   *const ::std::os::raw::c_void,
-                                               __value: PLIBC_SEARCH_VISIT,
-                                               __level:
-                                                   ::std::os::raw::c_int)>;
+pub type PLIBC_SEARCH__action_fn_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        __nodep: *const ::std::os::raw::c_void,
+        __value: PLIBC_SEARCH_VISIT,
+        __level: ::std::os::raw::c_int,
+    ),
+>;
 pub type PLIBC_SEARCH__free_fn_t =
-    ::std::option::Option<unsafe extern "C" fn(__nodep:
-                                                   *mut ::std::os::raw::c_void)>;
+    ::std::option::Option<unsafe extern "C" fn(__nodep: *mut ::std::os::raw::c_void)>;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_lconv {
@@ -2472,7 +2747,9 @@ pub struct Struct_lconv {
     pub int_n_sign_posn: ::std::os::raw::c_char,
 }
 impl ::std::default::Default for Struct_lconv {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -2481,14 +2758,16 @@ pub struct Struct_GNUNET_MessageHeader {
     pub _type: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_MessageHeader {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub type GNUNET_FileNameCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               filename:
-                                                   *const ::std::os::raw::c_char)
-                              -> ::std::os::raw::c_int>;
+pub type GNUNET_FileNameCallback = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        filename: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int,
+>;
 #[derive(Copy, Clone)]
 #[repr(i32)]
 pub enum Enum_GNUNET_ErrorType {
@@ -2501,16 +2780,15 @@ pub enum Enum_GNUNET_ErrorType {
     GNUNET_ERROR_TYPE_INVALID = 16,
     GNUNET_ERROR_TYPE_BULK = 32,
 }
-pub type GNUNET_Logger =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               kind: Enum_GNUNET_ErrorType,
-                                               component:
-                                                   *const ::std::os::raw::c_char,
-                                               date:
-                                                   *const ::std::os::raw::c_char,
-                                               message:
-                                                   *const ::std::os::raw::c_char)>;
+pub type GNUNET_Logger = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        kind: Enum_GNUNET_ErrorType,
+        component: *const ::std::os::raw::c_char,
+        date: *const ::std::os::raw::c_char,
+        message: *const ::std::os::raw::c_char,
+    ),
+>;
 pub type GNUNET_SCHEDULER_TaskIdentifier = ::std::os::raw::c_ulonglong;
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -2541,7 +2819,9 @@ pub struct Struct_GNUNET_TIME_Absolute {
     pub abs_value_us: uint64_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TIME_Absolute {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -2549,7 +2829,9 @@ pub struct Struct_GNUNET_TIME_Relative {
     pub rel_value_us: uint64_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TIME_Relative {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -2557,7 +2839,9 @@ pub struct Struct_GNUNET_TIME_RelativeNBO {
     pub rel_value_us__: uint64_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TIME_RelativeNBO {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -2565,9 +2849,11 @@ pub struct Struct_GNUNET_TIME_AbsoluteNBO {
     pub abs_value_us__: uint64_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TIME_AbsoluteNBO {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub enum Struct_GNUNET_NETWORK_Handle { }
+pub enum Struct_GNUNET_NETWORK_Handle {}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_GNUNET_NETWORK_FDSet {
@@ -2575,9 +2861,11 @@ pub struct Struct_GNUNET_NETWORK_FDSet {
     pub sds: fd_set,
 }
 impl ::std::default::Default for Struct_GNUNET_NETWORK_FDSet {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub enum Struct_GNUNET_DISK_PipeHandle { }
+pub enum Struct_GNUNET_DISK_PipeHandle {}
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_GNUNET_FILE_Type {
@@ -2590,23 +2878,22 @@ pub struct Struct_GNUNET_DISK_FileHandle {
     pub fd: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct_GNUNET_DISK_FileHandle {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub enum Struct_GNUNET_CONFIGURATION_Handle { }
-pub type GNUNET_CONFIGURATION_Iterator =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               section:
-                                                   *const ::std::os::raw::c_char,
-                                               option:
-                                                   *const ::std::os::raw::c_char,
-                                               value:
-                                                   *const ::std::os::raw::c_char)>;
-pub type GNUNET_CONFIGURATION_Section_Iterator =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               section:
-                                                   *const ::std::os::raw::c_char)>;
+pub enum Struct_GNUNET_CONFIGURATION_Handle {}
+pub type GNUNET_CONFIGURATION_Iterator = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ),
+>;
+pub type GNUNET_CONFIGURATION_Section_Iterator = ::std::option::Option<
+    unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void, section: *const ::std::os::raw::c_char),
+>;
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_GNUNET_DISK_OpenFlags {
@@ -2652,17 +2939,16 @@ pub enum Enum_GNUNET_DISK_PipeEnd {
     GNUNET_DISK_PIPE_END_READ = 0,
     GNUNET_DISK_PIPE_END_WRITE = 1,
 }
-pub enum Struct_GNUNET_DISK_DirectoryIterator { }
-pub type GNUNET_DISK_DirectoryIteratorCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               di:
-                                                   *mut Struct_GNUNET_DISK_DirectoryIterator,
-                                               filename:
-                                                   *const ::std::os::raw::c_char,
-                                               dirname:
-                                                   *const ::std::os::raw::c_char)>;
-pub enum Struct_GNUNET_DISK_MapHandle { }
+pub enum Struct_GNUNET_DISK_DirectoryIterator {}
+pub type GNUNET_DISK_DirectoryIteratorCallback = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        di: *mut Struct_GNUNET_DISK_DirectoryIterator,
+        filename: *const ::std::os::raw::c_char,
+        dirname: *const ::std::os::raw::c_char,
+    ),
+>;
+pub enum Struct_GNUNET_DISK_MapHandle {}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_GNUNET_SCHEDULER_TaskContext {
@@ -2671,25 +2957,25 @@ pub struct Struct_GNUNET_SCHEDULER_TaskContext {
     pub write_ready: *const Struct_GNUNET_NETWORK_FDSet,
 }
 impl ::std::default::Default for Struct_GNUNET_SCHEDULER_TaskContext {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub type GNUNET_SCHEDULER_Task =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               tc:
-                                                   *const Struct_GNUNET_SCHEDULER_TaskContext)>;
-pub type GNUNET_SCHEDULER_select =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               rfds:
-                                                   *mut Struct_GNUNET_NETWORK_FDSet,
-                                               wfds:
-                                                   *mut Struct_GNUNET_NETWORK_FDSet,
-                                               efds:
-                                                   *mut Struct_GNUNET_NETWORK_FDSet,
-                                               timeout:
-                                                   Struct_GNUNET_TIME_Relative)
-                              -> ::std::os::raw::c_int>;
+pub type GNUNET_SCHEDULER_Task = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        tc: *const Struct_GNUNET_SCHEDULER_TaskContext,
+    ),
+>;
+pub type GNUNET_SCHEDULER_select = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        rfds: *mut Struct_GNUNET_NETWORK_FDSet,
+        wfds: *mut Struct_GNUNET_NETWORK_FDSet,
+        efds: *mut Struct_GNUNET_NETWORK_FDSet,
+        timeout: Struct_GNUNET_TIME_Relative,
+    ) -> ::std::os::raw::c_int,
+>;
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_Unnamed67 {
@@ -3251,10 +3537,14 @@ pub struct Struct_Unnamed69 {
     pub u: Union_Unnamed70,
 }
 impl ::std::clone::Clone for Struct_Unnamed69 {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_Unnamed69 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -3276,13 +3566,17 @@ impl Union_Unnamed70 {
     }
 }
 impl ::std::clone::Clone for Union_Unnamed70 {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Union_Unnamed70 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type gpgrt_lock_t = Struct_Unnamed69;
-pub enum Struct__gpgrt_stream_internal { }
+pub enum Struct__gpgrt_stream_internal {}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct__gpgrt__stream {
@@ -3298,7 +3592,9 @@ pub struct Struct__gpgrt__stream {
     pub intern: *mut Struct__gpgrt_stream_internal,
 }
 impl ::std::default::Default for Struct__gpgrt__stream {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3306,31 +3602,35 @@ pub struct Struct_Unnamed71 {
     pub _bindgen_bitfield_1_: ::std::os::raw::c_uint,
 }
 impl ::std::default::Default for Struct_Unnamed71 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type gpgrt_stream_t = *mut Struct__gpgrt__stream;
-pub type gpgrt_cookie_read_function_t =
-    ::std::option::Option<unsafe extern "C" fn(cookie:
-                                                   *mut ::std::os::raw::c_void,
-                                               buffer:
-                                                   *mut ::std::os::raw::c_void,
-                                               size: size_t) -> ssize_t>;
-pub type gpgrt_cookie_write_function_t =
-    ::std::option::Option<unsafe extern "C" fn(cookie:
-                                                   *mut ::std::os::raw::c_void,
-                                               buffer:
-                                                   *const ::std::os::raw::c_void,
-                                               size: size_t) -> ssize_t>;
-pub type gpgrt_cookie_seek_function_t =
-    ::std::option::Option<unsafe extern "C" fn(cookie:
-                                                   *mut ::std::os::raw::c_void,
-                                               pos: *mut gpgrt_off_t,
-                                               whence: ::std::os::raw::c_int)
-                              -> ::std::os::raw::c_int>;
-pub type gpgrt_cookie_close_function_t =
-    ::std::option::Option<unsafe extern "C" fn(cookie:
-                                                   *mut ::std::os::raw::c_void)
-                              -> ::std::os::raw::c_int>;
+pub type gpgrt_cookie_read_function_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        cookie: *mut ::std::os::raw::c_void,
+        buffer: *mut ::std::os::raw::c_void,
+        size: size_t,
+    ) -> ssize_t,
+>;
+pub type gpgrt_cookie_write_function_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        cookie: *mut ::std::os::raw::c_void,
+        buffer: *const ::std::os::raw::c_void,
+        size: size_t,
+    ) -> ssize_t,
+>;
+pub type gpgrt_cookie_seek_function_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        cookie: *mut ::std::os::raw::c_void,
+        pos: *mut gpgrt_off_t,
+        whence: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int,
+>;
+pub type gpgrt_cookie_close_function_t = ::std::option::Option<
+    unsafe extern "C" fn(cookie: *mut ::std::os::raw::c_void) -> ::std::os::raw::c_int,
+>;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct__gpgrt_cookie_io_functions {
@@ -3340,7 +3640,9 @@ pub struct Struct__gpgrt_cookie_io_functions {
     pub func_close: gpgrt_cookie_close_function_t,
 }
 impl ::std::default::Default for Struct__gpgrt_cookie_io_functions {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type gpgrt_cookie_io_functions_t = Struct__gpgrt_cookie_io_functions;
 #[derive(Copy, Clone)]
@@ -3359,7 +3661,9 @@ pub struct Struct__gpgrt_syshd {
     pub u: Union_Unnamed72,
 }
 impl ::std::default::Default for Struct__gpgrt_syshd {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3385,7 +3689,9 @@ impl Union_Unnamed72 {
     }
 }
 impl ::std::default::Default for Union_Unnamed72 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type gpgrt_syshd_t = Struct__gpgrt_syshd;
 #[repr(C)]
@@ -3395,7 +3701,9 @@ pub struct Struct__gpgrt_poll_s {
     pub _bindgen_bitfield_1_: ::std::os::raw::c_uint,
 }
 impl ::std::default::Default for Struct__gpgrt_poll_s {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type gpgrt_poll_t = Struct__gpgrt_poll_s;
 #[repr(C)]
@@ -3405,7 +3713,9 @@ pub struct Struct_timezone {
     pub tz_dsttime: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct_timezone {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type __timezone_ptr_t = *mut Struct_timezone;
 #[derive(Copy, Clone)]
@@ -3422,7 +3732,9 @@ pub struct Struct_itimerval {
     pub it_value: Struct_timeval,
 }
 impl ::std::default::Default for Struct_itimerval {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type __itimer_which_t = ::std::os::raw::c_int;
 pub type gcry_socklen_t = socklen_t;
@@ -3435,13 +3747,15 @@ pub struct Struct_gcry_thread_cbs {
     pub option: ::std::os::raw::c_uint,
 }
 impl ::std::default::Default for Struct_gcry_thread_cbs {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub enum Struct_gcry_context { }
+pub enum Struct_gcry_context {}
 pub type gcry_ctx_t = *mut Struct_gcry_context;
-pub enum Struct_gcry_mpi { }
+pub enum Struct_gcry_mpi {}
 pub type gcry_mpi_t = *mut Struct_gcry_mpi;
-pub enum Struct_gcry_mpi_point { }
+pub enum Struct_gcry_mpi_point {}
 pub type gcry_mpi_point_t = *mut Struct_gcry_mpi_point;
 pub type GCRY_MPI = *mut Struct_gcry_mpi;
 pub type GcryMPI = *mut Struct_gcry_mpi;
@@ -3454,7 +3768,9 @@ pub struct Struct_Unnamed73 {
     pub data: *mut ::std::os::raw::c_void,
 }
 impl ::std::default::Default for Struct_Unnamed73 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type gcry_buffer_t = Struct_Unnamed73;
 #[derive(Copy, Clone)]
@@ -3524,7 +3840,7 @@ pub enum Enum_gcry_ctl_cmds {
     GCRYCTL_INACTIVATE_FIPS_FLAG = 71,
     GCRYCTL_REACTIVATE_FIPS_FLAG = 72,
 }
-pub enum Struct_gcry_sexp { }
+pub enum Struct_gcry_sexp {}
 pub type gcry_sexp_t = *mut Struct_gcry_sexp;
 pub type GCRY_SEXP = *mut Struct_gcry_sexp;
 pub type GcrySexp = *mut Struct_gcry_sexp;
@@ -3559,7 +3875,7 @@ pub enum Enum_gcry_mpi_flag {
     GCRYMPI_FLAG_USER3 = 1024,
     GCRYMPI_FLAG_USER4 = 2048,
 }
-pub enum Struct_gcry_cipher_handle { }
+pub enum Struct_gcry_cipher_handle {}
 pub type gcry_cipher_hd_t = *mut Struct_gcry_cipher_handle;
 pub type GCRY_CIPHER_HD = *mut Struct_gcry_cipher_handle;
 pub type GcryCipherHd = *mut Struct_gcry_cipher_handle;
@@ -3660,7 +3976,7 @@ pub enum Enum_gcry_md_flags {
     GCRY_MD_FLAG_HMAC = 2,
     GCRY_MD_FLAG_BUGEMU1 = 256,
 }
-pub enum Struct_gcry_md_context { }
+pub enum Struct_gcry_md_context {}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_gcry_md_handle {
@@ -3670,12 +3986,14 @@ pub struct Struct_gcry_md_handle {
     pub buf: [::std::os::raw::c_uchar; 1usize],
 }
 impl ::std::default::Default for Struct_gcry_md_handle {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type gcry_md_hd_t = *mut Struct_gcry_md_handle;
 pub type GCRY_MD_HD = *mut Struct_gcry_md_handle;
 pub type GcryMDHd = *mut Struct_gcry_md_handle;
-pub enum Struct_gcry_mac_handle { }
+pub enum Struct_gcry_mac_handle {}
 pub type gcry_mac_hd_t = *mut Struct_gcry_mac_handle;
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -3713,7 +4031,9 @@ pub enum Enum_gcry_mac_algos {
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
-pub enum Enum_gcry_mac_flags { GCRY_MAC_FLAG_SECURE = 1, }
+pub enum Enum_gcry_mac_flags {
+    GCRY_MAC_FLAG_SECURE = 1,
+}
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_gcry_kdf_algos {
@@ -3740,12 +4060,13 @@ pub enum Enum_gcry_random_level {
     GCRY_VERY_STRONG_RANDOM = 2,
 }
 pub type gcry_random_level_t = Enum_gcry_random_level;
-pub type gcry_prime_check_func_t =
-    ::std::option::Option<unsafe extern "C" fn(arg:
-                                                   *mut ::std::os::raw::c_void,
-                                               mode: ::std::os::raw::c_int,
-                                               candidate: gcry_mpi_t)
-                              -> ::std::os::raw::c_int>;
+pub type gcry_prime_check_func_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg: *mut ::std::os::raw::c_void,
+        mode: ::std::os::raw::c_int,
+        candidate: gcry_mpi_t,
+    ) -> ::std::os::raw::c_int,
+>;
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_gcry_log_levels {
@@ -3757,54 +4078,56 @@ pub enum Enum_gcry_log_levels {
     GCRY_LOG_BUG = 50,
     GCRY_LOG_DEBUG = 100,
 }
-pub type gcry_handler_progress_t =
-    ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                   *mut ::std::os::raw::c_void,
-                                               arg2:
-                                                   *const ::std::os::raw::c_char,
-                                               arg3: ::std::os::raw::c_int,
-                                               arg4: ::std::os::raw::c_int,
-                                               arg5: ::std::os::raw::c_int)>;
+pub type gcry_handler_progress_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *mut ::std::os::raw::c_void,
+        arg2: *const ::std::os::raw::c_char,
+        arg3: ::std::os::raw::c_int,
+        arg4: ::std::os::raw::c_int,
+        arg5: ::std::os::raw::c_int,
+    ),
+>;
 pub type gcry_handler_alloc_t =
-    ::std::option::Option<extern "C" fn(n: size_t)
-                              -> *mut ::std::os::raw::c_void>;
-pub type gcry_handler_secure_check_t =
-    ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                   *const ::std::os::raw::c_void)
-                              -> ::std::os::raw::c_int>;
-pub type gcry_handler_realloc_t =
-    ::std::option::Option<unsafe extern "C" fn(p: *mut ::std::os::raw::c_void,
-                                               n: size_t)
-                              -> *mut ::std::os::raw::c_void>;
+    ::std::option::Option<extern "C" fn(n: size_t) -> *mut ::std::os::raw::c_void>;
+pub type gcry_handler_secure_check_t = ::std::option::Option<
+    unsafe extern "C" fn(arg1: *const ::std::os::raw::c_void) -> ::std::os::raw::c_int,
+>;
+pub type gcry_handler_realloc_t = ::std::option::Option<
+    unsafe extern "C" fn(p: *mut ::std::os::raw::c_void, n: size_t) -> *mut ::std::os::raw::c_void,
+>;
 pub type gcry_handler_free_t =
-    ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                   *mut ::std::os::raw::c_void)>;
-pub type gcry_handler_no_mem_t =
-    ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                   *mut ::std::os::raw::c_void,
-                                               arg2: size_t,
-                                               arg3: ::std::os::raw::c_uint)
-                              -> ::std::os::raw::c_int>;
-pub type gcry_handler_error_t =
-    ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                   *mut ::std::os::raw::c_void,
-                                               arg2: ::std::os::raw::c_int,
-                                               arg3:
-                                                   *const ::std::os::raw::c_char)>;
-pub type gcry_handler_log_t =
-    ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                   *mut ::std::os::raw::c_void,
-                                               arg2: ::std::os::raw::c_int,
-                                               arg3:
-                                                   *const ::std::os::raw::c_char,
-                                               arg4: va_list)>;
+    ::std::option::Option<unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void)>;
+pub type gcry_handler_no_mem_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *mut ::std::os::raw::c_void,
+        arg2: size_t,
+        arg3: ::std::os::raw::c_uint,
+    ) -> ::std::os::raw::c_int,
+>;
+pub type gcry_handler_error_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *mut ::std::os::raw::c_void,
+        arg2: ::std::os::raw::c_int,
+        arg3: *const ::std::os::raw::c_char,
+    ),
+>;
+pub type gcry_handler_log_t = ::std::option::Option<
+    unsafe extern "C" fn(
+        arg1: *mut ::std::os::raw::c_void,
+        arg2: ::std::os::raw::c_int,
+        arg3: *const ::std::os::raw::c_char,
+        arg4: va_list,
+    ),
+>;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_GNUNET_HashCode {
     pub bits: [uint32_t; 16usize],
 }
 impl ::std::default::Default for Struct_GNUNET_HashCode {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -3819,10 +4142,14 @@ pub struct Struct_GNUNET_CRYPTO_HashAsciiEncoded {
     pub encoding: [::std::os::raw::c_uchar; 104usize],
 }
 impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_HashAsciiEncoded {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_HashAsciiEncoded {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3831,7 +4158,9 @@ pub struct Struct_GNUNET_CRYPTO_EccSignaturePurpose {
     pub purpose: uint32_t,
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EccSignaturePurpose {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3840,7 +4169,9 @@ pub struct Struct_GNUNET_CRYPTO_EddsaSignature {
     pub s: [::std::os::raw::c_uchar; 32usize],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaSignature {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3849,7 +4180,9 @@ pub struct Struct_GNUNET_CRYPTO_EcdsaSignature {
     pub s: [::std::os::raw::c_uchar; 32usize],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaSignature {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3857,7 +4190,9 @@ pub struct Struct_GNUNET_CRYPTO_EddsaPublicKey {
     pub q_y: [::std::os::raw::c_uchar; 32usize],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaPublicKey {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3865,7 +4200,9 @@ pub struct Struct_GNUNET_CRYPTO_EcdsaPublicKey {
     pub q_y: [::std::os::raw::c_uchar; 32usize],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaPublicKey {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3873,7 +4210,9 @@ pub struct Struct_GNUNET_PeerIdentity {
     pub public_key: Struct_GNUNET_CRYPTO_EddsaPublicKey,
 }
 impl ::std::default::Default for Struct_GNUNET_PeerIdentity {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3881,7 +4220,9 @@ pub struct Struct_GNUNET_CRYPTO_EcdhePublicKey {
     pub q_y: [::std::os::raw::c_uchar; 32usize],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePublicKey {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3889,7 +4230,9 @@ pub struct Struct_GNUNET_CRYPTO_EcdhePrivateKey {
     pub d: [::std::os::raw::c_uchar; 32usize],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdhePrivateKey {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3897,7 +4240,9 @@ pub struct Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
     pub d: [::std::os::raw::c_uchar; 32usize],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EcdsaPrivateKey {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3905,7 +4250,9 @@ pub struct Struct_GNUNET_CRYPTO_EddsaPrivateKey {
     pub d: [::std::os::raw::c_uchar; 32usize],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_EddsaPrivateKey {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3914,7 +4261,9 @@ pub struct Struct_GNUNET_CRYPTO_SymmetricSessionKey {
     pub twofish_key: [::std::os::raw::c_uchar; 32usize],
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_SymmetricSessionKey {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -3922,9 +4271,10 @@ pub struct Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
     pub aes_iv: [::std::os::raw::c_uchar; 16usize],
     pub twofish_iv: [::std::os::raw::c_uchar; 16usize],
 }
-impl ::std::default::Default for
- Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+impl ::std::default::Default for Struct_GNUNET_CRYPTO_SymmetricInitializationVector {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -3932,10 +4282,14 @@ pub struct Struct_GNUNET_CRYPTO_AuthKey {
     pub key: [::std::os::raw::c_uchar; 64usize],
 }
 impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_AuthKey {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_AuthKey {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -3943,10 +4297,14 @@ pub struct Struct_GNUNET_CRYPTO_PaillierPublicKey {
     pub n: [::std::os::raw::c_uchar; 256usize],
 }
 impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_PaillierPublicKey {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierPublicKey {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -3955,10 +4313,14 @@ pub struct Struct_GNUNET_CRYPTO_PaillierPrivateKey {
     pub mu: [::std::os::raw::c_uchar; 256usize],
 }
 impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_PaillierPrivateKey {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierPrivateKey {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy)]
@@ -3967,31 +4329,33 @@ pub struct Struct_GNUNET_CRYPTO_PaillierCiphertext {
     pub bits: [::std::os::raw::c_uchar; 512usize],
 }
 impl ::std::clone::Clone for Struct_GNUNET_CRYPTO_PaillierCiphertext {
-    fn clone(&self) -> Self { *self }
+    fn clone(&self) -> Self {
+        *self
+    }
 }
 impl ::std::default::Default for Struct_GNUNET_CRYPTO_PaillierCiphertext {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub type GNUNET_CRYPTO_HashCompletedCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               res:
-                                                   *const Struct_GNUNET_HashCode)>;
-pub enum Struct_GNUNET_CRYPTO_FileHashContext { }
+pub type GNUNET_CRYPTO_HashCompletedCallback = ::std::option::Option<
+    unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void, res: *const Struct_GNUNET_HashCode),
+>;
+pub enum Struct_GNUNET_CRYPTO_FileHashContext {}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_GNUNET_BANDWIDTH_Value32NBO {
     pub value__: uint32_t,
 }
 impl ::std::default::Default for Struct_GNUNET_BANDWIDTH_Value32NBO {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type GNUNET_BANDWIDTH_TrackerUpdateCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void)>;
+    ::std::option::Option<unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void)>;
 pub type GNUNET_BANDWIDTH_ExcessNotificationCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void)>;
+    ::std::option::Option<unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void)>;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_GNUNET_BANDWIDTH_Tracker {
@@ -4006,7 +4370,9 @@ pub struct Struct_GNUNET_BANDWIDTH_Tracker {
     pub max_carry_s__: uint32_t,
 }
 impl ::std::default::Default for Struct_GNUNET_BANDWIDTH_Tracker {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -4258,57 +4624,56 @@ pub enum Enum_EXTRACTOR_MetaType {
     EXTRACTOR_METATYPE_AUDIO_PREVIEW = 228,
     EXTRACTOR_METATYPE_LAST = 229,
 }
-pub type EXTRACTOR_MetaDataProcessor =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               plugin_name:
-                                                   *const ::std::os::raw::c_char,
-                                               _type: Enum_EXTRACTOR_MetaType,
-                                               format:
-                                                   Enum_EXTRACTOR_MetaFormat,
-                                               data_mime_type:
-                                                   *const ::std::os::raw::c_char,
-                                               data:
-                                                   *const ::std::os::raw::c_char,
-                                               data_len: size_t)
-                              -> ::std::os::raw::c_int>;
+pub type EXTRACTOR_MetaDataProcessor = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        plugin_name: *const ::std::os::raw::c_char,
+        _type: Enum_EXTRACTOR_MetaType,
+        format: Enum_EXTRACTOR_MetaFormat,
+        data_mime_type: *const ::std::os::raw::c_char,
+        data: *const ::std::os::raw::c_char,
+        data_len: size_t,
+    ) -> ::std::os::raw::c_int,
+>;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_EXTRACTOR_ExtractContext {
     pub cls: *mut ::std::os::raw::c_void,
     pub config: *const ::std::os::raw::c_char,
-    pub read: ::std::option::Option<unsafe extern "C" fn(cls:
-                                                             *mut ::std::os::raw::c_void,
-                                                         data:
-                                                             *mut *mut ::std::os::raw::c_void,
-                                                         size: size_t)
-                                        -> ssize_t>,
-    pub seek: ::std::option::Option<unsafe extern "C" fn(cls:
-                                                             *mut ::std::os::raw::c_void,
-                                                         pos: int64_t,
-                                                         whence:
-                                                             ::std::os::raw::c_int)
-                                        -> int64_t>,
-    pub get_size: ::std::option::Option<unsafe extern "C" fn(cls:
-                                                                 *mut ::std::os::raw::c_void)
-                                            -> uint64_t>,
+    pub read: ::std::option::Option<
+        unsafe extern "C" fn(
+            cls: *mut ::std::os::raw::c_void,
+            data: *mut *mut ::std::os::raw::c_void,
+            size: size_t,
+        ) -> ssize_t,
+    >,
+    pub seek: ::std::option::Option<
+        unsafe extern "C" fn(
+            cls: *mut ::std::os::raw::c_void,
+            pos: int64_t,
+            whence: ::std::os::raw::c_int,
+        ) -> int64_t,
+    >,
+    pub get_size:
+        ::std::option::Option<unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void) -> uint64_t>,
     pub _proc: EXTRACTOR_MetaDataProcessor,
 }
 impl ::std::default::Default for Struct_EXTRACTOR_ExtractContext {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 pub type EXTRACTOR_extract_method =
-    ::std::option::Option<unsafe extern "C" fn(ec:
-                                                   *mut Struct_EXTRACTOR_ExtractContext)>;
-pub enum Struct_EXTRACTOR_PluginList { }
-pub enum Struct_GNUNET_CONTAINER_BloomFilter { }
-pub type GNUNET_HashCodeIterator =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               next:
-                                                   *mut Struct_GNUNET_HashCode)
-                              -> ::std::os::raw::c_int>;
-pub enum Struct_GNUNET_CONTAINER_MetaData { }
+    ::std::option::Option<unsafe extern "C" fn(ec: *mut Struct_EXTRACTOR_ExtractContext)>;
+pub enum Struct_EXTRACTOR_PluginList {}
+pub enum Struct_GNUNET_CONTAINER_BloomFilter {}
+pub type GNUNET_HashCodeIterator = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        next: *mut Struct_GNUNET_HashCode,
+    ) -> ::std::os::raw::c_int,
+>;
+pub enum Struct_GNUNET_CONTAINER_MetaData {}
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_GNUNET_CONTAINER_MetaDataSerializationOptions {
@@ -4316,8 +4681,8 @@ pub enum Enum_GNUNET_CONTAINER_MetaDataSerializationOptions {
     GNUNET_CONTAINER_META_DATA_SERIALIZE_PART = 1,
     GNUNET_CONTAINER_META_DATA_SERIALIZE_NO_COMPRESS = 2,
 }
-pub enum Struct_GNUNET_CONTAINER_MultiHashMap { }
-pub enum Struct_GNUNET_CONTAINER_MultiHashMapIterator { }
+pub enum Struct_GNUNET_CONTAINER_MultiHashMap {}
+pub enum Struct_GNUNET_CONTAINER_MultiHashMapIterator {}
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_GNUNET_CONTAINER_MultiHashMapOption {
@@ -4326,33 +4691,31 @@ pub enum Enum_GNUNET_CONTAINER_MultiHashMapOption {
     GNUNET_CONTAINER_MULTIHASHMAPOPTION_UNIQUE_ONLY = 2,
     GNUNET_CONTAINER_MULTIHASHMAPOPTION_UNIQUE_FAST = 3,
 }
-pub type GNUNET_CONTAINER_HashMapIterator =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               key:
-                                                   *const Struct_GNUNET_HashCode,
-                                               value:
-                                                   *mut ::std::os::raw::c_void)
-                              -> ::std::os::raw::c_int>;
-pub type GNUNET_CONTAINER_PeerMapIterator =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               key:
-                                                   *const Struct_GNUNET_PeerIdentity,
-                                               value:
-                                                   *mut ::std::os::raw::c_void)
-                              -> ::std::os::raw::c_int>;
-pub enum Struct_GNUNET_CONTAINER_MultiPeerMap { }
-pub enum Struct_GNUNET_CONTAINER_MultiPeerMapIterator { }
-pub enum Struct_GNUNET_CONTAINER_MultiHashMap32 { }
-pub enum Struct_GNUNET_CONTAINER_MultiHashMap32Iterator { }
-pub type GNUNET_CONTAINER_HashMapIterator32 =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               key: uint32_t,
-                                               value:
-                                                   *mut ::std::os::raw::c_void)
-                              -> ::std::os::raw::c_int>;
+pub type GNUNET_CONTAINER_HashMapIterator = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        key: *const Struct_GNUNET_HashCode,
+        value: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int,
+>;
+pub type GNUNET_CONTAINER_PeerMapIterator = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        key: *const Struct_GNUNET_PeerIdentity,
+        value: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int,
+>;
+pub enum Struct_GNUNET_CONTAINER_MultiPeerMap {}
+pub enum Struct_GNUNET_CONTAINER_MultiPeerMapIterator {}
+pub enum Struct_GNUNET_CONTAINER_MultiHashMap32 {}
+pub enum Struct_GNUNET_CONTAINER_MultiHashMap32Iterator {}
+pub type GNUNET_CONTAINER_HashMapIterator32 = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        key: uint32_t,
+        value: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int,
+>;
 pub type GNUNET_CONTAINER_HeapCostType = uint64_t;
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -4360,18 +4723,16 @@ pub enum Enum_GNUNET_CONTAINER_HeapOrder {
     GNUNET_CONTAINER_HEAP_ORDER_MAX = 0,
     GNUNET_CONTAINER_HEAP_ORDER_MIN = 1,
 }
-pub enum Struct_GNUNET_CONTAINER_Heap { }
-pub enum Struct_GNUNET_CONTAINER_HeapNode { }
-pub type GNUNET_CONTAINER_HeapIterator =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               node:
-                                                   *mut Struct_GNUNET_CONTAINER_HeapNode,
-                                               element:
-                                                   *mut ::std::os::raw::c_void,
-                                               cost:
-                                                   GNUNET_CONTAINER_HeapCostType)
-                              -> ::std::os::raw::c_int>;
+pub enum Struct_GNUNET_CONTAINER_Heap {}
+pub enum Struct_GNUNET_CONTAINER_HeapNode {}
+pub type GNUNET_CONTAINER_HeapIterator = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        node: *mut Struct_GNUNET_CONTAINER_HeapNode,
+        element: *mut ::std::os::raw::c_void,
+        cost: GNUNET_CONTAINER_HeapCostType,
+    ) -> ::std::os::raw::c_int,
+>;
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_GNUNET_CONTAINER_SListDisposition {
@@ -4379,8 +4740,8 @@ pub enum Enum_GNUNET_CONTAINER_SListDisposition {
     GNUNET_CONTAINER_SLIST_DISPOSITION_STATIC = 2,
     GNUNET_CONTAINER_SLIST_DISPOSITION_DYNAMIC = 4,
 }
-pub enum Struct_GNUNET_CONTAINER_SList_Elem { }
-pub enum Struct_GNUNET_CONTAINER_SList { }
+pub enum Struct_GNUNET_CONTAINER_SList_Elem {}
+pub enum Struct_GNUNET_CONTAINER_SList {}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_GNUNET_CONTAINER_SList_Iterator {
@@ -4389,11 +4750,13 @@ pub struct Struct_GNUNET_CONTAINER_SList_Iterator {
     pub elem: *mut Struct_GNUNET_CONTAINER_SList_Elem,
 }
 impl ::std::default::Default for Struct_GNUNET_CONTAINER_SList_Iterator {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub enum Struct_GNUNET_BIO_ReadHandle { }
-pub enum Struct_GNUNET_BIO_WriteHandle { }
-pub enum Struct_GNUNET_CONNECTION_Handle { }
+pub enum Struct_GNUNET_BIO_ReadHandle {}
+pub enum Struct_GNUNET_BIO_WriteHandle {}
+pub enum Struct_GNUNET_CONNECTION_Handle {}
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_GNUNET_CONNECTION_Credentials {
@@ -4401,47 +4764,45 @@ pub struct Struct_GNUNET_CONNECTION_Credentials {
     pub gid: gid_t,
 }
 impl ::std::default::Default for Struct_GNUNET_CONNECTION_Credentials {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub type GNUNET_CONNECTION_AccessCheck =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               ucred:
-                                                   *const Struct_GNUNET_CONNECTION_Credentials,
-                                               addr: *const Struct_sockaddr,
-                                               addrlen: socklen_t)
-                              -> ::std::os::raw::c_int>;
-pub type GNUNET_CONNECTION_Receiver =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               buf:
-                                                   *const ::std::os::raw::c_void,
-                                               available: size_t,
-                                               addr: *const Struct_sockaddr,
-                                               addrlen: socklen_t,
-                                               errCode:
-                                                   ::std::os::raw::c_int)>;
-pub type GNUNET_CONNECTION_TransmitReadyNotify =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               size: size_t,
-                                               buf:
-                                                   *mut ::std::os::raw::c_void)
-                              -> size_t>;
-pub enum Struct_GNUNET_CONNECTION_TransmitHandle { }
-pub enum Struct_GNUNET_CLIENT_Connection { }
-pub type GNUNET_CLIENT_MessageHandler =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               msg:
-                                                   *const Struct_GNUNET_MessageHeader)>;
-pub enum Struct_GNUNET_CLIENT_TransmitHandle { }
-pub enum Struct_GNUNET_CLIENT_TestHandle { }
-pub type GNUNET_CLIENT_TestResultCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               result:
-                                                   ::std::os::raw::c_int)>;
+pub type GNUNET_CONNECTION_AccessCheck = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        ucred: *const Struct_GNUNET_CONNECTION_Credentials,
+        addr: *const Struct_sockaddr,
+        addrlen: socklen_t,
+    ) -> ::std::os::raw::c_int,
+>;
+pub type GNUNET_CONNECTION_Receiver = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        buf: *const ::std::os::raw::c_void,
+        available: size_t,
+        addr: *const Struct_sockaddr,
+        addrlen: socklen_t,
+        errCode: ::std::os::raw::c_int,
+    ),
+>;
+pub type GNUNET_CONNECTION_TransmitReadyNotify = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        size: size_t,
+        buf: *mut ::std::os::raw::c_void,
+    ) -> size_t,
+>;
+pub enum Struct_GNUNET_CONNECTION_TransmitHandle {}
+pub enum Struct_GNUNET_CLIENT_Connection {}
+pub type GNUNET_CLIENT_MessageHandler = ::std::option::Option<
+    unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void, msg: *const Struct_GNUNET_MessageHeader),
+>;
+pub enum Struct_GNUNET_CLIENT_TransmitHandle {}
+pub enum Struct_GNUNET_CLIENT_TestHandle {}
+pub type GNUNET_CLIENT_TestResultCallback = ::std::option::Option<
+    unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void, result: ::std::os::raw::c_int),
+>;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_GNUNET_GETOPT_CommandLineProcessorContext {
@@ -4452,20 +4813,19 @@ pub struct Struct_GNUNET_GETOPT_CommandLineProcessorContext {
     pub argc: ::std::os::raw::c_uint,
     pub currentArgument: ::std::os::raw::c_uint,
 }
-impl ::std::default::Default for
- Struct_GNUNET_GETOPT_CommandLineProcessorContext {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+impl ::std::default::Default for Struct_GNUNET_GETOPT_CommandLineProcessorContext {
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub type GNUNET_GETOPT_CommandLineOptionProcessor =
-    ::std::option::Option<unsafe extern "C" fn(ctx:
-                                                   *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
-                                               scls:
-                                                   *mut ::std::os::raw::c_void,
-                                               option:
-                                                   *const ::std::os::raw::c_char,
-                                               value:
-                                                   *const ::std::os::raw::c_char)
-                              -> ::std::os::raw::c_int>;
+pub type GNUNET_GETOPT_CommandLineOptionProcessor = ::std::option::Option<
+    unsafe extern "C" fn(
+        ctx: *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
+        scls: *mut ::std::os::raw::c_void,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int,
+>;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_GNUNET_GETOPT_CommandLineOption {
@@ -4478,18 +4838,20 @@ pub struct Struct_GNUNET_GETOPT_CommandLineOption {
     pub scls: *mut ::std::os::raw::c_void,
 }
 impl ::std::default::Default for Struct_GNUNET_GETOPT_CommandLineOption {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub enum Struct_GNUNET_SERVER_Handle { }
-pub enum Struct_GNUNET_SERVER_Client { }
-pub enum Struct_GNUNET_SERVER_TransmitHandle { }
-pub type GNUNET_SERVER_MessageCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               client:
-                                                   *mut Struct_GNUNET_SERVER_Client,
-                                               message:
-                                                   *const Struct_GNUNET_MessageHeader)>;
+pub enum Struct_GNUNET_SERVER_Handle {}
+pub enum Struct_GNUNET_SERVER_Client {}
+pub enum Struct_GNUNET_SERVER_TransmitHandle {}
+pub type GNUNET_SERVER_MessageCallback = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        client: *mut Struct_GNUNET_SERVER_Client,
+        message: *const Struct_GNUNET_MessageHeader,
+    ),
+>;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_GNUNET_SERVER_MessageHandler {
@@ -4499,66 +4861,61 @@ pub struct Struct_GNUNET_SERVER_MessageHandler {
     pub expected_size: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_SERVER_MessageHandler {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub type GNUNET_SERVER_DisconnectCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               client:
-                                                   *mut Struct_GNUNET_SERVER_Client)>;
-pub type GNUNET_SERVER_ConnectCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               client:
-                                                   *mut Struct_GNUNET_SERVER_Client)>;
-pub enum Struct_GNUNET_SERVER_TransmitContext { }
-pub enum Struct_GNUNET_SERVER_NotificationContext { }
-pub enum Struct_GNUNET_SERVER_MessageStreamTokenizer { }
-pub type GNUNET_SERVER_MessageTokenizerCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               client:
-                                                   *mut ::std::os::raw::c_void,
-                                               message:
-                                                   *const Struct_GNUNET_MessageHeader)
-                              -> ::std::os::raw::c_int>;
-pub type GNUNET_SERVER_MstCreateCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               client:
-                                                   *mut Struct_GNUNET_SERVER_Client)
-                              -> *mut ::std::os::raw::c_void>;
-pub type GNUNET_SERVER_MstDestroyCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               mst:
-                                                   *mut ::std::os::raw::c_void)>;
-pub type GNUNET_SERVER_MstReceiveCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               mst:
-                                                   *mut ::std::os::raw::c_void,
-                                               client:
-                                                   *mut Struct_GNUNET_SERVER_Client,
-                                               buf:
-                                                   *const ::std::os::raw::c_char,
-                                               size: size_t,
-                                               purge: ::std::os::raw::c_int,
-                                               one_shot:
-                                                   ::std::os::raw::c_int)
-                              -> ::std::os::raw::c_int>;
-pub enum Struct_GNUNET_HELPER_Handle { }
+pub type GNUNET_SERVER_DisconnectCallback = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        client: *mut Struct_GNUNET_SERVER_Client,
+    ),
+>;
+pub type GNUNET_SERVER_ConnectCallback = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        client: *mut Struct_GNUNET_SERVER_Client,
+    ),
+>;
+pub enum Struct_GNUNET_SERVER_TransmitContext {}
+pub enum Struct_GNUNET_SERVER_NotificationContext {}
+pub enum Struct_GNUNET_SERVER_MessageStreamTokenizer {}
+pub type GNUNET_SERVER_MessageTokenizerCallback = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        client: *mut ::std::os::raw::c_void,
+        message: *const Struct_GNUNET_MessageHeader,
+    ) -> ::std::os::raw::c_int,
+>;
+pub type GNUNET_SERVER_MstCreateCallback = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        client: *mut Struct_GNUNET_SERVER_Client,
+    ) -> *mut ::std::os::raw::c_void,
+>;
+pub type GNUNET_SERVER_MstDestroyCallback = ::std::option::Option<
+    unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void, mst: *mut ::std::os::raw::c_void),
+>;
+pub type GNUNET_SERVER_MstReceiveCallback = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        mst: *mut ::std::os::raw::c_void,
+        client: *mut Struct_GNUNET_SERVER_Client,
+        buf: *const ::std::os::raw::c_char,
+        size: size_t,
+        purge: ::std::os::raw::c_int,
+        one_shot: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int,
+>;
+pub enum Struct_GNUNET_HELPER_Handle {}
 pub type GNUNET_HELPER_ExceptionCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void)>;
-pub type GNUNET_HELPER_Continuation =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               result:
-                                                   ::std::os::raw::c_int)>;
-pub enum Struct_GNUNET_HELPER_SendHandle { }
-pub enum Struct_GNUNET_MQ_Envelope { }
-pub enum Struct_GNUNET_MQ_Handle { }
+    ::std::option::Option<unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void)>;
+pub type GNUNET_HELPER_Continuation = ::std::option::Option<
+    unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void, result: ::std::os::raw::c_int),
+>;
+pub enum Struct_GNUNET_HELPER_SendHandle {}
+pub enum Struct_GNUNET_MQ_Envelope {}
+pub enum Struct_GNUNET_MQ_Handle {}
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_GNUNET_MQ_Error {
@@ -4566,35 +4923,27 @@ pub enum Enum_GNUNET_MQ_Error {
     GNUNET_MQ_ERROR_WRITE = 2,
     GNUNET_MQ_ERROR_TIMEOUT = 4,
 }
-pub type GNUNET_MQ_MessageCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               msg:
-                                                   *const Struct_GNUNET_MessageHeader)>;
-pub type GNUNET_MQ_SendImpl =
-    ::std::option::Option<unsafe extern "C" fn(mq:
-                                                   *mut Struct_GNUNET_MQ_Handle,
-                                               msg:
-                                                   *const Struct_GNUNET_MessageHeader,
-                                               impl_state:
-                                                   *mut ::std::os::raw::c_void)>;
-pub type GNUNET_MQ_DestroyImpl =
-    ::std::option::Option<unsafe extern "C" fn(mq:
-                                                   *mut Struct_GNUNET_MQ_Handle,
-                                               impl_state:
-                                                   *mut ::std::os::raw::c_void)>;
-pub type GNUNET_MQ_CancelImpl =
-    ::std::option::Option<unsafe extern "C" fn(mq:
-                                                   *mut Struct_GNUNET_MQ_Handle,
-                                               impl_state:
-                                                   *mut ::std::os::raw::c_void)>;
+pub type GNUNET_MQ_MessageCallback = ::std::option::Option<
+    unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void, msg: *const Struct_GNUNET_MessageHeader),
+>;
+pub type GNUNET_MQ_SendImpl = ::std::option::Option<
+    unsafe extern "C" fn(
+        mq: *mut Struct_GNUNET_MQ_Handle,
+        msg: *const Struct_GNUNET_MessageHeader,
+        impl_state: *mut ::std::os::raw::c_void,
+    ),
+>;
+pub type GNUNET_MQ_DestroyImpl = ::std::option::Option<
+    unsafe extern "C" fn(mq: *mut Struct_GNUNET_MQ_Handle, impl_state: *mut ::std::os::raw::c_void),
+>;
+pub type GNUNET_MQ_CancelImpl = ::std::option::Option<
+    unsafe extern "C" fn(mq: *mut Struct_GNUNET_MQ_Handle, impl_state: *mut ::std::os::raw::c_void),
+>;
 pub type GNUNET_MQ_NotifyCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void)>;
-pub type GNUNET_MQ_ErrorHandler =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               error: Enum_GNUNET_MQ_Error)>;
+    ::std::option::Option<unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void)>;
+pub type GNUNET_MQ_ErrorHandler = ::std::option::Option<
+    unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void, error: Enum_GNUNET_MQ_Error),
+>;
 #[repr(C)]
 #[derive(Copy, Clone)]
 pub struct Struct_GNUNET_MQ_MessageHandler {
@@ -4603,7 +4952,9 @@ pub struct Struct_GNUNET_MQ_MessageHandler {
     pub expected_size: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_MQ_MessageHandler {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -4615,7 +4966,7 @@ pub enum Enum_GNUNET_OS_InheritStdioFlags {
     GNUNET_OS_INHERIT_STD_OUT_AND_ERR = 6,
     GNUNET_OS_INHERIT_STD_ALL = 7,
 }
-pub enum Struct_GNUNET_OS_Process { }
+pub enum Struct_GNUNET_OS_Process {}
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_GNUNET_OS_InstallationPathKind {
@@ -4638,54 +4989,47 @@ pub enum Enum_GNUNET_OS_ProcessStatusType {
     GNUNET_OS_PROCESS_EXITED = 3,
     GNUNET_OS_PROCESS_SIGNALED = 4,
 }
-pub type GNUNET_OS_NetworkInterfaceProcessor =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               name:
-                                                   *const ::std::os::raw::c_char,
-                                               isDefault:
-                                                   ::std::os::raw::c_int,
-                                               addr: *const Struct_sockaddr,
-                                               broadcast_addr:
-                                                   *const Struct_sockaddr,
-                                               netmask:
-                                                   *const Struct_sockaddr,
-                                               addrlen: socklen_t)
-                              -> ::std::os::raw::c_int>;
-pub enum Struct_GNUNET_OS_CommandHandle { }
-pub type GNUNET_OS_LineProcessor =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               line:
-                                                   *const ::std::os::raw::c_char)>;
+pub type GNUNET_OS_NetworkInterfaceProcessor = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        name: *const ::std::os::raw::c_char,
+        isDefault: ::std::os::raw::c_int,
+        addr: *const Struct_sockaddr,
+        broadcast_addr: *const Struct_sockaddr,
+        netmask: *const Struct_sockaddr,
+        addrlen: socklen_t,
+    ) -> ::std::os::raw::c_int,
+>;
+pub enum Struct_GNUNET_OS_CommandHandle {}
+pub type GNUNET_OS_LineProcessor = ::std::option::Option<
+    unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void, line: *const ::std::os::raw::c_char),
+>;
 pub type GNUNET_PEER_Id = ::std::os::raw::c_uint;
-pub type GNUNET_PLUGIN_Callback =
-    ::std::option::Option<unsafe extern "C" fn(arg:
-                                                   *mut ::std::os::raw::c_void)
-                              -> *mut ::std::os::raw::c_void>;
-pub type GNUNET_PLUGIN_LoaderCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               library_name:
-                                                   *const ::std::os::raw::c_char,
-                                               lib_ret:
-                                                   *mut ::std::os::raw::c_void)>;
-pub type GNUNET_PROGRAM_Main =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               args:
-                                                   *const *mut ::std::os::raw::c_char,
-                                               cfgfile:
-                                                   *const ::std::os::raw::c_char,
-                                               cfg:
-                                                   *const Struct_GNUNET_CONFIGURATION_Handle)>;
-pub type GNUNET_SERVICE_Main =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               server:
-                                                   *mut Struct_GNUNET_SERVER_Handle,
-                                               cfg:
-                                                   *const Struct_GNUNET_CONFIGURATION_Handle)>;
+pub type GNUNET_PLUGIN_Callback = ::std::option::Option<
+    unsafe extern "C" fn(arg: *mut ::std::os::raw::c_void) -> *mut ::std::os::raw::c_void,
+>;
+pub type GNUNET_PLUGIN_LoaderCallback = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        library_name: *const ::std::os::raw::c_char,
+        lib_ret: *mut ::std::os::raw::c_void,
+    ),
+>;
+pub type GNUNET_PROGRAM_Main = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        args: *const *mut ::std::os::raw::c_char,
+        cfgfile: *const ::std::os::raw::c_char,
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+    ),
+>;
+pub type GNUNET_SERVICE_Main = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        server: *mut Struct_GNUNET_SERVER_Handle,
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+    ),
+>;
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_GNUNET_SERVICE_Options {
@@ -4693,8 +5037,8 @@ pub enum Enum_GNUNET_SERVICE_Options {
     GNUNET_SERVICE_OPTION_MANUAL_SHUTDOWN = 1,
     GNUNET_SERVICE_OPTION_SOFT_SHUTDOWN = 2,
 }
-pub enum Struct_GNUNET_SERVICE_Context { }
-pub enum Struct_GNUNET_SIGNAL_Context { }
+pub enum Struct_GNUNET_SERVICE_Context {}
+pub enum Struct_GNUNET_SIGNAL_Context {}
 pub type GNUNET_SIGNAL_Handler = ::std::option::Option<extern "C" fn()>;
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -4712,7 +5056,9 @@ pub struct Struct_GNUNET_STRINGS_PortPolicy {
     pub negate_portrange: ::std::os::raw::c_int,
 }
 impl ::std::default::Default for Struct_GNUNET_STRINGS_PortPolicy {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4722,7 +5068,9 @@ pub struct Struct_GNUNET_STRINGS_IPv4NetworkPolicy {
     pub pp: Struct_GNUNET_STRINGS_PortPolicy,
 }
 impl ::std::default::Default for Struct_GNUNET_STRINGS_IPv4NetworkPolicy {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4732,7 +5080,9 @@ pub struct Struct_GNUNET_STRINGS_IPv6NetworkPolicy {
     pub pp: Struct_GNUNET_STRINGS_PortPolicy,
 }
 impl ::std::default::Default for Struct_GNUNET_STRINGS_IPv6NetworkPolicy {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4741,7 +5091,9 @@ pub struct Struct_GNUNET_TUN_Layer2PacketHeader {
     pub proto: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_Layer2PacketHeader {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4758,7 +5110,9 @@ pub struct Struct_GNUNET_TUN_IPv4Header {
     pub destination_address: Struct_in_addr,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_IPv4Header {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4771,7 +5125,9 @@ pub struct Struct_GNUNET_TUN_IPv6Header {
     pub destination_address: Struct_in6_addr,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_IPv6Header {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4787,7 +5143,9 @@ pub struct Struct_GNUNET_TUN_TcpHeader {
     pub urgent_pointer: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_TcpHeader {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4798,7 +5156,9 @@ pub struct Struct_GNUNET_TUN_UdpHeader {
     pub crc: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_UdpHeader {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4806,7 +5166,9 @@ pub struct Struct_GNUNET_TUN_DnsFlags {
     pub _bindgen_bitfield_1_: ::std::os::raw::c_uint,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsFlags {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4819,7 +5181,9 @@ pub struct Struct_GNUNET_TUN_DnsHeader {
     pub additional_rcount: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsHeader {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4831,7 +5195,9 @@ pub struct Struct_GNUNET_TUN_DnsSoaRecord {
     pub minimum: uint32_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsSoaRecord {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4841,7 +5207,9 @@ pub struct Struct_GNUNET_TUN_DnsSrvRecord {
     pub port: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsSrvRecord {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4851,7 +5219,9 @@ pub struct Struct_GNUNET_TUN_DnsCertRecord {
     pub algorithm: uint8_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsCertRecord {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4861,7 +5231,9 @@ pub struct Struct_GNUNET_TUN_DnsTlsaRecord {
     pub matching_type: uint8_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsTlsaRecord {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4870,7 +5242,9 @@ pub struct Struct_GNUNET_TUN_GnsVpnRecord {
     pub proto: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_GnsVpnRecord {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4879,7 +5253,9 @@ pub struct Struct_GNUNET_TUN_DnsQueryLine {
     pub dns_traffic_class: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsQueryLine {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4890,7 +5266,9 @@ pub struct Struct_GNUNET_TUN_DnsRecordLine {
     pub data_len: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_DnsRecordLine {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4901,7 +5279,9 @@ pub struct Struct_GNUNET_TUN_IcmpHeader {
     pub quench: Union_Unnamed74,
 }
 impl ::std::default::Default for Struct_GNUNET_TUN_IcmpHeader {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4927,7 +5307,9 @@ impl Union_Unnamed74 {
     }
 }
 impl ::std::default::Default for Union_Unnamed74 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4936,7 +5318,9 @@ pub struct Struct_Unnamed75 {
     pub sequence_number: uint16_t,
 }
 impl ::std::default::Default for Struct_Unnamed75 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4945,7 +5329,9 @@ pub struct Struct_ih_pmtu {
     pub next_hop_mtu: uint16_t,
 }
 impl ::std::default::Default for Struct_ih_pmtu {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4955,7 +5341,9 @@ pub struct Struct_GNUNET_DNSPARSER_Query {
     pub dns_traffic_class: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Query {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4964,7 +5352,9 @@ pub struct Struct_GNUNET_DNSPARSER_MxRecord {
     pub mxhost: *mut ::std::os::raw::c_char,
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_MxRecord {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -4978,7 +5368,9 @@ pub struct Struct_GNUNET_DNSPARSER_SrvRecord {
     pub port: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_SrvRecord {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -5021,7 +5413,9 @@ pub struct Struct_GNUNET_DNSPARSER_CertRecord {
     pub certificate_data: *mut ::std::os::raw::c_char,
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_CertRecord {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -5035,7 +5429,9 @@ pub struct Struct_GNUNET_DNSPARSER_SoaRecord {
     pub minimum_ttl: uint32_t,
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_SoaRecord {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -5044,7 +5440,9 @@ pub struct Struct_GNUNET_DNSPARSER_RawRecord {
     pub data_len: size_t,
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_RawRecord {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -5056,7 +5454,9 @@ pub struct Struct_GNUNET_DNSPARSER_Record {
     pub dns_traffic_class: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Record {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -5068,23 +5468,19 @@ impl Union_Unnamed76 {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
-    pub unsafe fn soa(&mut self)
-     -> *mut *mut Struct_GNUNET_DNSPARSER_SoaRecord {
+    pub unsafe fn soa(&mut self) -> *mut *mut Struct_GNUNET_DNSPARSER_SoaRecord {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
-    pub unsafe fn cert(&mut self)
-     -> *mut *mut Struct_GNUNET_DNSPARSER_CertRecord {
+    pub unsafe fn cert(&mut self) -> *mut *mut Struct_GNUNET_DNSPARSER_CertRecord {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
-    pub unsafe fn mx(&mut self)
-     -> *mut *mut Struct_GNUNET_DNSPARSER_MxRecord {
+    pub unsafe fn mx(&mut self) -> *mut *mut Struct_GNUNET_DNSPARSER_MxRecord {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
-    pub unsafe fn srv(&mut self)
-     -> *mut *mut Struct_GNUNET_DNSPARSER_SrvRecord {
+    pub unsafe fn srv(&mut self) -> *mut *mut Struct_GNUNET_DNSPARSER_SrvRecord {
         let raw: *mut u8 = ::std::mem::transmute(&self._bindgen_data_);
         ::std::mem::transmute(raw.offset(0))
     }
@@ -5094,7 +5490,9 @@ impl Union_Unnamed76 {
     }
 }
 impl ::std::default::Default for Union_Unnamed76 {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -5111,7 +5509,9 @@ pub struct Struct_GNUNET_DNSPARSER_Packet {
     pub id: uint16_t,
 }
 impl ::std::default::Default for Struct_GNUNET_DNSPARSER_Packet {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[derive(Copy, Clone)]
 #[repr(u32)]
@@ -5143,7 +5543,7 @@ pub enum Enum_GNUNET_BLOCK_EvaluationResult {
     GNUNET_BLOCK_EVALUATION_REQUEST_INVALID = 11,
     GNUNET_BLOCK_EVALUATION_TYPE_NOT_SUPPORTED = 20,
 }
-pub enum Struct_GNUNET_BLOCK_Context { }
+pub enum Struct_GNUNET_BLOCK_Context {}
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_GNUNET_GNSRECORD_Flags {
@@ -5163,7 +5563,9 @@ pub struct Struct_GNUNET_GNSRECORD_Data {
     pub flags: Enum_GNUNET_GNSRECORD_Flags,
 }
 impl ::std::default::Default for Struct_GNUNET_GNSRECORD_Data {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -5174,47 +5576,48 @@ pub struct Struct_GNUNET_GNSRECORD_Block {
     pub expiration_time: Struct_GNUNET_TIME_AbsoluteNBO,
 }
 impl ::std::default::Default for Struct_GNUNET_GNSRECORD_Block {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
-pub type GNUNET_GNSRECORD_RecordCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               rd_count:
-                                                   ::std::os::raw::c_uint,
-                                               rd:
-                                                   *const Struct_GNUNET_GNSRECORD_Data)>;
-pub enum Struct_GNUNET_NAMESTORE_QueueEntry { }
-pub enum Struct_GNUNET_NAMESTORE_Handle { }
-pub enum Struct_GNUNET_NAMESTORE_ZoneIterator { }
-pub type GNUNET_NAMESTORE_ContinuationWithStatus =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               success: int32_t,
-                                               emsg:
-                                                   *const ::std::os::raw::c_char)>;
-pub type GNUNET_NAMESTORE_RecordMonitor =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               zone:
-                                                   *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                               label:
-                                                   *const ::std::os::raw::c_char,
-                                               rd_count:
-                                                   ::std::os::raw::c_uint,
-                                               rd:
-                                                   *const Struct_GNUNET_GNSRECORD_Data)>;
-pub enum Struct_GNUNET_NAMESTORE_ZoneMonitor { }
+pub type GNUNET_GNSRECORD_RecordCallback = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        rd_count: ::std::os::raw::c_uint,
+        rd: *const Struct_GNUNET_GNSRECORD_Data,
+    ),
+>;
+pub enum Struct_GNUNET_NAMESTORE_QueueEntry {}
+pub enum Struct_GNUNET_NAMESTORE_Handle {}
+pub enum Struct_GNUNET_NAMESTORE_ZoneIterator {}
+pub type GNUNET_NAMESTORE_ContinuationWithStatus = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        success: int32_t,
+        emsg: *const ::std::os::raw::c_char,
+    ),
+>;
+pub type GNUNET_NAMESTORE_RecordMonitor = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        zone: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        label: *const ::std::os::raw::c_char,
+        rd_count: ::std::os::raw::c_uint,
+        rd: *const Struct_GNUNET_GNSRECORD_Data,
+    ),
+>;
+pub enum Struct_GNUNET_NAMESTORE_ZoneMonitor {}
 pub type GNUNET_NAMESTORE_RecordsSynchronizedCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void)>;
-pub enum Struct_GNUNET_GNS_Handle { }
-pub enum Struct_GNUNET_GNS_LookupRequest { }
-pub type GNUNET_GNS_LookupResultProcessor =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               rd_count: uint32_t,
-                                               rd:
-                                                   *const Struct_GNUNET_GNSRECORD_Data)>;
+    ::std::option::Option<unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void)>;
+pub enum Struct_GNUNET_GNS_Handle {}
+pub enum Struct_GNUNET_GNS_LookupRequest {}
+pub type GNUNET_GNS_LookupResultProcessor = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        rd_count: uint32_t,
+        rd: *const Struct_GNUNET_GNSRECORD_Data,
+    ),
+>;
 #[derive(Copy, Clone)]
 #[repr(u32)]
 pub enum Enum_GNUNET_GNS_LocalOptions {
@@ -5222,29 +5625,24 @@ pub enum Enum_GNUNET_GNS_LocalOptions {
     GNUNET_GNS_LO_NO_DHT = 1,
     GNUNET_GNS_LO_LOCAL_MASTER = 2,
 }
-pub enum Struct_GNUNET_IDENTITY_Handle { }
-pub enum Struct_GNUNET_IDENTITY_Ego { }
-pub enum Struct_GNUNET_IDENTITY_Operation { }
-pub type GNUNET_IDENTITY_Callback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               ego:
-                                                   *mut Struct_GNUNET_IDENTITY_Ego,
-                                               ctx:
-                                                   *mut *mut ::std::os::raw::c_void,
-                                               name:
-                                                   *const ::std::os::raw::c_char)>;
-pub type GNUNET_IDENTITY_Continuation =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               emsg:
-                                                   *const ::std::os::raw::c_char)>;
-pub type GNUNET_IDENTITY_EgoCallback =
-    ::std::option::Option<unsafe extern "C" fn(cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               ego:
-                                                   *const Struct_GNUNET_IDENTITY_Ego)>;
-pub enum Struct_GNUNET_IDENTITY_EgoLookup { }
+pub enum Struct_GNUNET_IDENTITY_Handle {}
+pub enum Struct_GNUNET_IDENTITY_Ego {}
+pub enum Struct_GNUNET_IDENTITY_Operation {}
+pub type GNUNET_IDENTITY_Callback = ::std::option::Option<
+    unsafe extern "C" fn(
+        cls: *mut ::std::os::raw::c_void,
+        ego: *mut Struct_GNUNET_IDENTITY_Ego,
+        ctx: *mut *mut ::std::os::raw::c_void,
+        name: *const ::std::os::raw::c_char,
+    ),
+>;
+pub type GNUNET_IDENTITY_Continuation = ::std::option::Option<
+    unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void, emsg: *const ::std::os::raw::c_char),
+>;
+pub type GNUNET_IDENTITY_EgoCallback = ::std::option::Option<
+    unsafe extern "C" fn(cls: *mut ::std::os::raw::c_void, ego: *const Struct_GNUNET_IDENTITY_Ego),
+>;
+pub enum Struct_GNUNET_IDENTITY_EgoLookup {}
 pub type __builtin_va_list = [Struct___va_list_tag; 1usize];
 #[repr(C)]
 #[derive(Copy, Clone)]
@@ -5255,7 +5653,9 @@ pub struct Struct___va_list_tag {
     pub reg_save_area: *mut ::std::os::raw::c_void,
 }
 impl ::std::default::Default for Struct___va_list_tag {
-    fn default() -> Self { unsafe { ::std::mem::zeroed() } }
+    fn default() -> Self {
+        unsafe { ::std::mem::zeroed() }
+    }
 }
 extern "C" {
     pub static in6addr_any: Struct_in6_addr;
@@ -5285,780 +5685,1087 @@ extern "C" {
     pub static mut timezone: ::std::os::raw::c_long;
 }
 extern "C" {
-    pub fn select(__nfds: ::std::os::raw::c_int, __readfds: *mut fd_set,
-                  __writefds: *mut fd_set, __exceptfds: *mut fd_set,
-                  __timeout: *mut Struct_timeval) -> ::std::os::raw::c_int;
-    pub fn pselect(__nfds: ::std::os::raw::c_int, __readfds: *mut fd_set,
-                   __writefds: *mut fd_set, __exceptfds: *mut fd_set,
-                   __timeout: *const Struct_timespec,
-                   __sigmask: *const __sigset_t) -> ::std::os::raw::c_int;
-    pub fn gnu_dev_major(__dev: ::std::os::raw::c_ulonglong)
-     -> ::std::os::raw::c_uint;
-    pub fn gnu_dev_minor(__dev: ::std::os::raw::c_ulonglong)
-     -> ::std::os::raw::c_uint;
-    pub fn gnu_dev_makedev(__major: ::std::os::raw::c_uint,
-                           __minor: ::std::os::raw::c_uint)
-     -> ::std::os::raw::c_ulonglong;
-    pub fn readv(__fd: ::std::os::raw::c_int, __iovec: *const Struct_iovec,
-                 __count: ::std::os::raw::c_int) -> ssize_t;
-    pub fn writev(__fd: ::std::os::raw::c_int, __iovec: *const Struct_iovec,
-                  __count: ::std::os::raw::c_int) -> ssize_t;
-    pub fn preadv(__fd: ::std::os::raw::c_int, __iovec: *const Struct_iovec,
-                  __count: ::std::os::raw::c_int, __offset: __off_t)
-     -> ssize_t;
-    pub fn pwritev(__fd: ::std::os::raw::c_int, __iovec: *const Struct_iovec,
-                   __count: ::std::os::raw::c_int, __offset: __off_t)
-     -> ssize_t;
-    pub fn __cmsg_nxthdr(__mhdr: *mut Struct_msghdr,
-                         __cmsg: *mut Struct_cmsghdr) -> *mut Struct_cmsghdr;
-    pub fn socket(__domain: ::std::os::raw::c_int,
-                  __type: ::std::os::raw::c_int,
-                  __protocol: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn socketpair(__domain: ::std::os::raw::c_int,
-                      __type: ::std::os::raw::c_int,
-                      __protocol: ::std::os::raw::c_int,
-                      __fds: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn bind(__fd: ::std::os::raw::c_int, __addr: *const Struct_sockaddr,
-                __len: socklen_t) -> ::std::os::raw::c_int;
-    pub fn getsockname(__fd: ::std::os::raw::c_int,
-                       __addr: *mut Struct_sockaddr, __len: *mut socklen_t)
-     -> ::std::os::raw::c_int;
-    pub fn connect(__fd: ::std::os::raw::c_int,
-                   __addr: *const Struct_sockaddr, __len: socklen_t)
-     -> ::std::os::raw::c_int;
-    pub fn getpeername(__fd: ::std::os::raw::c_int,
-                       __addr: *mut Struct_sockaddr, __len: *mut socklen_t)
-     -> ::std::os::raw::c_int;
-    pub fn send(__fd: ::std::os::raw::c_int,
-                __buf: *const ::std::os::raw::c_void, __n: size_t,
-                __flags: ::std::os::raw::c_int) -> ssize_t;
-    pub fn recv(__fd: ::std::os::raw::c_int,
-                __buf: *mut ::std::os::raw::c_void, __n: size_t,
-                __flags: ::std::os::raw::c_int) -> ssize_t;
-    pub fn sendto(__fd: ::std::os::raw::c_int,
-                  __buf: *const ::std::os::raw::c_void, __n: size_t,
-                  __flags: ::std::os::raw::c_int,
-                  __addr: *const Struct_sockaddr, __addr_len: socklen_t)
-     -> ssize_t;
-    pub fn recvfrom(__fd: ::std::os::raw::c_int,
-                    __buf: *mut ::std::os::raw::c_void, __n: size_t,
-                    __flags: ::std::os::raw::c_int,
-                    __addr: *mut Struct_sockaddr, __addr_len: *mut socklen_t)
-     -> ssize_t;
-    pub fn sendmsg(__fd: ::std::os::raw::c_int,
-                   __message: *const Struct_msghdr,
-                   __flags: ::std::os::raw::c_int) -> ssize_t;
-    pub fn recvmsg(__fd: ::std::os::raw::c_int, __message: *mut Struct_msghdr,
-                   __flags: ::std::os::raw::c_int) -> ssize_t;
-    pub fn getsockopt(__fd: ::std::os::raw::c_int,
-                      __level: ::std::os::raw::c_int,
-                      __optname: ::std::os::raw::c_int,
-                      __optval: *mut ::std::os::raw::c_void,
-                      __optlen: *mut socklen_t) -> ::std::os::raw::c_int;
-    pub fn setsockopt(__fd: ::std::os::raw::c_int,
-                      __level: ::std::os::raw::c_int,
-                      __optname: ::std::os::raw::c_int,
-                      __optval: *const ::std::os::raw::c_void,
-                      __optlen: socklen_t) -> ::std::os::raw::c_int;
+    pub fn select(
+        __nfds: ::std::os::raw::c_int,
+        __readfds: *mut fd_set,
+        __writefds: *mut fd_set,
+        __exceptfds: *mut fd_set,
+        __timeout: *mut Struct_timeval,
+    ) -> ::std::os::raw::c_int;
+    pub fn pselect(
+        __nfds: ::std::os::raw::c_int,
+        __readfds: *mut fd_set,
+        __writefds: *mut fd_set,
+        __exceptfds: *mut fd_set,
+        __timeout: *const Struct_timespec,
+        __sigmask: *const __sigset_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn gnu_dev_major(__dev: ::std::os::raw::c_ulonglong) -> ::std::os::raw::c_uint;
+    pub fn gnu_dev_minor(__dev: ::std::os::raw::c_ulonglong) -> ::std::os::raw::c_uint;
+    pub fn gnu_dev_makedev(
+        __major: ::std::os::raw::c_uint,
+        __minor: ::std::os::raw::c_uint,
+    ) -> ::std::os::raw::c_ulonglong;
+    pub fn readv(
+        __fd: ::std::os::raw::c_int,
+        __iovec: *const Struct_iovec,
+        __count: ::std::os::raw::c_int,
+    ) -> ssize_t;
+    pub fn writev(
+        __fd: ::std::os::raw::c_int,
+        __iovec: *const Struct_iovec,
+        __count: ::std::os::raw::c_int,
+    ) -> ssize_t;
+    pub fn preadv(
+        __fd: ::std::os::raw::c_int,
+        __iovec: *const Struct_iovec,
+        __count: ::std::os::raw::c_int,
+        __offset: __off_t,
+    ) -> ssize_t;
+    pub fn pwritev(
+        __fd: ::std::os::raw::c_int,
+        __iovec: *const Struct_iovec,
+        __count: ::std::os::raw::c_int,
+        __offset: __off_t,
+    ) -> ssize_t;
+    pub fn __cmsg_nxthdr(
+        __mhdr: *mut Struct_msghdr,
+        __cmsg: *mut Struct_cmsghdr,
+    ) -> *mut Struct_cmsghdr;
+    pub fn socket(
+        __domain: ::std::os::raw::c_int,
+        __type: ::std::os::raw::c_int,
+        __protocol: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn socketpair(
+        __domain: ::std::os::raw::c_int,
+        __type: ::std::os::raw::c_int,
+        __protocol: ::std::os::raw::c_int,
+        __fds: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn bind(
+        __fd: ::std::os::raw::c_int,
+        __addr: *const Struct_sockaddr,
+        __len: socklen_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn getsockname(
+        __fd: ::std::os::raw::c_int,
+        __addr: *mut Struct_sockaddr,
+        __len: *mut socklen_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn connect(
+        __fd: ::std::os::raw::c_int,
+        __addr: *const Struct_sockaddr,
+        __len: socklen_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn getpeername(
+        __fd: ::std::os::raw::c_int,
+        __addr: *mut Struct_sockaddr,
+        __len: *mut socklen_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn send(
+        __fd: ::std::os::raw::c_int,
+        __buf: *const ::std::os::raw::c_void,
+        __n: size_t,
+        __flags: ::std::os::raw::c_int,
+    ) -> ssize_t;
+    pub fn recv(
+        __fd: ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_void,
+        __n: size_t,
+        __flags: ::std::os::raw::c_int,
+    ) -> ssize_t;
+    pub fn sendto(
+        __fd: ::std::os::raw::c_int,
+        __buf: *const ::std::os::raw::c_void,
+        __n: size_t,
+        __flags: ::std::os::raw::c_int,
+        __addr: *const Struct_sockaddr,
+        __addr_len: socklen_t,
+    ) -> ssize_t;
+    pub fn recvfrom(
+        __fd: ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_void,
+        __n: size_t,
+        __flags: ::std::os::raw::c_int,
+        __addr: *mut Struct_sockaddr,
+        __addr_len: *mut socklen_t,
+    ) -> ssize_t;
+    pub fn sendmsg(
+        __fd: ::std::os::raw::c_int,
+        __message: *const Struct_msghdr,
+        __flags: ::std::os::raw::c_int,
+    ) -> ssize_t;
+    pub fn recvmsg(
+        __fd: ::std::os::raw::c_int,
+        __message: *mut Struct_msghdr,
+        __flags: ::std::os::raw::c_int,
+    ) -> ssize_t;
+    pub fn getsockopt(
+        __fd: ::std::os::raw::c_int,
+        __level: ::std::os::raw::c_int,
+        __optname: ::std::os::raw::c_int,
+        __optval: *mut ::std::os::raw::c_void,
+        __optlen: *mut socklen_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn setsockopt(
+        __fd: ::std::os::raw::c_int,
+        __level: ::std::os::raw::c_int,
+        __optname: ::std::os::raw::c_int,
+        __optval: *const ::std::os::raw::c_void,
+        __optlen: socklen_t,
+    ) -> ::std::os::raw::c_int;
     pub fn listen(__fd: ::std::os::raw::c_int, __n: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn accept(__fd: ::std::os::raw::c_int, __addr: *mut Struct_sockaddr,
-                  __addr_len: *mut socklen_t) -> ::std::os::raw::c_int;
-    pub fn shutdown(__fd: ::std::os::raw::c_int, __how: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+        -> ::std::os::raw::c_int;
+    pub fn accept(
+        __fd: ::std::os::raw::c_int,
+        __addr: *mut Struct_sockaddr,
+        __addr_len: *mut socklen_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn shutdown(
+        __fd: ::std::os::raw::c_int,
+        __how: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn sockatmark(__fd: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn isfdtype(__fd: ::std::os::raw::c_int,
-                    __fdtype: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn isfdtype(
+        __fd: ::std::os::raw::c_int,
+        __fdtype: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn ntohl(__netlong: uint32_t) -> uint32_t;
     pub fn ntohs(__netshort: uint16_t) -> uint16_t;
     pub fn htonl(__hostlong: uint32_t) -> uint32_t;
     pub fn htons(__hostshort: uint16_t) -> uint16_t;
-    pub fn bindresvport(__sockfd: ::std::os::raw::c_int,
-                        __sock_in: *mut Struct_sockaddr_in)
-     -> ::std::os::raw::c_int;
-    pub fn bindresvport6(__sockfd: ::std::os::raw::c_int,
-                         __sock_in: *mut Struct_sockaddr_in6)
-     -> ::std::os::raw::c_int;
+    pub fn bindresvport(
+        __sockfd: ::std::os::raw::c_int,
+        __sock_in: *mut Struct_sockaddr_in,
+    ) -> ::std::os::raw::c_int;
+    pub fn bindresvport6(
+        __sockfd: ::std::os::raw::c_int,
+        __sock_in: *mut Struct_sockaddr_in6,
+    ) -> ::std::os::raw::c_int;
     pub fn setrpcent(__stayopen: ::std::os::raw::c_int);
     pub fn endrpcent();
-    pub fn getrpcbyname(__name: *const ::std::os::raw::c_char)
-     -> *mut Struct_rpcent;
-    pub fn getrpcbynumber(__number: ::std::os::raw::c_int)
-     -> *mut Struct_rpcent;
+    pub fn getrpcbyname(__name: *const ::std::os::raw::c_char) -> *mut Struct_rpcent;
+    pub fn getrpcbynumber(__number: ::std::os::raw::c_int) -> *mut Struct_rpcent;
     pub fn getrpcent() -> *mut Struct_rpcent;
-    pub fn getrpcbyname_r(__name: *const ::std::os::raw::c_char,
-                          __result_buf: *mut Struct_rpcent,
-                          __buffer: *mut ::std::os::raw::c_char,
-                          __buflen: size_t, __result: *mut *mut Struct_rpcent)
-     -> ::std::os::raw::c_int;
-    pub fn getrpcbynumber_r(__number: ::std::os::raw::c_int,
-                            __result_buf: *mut Struct_rpcent,
-                            __buffer: *mut ::std::os::raw::c_char,
-                            __buflen: size_t,
-                            __result: *mut *mut Struct_rpcent)
-     -> ::std::os::raw::c_int;
-    pub fn getrpcent_r(__result_buf: *mut Struct_rpcent,
-                       __buffer: *mut ::std::os::raw::c_char,
-                       __buflen: size_t, __result: *mut *mut Struct_rpcent)
-     -> ::std::os::raw::c_int;
+    pub fn getrpcbyname_r(
+        __name: *const ::std::os::raw::c_char,
+        __result_buf: *mut Struct_rpcent,
+        __buffer: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_rpcent,
+    ) -> ::std::os::raw::c_int;
+    pub fn getrpcbynumber_r(
+        __number: ::std::os::raw::c_int,
+        __result_buf: *mut Struct_rpcent,
+        __buffer: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_rpcent,
+    ) -> ::std::os::raw::c_int;
+    pub fn getrpcent_r(
+        __result_buf: *mut Struct_rpcent,
+        __buffer: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_rpcent,
+    ) -> ::std::os::raw::c_int;
     pub fn __h_errno_location() -> *mut ::std::os::raw::c_int;
     pub fn herror(__str: *const ::std::os::raw::c_char);
-    pub fn hstrerror(__err_num: ::std::os::raw::c_int)
-     -> *const ::std::os::raw::c_char;
+    pub fn hstrerror(__err_num: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
     pub fn sethostent(__stay_open: ::std::os::raw::c_int);
     pub fn endhostent();
     pub fn gethostent() -> *mut Struct_hostent;
-    pub fn gethostbyaddr(__addr: *const ::std::os::raw::c_void,
-                         __len: __socklen_t, __type: ::std::os::raw::c_int)
-     -> *mut Struct_hostent;
-    pub fn gethostbyname(__name: *const ::std::os::raw::c_char)
-     -> *mut Struct_hostent;
-    pub fn gethostbyname2(__name: *const ::std::os::raw::c_char,
-                          __af: ::std::os::raw::c_int) -> *mut Struct_hostent;
-    pub fn gethostent_r(__result_buf: *mut Struct_hostent,
-                        __buf: *mut ::std::os::raw::c_char, __buflen: size_t,
-                        __result: *mut *mut Struct_hostent,
-                        __h_errnop: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn gethostbyaddr_r(__addr: *const ::std::os::raw::c_void,
-                           __len: __socklen_t, __type: ::std::os::raw::c_int,
-                           __result_buf: *mut Struct_hostent,
-                           __buf: *mut ::std::os::raw::c_char,
-                           __buflen: size_t,
-                           __result: *mut *mut Struct_hostent,
-                           __h_errnop: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn gethostbyname_r(__name: *const ::std::os::raw::c_char,
-                           __result_buf: *mut Struct_hostent,
-                           __buf: *mut ::std::os::raw::c_char,
-                           __buflen: size_t,
-                           __result: *mut *mut Struct_hostent,
-                           __h_errnop: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn gethostbyname2_r(__name: *const ::std::os::raw::c_char,
-                            __af: ::std::os::raw::c_int,
-                            __result_buf: *mut Struct_hostent,
-                            __buf: *mut ::std::os::raw::c_char,
-                            __buflen: size_t,
-                            __result: *mut *mut Struct_hostent,
-                            __h_errnop: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn gethostbyaddr(
+        __addr: *const ::std::os::raw::c_void,
+        __len: __socklen_t,
+        __type: ::std::os::raw::c_int,
+    ) -> *mut Struct_hostent;
+    pub fn gethostbyname(__name: *const ::std::os::raw::c_char) -> *mut Struct_hostent;
+    pub fn gethostbyname2(
+        __name: *const ::std::os::raw::c_char,
+        __af: ::std::os::raw::c_int,
+    ) -> *mut Struct_hostent;
+    pub fn gethostent_r(
+        __result_buf: *mut Struct_hostent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_hostent,
+        __h_errnop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn gethostbyaddr_r(
+        __addr: *const ::std::os::raw::c_void,
+        __len: __socklen_t,
+        __type: ::std::os::raw::c_int,
+        __result_buf: *mut Struct_hostent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_hostent,
+        __h_errnop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn gethostbyname_r(
+        __name: *const ::std::os::raw::c_char,
+        __result_buf: *mut Struct_hostent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_hostent,
+        __h_errnop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn gethostbyname2_r(
+        __name: *const ::std::os::raw::c_char,
+        __af: ::std::os::raw::c_int,
+        __result_buf: *mut Struct_hostent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_hostent,
+        __h_errnop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn setnetent(__stay_open: ::std::os::raw::c_int);
     pub fn endnetent();
     pub fn getnetent() -> *mut Struct_netent;
-    pub fn getnetbyaddr(__net: uint32_t, __type: ::std::os::raw::c_int)
-     -> *mut Struct_netent;
-    pub fn getnetbyname(__name: *const ::std::os::raw::c_char)
-     -> *mut Struct_netent;
-    pub fn getnetent_r(__result_buf: *mut Struct_netent,
-                       __buf: *mut ::std::os::raw::c_char, __buflen: size_t,
-                       __result: *mut *mut Struct_netent,
-                       __h_errnop: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn getnetbyaddr_r(__net: uint32_t, __type: ::std::os::raw::c_int,
-                          __result_buf: *mut Struct_netent,
-                          __buf: *mut ::std::os::raw::c_char,
-                          __buflen: size_t, __result: *mut *mut Struct_netent,
-                          __h_errnop: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn getnetbyname_r(__name: *const ::std::os::raw::c_char,
-                          __result_buf: *mut Struct_netent,
-                          __buf: *mut ::std::os::raw::c_char,
-                          __buflen: size_t, __result: *mut *mut Struct_netent,
-                          __h_errnop: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn getnetbyaddr(__net: uint32_t, __type: ::std::os::raw::c_int) -> *mut Struct_netent;
+    pub fn getnetbyname(__name: *const ::std::os::raw::c_char) -> *mut Struct_netent;
+    pub fn getnetent_r(
+        __result_buf: *mut Struct_netent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_netent,
+        __h_errnop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn getnetbyaddr_r(
+        __net: uint32_t,
+        __type: ::std::os::raw::c_int,
+        __result_buf: *mut Struct_netent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_netent,
+        __h_errnop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn getnetbyname_r(
+        __name: *const ::std::os::raw::c_char,
+        __result_buf: *mut Struct_netent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_netent,
+        __h_errnop: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn setservent(__stay_open: ::std::os::raw::c_int);
     pub fn endservent();
     pub fn getservent() -> *mut Struct_servent;
-    pub fn getservbyname(__name: *const ::std::os::raw::c_char,
-                         __proto: *const ::std::os::raw::c_char)
-     -> *mut Struct_servent;
-    pub fn getservbyport(__port: ::std::os::raw::c_int,
-                         __proto: *const ::std::os::raw::c_char)
-     -> *mut Struct_servent;
-    pub fn getservent_r(__result_buf: *mut Struct_servent,
-                        __buf: *mut ::std::os::raw::c_char, __buflen: size_t,
-                        __result: *mut *mut Struct_servent)
-     -> ::std::os::raw::c_int;
-    pub fn getservbyname_r(__name: *const ::std::os::raw::c_char,
-                           __proto: *const ::std::os::raw::c_char,
-                           __result_buf: *mut Struct_servent,
-                           __buf: *mut ::std::os::raw::c_char,
-                           __buflen: size_t,
-                           __result: *mut *mut Struct_servent)
-     -> ::std::os::raw::c_int;
-    pub fn getservbyport_r(__port: ::std::os::raw::c_int,
-                           __proto: *const ::std::os::raw::c_char,
-                           __result_buf: *mut Struct_servent,
-                           __buf: *mut ::std::os::raw::c_char,
-                           __buflen: size_t,
-                           __result: *mut *mut Struct_servent)
-     -> ::std::os::raw::c_int;
+    pub fn getservbyname(
+        __name: *const ::std::os::raw::c_char,
+        __proto: *const ::std::os::raw::c_char,
+    ) -> *mut Struct_servent;
+    pub fn getservbyport(
+        __port: ::std::os::raw::c_int,
+        __proto: *const ::std::os::raw::c_char,
+    ) -> *mut Struct_servent;
+    pub fn getservent_r(
+        __result_buf: *mut Struct_servent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_servent,
+    ) -> ::std::os::raw::c_int;
+    pub fn getservbyname_r(
+        __name: *const ::std::os::raw::c_char,
+        __proto: *const ::std::os::raw::c_char,
+        __result_buf: *mut Struct_servent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_servent,
+    ) -> ::std::os::raw::c_int;
+    pub fn getservbyport_r(
+        __port: ::std::os::raw::c_int,
+        __proto: *const ::std::os::raw::c_char,
+        __result_buf: *mut Struct_servent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_servent,
+    ) -> ::std::os::raw::c_int;
     pub fn setprotoent(__stay_open: ::std::os::raw::c_int);
     pub fn endprotoent();
     pub fn getprotoent() -> *mut Struct_protoent;
-    pub fn getprotobyname(__name: *const ::std::os::raw::c_char)
-     -> *mut Struct_protoent;
-    pub fn getprotobynumber(__proto: ::std::os::raw::c_int)
-     -> *mut Struct_protoent;
-    pub fn getprotoent_r(__result_buf: *mut Struct_protoent,
-                         __buf: *mut ::std::os::raw::c_char, __buflen: size_t,
-                         __result: *mut *mut Struct_protoent)
-     -> ::std::os::raw::c_int;
-    pub fn getprotobyname_r(__name: *const ::std::os::raw::c_char,
-                            __result_buf: *mut Struct_protoent,
-                            __buf: *mut ::std::os::raw::c_char,
-                            __buflen: size_t,
-                            __result: *mut *mut Struct_protoent)
-     -> ::std::os::raw::c_int;
-    pub fn getprotobynumber_r(__proto: ::std::os::raw::c_int,
-                              __result_buf: *mut Struct_protoent,
-                              __buf: *mut ::std::os::raw::c_char,
-                              __buflen: size_t,
-                              __result: *mut *mut Struct_protoent)
-     -> ::std::os::raw::c_int;
-    pub fn setnetgrent(__netgroup: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
+    pub fn getprotobyname(__name: *const ::std::os::raw::c_char) -> *mut Struct_protoent;
+    pub fn getprotobynumber(__proto: ::std::os::raw::c_int) -> *mut Struct_protoent;
+    pub fn getprotoent_r(
+        __result_buf: *mut Struct_protoent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_protoent,
+    ) -> ::std::os::raw::c_int;
+    pub fn getprotobyname_r(
+        __name: *const ::std::os::raw::c_char,
+        __result_buf: *mut Struct_protoent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_protoent,
+    ) -> ::std::os::raw::c_int;
+    pub fn getprotobynumber_r(
+        __proto: ::std::os::raw::c_int,
+        __result_buf: *mut Struct_protoent,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_protoent,
+    ) -> ::std::os::raw::c_int;
+    pub fn setnetgrent(__netgroup: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
     pub fn endnetgrent();
-    pub fn getnetgrent(__hostp: *mut *mut ::std::os::raw::c_char,
-                       __userp: *mut *mut ::std::os::raw::c_char,
-                       __domainp: *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn innetgr(__netgroup: *const ::std::os::raw::c_char,
-                   __host: *const ::std::os::raw::c_char,
-                   __user: *const ::std::os::raw::c_char,
-                   __domain: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn getnetgrent_r(__hostp: *mut *mut ::std::os::raw::c_char,
-                         __userp: *mut *mut ::std::os::raw::c_char,
-                         __domainp: *mut *mut ::std::os::raw::c_char,
-                         __buffer: *mut ::std::os::raw::c_char,
-                         __buflen: size_t) -> ::std::os::raw::c_int;
-    pub fn rcmd(__ahost: *mut *mut ::std::os::raw::c_char,
-                __rport: ::std::os::raw::c_ushort,
-                __locuser: *const ::std::os::raw::c_char,
-                __remuser: *const ::std::os::raw::c_char,
-                __cmd: *const ::std::os::raw::c_char,
-                __fd2p: *mut ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn rcmd_af(__ahost: *mut *mut ::std::os::raw::c_char,
-                   __rport: ::std::os::raw::c_ushort,
-                   __locuser: *const ::std::os::raw::c_char,
-                   __remuser: *const ::std::os::raw::c_char,
-                   __cmd: *const ::std::os::raw::c_char,
-                   __fd2p: *mut ::std::os::raw::c_int, __af: sa_family_t)
-     -> ::std::os::raw::c_int;
-    pub fn rexec(__ahost: *mut *mut ::std::os::raw::c_char,
-                 __rport: ::std::os::raw::c_int,
-                 __name: *const ::std::os::raw::c_char,
-                 __pass: *const ::std::os::raw::c_char,
-                 __cmd: *const ::std::os::raw::c_char,
-                 __fd2p: *mut ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn rexec_af(__ahost: *mut *mut ::std::os::raw::c_char,
-                    __rport: ::std::os::raw::c_int,
-                    __name: *const ::std::os::raw::c_char,
-                    __pass: *const ::std::os::raw::c_char,
-                    __cmd: *const ::std::os::raw::c_char,
-                    __fd2p: *mut ::std::os::raw::c_int, __af: sa_family_t)
-     -> ::std::os::raw::c_int;
-    pub fn ruserok(__rhost: *const ::std::os::raw::c_char,
-                   __suser: ::std::os::raw::c_int,
-                   __remuser: *const ::std::os::raw::c_char,
-                   __locuser: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn ruserok_af(__rhost: *const ::std::os::raw::c_char,
-                      __suser: ::std::os::raw::c_int,
-                      __remuser: *const ::std::os::raw::c_char,
-                      __locuser: *const ::std::os::raw::c_char,
-                      __af: sa_family_t) -> ::std::os::raw::c_int;
-    pub fn iruserok(__raddr: uint32_t, __suser: ::std::os::raw::c_int,
-                    __remuser: *const ::std::os::raw::c_char,
-                    __locuser: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn iruserok_af(__raddr: *const ::std::os::raw::c_void,
-                       __suser: ::std::os::raw::c_int,
-                       __remuser: *const ::std::os::raw::c_char,
-                       __locuser: *const ::std::os::raw::c_char,
-                       __af: sa_family_t) -> ::std::os::raw::c_int;
-    pub fn rresvport(__alport: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn rresvport_af(__alport: *mut ::std::os::raw::c_int,
-                        __af: sa_family_t) -> ::std::os::raw::c_int;
-    pub fn getaddrinfo(__name: *const ::std::os::raw::c_char,
-                       __service: *const ::std::os::raw::c_char,
-                       __req: *const Struct_addrinfo,
-                       __pai: *mut *mut Struct_addrinfo)
-     -> ::std::os::raw::c_int;
+    pub fn getnetgrent(
+        __hostp: *mut *mut ::std::os::raw::c_char,
+        __userp: *mut *mut ::std::os::raw::c_char,
+        __domainp: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn innetgr(
+        __netgroup: *const ::std::os::raw::c_char,
+        __host: *const ::std::os::raw::c_char,
+        __user: *const ::std::os::raw::c_char,
+        __domain: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn getnetgrent_r(
+        __hostp: *mut *mut ::std::os::raw::c_char,
+        __userp: *mut *mut ::std::os::raw::c_char,
+        __domainp: *mut *mut ::std::os::raw::c_char,
+        __buffer: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn rcmd(
+        __ahost: *mut *mut ::std::os::raw::c_char,
+        __rport: ::std::os::raw::c_ushort,
+        __locuser: *const ::std::os::raw::c_char,
+        __remuser: *const ::std::os::raw::c_char,
+        __cmd: *const ::std::os::raw::c_char,
+        __fd2p: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn rcmd_af(
+        __ahost: *mut *mut ::std::os::raw::c_char,
+        __rport: ::std::os::raw::c_ushort,
+        __locuser: *const ::std::os::raw::c_char,
+        __remuser: *const ::std::os::raw::c_char,
+        __cmd: *const ::std::os::raw::c_char,
+        __fd2p: *mut ::std::os::raw::c_int,
+        __af: sa_family_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn rexec(
+        __ahost: *mut *mut ::std::os::raw::c_char,
+        __rport: ::std::os::raw::c_int,
+        __name: *const ::std::os::raw::c_char,
+        __pass: *const ::std::os::raw::c_char,
+        __cmd: *const ::std::os::raw::c_char,
+        __fd2p: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn rexec_af(
+        __ahost: *mut *mut ::std::os::raw::c_char,
+        __rport: ::std::os::raw::c_int,
+        __name: *const ::std::os::raw::c_char,
+        __pass: *const ::std::os::raw::c_char,
+        __cmd: *const ::std::os::raw::c_char,
+        __fd2p: *mut ::std::os::raw::c_int,
+        __af: sa_family_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn ruserok(
+        __rhost: *const ::std::os::raw::c_char,
+        __suser: ::std::os::raw::c_int,
+        __remuser: *const ::std::os::raw::c_char,
+        __locuser: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn ruserok_af(
+        __rhost: *const ::std::os::raw::c_char,
+        __suser: ::std::os::raw::c_int,
+        __remuser: *const ::std::os::raw::c_char,
+        __locuser: *const ::std::os::raw::c_char,
+        __af: sa_family_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn iruserok(
+        __raddr: uint32_t,
+        __suser: ::std::os::raw::c_int,
+        __remuser: *const ::std::os::raw::c_char,
+        __locuser: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn iruserok_af(
+        __raddr: *const ::std::os::raw::c_void,
+        __suser: ::std::os::raw::c_int,
+        __remuser: *const ::std::os::raw::c_char,
+        __locuser: *const ::std::os::raw::c_char,
+        __af: sa_family_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn rresvport(__alport: *mut ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn rresvport_af(
+        __alport: *mut ::std::os::raw::c_int,
+        __af: sa_family_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn getaddrinfo(
+        __name: *const ::std::os::raw::c_char,
+        __service: *const ::std::os::raw::c_char,
+        __req: *const Struct_addrinfo,
+        __pai: *mut *mut Struct_addrinfo,
+    ) -> ::std::os::raw::c_int;
     pub fn freeaddrinfo(__ai: *mut Struct_addrinfo);
-    pub fn gai_strerror(__ecode: ::std::os::raw::c_int)
-     -> *const ::std::os::raw::c_char;
-    pub fn getnameinfo(__sa: *const Struct_sockaddr, __salen: socklen_t,
-                       __host: *mut ::std::os::raw::c_char,
-                       __hostlen: socklen_t,
-                       __serv: *mut ::std::os::raw::c_char,
-                       __servlen: socklen_t, __flags: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn memcpy(__dest: *mut ::std::os::raw::c_void,
-                  __src: *const ::std::os::raw::c_void, __n: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn memmove(__dest: *mut ::std::os::raw::c_void,
-                   __src: *const ::std::os::raw::c_void, __n: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn memccpy(__dest: *mut ::std::os::raw::c_void,
-                   __src: *const ::std::os::raw::c_void,
-                   __c: ::std::os::raw::c_int, __n: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn memset(__s: *mut ::std::os::raw::c_void,
-                  __c: ::std::os::raw::c_int, __n: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn memcmp(__s1: *const ::std::os::raw::c_void,
-                  __s2: *const ::std::os::raw::c_void, __n: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn memchr(__s: *const ::std::os::raw::c_void,
-                  __c: ::std::os::raw::c_int, __n: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn strcpy(__dest: *mut ::std::os::raw::c_char,
-                  __src: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strncpy(__dest: *mut ::std::os::raw::c_char,
-                   __src: *const ::std::os::raw::c_char, __n: size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strcat(__dest: *mut ::std::os::raw::c_char,
-                  __src: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strncat(__dest: *mut ::std::os::raw::c_char,
-                   __src: *const ::std::os::raw::c_char, __n: size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strcmp(__s1: *const ::std::os::raw::c_char,
-                  __s2: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn strncmp(__s1: *const ::std::os::raw::c_char,
-                   __s2: *const ::std::os::raw::c_char, __n: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn strcoll(__s1: *const ::std::os::raw::c_char,
-                   __s2: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn strxfrm(__dest: *mut ::std::os::raw::c_char,
-                   __src: *const ::std::os::raw::c_char, __n: size_t)
-     -> ::std::os::raw::c_ulong;
-    pub fn strcoll_l(__s1: *const ::std::os::raw::c_char,
-                     __s2: *const ::std::os::raw::c_char, __l: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn strxfrm_l(__dest: *mut ::std::os::raw::c_char,
-                     __src: *const ::std::os::raw::c_char, __n: size_t,
-                     __l: __locale_t) -> size_t;
-    pub fn strdup(__s: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strndup(__string: *const ::std::os::raw::c_char, __n: size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strchr(__s: *const ::std::os::raw::c_char,
-                  __c: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
-    pub fn strrchr(__s: *const ::std::os::raw::c_char,
-                   __c: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
-    pub fn strcspn(__s: *const ::std::os::raw::c_char,
-                   __reject: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_ulong;
-    pub fn strspn(__s: *const ::std::os::raw::c_char,
-                  __accept: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_ulong;
-    pub fn strpbrk(__s: *const ::std::os::raw::c_char,
-                   __accept: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strstr(__haystack: *const ::std::os::raw::c_char,
-                  __needle: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strtok(__s: *mut ::std::os::raw::c_char,
-                  __delim: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn __strtok_r(__s: *mut ::std::os::raw::c_char,
-                      __delim: *const ::std::os::raw::c_char,
-                      __save_ptr: *mut *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strtok_r(__s: *mut ::std::os::raw::c_char,
-                    __delim: *const ::std::os::raw::c_char,
-                    __save_ptr: *mut *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strlen(__s: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_ulong;
-    pub fn strnlen(__string: *const ::std::os::raw::c_char, __maxlen: size_t)
-     -> size_t;
-    pub fn strerror(__errnum: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strerror_r(__errnum: ::std::os::raw::c_int,
-                      __buf: *mut ::std::os::raw::c_char, __buflen: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn strerror_l(__errnum: ::std::os::raw::c_int, __l: __locale_t)
-     -> *mut ::std::os::raw::c_char;
+    pub fn gai_strerror(__ecode: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
+    pub fn getnameinfo(
+        __sa: *const Struct_sockaddr,
+        __salen: socklen_t,
+        __host: *mut ::std::os::raw::c_char,
+        __hostlen: socklen_t,
+        __serv: *mut ::std::os::raw::c_char,
+        __servlen: socklen_t,
+        __flags: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn memcpy(
+        __dest: *mut ::std::os::raw::c_void,
+        __src: *const ::std::os::raw::c_void,
+        __n: size_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn memmove(
+        __dest: *mut ::std::os::raw::c_void,
+        __src: *const ::std::os::raw::c_void,
+        __n: size_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn memccpy(
+        __dest: *mut ::std::os::raw::c_void,
+        __src: *const ::std::os::raw::c_void,
+        __c: ::std::os::raw::c_int,
+        __n: size_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn memset(
+        __s: *mut ::std::os::raw::c_void,
+        __c: ::std::os::raw::c_int,
+        __n: size_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn memcmp(
+        __s1: *const ::std::os::raw::c_void,
+        __s2: *const ::std::os::raw::c_void,
+        __n: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn memchr(
+        __s: *const ::std::os::raw::c_void,
+        __c: ::std::os::raw::c_int,
+        __n: size_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn strcpy(
+        __dest: *mut ::std::os::raw::c_char,
+        __src: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strncpy(
+        __dest: *mut ::std::os::raw::c_char,
+        __src: *const ::std::os::raw::c_char,
+        __n: size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strcat(
+        __dest: *mut ::std::os::raw::c_char,
+        __src: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strncat(
+        __dest: *mut ::std::os::raw::c_char,
+        __src: *const ::std::os::raw::c_char,
+        __n: size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strcmp(
+        __s1: *const ::std::os::raw::c_char,
+        __s2: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn strncmp(
+        __s1: *const ::std::os::raw::c_char,
+        __s2: *const ::std::os::raw::c_char,
+        __n: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn strcoll(
+        __s1: *const ::std::os::raw::c_char,
+        __s2: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn strxfrm(
+        __dest: *mut ::std::os::raw::c_char,
+        __src: *const ::std::os::raw::c_char,
+        __n: size_t,
+    ) -> ::std::os::raw::c_ulong;
+    pub fn strcoll_l(
+        __s1: *const ::std::os::raw::c_char,
+        __s2: *const ::std::os::raw::c_char,
+        __l: __locale_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn strxfrm_l(
+        __dest: *mut ::std::os::raw::c_char,
+        __src: *const ::std::os::raw::c_char,
+        __n: size_t,
+        __l: __locale_t,
+    ) -> size_t;
+    pub fn strdup(__s: *const ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn strndup(
+        __string: *const ::std::os::raw::c_char,
+        __n: size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strchr(
+        __s: *const ::std::os::raw::c_char,
+        __c: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strrchr(
+        __s: *const ::std::os::raw::c_char,
+        __c: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strcspn(
+        __s: *const ::std::os::raw::c_char,
+        __reject: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_ulong;
+    pub fn strspn(
+        __s: *const ::std::os::raw::c_char,
+        __accept: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_ulong;
+    pub fn strpbrk(
+        __s: *const ::std::os::raw::c_char,
+        __accept: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strstr(
+        __haystack: *const ::std::os::raw::c_char,
+        __needle: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strtok(
+        __s: *mut ::std::os::raw::c_char,
+        __delim: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn __strtok_r(
+        __s: *mut ::std::os::raw::c_char,
+        __delim: *const ::std::os::raw::c_char,
+        __save_ptr: *mut *mut ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strtok_r(
+        __s: *mut ::std::os::raw::c_char,
+        __delim: *const ::std::os::raw::c_char,
+        __save_ptr: *mut *mut ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strlen(__s: *const ::std::os::raw::c_char) -> ::std::os::raw::c_ulong;
+    pub fn strnlen(__string: *const ::std::os::raw::c_char, __maxlen: size_t) -> size_t;
+    pub fn strerror(__errnum: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
+    pub fn strerror_r(
+        __errnum: ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn strerror_l(
+        __errnum: ::std::os::raw::c_int,
+        __l: __locale_t,
+    ) -> *mut ::std::os::raw::c_char;
     pub fn __bzero(__s: *mut ::std::os::raw::c_void, __n: size_t);
-    pub fn bcopy(__src: *const ::std::os::raw::c_void,
-                 __dest: *mut ::std::os::raw::c_void, __n: size_t);
+    pub fn bcopy(
+        __src: *const ::std::os::raw::c_void,
+        __dest: *mut ::std::os::raw::c_void,
+        __n: size_t,
+    );
     pub fn bzero(__s: *mut ::std::os::raw::c_void, __n: size_t);
-    pub fn bcmp(__s1: *const ::std::os::raw::c_void,
-                __s2: *const ::std::os::raw::c_void, __n: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn index(__s: *const ::std::os::raw::c_char,
-                 __c: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
-    pub fn rindex(__s: *const ::std::os::raw::c_char,
-                  __c: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
+    pub fn bcmp(
+        __s1: *const ::std::os::raw::c_void,
+        __s2: *const ::std::os::raw::c_void,
+        __n: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn index(
+        __s: *const ::std::os::raw::c_char,
+        __c: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn rindex(
+        __s: *const ::std::os::raw::c_char,
+        __c: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
     pub fn ffs(__i: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn strcasecmp(__s1: *const ::std::os::raw::c_char,
-                      __s2: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn strncasecmp(__s1: *const ::std::os::raw::c_char,
-                       __s2: *const ::std::os::raw::c_char, __n: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn strsep(__stringp: *mut *mut ::std::os::raw::c_char,
-                  __delim: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn strsignal(__sig: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_char;
-    pub fn __stpcpy(__dest: *mut ::std::os::raw::c_char,
-                    __src: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn stpcpy(__dest: *mut ::std::os::raw::c_char,
-                  __src: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn __stpncpy(__dest: *mut ::std::os::raw::c_char,
-                     __src: *const ::std::os::raw::c_char, __n: size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn stpncpy(__dest: *mut ::std::os::raw::c_char,
-                   __src: *const ::std::os::raw::c_char, __n: size_t)
-     -> *mut ::std::os::raw::c_char;
+    pub fn strcasecmp(
+        __s1: *const ::std::os::raw::c_char,
+        __s2: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn strncasecmp(
+        __s1: *const ::std::os::raw::c_char,
+        __s2: *const ::std::os::raw::c_char,
+        __n: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn strsep(
+        __stringp: *mut *mut ::std::os::raw::c_char,
+        __delim: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn strsignal(__sig: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
+    pub fn __stpcpy(
+        __dest: *mut ::std::os::raw::c_char,
+        __src: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn stpcpy(
+        __dest: *mut ::std::os::raw::c_char,
+        __src: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn __stpncpy(
+        __dest: *mut ::std::os::raw::c_char,
+        __src: *const ::std::os::raw::c_char,
+        __n: size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn stpncpy(
+        __dest: *mut ::std::os::raw::c_char,
+        __src: *const ::std::os::raw::c_char,
+        __n: size_t,
+    ) -> *mut ::std::os::raw::c_char;
     pub fn inet_addr(__cp: *const ::std::os::raw::c_char) -> in_addr_t;
     pub fn inet_lnaof(__in: Struct_in_addr) -> in_addr_t;
-    pub fn inet_makeaddr(__net: in_addr_t, __host: in_addr_t)
-     -> Struct_in_addr;
+    pub fn inet_makeaddr(__net: in_addr_t, __host: in_addr_t) -> Struct_in_addr;
     pub fn inet_netof(__in: Struct_in_addr) -> in_addr_t;
     pub fn inet_network(__cp: *const ::std::os::raw::c_char) -> in_addr_t;
     pub fn inet_ntoa(__in: Struct_in_addr) -> *mut ::std::os::raw::c_char;
-    pub fn inet_pton(__af: ::std::os::raw::c_int,
-                     __cp: *const ::std::os::raw::c_char,
-                     __buf: *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn inet_ntop(__af: ::std::os::raw::c_int,
-                     __cp: *const ::std::os::raw::c_void,
-                     __buf: *mut ::std::os::raw::c_char, __len: socklen_t)
-     -> *const ::std::os::raw::c_char;
-    pub fn inet_aton(__cp: *const ::std::os::raw::c_char,
-                     __inp: *mut Struct_in_addr) -> ::std::os::raw::c_int;
-    pub fn inet_neta(__net: in_addr_t, __buf: *mut ::std::os::raw::c_char,
-                     __len: size_t) -> *mut ::std::os::raw::c_char;
-    pub fn inet_net_ntop(__af: ::std::os::raw::c_int,
-                         __cp: *const ::std::os::raw::c_void,
-                         __bits: ::std::os::raw::c_int,
-                         __buf: *mut ::std::os::raw::c_char, __len: size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn inet_net_pton(__af: ::std::os::raw::c_int,
-                         __cp: *const ::std::os::raw::c_char,
-                         __buf: *mut ::std::os::raw::c_void, __len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn inet_nsap_addr(__cp: *const ::std::os::raw::c_char,
-                          __buf: *mut ::std::os::raw::c_uchar,
-                          __len: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_uint;
-    pub fn inet_nsap_ntoa(__len: ::std::os::raw::c_int,
-                          __cp: *const ::std::os::raw::c_uchar,
-                          __buf: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
+    pub fn inet_pton(
+        __af: ::std::os::raw::c_int,
+        __cp: *const ::std::os::raw::c_char,
+        __buf: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn inet_ntop(
+        __af: ::std::os::raw::c_int,
+        __cp: *const ::std::os::raw::c_void,
+        __buf: *mut ::std::os::raw::c_char,
+        __len: socklen_t,
+    ) -> *const ::std::os::raw::c_char;
+    pub fn inet_aton(
+        __cp: *const ::std::os::raw::c_char,
+        __inp: *mut Struct_in_addr,
+    ) -> ::std::os::raw::c_int;
+    pub fn inet_neta(
+        __net: in_addr_t,
+        __buf: *mut ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn inet_net_ntop(
+        __af: ::std::os::raw::c_int,
+        __cp: *const ::std::os::raw::c_void,
+        __bits: ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn inet_net_pton(
+        __af: ::std::os::raw::c_int,
+        __cp: *const ::std::os::raw::c_char,
+        __buf: *mut ::std::os::raw::c_void,
+        __len: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn inet_nsap_addr(
+        __cp: *const ::std::os::raw::c_char,
+        __buf: *mut ::std::os::raw::c_uchar,
+        __len: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_uint;
+    pub fn inet_nsap_ntoa(
+        __len: ::std::os::raw::c_int,
+        __cp: *const ::std::os::raw::c_uchar,
+        __buf: *mut ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
     pub fn setpwent();
     pub fn endpwent();
     pub fn getpwent() -> *mut Struct_passwd;
     pub fn fgetpwent(__stream: *mut FILE) -> *mut Struct_passwd;
-    pub fn putpwent(__p: *const Struct_passwd, __f: *mut FILE)
-     -> ::std::os::raw::c_int;
+    pub fn putpwent(__p: *const Struct_passwd, __f: *mut FILE) -> ::std::os::raw::c_int;
     pub fn getpwuid(__uid: __uid_t) -> *mut Struct_passwd;
-    pub fn getpwnam(__name: *const ::std::os::raw::c_char)
-     -> *mut Struct_passwd;
-    pub fn getpwent_r(__resultbuf: *mut Struct_passwd,
-                      __buffer: *mut ::std::os::raw::c_char, __buflen: size_t,
-                      __result: *mut *mut Struct_passwd)
-     -> ::std::os::raw::c_int;
-    pub fn getpwuid_r(__uid: __uid_t, __resultbuf: *mut Struct_passwd,
-                      __buffer: *mut ::std::os::raw::c_char, __buflen: size_t,
-                      __result: *mut *mut Struct_passwd)
-     -> ::std::os::raw::c_int;
-    pub fn getpwnam_r(__name: *const ::std::os::raw::c_char,
-                      __resultbuf: *mut Struct_passwd,
-                      __buffer: *mut ::std::os::raw::c_char, __buflen: size_t,
-                      __result: *mut *mut Struct_passwd)
-     -> ::std::os::raw::c_int;
-    pub fn fgetpwent_r(__stream: *mut FILE, __resultbuf: *mut Struct_passwd,
-                       __buffer: *mut ::std::os::raw::c_char,
-                       __buflen: size_t, __result: *mut *mut Struct_passwd)
-     -> ::std::os::raw::c_int;
-    pub fn ioctl(__fd: ::std::os::raw::c_int,
-                 __request: ::std::os::raw::c_ulong, ...)
-     -> ::std::os::raw::c_int;
-    pub fn __sigismember(arg1: *const __sigset_t, arg2: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn getpwnam(__name: *const ::std::os::raw::c_char) -> *mut Struct_passwd;
+    pub fn getpwent_r(
+        __resultbuf: *mut Struct_passwd,
+        __buffer: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_passwd,
+    ) -> ::std::os::raw::c_int;
+    pub fn getpwuid_r(
+        __uid: __uid_t,
+        __resultbuf: *mut Struct_passwd,
+        __buffer: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_passwd,
+    ) -> ::std::os::raw::c_int;
+    pub fn getpwnam_r(
+        __name: *const ::std::os::raw::c_char,
+        __resultbuf: *mut Struct_passwd,
+        __buffer: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_passwd,
+    ) -> ::std::os::raw::c_int;
+    pub fn fgetpwent_r(
+        __stream: *mut FILE,
+        __resultbuf: *mut Struct_passwd,
+        __buffer: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_passwd,
+    ) -> ::std::os::raw::c_int;
+    pub fn ioctl(
+        __fd: ::std::os::raw::c_int,
+        __request: ::std::os::raw::c_ulong,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn __sigismember(
+        arg1: *const __sigset_t,
+        arg2: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn __sigaddset(arg1: *mut __sigset_t, arg2: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+        -> ::std::os::raw::c_int;
     pub fn __sigdelset(arg1: *mut __sigset_t, arg2: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn __sysv_signal(__sig: ::std::os::raw::c_int,
-                         __handler: __sighandler_t) -> __sighandler_t;
-    pub fn signal(__sig: ::std::os::raw::c_int, __handler: __sighandler_t)
-     -> __sighandler_t;
-    pub fn kill(__pid: __pid_t, __sig: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn killpg(__pgrp: __pid_t, __sig: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+        -> ::std::os::raw::c_int;
+    pub fn __sysv_signal(__sig: ::std::os::raw::c_int, __handler: __sighandler_t)
+        -> __sighandler_t;
+    pub fn signal(__sig: ::std::os::raw::c_int, __handler: __sighandler_t) -> __sighandler_t;
+    pub fn kill(__pid: __pid_t, __sig: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn killpg(__pgrp: __pid_t, __sig: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn raise(__sig: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn ssignal(__sig: ::std::os::raw::c_int, __handler: __sighandler_t)
-     -> __sighandler_t;
+    pub fn ssignal(__sig: ::std::os::raw::c_int, __handler: __sighandler_t) -> __sighandler_t;
     pub fn gsignal(__sig: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn psignal(__sig: ::std::os::raw::c_int,
-                   __s: *const ::std::os::raw::c_char);
-    pub fn psiginfo(__pinfo: *const siginfo_t,
-                    __s: *const ::std::os::raw::c_char);
+    pub fn psignal(__sig: ::std::os::raw::c_int, __s: *const ::std::os::raw::c_char);
+    pub fn psiginfo(__pinfo: *const siginfo_t, __s: *const ::std::os::raw::c_char);
     pub fn sigblock(__mask: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn sigsetmask(__mask: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn siggetmask() -> ::std::os::raw::c_int;
     pub fn sigemptyset(__set: *mut sigset_t) -> ::std::os::raw::c_int;
     pub fn sigfillset(__set: *mut sigset_t) -> ::std::os::raw::c_int;
     pub fn sigaddset(__set: *mut sigset_t, __signo: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+        -> ::std::os::raw::c_int;
     pub fn sigdelset(__set: *mut sigset_t, __signo: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn sigismember(__set: *const sigset_t, __signo: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn sigprocmask(__how: ::std::os::raw::c_int, __set: *const sigset_t,
-                       __oset: *mut sigset_t) -> ::std::os::raw::c_int;
+        -> ::std::os::raw::c_int;
+    pub fn sigismember(
+        __set: *const sigset_t,
+        __signo: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn sigprocmask(
+        __how: ::std::os::raw::c_int,
+        __set: *const sigset_t,
+        __oset: *mut sigset_t,
+    ) -> ::std::os::raw::c_int;
     pub fn sigsuspend(__set: *const sigset_t) -> ::std::os::raw::c_int;
-    pub fn sigaction(__sig: ::std::os::raw::c_int,
-                     __act: *const Struct_sigaction,
-                     __oact: *mut Struct_sigaction) -> ::std::os::raw::c_int;
+    pub fn sigaction(
+        __sig: ::std::os::raw::c_int,
+        __act: *const Struct_sigaction,
+        __oact: *mut Struct_sigaction,
+    ) -> ::std::os::raw::c_int;
     pub fn sigpending(__set: *mut sigset_t) -> ::std::os::raw::c_int;
-    pub fn sigwait(__set: *const sigset_t, __sig: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn sigwaitinfo(__set: *const sigset_t, __info: *mut siginfo_t)
-     -> ::std::os::raw::c_int;
-    pub fn sigtimedwait(__set: *const sigset_t, __info: *mut siginfo_t,
-                        __timeout: *const Struct_timespec)
-     -> ::std::os::raw::c_int;
-    pub fn sigqueue(__pid: __pid_t, __sig: ::std::os::raw::c_int,
-                    __val: Union_sigval) -> ::std::os::raw::c_int;
+    pub fn sigwait(
+        __set: *const sigset_t,
+        __sig: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn sigwaitinfo(__set: *const sigset_t, __info: *mut siginfo_t) -> ::std::os::raw::c_int;
+    pub fn sigtimedwait(
+        __set: *const sigset_t,
+        __info: *mut siginfo_t,
+        __timeout: *const Struct_timespec,
+    ) -> ::std::os::raw::c_int;
+    pub fn sigqueue(
+        __pid: __pid_t,
+        __sig: ::std::os::raw::c_int,
+        __val: Union_sigval,
+    ) -> ::std::os::raw::c_int;
     pub fn sigreturn(__scp: *mut Struct_sigcontext) -> ::std::os::raw::c_int;
-    pub fn siginterrupt(__sig: ::std::os::raw::c_int,
-                        __interrupt: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn sigstack(__ss: *mut Struct_sigstack, __oss: *mut Struct_sigstack)
-     -> ::std::os::raw::c_int;
-    pub fn sigaltstack(__ss: *const Struct_sigaltstack,
-                       __oss: *mut Struct_sigaltstack)
-     -> ::std::os::raw::c_int;
-    pub fn pthread_sigmask(__how: ::std::os::raw::c_int,
-                           __newmask: *const __sigset_t,
-                           __oldmask: *mut __sigset_t)
-     -> ::std::os::raw::c_int;
-    pub fn pthread_kill(__threadid: pthread_t, __signo: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn siginterrupt(
+        __sig: ::std::os::raw::c_int,
+        __interrupt: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn sigstack(
+        __ss: *mut Struct_sigstack,
+        __oss: *mut Struct_sigstack,
+    ) -> ::std::os::raw::c_int;
+    pub fn sigaltstack(
+        __ss: *const Struct_sigaltstack,
+        __oss: *mut Struct_sigaltstack,
+    ) -> ::std::os::raw::c_int;
+    pub fn pthread_sigmask(
+        __how: ::std::os::raw::c_int,
+        __newmask: *const __sigset_t,
+        __oldmask: *mut __sigset_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn pthread_kill(
+        __threadid: pthread_t,
+        __signo: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn __libc_current_sigrtmin() -> ::std::os::raw::c_int;
     pub fn __libc_current_sigrtmax() -> ::std::os::raw::c_int;
     pub fn wait(__stat_loc: __WAIT_STATUS) -> __pid_t;
-    pub fn waitpid(__pid: __pid_t, __stat_loc: *mut ::std::os::raw::c_int,
-                   __options: ::std::os::raw::c_int) -> __pid_t;
-    pub fn waitid(__idtype: idtype_t, __id: __id_t, __infop: *mut siginfo_t,
-                  __options: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn wait3(__stat_loc: __WAIT_STATUS, __options: ::std::os::raw::c_int,
-                 __usage: *mut Struct_rusage) -> __pid_t;
-    pub fn wait4(__pid: __pid_t, __stat_loc: __WAIT_STATUS,
-                 __options: ::std::os::raw::c_int,
-                 __usage: *mut Struct_rusage) -> __pid_t;
+    pub fn waitpid(
+        __pid: __pid_t,
+        __stat_loc: *mut ::std::os::raw::c_int,
+        __options: ::std::os::raw::c_int,
+    ) -> __pid_t;
+    pub fn waitid(
+        __idtype: idtype_t,
+        __id: __id_t,
+        __infop: *mut siginfo_t,
+        __options: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn wait3(
+        __stat_loc: __WAIT_STATUS,
+        __options: ::std::os::raw::c_int,
+        __usage: *mut Struct_rusage,
+    ) -> __pid_t;
+    pub fn wait4(
+        __pid: __pid_t,
+        __stat_loc: __WAIT_STATUS,
+        __options: ::std::os::raw::c_int,
+        __usage: *mut Struct_rusage,
+    ) -> __pid_t;
     pub fn setgrent();
     pub fn endgrent();
     pub fn getgrent() -> *mut Struct_group;
     pub fn fgetgrent(__stream: *mut FILE) -> *mut Struct_group;
     pub fn getgrgid(__gid: __gid_t) -> *mut Struct_group;
-    pub fn getgrnam(__name: *const ::std::os::raw::c_char)
-     -> *mut Struct_group;
-    pub fn getgrgid_r(__gid: __gid_t, __resultbuf: *mut Struct_group,
-                      __buffer: *mut ::std::os::raw::c_char, __buflen: size_t,
-                      __result: *mut *mut Struct_group)
-     -> ::std::os::raw::c_int;
-    pub fn getgrnam_r(__name: *const ::std::os::raw::c_char,
-                      __resultbuf: *mut Struct_group,
-                      __buffer: *mut ::std::os::raw::c_char, __buflen: size_t,
-                      __result: *mut *mut Struct_group)
-     -> ::std::os::raw::c_int;
-    pub fn fgetgrent_r(__stream: *mut FILE, __resultbuf: *mut Struct_group,
-                       __buffer: *mut ::std::os::raw::c_char,
-                       __buflen: size_t, __result: *mut *mut Struct_group)
-     -> ::std::os::raw::c_int;
-    pub fn setgroups(__n: size_t, __groups: *const __gid_t)
-     -> ::std::os::raw::c_int;
-    pub fn getgrouplist(__user: *const ::std::os::raw::c_char,
-                        __group: __gid_t, __groups: *mut __gid_t,
-                        __ngroups: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn initgroups(__user: *const ::std::os::raw::c_char, __group: __gid_t)
-     -> ::std::os::raw::c_int;
+    pub fn getgrnam(__name: *const ::std::os::raw::c_char) -> *mut Struct_group;
+    pub fn getgrgid_r(
+        __gid: __gid_t,
+        __resultbuf: *mut Struct_group,
+        __buffer: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_group,
+    ) -> ::std::os::raw::c_int;
+    pub fn getgrnam_r(
+        __name: *const ::std::os::raw::c_char,
+        __resultbuf: *mut Struct_group,
+        __buffer: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_group,
+    ) -> ::std::os::raw::c_int;
+    pub fn fgetgrent_r(
+        __stream: *mut FILE,
+        __resultbuf: *mut Struct_group,
+        __buffer: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+        __result: *mut *mut Struct_group,
+    ) -> ::std::os::raw::c_int;
+    pub fn setgroups(__n: size_t, __groups: *const __gid_t) -> ::std::os::raw::c_int;
+    pub fn getgrouplist(
+        __user: *const ::std::os::raw::c_char,
+        __group: __gid_t,
+        __groups: *mut __gid_t,
+        __ngroups: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn initgroups(
+        __user: *const ::std::os::raw::c_char,
+        __group: __gid_t,
+    ) -> ::std::os::raw::c_int;
     pub fn __underflow(arg1: *mut _IO_FILE) -> ::std::os::raw::c_int;
     pub fn __uflow(arg1: *mut _IO_FILE) -> ::std::os::raw::c_int;
-    pub fn __overflow(arg1: *mut _IO_FILE, arg2: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn __overflow(arg1: *mut _IO_FILE, arg2: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn _IO_getc(__fp: *mut _IO_FILE) -> ::std::os::raw::c_int;
-    pub fn _IO_putc(__c: ::std::os::raw::c_int, __fp: *mut _IO_FILE)
-     -> ::std::os::raw::c_int;
+    pub fn _IO_putc(__c: ::std::os::raw::c_int, __fp: *mut _IO_FILE) -> ::std::os::raw::c_int;
     pub fn _IO_feof(__fp: *mut _IO_FILE) -> ::std::os::raw::c_int;
     pub fn _IO_ferror(__fp: *mut _IO_FILE) -> ::std::os::raw::c_int;
     pub fn _IO_peekc_locked(__fp: *mut _IO_FILE) -> ::std::os::raw::c_int;
     pub fn _IO_flockfile(arg1: *mut _IO_FILE);
     pub fn _IO_funlockfile(arg1: *mut _IO_FILE);
     pub fn _IO_ftrylockfile(arg1: *mut _IO_FILE) -> ::std::os::raw::c_int;
-    pub fn _IO_vfscanf(arg1: *mut _IO_FILE,
-                       arg2: *const ::std::os::raw::c_char,
-                       arg3: __gnuc_va_list, arg4: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn _IO_vfprintf(arg1: *mut _IO_FILE,
-                        arg2: *const ::std::os::raw::c_char,
-                        arg3: __gnuc_va_list) -> ::std::os::raw::c_int;
-    pub fn _IO_padn(arg1: *mut _IO_FILE, arg2: ::std::os::raw::c_int,
-                    arg3: __ssize_t) -> __ssize_t;
-    pub fn _IO_sgetn(arg1: *mut _IO_FILE, arg2: *mut ::std::os::raw::c_void,
-                     arg3: size_t) -> size_t;
-    pub fn _IO_seekoff(arg1: *mut _IO_FILE, arg2: __off64_t,
-                       arg3: ::std::os::raw::c_int,
-                       arg4: ::std::os::raw::c_int) -> __off64_t;
-    pub fn _IO_seekpos(arg1: *mut _IO_FILE, arg2: __off64_t,
-                       arg3: ::std::os::raw::c_int) -> __off64_t;
+    pub fn _IO_vfscanf(
+        arg1: *mut _IO_FILE,
+        arg2: *const ::std::os::raw::c_char,
+        arg3: __gnuc_va_list,
+        arg4: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn _IO_vfprintf(
+        arg1: *mut _IO_FILE,
+        arg2: *const ::std::os::raw::c_char,
+        arg3: __gnuc_va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn _IO_padn(arg1: *mut _IO_FILE, arg2: ::std::os::raw::c_int, arg3: __ssize_t)
+        -> __ssize_t;
+    pub fn _IO_sgetn(
+        arg1: *mut _IO_FILE,
+        arg2: *mut ::std::os::raw::c_void,
+        arg3: size_t,
+    ) -> size_t;
+    pub fn _IO_seekoff(
+        arg1: *mut _IO_FILE,
+        arg2: __off64_t,
+        arg3: ::std::os::raw::c_int,
+        arg4: ::std::os::raw::c_int,
+    ) -> __off64_t;
+    pub fn _IO_seekpos(
+        arg1: *mut _IO_FILE,
+        arg2: __off64_t,
+        arg3: ::std::os::raw::c_int,
+    ) -> __off64_t;
     pub fn _IO_free_backup_area(arg1: *mut _IO_FILE);
-    pub fn remove(__filename: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn rename(__old: *const ::std::os::raw::c_char,
-                  __new: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn renameat(__oldfd: ::std::os::raw::c_int,
-                    __old: *const ::std::os::raw::c_char,
-                    __newfd: ::std::os::raw::c_int,
-                    __new: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
+    pub fn remove(__filename: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn rename(
+        __old: *const ::std::os::raw::c_char,
+        __new: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn renameat(
+        __oldfd: ::std::os::raw::c_int,
+        __old: *const ::std::os::raw::c_char,
+        __newfd: ::std::os::raw::c_int,
+        __new: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
     pub fn tmpfile() -> *mut FILE;
-    pub fn tmpnam(__s: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn tmpnam_r(__s: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn tempnam(__dir: *const ::std::os::raw::c_char,
-                   __pfx: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
+    pub fn tmpnam(__s: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn tmpnam_r(__s: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn tempnam(
+        __dir: *const ::std::os::raw::c_char,
+        __pfx: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
     pub fn fclose(__stream: *mut FILE) -> ::std::os::raw::c_int;
     pub fn fflush(__stream: *mut FILE) -> ::std::os::raw::c_int;
     pub fn fflush_unlocked(__stream: *mut FILE) -> ::std::os::raw::c_int;
-    pub fn fopen(__filename: *const ::std::os::raw::c_char,
-                 __modes: *const ::std::os::raw::c_char) -> *mut FILE;
-    pub fn freopen(__filename: *const ::std::os::raw::c_char,
-                   __modes: *const ::std::os::raw::c_char,
-                   __stream: *mut FILE) -> *mut FILE;
-    pub fn fdopen(__fd: ::std::os::raw::c_int,
-                  __modes: *const ::std::os::raw::c_char) -> *mut FILE;
-    pub fn fmemopen(__s: *mut ::std::os::raw::c_void, __len: size_t,
-                    __modes: *const ::std::os::raw::c_char) -> *mut FILE;
-    pub fn open_memstream(__bufloc: *mut *mut ::std::os::raw::c_char,
-                          __sizeloc: *mut size_t) -> *mut FILE;
+    pub fn fopen(
+        __filename: *const ::std::os::raw::c_char,
+        __modes: *const ::std::os::raw::c_char,
+    ) -> *mut FILE;
+    pub fn freopen(
+        __filename: *const ::std::os::raw::c_char,
+        __modes: *const ::std::os::raw::c_char,
+        __stream: *mut FILE,
+    ) -> *mut FILE;
+    pub fn fdopen(__fd: ::std::os::raw::c_int, __modes: *const ::std::os::raw::c_char)
+        -> *mut FILE;
+    pub fn fmemopen(
+        __s: *mut ::std::os::raw::c_void,
+        __len: size_t,
+        __modes: *const ::std::os::raw::c_char,
+    ) -> *mut FILE;
+    pub fn open_memstream(
+        __bufloc: *mut *mut ::std::os::raw::c_char,
+        __sizeloc: *mut size_t,
+    ) -> *mut FILE;
     pub fn setbuf(__stream: *mut FILE, __buf: *mut ::std::os::raw::c_char);
-    pub fn setvbuf(__stream: *mut FILE, __buf: *mut ::std::os::raw::c_char,
-                   __modes: ::std::os::raw::c_int, __n: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn setbuffer(__stream: *mut FILE, __buf: *mut ::std::os::raw::c_char,
-                     __size: size_t);
+    pub fn setvbuf(
+        __stream: *mut FILE,
+        __buf: *mut ::std::os::raw::c_char,
+        __modes: ::std::os::raw::c_int,
+        __n: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn setbuffer(__stream: *mut FILE, __buf: *mut ::std::os::raw::c_char, __size: size_t);
     pub fn setlinebuf(__stream: *mut FILE);
-    pub fn fprintf(__stream: *mut FILE,
-                   __format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn printf(__format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn sprintf(__s: *mut ::std::os::raw::c_char,
-                   __format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn vfprintf(__s: *mut FILE, __format: *const ::std::os::raw::c_char,
-                    __arg: __gnuc_va_list) -> ::std::os::raw::c_int;
-    pub fn vprintf(__format: *const ::std::os::raw::c_char,
-                   __arg: __gnuc_va_list) -> ::std::os::raw::c_int;
-    pub fn vsprintf(__s: *mut ::std::os::raw::c_char,
-                    __format: *const ::std::os::raw::c_char,
-                    __arg: __gnuc_va_list) -> ::std::os::raw::c_int;
-    pub fn snprintf(__s: *mut ::std::os::raw::c_char, __maxlen: size_t,
-                    __format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn vsnprintf(__s: *mut ::std::os::raw::c_char, __maxlen: size_t,
-                     __format: *const ::std::os::raw::c_char,
-                     __arg: __gnuc_va_list) -> ::std::os::raw::c_int;
-    pub fn vdprintf(__fd: ::std::os::raw::c_int,
-                    __fmt: *const ::std::os::raw::c_char,
-                    __arg: __gnuc_va_list) -> ::std::os::raw::c_int;
-    pub fn dprintf(__fd: ::std::os::raw::c_int,
-                   __fmt: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn fscanf(__stream: *mut FILE,
-                  __format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn scanf(__format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn sscanf(__s: *const ::std::os::raw::c_char,
-                  __format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn vfscanf(__s: *mut FILE, __format: *const ::std::os::raw::c_char,
-                   __arg: __gnuc_va_list) -> ::std::os::raw::c_int;
-    pub fn vscanf(__format: *const ::std::os::raw::c_char,
-                  __arg: __gnuc_va_list) -> ::std::os::raw::c_int;
-    pub fn vsscanf(__s: *const ::std::os::raw::c_char,
-                   __format: *const ::std::os::raw::c_char,
-                   __arg: __gnuc_va_list) -> ::std::os::raw::c_int;
+    pub fn fprintf(
+        __stream: *mut FILE,
+        __format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn printf(__format: *const ::std::os::raw::c_char, ...) -> ::std::os::raw::c_int;
+    pub fn sprintf(
+        __s: *mut ::std::os::raw::c_char,
+        __format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn vfprintf(
+        __s: *mut FILE,
+        __format: *const ::std::os::raw::c_char,
+        __arg: __gnuc_va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn vprintf(
+        __format: *const ::std::os::raw::c_char,
+        __arg: __gnuc_va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn vsprintf(
+        __s: *mut ::std::os::raw::c_char,
+        __format: *const ::std::os::raw::c_char,
+        __arg: __gnuc_va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn snprintf(
+        __s: *mut ::std::os::raw::c_char,
+        __maxlen: size_t,
+        __format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn vsnprintf(
+        __s: *mut ::std::os::raw::c_char,
+        __maxlen: size_t,
+        __format: *const ::std::os::raw::c_char,
+        __arg: __gnuc_va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn vdprintf(
+        __fd: ::std::os::raw::c_int,
+        __fmt: *const ::std::os::raw::c_char,
+        __arg: __gnuc_va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn dprintf(
+        __fd: ::std::os::raw::c_int,
+        __fmt: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn fscanf(
+        __stream: *mut FILE,
+        __format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn scanf(__format: *const ::std::os::raw::c_char, ...) -> ::std::os::raw::c_int;
+    pub fn sscanf(
+        __s: *const ::std::os::raw::c_char,
+        __format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn vfscanf(
+        __s: *mut FILE,
+        __format: *const ::std::os::raw::c_char,
+        __arg: __gnuc_va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn vscanf(
+        __format: *const ::std::os::raw::c_char,
+        __arg: __gnuc_va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn vsscanf(
+        __s: *const ::std::os::raw::c_char,
+        __format: *const ::std::os::raw::c_char,
+        __arg: __gnuc_va_list,
+    ) -> ::std::os::raw::c_int;
     pub fn fgetc(__stream: *mut FILE) -> ::std::os::raw::c_int;
     pub fn getc(__stream: *mut FILE) -> ::std::os::raw::c_int;
     pub fn getchar() -> ::std::os::raw::c_int;
     pub fn getc_unlocked(__stream: *mut FILE) -> ::std::os::raw::c_int;
     pub fn getchar_unlocked() -> ::std::os::raw::c_int;
     pub fn fgetc_unlocked(__stream: *mut FILE) -> ::std::os::raw::c_int;
-    pub fn fputc(__c: ::std::os::raw::c_int, __stream: *mut FILE)
-     -> ::std::os::raw::c_int;
-    pub fn putc(__c: ::std::os::raw::c_int, __stream: *mut FILE)
-     -> ::std::os::raw::c_int;
+    pub fn fputc(__c: ::std::os::raw::c_int, __stream: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn putc(__c: ::std::os::raw::c_int, __stream: *mut FILE) -> ::std::os::raw::c_int;
     pub fn putchar(__c: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn fputc_unlocked(__c: ::std::os::raw::c_int, __stream: *mut FILE)
-     -> ::std::os::raw::c_int;
-    pub fn putc_unlocked(__c: ::std::os::raw::c_int, __stream: *mut FILE)
-     -> ::std::os::raw::c_int;
-    pub fn putchar_unlocked(__c: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+        -> ::std::os::raw::c_int;
+    pub fn putc_unlocked(__c: ::std::os::raw::c_int, __stream: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn putchar_unlocked(__c: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn getw(__stream: *mut FILE) -> ::std::os::raw::c_int;
-    pub fn putw(__w: ::std::os::raw::c_int, __stream: *mut FILE)
-     -> ::std::os::raw::c_int;
-    pub fn fgets(__s: *mut ::std::os::raw::c_char, __n: ::std::os::raw::c_int,
-                 __stream: *mut FILE) -> *mut ::std::os::raw::c_char;
-    pub fn __getdelim(__lineptr: *mut *mut ::std::os::raw::c_char,
-                      __n: *mut size_t, __delimiter: ::std::os::raw::c_int,
-                      __stream: *mut FILE) -> __ssize_t;
-    pub fn getdelim(__lineptr: *mut *mut ::std::os::raw::c_char,
-                    __n: *mut size_t, __delimiter: ::std::os::raw::c_int,
-                    __stream: *mut FILE) -> __ssize_t;
-    pub fn getline(__lineptr: *mut *mut ::std::os::raw::c_char,
-                   __n: *mut size_t, __stream: *mut FILE) -> __ssize_t;
-    pub fn fputs(__s: *const ::std::os::raw::c_char, __stream: *mut FILE)
-     -> ::std::os::raw::c_int;
+    pub fn putw(__w: ::std::os::raw::c_int, __stream: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fgets(
+        __s: *mut ::std::os::raw::c_char,
+        __n: ::std::os::raw::c_int,
+        __stream: *mut FILE,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn __getdelim(
+        __lineptr: *mut *mut ::std::os::raw::c_char,
+        __n: *mut size_t,
+        __delimiter: ::std::os::raw::c_int,
+        __stream: *mut FILE,
+    ) -> __ssize_t;
+    pub fn getdelim(
+        __lineptr: *mut *mut ::std::os::raw::c_char,
+        __n: *mut size_t,
+        __delimiter: ::std::os::raw::c_int,
+        __stream: *mut FILE,
+    ) -> __ssize_t;
+    pub fn getline(
+        __lineptr: *mut *mut ::std::os::raw::c_char,
+        __n: *mut size_t,
+        __stream: *mut FILE,
+    ) -> __ssize_t;
+    pub fn fputs(__s: *const ::std::os::raw::c_char, __stream: *mut FILE) -> ::std::os::raw::c_int;
     pub fn puts(__s: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
-    pub fn ungetc(__c: ::std::os::raw::c_int, __stream: *mut FILE)
-     -> ::std::os::raw::c_int;
-    pub fn fread(__ptr: *mut ::std::os::raw::c_void, __size: size_t,
-                 __n: size_t, __stream: *mut FILE) -> size_t;
-    pub fn fwrite(__ptr: *const ::std::os::raw::c_void, __size: size_t,
-                  __n: size_t, __s: *mut FILE) -> size_t;
-    pub fn fread_unlocked(__ptr: *mut ::std::os::raw::c_void, __size: size_t,
-                          __n: size_t, __stream: *mut FILE) -> size_t;
-    pub fn fwrite_unlocked(__ptr: *const ::std::os::raw::c_void,
-                           __size: size_t, __n: size_t, __stream: *mut FILE)
-     -> size_t;
-    pub fn fseek(__stream: *mut FILE, __off: ::std::os::raw::c_long,
-                 __whence: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn ungetc(__c: ::std::os::raw::c_int, __stream: *mut FILE) -> ::std::os::raw::c_int;
+    pub fn fread(
+        __ptr: *mut ::std::os::raw::c_void,
+        __size: size_t,
+        __n: size_t,
+        __stream: *mut FILE,
+    ) -> size_t;
+    pub fn fwrite(
+        __ptr: *const ::std::os::raw::c_void,
+        __size: size_t,
+        __n: size_t,
+        __s: *mut FILE,
+    ) -> size_t;
+    pub fn fread_unlocked(
+        __ptr: *mut ::std::os::raw::c_void,
+        __size: size_t,
+        __n: size_t,
+        __stream: *mut FILE,
+    ) -> size_t;
+    pub fn fwrite_unlocked(
+        __ptr: *const ::std::os::raw::c_void,
+        __size: size_t,
+        __n: size_t,
+        __stream: *mut FILE,
+    ) -> size_t;
+    pub fn fseek(
+        __stream: *mut FILE,
+        __off: ::std::os::raw::c_long,
+        __whence: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn ftell(__stream: *mut FILE) -> ::std::os::raw::c_long;
     pub fn rewind(__stream: *mut FILE);
-    pub fn fseeko(__stream: *mut FILE, __off: __off_t,
-                  __whence: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn fseeko(
+        __stream: *mut FILE,
+        __off: __off_t,
+        __whence: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn ftello(__stream: *mut FILE) -> __off_t;
-    pub fn fgetpos(__stream: *mut FILE, __pos: *mut fpos_t)
-     -> ::std::os::raw::c_int;
-    pub fn fsetpos(__stream: *mut FILE, __pos: *const fpos_t)
-     -> ::std::os::raw::c_int;
+    pub fn fgetpos(__stream: *mut FILE, __pos: *mut fpos_t) -> ::std::os::raw::c_int;
+    pub fn fsetpos(__stream: *mut FILE, __pos: *const fpos_t) -> ::std::os::raw::c_int;
     pub fn clearerr(__stream: *mut FILE);
     pub fn feof(__stream: *mut FILE) -> ::std::os::raw::c_int;
     pub fn ferror(__stream: *mut FILE) -> ::std::os::raw::c_int;
@@ -6068,348 +6775,436 @@ extern "C" {
     pub fn perror(__s: *const ::std::os::raw::c_char);
     pub fn fileno(__stream: *mut FILE) -> ::std::os::raw::c_int;
     pub fn fileno_unlocked(__stream: *mut FILE) -> ::std::os::raw::c_int;
-    pub fn popen(__command: *const ::std::os::raw::c_char,
-                 __modes: *const ::std::os::raw::c_char) -> *mut FILE;
+    pub fn popen(
+        __command: *const ::std::os::raw::c_char,
+        __modes: *const ::std::os::raw::c_char,
+    ) -> *mut FILE;
     pub fn pclose(__stream: *mut FILE) -> ::std::os::raw::c_int;
-    pub fn ctermid(__s: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
+    pub fn ctermid(__s: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
     pub fn flockfile(__stream: *mut FILE);
     pub fn ftrylockfile(__stream: *mut FILE) -> ::std::os::raw::c_int;
     pub fn funlockfile(__stream: *mut FILE);
     pub fn __ctype_get_mb_cur_max() -> size_t;
-    pub fn atof(__nptr: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_double;
-    pub fn atoi(__nptr: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn atol(__nptr: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_long;
-    pub fn atoll(nptr: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_longlong;
-    pub fn strtod(__nptr: *const ::std::os::raw::c_char,
-                  __endptr: *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_double;
-    pub fn strtof(__nptr: *const ::std::os::raw::c_char,
-                  __endptr: *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_float;
-    pub fn strtold(__nptr: *const ::std::os::raw::c_char,
-                   __endptr: *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_double;
-    pub fn strtol(__nptr: *const ::std::os::raw::c_char,
-                  __endptr: *mut *mut ::std::os::raw::c_char,
-                  __base: ::std::os::raw::c_int) -> ::std::os::raw::c_long;
-    pub fn strtoul(__nptr: *const ::std::os::raw::c_char,
-                   __endptr: *mut *mut ::std::os::raw::c_char,
-                   __base: ::std::os::raw::c_int) -> ::std::os::raw::c_ulong;
-    pub fn strtoq(__nptr: *const ::std::os::raw::c_char,
-                  __endptr: *mut *mut ::std::os::raw::c_char,
-                  __base: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_longlong;
-    pub fn strtouq(__nptr: *const ::std::os::raw::c_char,
-                   __endptr: *mut *mut ::std::os::raw::c_char,
-                   __base: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_ulonglong;
-    pub fn strtoll(__nptr: *const ::std::os::raw::c_char,
-                   __endptr: *mut *mut ::std::os::raw::c_char,
-                   __base: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_longlong;
-    pub fn strtoull(__nptr: *const ::std::os::raw::c_char,
-                    __endptr: *mut *mut ::std::os::raw::c_char,
-                    __base: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_ulonglong;
+    pub fn atof(__nptr: *const ::std::os::raw::c_char) -> ::std::os::raw::c_double;
+    pub fn atoi(__nptr: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn atol(__nptr: *const ::std::os::raw::c_char) -> ::std::os::raw::c_long;
+    pub fn atoll(nptr: *const ::std::os::raw::c_char) -> ::std::os::raw::c_longlong;
+    pub fn strtod(
+        __nptr: *const ::std::os::raw::c_char,
+        __endptr: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_double;
+    pub fn strtof(
+        __nptr: *const ::std::os::raw::c_char,
+        __endptr: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_float;
+    pub fn strtold(
+        __nptr: *const ::std::os::raw::c_char,
+        __endptr: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_double;
+    pub fn strtol(
+        __nptr: *const ::std::os::raw::c_char,
+        __endptr: *mut *mut ::std::os::raw::c_char,
+        __base: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_long;
+    pub fn strtoul(
+        __nptr: *const ::std::os::raw::c_char,
+        __endptr: *mut *mut ::std::os::raw::c_char,
+        __base: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_ulong;
+    pub fn strtoq(
+        __nptr: *const ::std::os::raw::c_char,
+        __endptr: *mut *mut ::std::os::raw::c_char,
+        __base: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_longlong;
+    pub fn strtouq(
+        __nptr: *const ::std::os::raw::c_char,
+        __endptr: *mut *mut ::std::os::raw::c_char,
+        __base: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_ulonglong;
+    pub fn strtoll(
+        __nptr: *const ::std::os::raw::c_char,
+        __endptr: *mut *mut ::std::os::raw::c_char,
+        __base: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_longlong;
+    pub fn strtoull(
+        __nptr: *const ::std::os::raw::c_char,
+        __endptr: *mut *mut ::std::os::raw::c_char,
+        __base: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_ulonglong;
     pub fn l64a(__n: ::std::os::raw::c_long) -> *mut ::std::os::raw::c_char;
     pub fn a64l(__s: *const ::std::os::raw::c_char) -> ::std::os::raw::c_long;
     pub fn random() -> ::std::os::raw::c_long;
     pub fn srandom(__seed: ::std::os::raw::c_uint);
-    pub fn initstate(__seed: ::std::os::raw::c_uint,
-                     __statebuf: *mut ::std::os::raw::c_char,
-                     __statelen: size_t) -> *mut ::std::os::raw::c_char;
-    pub fn setstate(__statebuf: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn random_r(__buf: *mut Struct_random_data, __result: *mut int32_t)
-     -> ::std::os::raw::c_int;
-    pub fn srandom_r(__seed: ::std::os::raw::c_uint,
-                     __buf: *mut Struct_random_data) -> ::std::os::raw::c_int;
-    pub fn initstate_r(__seed: ::std::os::raw::c_uint,
-                       __statebuf: *mut ::std::os::raw::c_char,
-                       __statelen: size_t, __buf: *mut Struct_random_data)
-     -> ::std::os::raw::c_int;
-    pub fn setstate_r(__statebuf: *mut ::std::os::raw::c_char,
-                      __buf: *mut Struct_random_data)
-     -> ::std::os::raw::c_int;
+    pub fn initstate(
+        __seed: ::std::os::raw::c_uint,
+        __statebuf: *mut ::std::os::raw::c_char,
+        __statelen: size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn setstate(__statebuf: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn random_r(
+        __buf: *mut Struct_random_data,
+        __result: *mut int32_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn srandom_r(
+        __seed: ::std::os::raw::c_uint,
+        __buf: *mut Struct_random_data,
+    ) -> ::std::os::raw::c_int;
+    pub fn initstate_r(
+        __seed: ::std::os::raw::c_uint,
+        __statebuf: *mut ::std::os::raw::c_char,
+        __statelen: size_t,
+        __buf: *mut Struct_random_data,
+    ) -> ::std::os::raw::c_int;
+    pub fn setstate_r(
+        __statebuf: *mut ::std::os::raw::c_char,
+        __buf: *mut Struct_random_data,
+    ) -> ::std::os::raw::c_int;
     pub fn rand() -> ::std::os::raw::c_int;
     pub fn srand(__seed: ::std::os::raw::c_uint);
-    pub fn rand_r(__seed: *mut ::std::os::raw::c_uint)
-     -> ::std::os::raw::c_int;
+    pub fn rand_r(__seed: *mut ::std::os::raw::c_uint) -> ::std::os::raw::c_int;
     pub fn drand48() -> ::std::os::raw::c_double;
-    pub fn erand48(__xsubi: *mut ::std::os::raw::c_ushort)
-     -> ::std::os::raw::c_double;
+    pub fn erand48(__xsubi: *mut ::std::os::raw::c_ushort) -> ::std::os::raw::c_double;
     pub fn lrand48() -> ::std::os::raw::c_long;
-    pub fn nrand48(__xsubi: *mut ::std::os::raw::c_ushort)
-     -> ::std::os::raw::c_long;
+    pub fn nrand48(__xsubi: *mut ::std::os::raw::c_ushort) -> ::std::os::raw::c_long;
     pub fn mrand48() -> ::std::os::raw::c_long;
-    pub fn jrand48(__xsubi: *mut ::std::os::raw::c_ushort)
-     -> ::std::os::raw::c_long;
+    pub fn jrand48(__xsubi: *mut ::std::os::raw::c_ushort) -> ::std::os::raw::c_long;
     pub fn srand48(__seedval: ::std::os::raw::c_long);
-    pub fn seed48(__seed16v: *mut ::std::os::raw::c_ushort)
-     -> *mut ::std::os::raw::c_ushort;
+    pub fn seed48(__seed16v: *mut ::std::os::raw::c_ushort) -> *mut ::std::os::raw::c_ushort;
     pub fn lcong48(__param: *mut ::std::os::raw::c_ushort);
-    pub fn drand48_r(__buffer: *mut Struct_drand48_data,
-                     __result: *mut ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
-    pub fn erand48_r(__xsubi: *mut ::std::os::raw::c_ushort,
-                     __buffer: *mut Struct_drand48_data,
-                     __result: *mut ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
-    pub fn lrand48_r(__buffer: *mut Struct_drand48_data,
-                     __result: *mut ::std::os::raw::c_long)
-     -> ::std::os::raw::c_int;
-    pub fn nrand48_r(__xsubi: *mut ::std::os::raw::c_ushort,
-                     __buffer: *mut Struct_drand48_data,
-                     __result: *mut ::std::os::raw::c_long)
-     -> ::std::os::raw::c_int;
-    pub fn mrand48_r(__buffer: *mut Struct_drand48_data,
-                     __result: *mut ::std::os::raw::c_long)
-     -> ::std::os::raw::c_int;
-    pub fn jrand48_r(__xsubi: *mut ::std::os::raw::c_ushort,
-                     __buffer: *mut Struct_drand48_data,
-                     __result: *mut ::std::os::raw::c_long)
-     -> ::std::os::raw::c_int;
-    pub fn srand48_r(__seedval: ::std::os::raw::c_long,
-                     __buffer: *mut Struct_drand48_data)
-     -> ::std::os::raw::c_int;
-    pub fn seed48_r(__seed16v: *mut ::std::os::raw::c_ushort,
-                    __buffer: *mut Struct_drand48_data)
-     -> ::std::os::raw::c_int;
-    pub fn lcong48_r(__param: *mut ::std::os::raw::c_ushort,
-                     __buffer: *mut Struct_drand48_data)
-     -> ::std::os::raw::c_int;
+    pub fn drand48_r(
+        __buffer: *mut Struct_drand48_data,
+        __result: *mut ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_int;
+    pub fn erand48_r(
+        __xsubi: *mut ::std::os::raw::c_ushort,
+        __buffer: *mut Struct_drand48_data,
+        __result: *mut ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_int;
+    pub fn lrand48_r(
+        __buffer: *mut Struct_drand48_data,
+        __result: *mut ::std::os::raw::c_long,
+    ) -> ::std::os::raw::c_int;
+    pub fn nrand48_r(
+        __xsubi: *mut ::std::os::raw::c_ushort,
+        __buffer: *mut Struct_drand48_data,
+        __result: *mut ::std::os::raw::c_long,
+    ) -> ::std::os::raw::c_int;
+    pub fn mrand48_r(
+        __buffer: *mut Struct_drand48_data,
+        __result: *mut ::std::os::raw::c_long,
+    ) -> ::std::os::raw::c_int;
+    pub fn jrand48_r(
+        __xsubi: *mut ::std::os::raw::c_ushort,
+        __buffer: *mut Struct_drand48_data,
+        __result: *mut ::std::os::raw::c_long,
+    ) -> ::std::os::raw::c_int;
+    pub fn srand48_r(
+        __seedval: ::std::os::raw::c_long,
+        __buffer: *mut Struct_drand48_data,
+    ) -> ::std::os::raw::c_int;
+    pub fn seed48_r(
+        __seed16v: *mut ::std::os::raw::c_ushort,
+        __buffer: *mut Struct_drand48_data,
+    ) -> ::std::os::raw::c_int;
+    pub fn lcong48_r(
+        __param: *mut ::std::os::raw::c_ushort,
+        __buffer: *mut Struct_drand48_data,
+    ) -> ::std::os::raw::c_int;
     pub fn malloc(__size: size_t) -> *mut ::std::os::raw::c_void;
-    pub fn calloc(__nmemb: size_t, __size: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn realloc(__ptr: *mut ::std::os::raw::c_void, __size: size_t)
-     -> *mut ::std::os::raw::c_void;
+    pub fn calloc(__nmemb: size_t, __size: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn realloc(
+        __ptr: *mut ::std::os::raw::c_void,
+        __size: size_t,
+    ) -> *mut ::std::os::raw::c_void;
     pub fn free(__ptr: *mut ::std::os::raw::c_void);
     pub fn cfree(__ptr: *mut ::std::os::raw::c_void);
     pub fn alloca(__size: size_t) -> *mut ::std::os::raw::c_void;
     pub fn valloc(__size: size_t) -> *mut ::std::os::raw::c_void;
-    pub fn posix_memalign(__memptr: *mut *mut ::std::os::raw::c_void,
-                          __alignment: size_t, __size: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn aligned_alloc(__alignment: size_t, __size: size_t)
-     -> *mut ::std::os::raw::c_void;
+    pub fn posix_memalign(
+        __memptr: *mut *mut ::std::os::raw::c_void,
+        __alignment: size_t,
+        __size: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn aligned_alloc(__alignment: size_t, __size: size_t) -> *mut ::std::os::raw::c_void;
     pub fn abort();
-    pub fn atexit(__func: ::std::option::Option<extern "C" fn()>)
-     -> ::std::os::raw::c_int;
-    pub fn at_quick_exit(__func: ::std::option::Option<extern "C" fn()>)
-     -> ::std::os::raw::c_int;
-    pub fn on_exit(__func:
-                       ::std::option::Option<unsafe extern "C" fn(__status:
-                                                                      ::std::os::raw::c_int,
-                                                                  __arg:
-                                                                      *mut ::std::os::raw::c_void)>,
-                   __arg: *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
+    pub fn atexit(__func: ::std::option::Option<extern "C" fn()>) -> ::std::os::raw::c_int;
+    pub fn at_quick_exit(__func: ::std::option::Option<extern "C" fn()>) -> ::std::os::raw::c_int;
+    pub fn on_exit(
+        __func: ::std::option::Option<
+            unsafe extern "C" fn(
+                __status: ::std::os::raw::c_int,
+                __arg: *mut ::std::os::raw::c_void,
+            ),
+        >,
+        __arg: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
     pub fn exit(__status: ::std::os::raw::c_int);
     pub fn quick_exit(__status: ::std::os::raw::c_int);
     pub fn _Exit(__status: ::std::os::raw::c_int);
-    pub fn getenv(__name: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn putenv(__string: *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn setenv(__name: *const ::std::os::raw::c_char,
-                  __value: *const ::std::os::raw::c_char,
-                  __replace: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn unsetenv(__name: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
+    pub fn getenv(__name: *const ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn putenv(__string: *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn setenv(
+        __name: *const ::std::os::raw::c_char,
+        __value: *const ::std::os::raw::c_char,
+        __replace: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn unsetenv(__name: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
     pub fn clearenv() -> ::std::os::raw::c_int;
-    pub fn mktemp(__template: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn mkstemp(__template: *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn mkstemps(__template: *mut ::std::os::raw::c_char,
-                    __suffixlen: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn mkdtemp(__template: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn system(__command: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn realpath(__name: *const ::std::os::raw::c_char,
-                    __resolved: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn bsearch(__key: *const ::std::os::raw::c_void,
-                   __base: *const ::std::os::raw::c_void, __nmemb: size_t,
-                   __size: size_t, __compar: __compar_fn_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn qsort(__base: *mut ::std::os::raw::c_void, __nmemb: size_t,
-                 __size: size_t, __compar: __compar_fn_t);
+    pub fn mktemp(__template: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn mkstemp(__template: *mut ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn mkstemps(
+        __template: *mut ::std::os::raw::c_char,
+        __suffixlen: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn mkdtemp(__template: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn system(__command: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn realpath(
+        __name: *const ::std::os::raw::c_char,
+        __resolved: *mut ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn bsearch(
+        __key: *const ::std::os::raw::c_void,
+        __base: *const ::std::os::raw::c_void,
+        __nmemb: size_t,
+        __size: size_t,
+        __compar: __compar_fn_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn qsort(
+        __base: *mut ::std::os::raw::c_void,
+        __nmemb: size_t,
+        __size: size_t,
+        __compar: __compar_fn_t,
+    );
     pub fn abs(__x: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn labs(__x: ::std::os::raw::c_long) -> ::std::os::raw::c_long;
-    pub fn llabs(__x: ::std::os::raw::c_longlong)
-     -> ::std::os::raw::c_longlong;
-    pub fn div(__numer: ::std::os::raw::c_int, __denom: ::std::os::raw::c_int)
-     -> div_t;
-    pub fn ldiv(__numer: ::std::os::raw::c_long,
-                __denom: ::std::os::raw::c_long) -> ldiv_t;
-    pub fn lldiv(__numer: ::std::os::raw::c_longlong,
-                 __denom: ::std::os::raw::c_longlong) -> lldiv_t;
-    pub fn ecvt(__value: ::std::os::raw::c_double,
-                __ndigit: ::std::os::raw::c_int,
-                __decpt: *mut ::std::os::raw::c_int,
-                __sign: *mut ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_char;
-    pub fn fcvt(__value: ::std::os::raw::c_double,
-                __ndigit: ::std::os::raw::c_int,
-                __decpt: *mut ::std::os::raw::c_int,
-                __sign: *mut ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_char;
-    pub fn gcvt(__value: ::std::os::raw::c_double,
-                __ndigit: ::std::os::raw::c_int,
-                __buf: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn qecvt(__value: ::std::os::raw::c_double,
-                 __ndigit: ::std::os::raw::c_int,
-                 __decpt: *mut ::std::os::raw::c_int,
-                 __sign: *mut ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_char;
-    pub fn qfcvt(__value: ::std::os::raw::c_double,
-                 __ndigit: ::std::os::raw::c_int,
-                 __decpt: *mut ::std::os::raw::c_int,
-                 __sign: *mut ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_char;
-    pub fn qgcvt(__value: ::std::os::raw::c_double,
-                 __ndigit: ::std::os::raw::c_int,
-                 __buf: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn ecvt_r(__value: ::std::os::raw::c_double,
-                  __ndigit: ::std::os::raw::c_int,
-                  __decpt: *mut ::std::os::raw::c_int,
-                  __sign: *mut ::std::os::raw::c_int,
-                  __buf: *mut ::std::os::raw::c_char, __len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn fcvt_r(__value: ::std::os::raw::c_double,
-                  __ndigit: ::std::os::raw::c_int,
-                  __decpt: *mut ::std::os::raw::c_int,
-                  __sign: *mut ::std::os::raw::c_int,
-                  __buf: *mut ::std::os::raw::c_char, __len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn qecvt_r(__value: ::std::os::raw::c_double,
-                   __ndigit: ::std::os::raw::c_int,
-                   __decpt: *mut ::std::os::raw::c_int,
-                   __sign: *mut ::std::os::raw::c_int,
-                   __buf: *mut ::std::os::raw::c_char, __len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn qfcvt_r(__value: ::std::os::raw::c_double,
-                   __ndigit: ::std::os::raw::c_int,
-                   __decpt: *mut ::std::os::raw::c_int,
-                   __sign: *mut ::std::os::raw::c_int,
-                   __buf: *mut ::std::os::raw::c_char, __len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn mblen(__s: *const ::std::os::raw::c_char, __n: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn mbtowc(__pwc: *mut wchar_t, __s: *const ::std::os::raw::c_char,
-                  __n: size_t) -> ::std::os::raw::c_int;
-    pub fn wctomb(__s: *mut ::std::os::raw::c_char, __wchar: wchar_t)
-     -> ::std::os::raw::c_int;
-    pub fn mbstowcs(__pwcs: *mut wchar_t, __s: *const ::std::os::raw::c_char,
-                    __n: size_t) -> size_t;
-    pub fn wcstombs(__s: *mut ::std::os::raw::c_char, __pwcs: *const wchar_t,
-                    __n: size_t) -> size_t;
-    pub fn rpmatch(__response: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn getsubopt(__optionp: *mut *mut ::std::os::raw::c_char,
-                     __tokens: *const *mut ::std::os::raw::c_char,
-                     __valuep: *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn getloadavg(__loadavg: *mut ::std::os::raw::c_double,
-                      __nelem: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn llabs(__x: ::std::os::raw::c_longlong) -> ::std::os::raw::c_longlong;
+    pub fn div(__numer: ::std::os::raw::c_int, __denom: ::std::os::raw::c_int) -> div_t;
+    pub fn ldiv(__numer: ::std::os::raw::c_long, __denom: ::std::os::raw::c_long) -> ldiv_t;
+    pub fn lldiv(
+        __numer: ::std::os::raw::c_longlong,
+        __denom: ::std::os::raw::c_longlong,
+    ) -> lldiv_t;
+    pub fn ecvt(
+        __value: ::std::os::raw::c_double,
+        __ndigit: ::std::os::raw::c_int,
+        __decpt: *mut ::std::os::raw::c_int,
+        __sign: *mut ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn fcvt(
+        __value: ::std::os::raw::c_double,
+        __ndigit: ::std::os::raw::c_int,
+        __decpt: *mut ::std::os::raw::c_int,
+        __sign: *mut ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn gcvt(
+        __value: ::std::os::raw::c_double,
+        __ndigit: ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn qecvt(
+        __value: ::std::os::raw::c_double,
+        __ndigit: ::std::os::raw::c_int,
+        __decpt: *mut ::std::os::raw::c_int,
+        __sign: *mut ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn qfcvt(
+        __value: ::std::os::raw::c_double,
+        __ndigit: ::std::os::raw::c_int,
+        __decpt: *mut ::std::os::raw::c_int,
+        __sign: *mut ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn qgcvt(
+        __value: ::std::os::raw::c_double,
+        __ndigit: ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn ecvt_r(
+        __value: ::std::os::raw::c_double,
+        __ndigit: ::std::os::raw::c_int,
+        __decpt: *mut ::std::os::raw::c_int,
+        __sign: *mut ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn fcvt_r(
+        __value: ::std::os::raw::c_double,
+        __ndigit: ::std::os::raw::c_int,
+        __decpt: *mut ::std::os::raw::c_int,
+        __sign: *mut ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn qecvt_r(
+        __value: ::std::os::raw::c_double,
+        __ndigit: ::std::os::raw::c_int,
+        __decpt: *mut ::std::os::raw::c_int,
+        __sign: *mut ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn qfcvt_r(
+        __value: ::std::os::raw::c_double,
+        __ndigit: ::std::os::raw::c_int,
+        __decpt: *mut ::std::os::raw::c_int,
+        __sign: *mut ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn mblen(__s: *const ::std::os::raw::c_char, __n: size_t) -> ::std::os::raw::c_int;
+    pub fn mbtowc(
+        __pwc: *mut wchar_t,
+        __s: *const ::std::os::raw::c_char,
+        __n: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn wctomb(__s: *mut ::std::os::raw::c_char, __wchar: wchar_t) -> ::std::os::raw::c_int;
+    pub fn mbstowcs(
+        __pwcs: *mut wchar_t,
+        __s: *const ::std::os::raw::c_char,
+        __n: size_t,
+    ) -> size_t;
+    pub fn wcstombs(
+        __s: *mut ::std::os::raw::c_char,
+        __pwcs: *const wchar_t,
+        __n: size_t,
+    ) -> size_t;
+    pub fn rpmatch(__response: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn getsubopt(
+        __optionp: *mut *mut ::std::os::raw::c_char,
+        __tokens: *const *mut ::std::os::raw::c_char,
+        __valuep: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn getloadavg(
+        __loadavg: *mut ::std::os::raw::c_double,
+        __nelem: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn __errno_location() -> *mut ::std::os::raw::c_int;
-    pub fn dirname(__path: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn __xpg_basename(__path: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn access(__name: *const ::std::os::raw::c_char,
-                  __type: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn faccessat(__fd: ::std::os::raw::c_int,
-                     __file: *const ::std::os::raw::c_char,
-                     __type: ::std::os::raw::c_int,
-                     __flag: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn lseek(__fd: ::std::os::raw::c_int, __offset: __off_t,
-                 __whence: ::std::os::raw::c_int) -> __off_t;
+    pub fn dirname(__path: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn __xpg_basename(__path: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn access(
+        __name: *const ::std::os::raw::c_char,
+        __type: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn faccessat(
+        __fd: ::std::os::raw::c_int,
+        __file: *const ::std::os::raw::c_char,
+        __type: ::std::os::raw::c_int,
+        __flag: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn lseek(
+        __fd: ::std::os::raw::c_int,
+        __offset: __off_t,
+        __whence: ::std::os::raw::c_int,
+    ) -> __off_t;
     pub fn close(__fd: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn read(__fd: ::std::os::raw::c_int,
-                __buf: *mut ::std::os::raw::c_void, __nbytes: size_t)
-     -> ssize_t;
-    pub fn write(__fd: ::std::os::raw::c_int,
-                 __buf: *const ::std::os::raw::c_void, __n: size_t)
-     -> ssize_t;
-    pub fn pread(__fd: ::std::os::raw::c_int,
-                 __buf: *mut ::std::os::raw::c_void, __nbytes: size_t,
-                 __offset: __off_t) -> ssize_t;
-    pub fn pwrite(__fd: ::std::os::raw::c_int,
-                  __buf: *const ::std::os::raw::c_void, __n: size_t,
-                  __offset: __off_t) -> ssize_t;
-    pub fn pipe(__pipedes: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn read(
+        __fd: ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_void,
+        __nbytes: size_t,
+    ) -> ssize_t;
+    pub fn write(
+        __fd: ::std::os::raw::c_int,
+        __buf: *const ::std::os::raw::c_void,
+        __n: size_t,
+    ) -> ssize_t;
+    pub fn pread(
+        __fd: ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_void,
+        __nbytes: size_t,
+        __offset: __off_t,
+    ) -> ssize_t;
+    pub fn pwrite(
+        __fd: ::std::os::raw::c_int,
+        __buf: *const ::std::os::raw::c_void,
+        __n: size_t,
+        __offset: __off_t,
+    ) -> ssize_t;
+    pub fn pipe(__pipedes: *mut ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn alarm(__seconds: ::std::os::raw::c_uint) -> ::std::os::raw::c_uint;
     pub fn sleep(__seconds: ::std::os::raw::c_uint) -> ::std::os::raw::c_uint;
-    pub fn ualarm(__value: __useconds_t, __interval: __useconds_t)
-     -> __useconds_t;
+    pub fn ualarm(__value: __useconds_t, __interval: __useconds_t) -> __useconds_t;
     pub fn usleep(__useconds: __useconds_t) -> ::std::os::raw::c_int;
     pub fn pause() -> ::std::os::raw::c_int;
-    pub fn chown(__file: *const ::std::os::raw::c_char, __owner: __uid_t,
-                 __group: __gid_t) -> ::std::os::raw::c_int;
-    pub fn fchown(__fd: ::std::os::raw::c_int, __owner: __uid_t,
-                  __group: __gid_t) -> ::std::os::raw::c_int;
-    pub fn lchown(__file: *const ::std::os::raw::c_char, __owner: __uid_t,
-                  __group: __gid_t) -> ::std::os::raw::c_int;
-    pub fn fchownat(__fd: ::std::os::raw::c_int,
-                    __file: *const ::std::os::raw::c_char, __owner: __uid_t,
-                    __group: __gid_t, __flag: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn chdir(__path: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
+    pub fn chown(
+        __file: *const ::std::os::raw::c_char,
+        __owner: __uid_t,
+        __group: __gid_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn fchown(
+        __fd: ::std::os::raw::c_int,
+        __owner: __uid_t,
+        __group: __gid_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn lchown(
+        __file: *const ::std::os::raw::c_char,
+        __owner: __uid_t,
+        __group: __gid_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn fchownat(
+        __fd: ::std::os::raw::c_int,
+        __file: *const ::std::os::raw::c_char,
+        __owner: __uid_t,
+        __group: __gid_t,
+        __flag: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn chdir(__path: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
     pub fn fchdir(__fd: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn getcwd(__buf: *mut ::std::os::raw::c_char, __size: size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn getwd(__buf: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
+    pub fn getcwd(
+        __buf: *mut ::std::os::raw::c_char,
+        __size: size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn getwd(__buf: *mut ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
     pub fn dup(__fd: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn dup2(__fd: ::std::os::raw::c_int, __fd2: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn execve(__path: *const ::std::os::raw::c_char,
-                  __argv: *mut *mut ::std::os::raw::c_char,
-                  __envp: *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn fexecve(__fd: ::std::os::raw::c_int,
-                   __argv: *mut *mut ::std::os::raw::c_char,
-                   __envp: *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn execv(__path: *const ::std::os::raw::c_char,
-                 __argv: *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn execle(__path: *const ::std::os::raw::c_char,
-                  __arg: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn execl(__path: *const ::std::os::raw::c_char,
-                 __arg: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn execvp(__file: *const ::std::os::raw::c_char,
-                  __argv: *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn execlp(__file: *const ::std::os::raw::c_char,
-                  __arg: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
+        -> ::std::os::raw::c_int;
+    pub fn execve(
+        __path: *const ::std::os::raw::c_char,
+        __argv: *mut *mut ::std::os::raw::c_char,
+        __envp: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn fexecve(
+        __fd: ::std::os::raw::c_int,
+        __argv: *mut *mut ::std::os::raw::c_char,
+        __envp: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn execv(
+        __path: *const ::std::os::raw::c_char,
+        __argv: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn execle(
+        __path: *const ::std::os::raw::c_char,
+        __arg: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn execl(
+        __path: *const ::std::os::raw::c_char,
+        __arg: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn execvp(
+        __file: *const ::std::os::raw::c_char,
+        __argv: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn execlp(
+        __file: *const ::std::os::raw::c_char,
+        __arg: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
     pub fn nice(__inc: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn _exit(__status: ::std::os::raw::c_int);
-    pub fn pathconf(__path: *const ::std::os::raw::c_char,
-                    __name: ::std::os::raw::c_int) -> ::std::os::raw::c_long;
-    pub fn fpathconf(__fd: ::std::os::raw::c_int,
-                     __name: ::std::os::raw::c_int) -> ::std::os::raw::c_long;
+    pub fn pathconf(
+        __path: *const ::std::os::raw::c_char,
+        __name: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_long;
+    pub fn fpathconf(
+        __fd: ::std::os::raw::c_int,
+        __name: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_long;
     pub fn sysconf(__name: ::std::os::raw::c_int) -> ::std::os::raw::c_long;
-    pub fn confstr(__name: ::std::os::raw::c_int,
-                   __buf: *mut ::std::os::raw::c_char, __len: size_t)
-     -> size_t;
+    pub fn confstr(
+        __name: ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> size_t;
     pub fn getpid() -> __pid_t;
     pub fn getppid() -> __pid_t;
     pub fn getpgrp() -> __pid_t;
@@ -6423,225 +7218,299 @@ extern "C" {
     pub fn geteuid() -> __uid_t;
     pub fn getgid() -> __gid_t;
     pub fn getegid() -> __gid_t;
-    pub fn getgroups(__size: ::std::os::raw::c_int, __list: *mut __gid_t)
-     -> ::std::os::raw::c_int;
+    pub fn getgroups(__size: ::std::os::raw::c_int, __list: *mut __gid_t) -> ::std::os::raw::c_int;
     pub fn setuid(__uid: __uid_t) -> ::std::os::raw::c_int;
-    pub fn setreuid(__ruid: __uid_t, __euid: __uid_t)
-     -> ::std::os::raw::c_int;
+    pub fn setreuid(__ruid: __uid_t, __euid: __uid_t) -> ::std::os::raw::c_int;
     pub fn seteuid(__uid: __uid_t) -> ::std::os::raw::c_int;
     pub fn setgid(__gid: __gid_t) -> ::std::os::raw::c_int;
-    pub fn setregid(__rgid: __gid_t, __egid: __gid_t)
-     -> ::std::os::raw::c_int;
+    pub fn setregid(__rgid: __gid_t, __egid: __gid_t) -> ::std::os::raw::c_int;
     pub fn setegid(__gid: __gid_t) -> ::std::os::raw::c_int;
     pub fn fork() -> __pid_t;
     pub fn vfork() -> ::std::os::raw::c_int;
-    pub fn ttyname(__fd: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_char;
-    pub fn ttyname_r(__fd: ::std::os::raw::c_int,
-                     __buf: *mut ::std::os::raw::c_char, __buflen: size_t)
-     -> ::std::os::raw::c_int;
+    pub fn ttyname(__fd: ::std::os::raw::c_int) -> *mut ::std::os::raw::c_char;
+    pub fn ttyname_r(
+        __fd: ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_char,
+        __buflen: size_t,
+    ) -> ::std::os::raw::c_int;
     pub fn isatty(__fd: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn ttyslot() -> ::std::os::raw::c_int;
-    pub fn link(__from: *const ::std::os::raw::c_char,
-                __to: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
-    pub fn linkat(__fromfd: ::std::os::raw::c_int,
-                  __from: *const ::std::os::raw::c_char,
-                  __tofd: ::std::os::raw::c_int,
-                  __to: *const ::std::os::raw::c_char,
-                  __flags: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn symlink(__from: *const ::std::os::raw::c_char,
-                   __to: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn readlink(__path: *const ::std::os::raw::c_char,
-                    __buf: *mut ::std::os::raw::c_char, __len: size_t)
-     -> ssize_t;
-    pub fn symlinkat(__from: *const ::std::os::raw::c_char,
-                     __tofd: ::std::os::raw::c_int,
-                     __to: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn readlinkat(__fd: ::std::os::raw::c_int,
-                      __path: *const ::std::os::raw::c_char,
-                      __buf: *mut ::std::os::raw::c_char, __len: size_t)
-     -> ssize_t;
-    pub fn unlink(__name: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn unlinkat(__fd: ::std::os::raw::c_int,
-                    __name: *const ::std::os::raw::c_char,
-                    __flag: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn rmdir(__path: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
+    pub fn link(
+        __from: *const ::std::os::raw::c_char,
+        __to: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn linkat(
+        __fromfd: ::std::os::raw::c_int,
+        __from: *const ::std::os::raw::c_char,
+        __tofd: ::std::os::raw::c_int,
+        __to: *const ::std::os::raw::c_char,
+        __flags: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn symlink(
+        __from: *const ::std::os::raw::c_char,
+        __to: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn readlink(
+        __path: *const ::std::os::raw::c_char,
+        __buf: *mut ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> ssize_t;
+    pub fn symlinkat(
+        __from: *const ::std::os::raw::c_char,
+        __tofd: ::std::os::raw::c_int,
+        __to: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn readlinkat(
+        __fd: ::std::os::raw::c_int,
+        __path: *const ::std::os::raw::c_char,
+        __buf: *mut ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> ssize_t;
+    pub fn unlink(__name: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn unlinkat(
+        __fd: ::std::os::raw::c_int,
+        __name: *const ::std::os::raw::c_char,
+        __flag: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn rmdir(__path: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
     pub fn tcgetpgrp(__fd: ::std::os::raw::c_int) -> __pid_t;
-    pub fn tcsetpgrp(__fd: ::std::os::raw::c_int, __pgrp_id: __pid_t)
-     -> ::std::os::raw::c_int;
+    pub fn tcsetpgrp(__fd: ::std::os::raw::c_int, __pgrp_id: __pid_t) -> ::std::os::raw::c_int;
     pub fn getlogin() -> *mut ::std::os::raw::c_char;
-    pub fn getlogin_r(__name: *mut ::std::os::raw::c_char, __name_len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn setlogin(__name: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn getopt(___argc: ::std::os::raw::c_int,
-                  ___argv: *const *mut ::std::os::raw::c_char,
-                  __shortopts: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
+    pub fn getlogin_r(
+        __name: *mut ::std::os::raw::c_char,
+        __name_len: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn setlogin(__name: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn getopt(
+        ___argc: ::std::os::raw::c_int,
+        ___argv: *const *mut ::std::os::raw::c_char,
+        __shortopts: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
     pub fn gethostname(__name: *mut ::std::os::raw::c_char, __len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn sethostname(__name: *const ::std::os::raw::c_char, __len: size_t)
-     -> ::std::os::raw::c_int;
+        -> ::std::os::raw::c_int;
+    pub fn sethostname(
+        __name: *const ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> ::std::os::raw::c_int;
     pub fn sethostid(__id: ::std::os::raw::c_long) -> ::std::os::raw::c_int;
-    pub fn getdomainname(__name: *mut ::std::os::raw::c_char, __len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn setdomainname(__name: *const ::std::os::raw::c_char, __len: size_t)
-     -> ::std::os::raw::c_int;
+    pub fn getdomainname(
+        __name: *mut ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn setdomainname(
+        __name: *const ::std::os::raw::c_char,
+        __len: size_t,
+    ) -> ::std::os::raw::c_int;
     pub fn vhangup() -> ::std::os::raw::c_int;
-    pub fn revoke(__file: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn profil(__sample_buffer: *mut ::std::os::raw::c_ushort,
-                  __size: size_t, __offset: size_t,
-                  __scale: ::std::os::raw::c_uint) -> ::std::os::raw::c_int;
-    pub fn acct(__name: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
+    pub fn revoke(__file: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn profil(
+        __sample_buffer: *mut ::std::os::raw::c_ushort,
+        __size: size_t,
+        __offset: size_t,
+        __scale: ::std::os::raw::c_uint,
+    ) -> ::std::os::raw::c_int;
+    pub fn acct(__name: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
     pub fn getusershell() -> *mut ::std::os::raw::c_char;
     pub fn endusershell();
     pub fn setusershell();
-    pub fn daemon(__nochdir: ::std::os::raw::c_int,
-                  __noclose: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn chroot(__path: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn getpass(__prompt: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
+    pub fn daemon(
+        __nochdir: ::std::os::raw::c_int,
+        __noclose: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn chroot(__path: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn getpass(__prompt: *const ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
     pub fn fsync(__fd: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn gethostid() -> ::std::os::raw::c_long;
     pub fn sync();
     pub fn getpagesize() -> ::std::os::raw::c_int;
     pub fn getdtablesize() -> ::std::os::raw::c_int;
-    pub fn truncate(__file: *const ::std::os::raw::c_char, __length: __off_t)
-     -> ::std::os::raw::c_int;
-    pub fn ftruncate(__fd: ::std::os::raw::c_int, __length: __off_t)
-     -> ::std::os::raw::c_int;
+    pub fn truncate(
+        __file: *const ::std::os::raw::c_char,
+        __length: __off_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn ftruncate(__fd: ::std::os::raw::c_int, __length: __off_t) -> ::std::os::raw::c_int;
     pub fn brk(__addr: *mut ::std::os::raw::c_void) -> ::std::os::raw::c_int;
     pub fn sbrk(__delta: intptr_t) -> *mut ::std::os::raw::c_void;
-    pub fn syscall(__sysno: ::std::os::raw::c_long, ...)
-     -> ::std::os::raw::c_long;
-    pub fn lockf(__fd: ::std::os::raw::c_int, __cmd: ::std::os::raw::c_int,
-                 __len: __off_t) -> ::std::os::raw::c_int;
-    pub fn fdatasync(__fildes: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn stat(__file: *const ::std::os::raw::c_char,
-                __buf: *mut Struct_stat) -> ::std::os::raw::c_int;
-    pub fn fstat(__fd: ::std::os::raw::c_int, __buf: *mut Struct_stat)
-     -> ::std::os::raw::c_int;
-    pub fn fstatat(__fd: ::std::os::raw::c_int,
-                   __file: *const ::std::os::raw::c_char,
-                   __buf: *mut Struct_stat, __flag: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn lstat(__file: *const ::std::os::raw::c_char,
-                 __buf: *mut Struct_stat) -> ::std::os::raw::c_int;
-    pub fn chmod(__file: *const ::std::os::raw::c_char, __mode: __mode_t)
-     -> ::std::os::raw::c_int;
+    pub fn syscall(__sysno: ::std::os::raw::c_long, ...) -> ::std::os::raw::c_long;
+    pub fn lockf(
+        __fd: ::std::os::raw::c_int,
+        __cmd: ::std::os::raw::c_int,
+        __len: __off_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn fdatasync(__fildes: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn stat(
+        __file: *const ::std::os::raw::c_char,
+        __buf: *mut Struct_stat,
+    ) -> ::std::os::raw::c_int;
+    pub fn fstat(__fd: ::std::os::raw::c_int, __buf: *mut Struct_stat) -> ::std::os::raw::c_int;
+    pub fn fstatat(
+        __fd: ::std::os::raw::c_int,
+        __file: *const ::std::os::raw::c_char,
+        __buf: *mut Struct_stat,
+        __flag: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn lstat(
+        __file: *const ::std::os::raw::c_char,
+        __buf: *mut Struct_stat,
+    ) -> ::std::os::raw::c_int;
+    pub fn chmod(__file: *const ::std::os::raw::c_char, __mode: __mode_t) -> ::std::os::raw::c_int;
     pub fn lchmod(__file: *const ::std::os::raw::c_char, __mode: __mode_t)
-     -> ::std::os::raw::c_int;
-    pub fn fchmod(__fd: ::std::os::raw::c_int, __mode: __mode_t)
-     -> ::std::os::raw::c_int;
-    pub fn fchmodat(__fd: ::std::os::raw::c_int,
-                    __file: *const ::std::os::raw::c_char, __mode: __mode_t,
-                    __flag: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+        -> ::std::os::raw::c_int;
+    pub fn fchmod(__fd: ::std::os::raw::c_int, __mode: __mode_t) -> ::std::os::raw::c_int;
+    pub fn fchmodat(
+        __fd: ::std::os::raw::c_int,
+        __file: *const ::std::os::raw::c_char,
+        __mode: __mode_t,
+        __flag: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn umask(__mask: __mode_t) -> __mode_t;
-    pub fn mkdir(__path: *const ::std::os::raw::c_char, __mode: __mode_t)
-     -> ::std::os::raw::c_int;
-    pub fn mkdirat(__fd: ::std::os::raw::c_int,
-                   __path: *const ::std::os::raw::c_char, __mode: __mode_t)
-     -> ::std::os::raw::c_int;
-    pub fn mknod(__path: *const ::std::os::raw::c_char, __mode: __mode_t,
-                 __dev: __dev_t) -> ::std::os::raw::c_int;
-    pub fn mknodat(__fd: ::std::os::raw::c_int,
-                   __path: *const ::std::os::raw::c_char, __mode: __mode_t,
-                   __dev: __dev_t) -> ::std::os::raw::c_int;
+    pub fn mkdir(__path: *const ::std::os::raw::c_char, __mode: __mode_t) -> ::std::os::raw::c_int;
+    pub fn mkdirat(
+        __fd: ::std::os::raw::c_int,
+        __path: *const ::std::os::raw::c_char,
+        __mode: __mode_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn mknod(
+        __path: *const ::std::os::raw::c_char,
+        __mode: __mode_t,
+        __dev: __dev_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn mknodat(
+        __fd: ::std::os::raw::c_int,
+        __path: *const ::std::os::raw::c_char,
+        __mode: __mode_t,
+        __dev: __dev_t,
+    ) -> ::std::os::raw::c_int;
     pub fn mkfifo(__path: *const ::std::os::raw::c_char, __mode: __mode_t)
-     -> ::std::os::raw::c_int;
-    pub fn mkfifoat(__fd: ::std::os::raw::c_int,
-                    __path: *const ::std::os::raw::c_char, __mode: __mode_t)
-     -> ::std::os::raw::c_int;
-    pub fn utimensat(__fd: ::std::os::raw::c_int,
-                     __path: *const ::std::os::raw::c_char,
-                     __times: *mut Struct_timespec,
-                     __flags: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn futimens(__fd: ::std::os::raw::c_int,
-                    __times: *mut Struct_timespec) -> ::std::os::raw::c_int;
-    pub fn __fxstat(__ver: ::std::os::raw::c_int,
-                    __fildes: ::std::os::raw::c_int,
-                    __stat_buf: *mut Struct_stat) -> ::std::os::raw::c_int;
-    pub fn __xstat(__ver: ::std::os::raw::c_int,
-                   __filename: *const ::std::os::raw::c_char,
-                   __stat_buf: *mut Struct_stat) -> ::std::os::raw::c_int;
-    pub fn __lxstat(__ver: ::std::os::raw::c_int,
-                    __filename: *const ::std::os::raw::c_char,
-                    __stat_buf: *mut Struct_stat) -> ::std::os::raw::c_int;
-    pub fn __fxstatat(__ver: ::std::os::raw::c_int,
-                      __fildes: ::std::os::raw::c_int,
-                      __filename: *const ::std::os::raw::c_char,
-                      __stat_buf: *mut Struct_stat,
-                      __flag: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn __xmknod(__ver: ::std::os::raw::c_int,
-                    __path: *const ::std::os::raw::c_char, __mode: __mode_t,
-                    __dev: *mut __dev_t) -> ::std::os::raw::c_int;
-    pub fn __xmknodat(__ver: ::std::os::raw::c_int,
-                      __fd: ::std::os::raw::c_int,
-                      __path: *const ::std::os::raw::c_char, __mode: __mode_t,
-                      __dev: *mut __dev_t) -> ::std::os::raw::c_int;
+        -> ::std::os::raw::c_int;
+    pub fn mkfifoat(
+        __fd: ::std::os::raw::c_int,
+        __path: *const ::std::os::raw::c_char,
+        __mode: __mode_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn utimensat(
+        __fd: ::std::os::raw::c_int,
+        __path: *const ::std::os::raw::c_char,
+        __times: *mut Struct_timespec,
+        __flags: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn futimens(
+        __fd: ::std::os::raw::c_int,
+        __times: *mut Struct_timespec,
+    ) -> ::std::os::raw::c_int;
+    pub fn __fxstat(
+        __ver: ::std::os::raw::c_int,
+        __fildes: ::std::os::raw::c_int,
+        __stat_buf: *mut Struct_stat,
+    ) -> ::std::os::raw::c_int;
+    pub fn __xstat(
+        __ver: ::std::os::raw::c_int,
+        __filename: *const ::std::os::raw::c_char,
+        __stat_buf: *mut Struct_stat,
+    ) -> ::std::os::raw::c_int;
+    pub fn __lxstat(
+        __ver: ::std::os::raw::c_int,
+        __filename: *const ::std::os::raw::c_char,
+        __stat_buf: *mut Struct_stat,
+    ) -> ::std::os::raw::c_int;
+    pub fn __fxstatat(
+        __ver: ::std::os::raw::c_int,
+        __fildes: ::std::os::raw::c_int,
+        __filename: *const ::std::os::raw::c_char,
+        __stat_buf: *mut Struct_stat,
+        __flag: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn __xmknod(
+        __ver: ::std::os::raw::c_int,
+        __path: *const ::std::os::raw::c_char,
+        __mode: __mode_t,
+        __dev: *mut __dev_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn __xmknodat(
+        __ver: ::std::os::raw::c_int,
+        __fd: ::std::os::raw::c_int,
+        __path: *const ::std::os::raw::c_char,
+        __mode: __mode_t,
+        __dev: *mut __dev_t,
+    ) -> ::std::os::raw::c_int;
     pub fn opendir(__name: *const ::std::os::raw::c_char) -> *mut DIR;
     pub fn fdopendir(__fd: ::std::os::raw::c_int) -> *mut DIR;
     pub fn closedir(__dirp: *mut DIR) -> ::std::os::raw::c_int;
     pub fn readdir(__dirp: *mut DIR) -> *mut Struct_dirent;
-    pub fn readdir_r(__dirp: *mut DIR, __entry: *mut Struct_dirent,
-                     __result: *mut *mut Struct_dirent)
-     -> ::std::os::raw::c_int;
+    pub fn readdir_r(
+        __dirp: *mut DIR,
+        __entry: *mut Struct_dirent,
+        __result: *mut *mut Struct_dirent,
+    ) -> ::std::os::raw::c_int;
     pub fn rewinddir(__dirp: *mut DIR);
     pub fn seekdir(__dirp: *mut DIR, __pos: ::std::os::raw::c_long);
     pub fn telldir(__dirp: *mut DIR) -> ::std::os::raw::c_long;
     pub fn dirfd(__dirp: *mut DIR) -> ::std::os::raw::c_int;
-    pub fn scandir(__dir: *const ::std::os::raw::c_char,
-                   __namelist: *mut *mut *mut Struct_dirent,
-                   __selector:
-                       ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                      *const Struct_dirent)
-                                                 -> ::std::os::raw::c_int>,
-                   __cmp:
-                       ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                      *mut *const Struct_dirent,
-                                                                  arg2:
-                                                                      *mut *const Struct_dirent)
-                                                 -> ::std::os::raw::c_int>)
-     -> ::std::os::raw::c_int;
-    pub fn alphasort(__e1: *mut *const Struct_dirent,
-                     __e2: *mut *const Struct_dirent)
-     -> ::std::os::raw::c_int;
-    pub fn getdirentries(__fd: ::std::os::raw::c_int,
-                         __buf: *mut ::std::os::raw::c_char, __nbytes: size_t,
-                         __basep: *mut __off_t) -> __ssize_t;
-    pub fn fcntl(__fd: ::std::os::raw::c_int,
-                 __cmd: ::std::os::raw::c_int, ...) -> ::std::os::raw::c_int;
-    pub fn open(__file: *const ::std::os::raw::c_char,
-                __oflag: ::std::os::raw::c_int, ...) -> ::std::os::raw::c_int;
-    pub fn openat(__fd: ::std::os::raw::c_int,
-                  __file: *const ::std::os::raw::c_char,
-                  __oflag: ::std::os::raw::c_int, ...)
-     -> ::std::os::raw::c_int;
-    pub fn creat(__file: *const ::std::os::raw::c_char, __mode: mode_t)
-     -> ::std::os::raw::c_int;
-    pub fn posix_fadvise(__fd: ::std::os::raw::c_int, __offset: off_t,
-                         __len: off_t, __advise: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn posix_fallocate(__fd: ::std::os::raw::c_int, __offset: off_t,
-                           __len: off_t) -> ::std::os::raw::c_int;
+    pub fn scandir(
+        __dir: *const ::std::os::raw::c_char,
+        __namelist: *mut *mut *mut Struct_dirent,
+        __selector: ::std::option::Option<
+            unsafe extern "C" fn(arg1: *const Struct_dirent) -> ::std::os::raw::c_int,
+        >,
+        __cmp: ::std::option::Option<
+            unsafe extern "C" fn(
+                arg1: *mut *const Struct_dirent,
+                arg2: *mut *const Struct_dirent,
+            ) -> ::std::os::raw::c_int,
+        >,
+    ) -> ::std::os::raw::c_int;
+    pub fn alphasort(
+        __e1: *mut *const Struct_dirent,
+        __e2: *mut *const Struct_dirent,
+    ) -> ::std::os::raw::c_int;
+    pub fn getdirentries(
+        __fd: ::std::os::raw::c_int,
+        __buf: *mut ::std::os::raw::c_char,
+        __nbytes: size_t,
+        __basep: *mut __off_t,
+    ) -> __ssize_t;
+    pub fn fcntl(
+        __fd: ::std::os::raw::c_int,
+        __cmd: ::std::os::raw::c_int,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn open(
+        __file: *const ::std::os::raw::c_char,
+        __oflag: ::std::os::raw::c_int,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn openat(
+        __fd: ::std::os::raw::c_int,
+        __file: *const ::std::os::raw::c_char,
+        __oflag: ::std::os::raw::c_int,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn creat(__file: *const ::std::os::raw::c_char, __mode: mode_t) -> ::std::os::raw::c_int;
+    pub fn posix_fadvise(
+        __fd: ::std::os::raw::c_int,
+        __offset: off_t,
+        __len: off_t,
+        __advise: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn posix_fallocate(
+        __fd: ::std::os::raw::c_int,
+        __offset: off_t,
+        __len: off_t,
+    ) -> ::std::os::raw::c_int;
     pub fn acos(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __acos(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn asin(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __asin(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn atan(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __atan(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn atan2(__y: ::std::os::raw::c_double, __x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __atan2(__y: ::std::os::raw::c_double,
-                   __x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn atan2(
+        __y: ::std::os::raw::c_double,
+        __x: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __atan2(
+        __y: ::std::os::raw::c_double,
+        __x: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn cos(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __cos(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn sin(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
@@ -6662,28 +7531,34 @@ extern "C" {
     pub fn __atanh(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn exp(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __exp(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn frexp(__x: ::std::os::raw::c_double,
-                 __exponent: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn __frexp(__x: ::std::os::raw::c_double,
-                   __exponent: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn ldexp(__x: ::std::os::raw::c_double,
-                 __exponent: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn __ldexp(__x: ::std::os::raw::c_double,
-                   __exponent: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
+    pub fn frexp(
+        __x: ::std::os::raw::c_double,
+        __exponent: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn __frexp(
+        __x: ::std::os::raw::c_double,
+        __exponent: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn ldexp(
+        __x: ::std::os::raw::c_double,
+        __exponent: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn __ldexp(
+        __x: ::std::os::raw::c_double,
+        __exponent: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
     pub fn log(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __log(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn log10(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __log10(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn modf(__x: ::std::os::raw::c_double,
-                __iptr: *mut ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __modf(__x: ::std::os::raw::c_double,
-                  __iptr: *mut ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn modf(
+        __x: ::std::os::raw::c_double,
+        __iptr: *mut ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __modf(
+        __x: ::std::os::raw::c_double,
+        __iptr: *mut ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn expm1(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __expm1(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn log1p(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
@@ -6694,16 +7569,24 @@ extern "C" {
     pub fn __exp2(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn log2(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __log2(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn pow(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __pow(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn pow(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __pow(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn sqrt(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __sqrt(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn hypot(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __hypot(__x: ::std::os::raw::c_double,
-                   __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn hypot(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __hypot(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn cbrt(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __cbrt(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn ceil(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
@@ -6712,164 +7595,208 @@ extern "C" {
     pub fn __fabs(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn floor(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __floor(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn fmod(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __fmod(__x: ::std::os::raw::c_double,
-                  __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __isinf(__value: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
-    pub fn __finite(__value: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
+    pub fn fmod(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fmod(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __isinf(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
+    pub fn __finite(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
     pub fn isinf(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
     pub fn finite(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
-    pub fn drem(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __drem(__x: ::std::os::raw::c_double,
-                  __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn significand(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __significand(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn copysign(__x: ::std::os::raw::c_double,
-                    __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __copysign(__x: ::std::os::raw::c_double,
-                      __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn nan(__tagb: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_double;
-    pub fn __nan(__tagb: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_double;
-    pub fn __isnan(__value: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
+    pub fn drem(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __drem(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn significand(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn __significand(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn copysign(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __copysign(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn nan(__tagb: *const ::std::os::raw::c_char) -> ::std::os::raw::c_double;
+    pub fn __nan(__tagb: *const ::std::os::raw::c_char) -> ::std::os::raw::c_double;
+    pub fn __isnan(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
     pub fn isnan(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
     pub fn j0(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __j0(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn j1(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __j1(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn jn(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __jn(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn jn(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __jn(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn y0(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __y0(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn y1(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __y1(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn yn(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __yn(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn yn(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __yn(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn erf(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __erf(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn erfc(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __erfc(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn lgamma(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __lgamma(arg1: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn __lgamma(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn tgamma(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __tgamma(arg1: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn __tgamma(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn gamma(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __gamma(arg1: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn lgamma_r(arg1: ::std::os::raw::c_double,
-                    __signgamp: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn __lgamma_r(arg1: ::std::os::raw::c_double,
-                      __signgamp: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
+    pub fn __gamma(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn lgamma_r(
+        arg1: ::std::os::raw::c_double,
+        __signgamp: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn __lgamma_r(
+        arg1: ::std::os::raw::c_double,
+        __signgamp: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
     pub fn rint(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __rint(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn nextafter(__x: ::std::os::raw::c_double,
-                     __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __nextafter(__x: ::std::os::raw::c_double,
-                       __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn nexttoward(__x: ::std::os::raw::c_double,
-                      __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __nexttoward(__x: ::std::os::raw::c_double,
-                        __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn remainder(__x: ::std::os::raw::c_double,
-                     __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __remainder(__x: ::std::os::raw::c_double,
-                       __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn scalbn(__x: ::std::os::raw::c_double, __n: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn __scalbn(__x: ::std::os::raw::c_double, __n: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
+    pub fn nextafter(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __nextafter(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn nexttoward(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __nexttoward(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn remainder(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __remainder(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn scalbn(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn __scalbn(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
     pub fn ilogb(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
     pub fn __ilogb(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
-    pub fn scalbln(__x: ::std::os::raw::c_double, __n: ::std::os::raw::c_long)
-     -> ::std::os::raw::c_double;
-    pub fn __scalbln(__x: ::std::os::raw::c_double,
-                     __n: ::std::os::raw::c_long) -> ::std::os::raw::c_double;
-    pub fn nearbyint(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __nearbyint(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn scalbln(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_long,
+    ) -> ::std::os::raw::c_double;
+    pub fn __scalbln(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_long,
+    ) -> ::std::os::raw::c_double;
+    pub fn nearbyint(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn __nearbyint(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn round(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __round(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn trunc(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __trunc(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn remquo(__x: ::std::os::raw::c_double,
-                  __y: ::std::os::raw::c_double,
-                  __quo: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn __remquo(__x: ::std::os::raw::c_double,
-                    __y: ::std::os::raw::c_double,
-                    __quo: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
+    pub fn remquo(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+        __quo: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn __remquo(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+        __quo: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
     pub fn lrint(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_long;
     pub fn __lrint(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_long;
-    pub fn llrint(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_longlong;
-    pub fn __llrint(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_longlong;
+    pub fn llrint(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_longlong;
+    pub fn __llrint(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_longlong;
     pub fn lround(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_long;
     pub fn __lround(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_long;
-    pub fn llround(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_longlong;
-    pub fn __llround(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_longlong;
-    pub fn fdim(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __fdim(__x: ::std::os::raw::c_double,
-                  __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn fmax(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __fmax(__x: ::std::os::raw::c_double,
-                  __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn fmin(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __fmin(__x: ::std::os::raw::c_double,
-                  __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __fpclassify(__value: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
-    pub fn __signbit(__value: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
-    pub fn fma(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double,
-               __z: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __fma(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double,
-                 __z: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn scalb(__x: ::std::os::raw::c_double, __n: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __scalb(__x: ::std::os::raw::c_double,
-                   __n: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn llround(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_longlong;
+    pub fn __llround(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_longlong;
+    pub fn fdim(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fdim(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn fmax(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fmax(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn fmin(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fmin(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fpclassify(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
+    pub fn __signbit(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
+    pub fn fma(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+        __z: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fma(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+        __z: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn scalb(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __scalb(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn acosf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __acosf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn asinf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __asinf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn atanf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __atanf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn atan2f(__y: ::std::os::raw::c_float, __x: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __atan2f(__y: ::std::os::raw::c_float,
-                    __x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
+    pub fn atan2f(
+        __y: ::std::os::raw::c_float,
+        __x: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __atan2f(
+        __y: ::std::os::raw::c_float,
+        __x: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
     pub fn cosf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __cosf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn sinf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
@@ -6890,28 +7817,34 @@ extern "C" {
     pub fn __atanhf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn expf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __expf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn frexpf(__x: ::std::os::raw::c_float,
-                  __exponent: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_float;
-    pub fn __frexpf(__x: ::std::os::raw::c_float,
-                    __exponent: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_float;
-    pub fn ldexpf(__x: ::std::os::raw::c_float,
-                  __exponent: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_float;
-    pub fn __ldexpf(__x: ::std::os::raw::c_float,
-                    __exponent: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_float;
+    pub fn frexpf(
+        __x: ::std::os::raw::c_float,
+        __exponent: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_float;
+    pub fn __frexpf(
+        __x: ::std::os::raw::c_float,
+        __exponent: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_float;
+    pub fn ldexpf(
+        __x: ::std::os::raw::c_float,
+        __exponent: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_float;
+    pub fn __ldexpf(
+        __x: ::std::os::raw::c_float,
+        __exponent: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_float;
     pub fn logf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __logf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn log10f(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __log10f(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn modff(__x: ::std::os::raw::c_float,
-                 __iptr: *mut ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __modff(__x: ::std::os::raw::c_float,
-                   __iptr: *mut ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
+    pub fn modff(
+        __x: ::std::os::raw::c_float,
+        __iptr: *mut ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __modff(
+        __x: ::std::os::raw::c_float,
+        __iptr: *mut ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
     pub fn expm1f(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __expm1f(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn log1pf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
@@ -6922,16 +7855,24 @@ extern "C" {
     pub fn __exp2f(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn log2f(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __log2f(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn powf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __powf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
+    pub fn powf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __powf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
     pub fn sqrtf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __sqrtf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn hypotf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __hypotf(__x: ::std::os::raw::c_float,
-                    __y: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
+    pub fn hypotf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __hypotf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
     pub fn cbrtf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __cbrtf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn ceilf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
@@ -6940,162 +7881,208 @@ extern "C" {
     pub fn __fabsf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn floorf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __floorf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn fmodf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __fmodf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __isinff(__value: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_int;
-    pub fn __finitef(__value: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_int;
+    pub fn fmodf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __fmodf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __isinff(__value: ::std::os::raw::c_float) -> ::std::os::raw::c_int;
+    pub fn __finitef(__value: ::std::os::raw::c_float) -> ::std::os::raw::c_int;
     pub fn isinff(__value: ::std::os::raw::c_float) -> ::std::os::raw::c_int;
     pub fn finitef(__value: ::std::os::raw::c_float) -> ::std::os::raw::c_int;
-    pub fn dremf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __dremf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn significandf(__x: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __significandf(__x: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn copysignf(__x: ::std::os::raw::c_float,
-                     __y: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn __copysignf(__x: ::std::os::raw::c_float,
-                       __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn nanf(__tagb: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_float;
-    pub fn __nanf(__tagb: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_float;
-    pub fn __isnanf(__value: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_int;
+    pub fn dremf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __dremf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn significandf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
+    pub fn __significandf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
+    pub fn copysignf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __copysignf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn nanf(__tagb: *const ::std::os::raw::c_char) -> ::std::os::raw::c_float;
+    pub fn __nanf(__tagb: *const ::std::os::raw::c_char) -> ::std::os::raw::c_float;
+    pub fn __isnanf(__value: ::std::os::raw::c_float) -> ::std::os::raw::c_int;
     pub fn isnanf(__value: ::std::os::raw::c_float) -> ::std::os::raw::c_int;
     pub fn j0f(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __j0f(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn j1f(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __j1f(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn jnf(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __jnf(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
+    pub fn jnf(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __jnf(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
     pub fn y0f(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __y0f(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn y1f(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __y1f(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn ynf(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __ynf(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
+    pub fn ynf(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __ynf(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
     pub fn erff(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __erff(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn erfcf(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __erfcf(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn lgammaf(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn __lgammaf(arg1: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
+    pub fn __lgammaf(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn tgammaf(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn __tgammaf(arg1: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
+    pub fn __tgammaf(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn gammaf(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __gammaf(arg1: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn lgammaf_r(arg1: ::std::os::raw::c_float,
-                     __signgamp: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_float;
-    pub fn __lgammaf_r(arg1: ::std::os::raw::c_float,
-                       __signgamp: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_float;
+    pub fn lgammaf_r(
+        arg1: ::std::os::raw::c_float,
+        __signgamp: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_float;
+    pub fn __lgammaf_r(
+        arg1: ::std::os::raw::c_float,
+        __signgamp: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_float;
     pub fn rintf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __rintf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn nextafterf(__x: ::std::os::raw::c_float,
-                      __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __nextafterf(__x: ::std::os::raw::c_float,
-                        __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn nexttowardf(__x: ::std::os::raw::c_float,
-                       __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_float;
-    pub fn __nexttowardf(__x: ::std::os::raw::c_float,
-                         __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_float;
-    pub fn remainderf(__x: ::std::os::raw::c_float,
-                      __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __remainderf(__x: ::std::os::raw::c_float,
-                        __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn scalbnf(__x: ::std::os::raw::c_float, __n: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_float;
-    pub fn __scalbnf(__x: ::std::os::raw::c_float, __n: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_float;
+    pub fn nextafterf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __nextafterf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn nexttowardf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_float;
+    pub fn __nexttowardf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_float;
+    pub fn remainderf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __remainderf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn scalbnf(
+        __x: ::std::os::raw::c_float,
+        __n: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_float;
+    pub fn __scalbnf(
+        __x: ::std::os::raw::c_float,
+        __n: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_float;
     pub fn ilogbf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_int;
     pub fn __ilogbf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_int;
-    pub fn scalblnf(__x: ::std::os::raw::c_float, __n: ::std::os::raw::c_long)
-     -> ::std::os::raw::c_float;
-    pub fn __scalblnf(__x: ::std::os::raw::c_float,
-                      __n: ::std::os::raw::c_long) -> ::std::os::raw::c_float;
-    pub fn nearbyintf(__x: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __nearbyintf(__x: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
+    pub fn scalblnf(
+        __x: ::std::os::raw::c_float,
+        __n: ::std::os::raw::c_long,
+    ) -> ::std::os::raw::c_float;
+    pub fn __scalblnf(
+        __x: ::std::os::raw::c_float,
+        __n: ::std::os::raw::c_long,
+    ) -> ::std::os::raw::c_float;
+    pub fn nearbyintf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
+    pub fn __nearbyintf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn roundf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __roundf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn truncf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
     pub fn __truncf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn remquof(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float,
-                   __quo: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_float;
-    pub fn __remquof(__x: ::std::os::raw::c_float,
-                     __y: ::std::os::raw::c_float,
-                     __quo: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_float;
+    pub fn remquof(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+        __quo: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_float;
+    pub fn __remquof(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+        __quo: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_float;
     pub fn lrintf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_long;
     pub fn __lrintf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_long;
-    pub fn llrintf(__x: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_longlong;
-    pub fn __llrintf(__x: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_longlong;
+    pub fn llrintf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_longlong;
+    pub fn __llrintf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_longlong;
     pub fn lroundf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_long;
     pub fn __lroundf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_long;
-    pub fn llroundf(__x: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_longlong;
-    pub fn __llroundf(__x: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_longlong;
-    pub fn fdimf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __fdimf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn fmaxf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __fmaxf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn fminf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __fminf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __fpclassifyf(__value: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_int;
-    pub fn __signbitf(__value: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_int;
-    pub fn fmaf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float,
-                __z: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn __fmaf(__x: ::std::os::raw::c_float, __y: ::std::os::raw::c_float,
-                  __z: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
-    pub fn scalbf(__x: ::std::os::raw::c_float, __n: ::std::os::raw::c_float)
-     -> ::std::os::raw::c_float;
-    pub fn __scalbf(__x: ::std::os::raw::c_float,
-                    __n: ::std::os::raw::c_float) -> ::std::os::raw::c_float;
+    pub fn llroundf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_longlong;
+    pub fn __llroundf(__x: ::std::os::raw::c_float) -> ::std::os::raw::c_longlong;
+    pub fn fdimf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __fdimf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn fmaxf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __fmaxf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn fminf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __fminf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __fpclassifyf(__value: ::std::os::raw::c_float) -> ::std::os::raw::c_int;
+    pub fn __signbitf(__value: ::std::os::raw::c_float) -> ::std::os::raw::c_int;
+    pub fn fmaf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+        __z: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __fmaf(
+        __x: ::std::os::raw::c_float,
+        __y: ::std::os::raw::c_float,
+        __z: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn scalbf(
+        __x: ::std::os::raw::c_float,
+        __n: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
+    pub fn __scalbf(
+        __x: ::std::os::raw::c_float,
+        __n: ::std::os::raw::c_float,
+    ) -> ::std::os::raw::c_float;
     pub fn acosl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __acosl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn asinl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __asinl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn atanl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __atanl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn atan2l(__y: ::std::os::raw::c_double,
-                  __x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __atan2l(__y: ::std::os::raw::c_double,
-                    __x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn atan2l(
+        __y: ::std::os::raw::c_double,
+        __x: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __atan2l(
+        __y: ::std::os::raw::c_double,
+        __x: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn cosl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __cosl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn sinl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
@@ -7109,62 +8096,69 @@ extern "C" {
     pub fn tanhl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __tanhl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn acoshl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __acoshl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn __acoshl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn asinhl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __asinhl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn __asinhl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn atanhl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __atanhl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn __atanhl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn expl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __expl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn frexpl(__x: ::std::os::raw::c_double,
-                  __exponent: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn __frexpl(__x: ::std::os::raw::c_double,
-                    __exponent: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn ldexpl(__x: ::std::os::raw::c_double,
-                  __exponent: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn __ldexpl(__x: ::std::os::raw::c_double,
-                    __exponent: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
+    pub fn frexpl(
+        __x: ::std::os::raw::c_double,
+        __exponent: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn __frexpl(
+        __x: ::std::os::raw::c_double,
+        __exponent: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn ldexpl(
+        __x: ::std::os::raw::c_double,
+        __exponent: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn __ldexpl(
+        __x: ::std::os::raw::c_double,
+        __exponent: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
     pub fn logl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __logl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn log10l(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __log10l(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn modfl(__x: ::std::os::raw::c_double,
-                 __iptr: *mut ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __modfl(__x: ::std::os::raw::c_double,
-                   __iptr: *mut ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn __log10l(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn modfl(
+        __x: ::std::os::raw::c_double,
+        __iptr: *mut ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __modfl(
+        __x: ::std::os::raw::c_double,
+        __iptr: *mut ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn expm1l(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __expm1l(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn __expm1l(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn log1pl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __log1pl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn __log1pl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn logbl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __logbl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn exp2l(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __exp2l(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn log2l(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __log2l(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn powl(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __powl(__x: ::std::os::raw::c_double,
-                  __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn powl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __powl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn sqrtl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __sqrtl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn hypotl(__x: ::std::os::raw::c_double,
-                  __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __hypotl(__x: ::std::os::raw::c_double,
-                    __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn hypotl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __hypotl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn cbrtl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __cbrtl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn ceill(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
@@ -7172,224 +8166,276 @@ extern "C" {
     pub fn fabsl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __fabsl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn floorl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __floorl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn fmodl(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __fmodl(__x: ::std::os::raw::c_double,
-                   __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __isinfl(__value: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
-    pub fn __finitel(__value: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
+    pub fn __floorl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn fmodl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fmodl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __isinfl(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
+    pub fn __finitel(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
     pub fn isinfl(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
-    pub fn finitel(__value: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
-    pub fn dreml(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __dreml(__x: ::std::os::raw::c_double,
-                   __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn significandl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __significandl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn copysignl(__x: ::std::os::raw::c_double,
-                     __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __copysignl(__x: ::std::os::raw::c_double,
-                       __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn nanl(__tagb: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_double;
-    pub fn __nanl(__tagb: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_double;
-    pub fn __isnanl(__value: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
+    pub fn finitel(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
+    pub fn dreml(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __dreml(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn significandl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn __significandl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn copysignl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __copysignl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn nanl(__tagb: *const ::std::os::raw::c_char) -> ::std::os::raw::c_double;
+    pub fn __nanl(__tagb: *const ::std::os::raw::c_char) -> ::std::os::raw::c_double;
+    pub fn __isnanl(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
     pub fn isnanl(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
     pub fn j0l(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __j0l(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn j1l(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __j1l(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn jnl(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __jnl(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn jnl(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __jnl(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn y0l(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __y0l(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn y1l(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __y1l(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn ynl(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __ynl(arg1: ::std::os::raw::c_int, arg2: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn ynl(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __ynl(
+        arg1: ::std::os::raw::c_int,
+        arg2: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn erfl(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __erfl(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn erfcl(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __erfcl(arg1: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn lgammal(arg1: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __lgammal(arg1: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn tgammal(arg1: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __tgammal(arg1: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn __erfcl(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn lgammal(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn __lgammal(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn tgammal(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn __tgammal(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn gammal(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __gammal(arg1: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn lgammal_r(arg1: ::std::os::raw::c_double,
-                     __signgamp: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn __lgammal_r(arg1: ::std::os::raw::c_double,
-                       __signgamp: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
+    pub fn __gammal(arg1: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn lgammal_r(
+        arg1: ::std::os::raw::c_double,
+        __signgamp: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn __lgammal_r(
+        arg1: ::std::os::raw::c_double,
+        __signgamp: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
     pub fn rintl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn __rintl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn nextafterl(__x: ::std::os::raw::c_double,
-                      __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __nextafterl(__x: ::std::os::raw::c_double,
-                        __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn nexttowardl(__x: ::std::os::raw::c_double,
-                       __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __nexttowardl(__x: ::std::os::raw::c_double,
-                         __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn remainderl(__x: ::std::os::raw::c_double,
-                      __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __remainderl(__x: ::std::os::raw::c_double,
-                        __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn scalbnl(__x: ::std::os::raw::c_double, __n: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn __scalbnl(__x: ::std::os::raw::c_double,
-                     __n: ::std::os::raw::c_int) -> ::std::os::raw::c_double;
+    pub fn nextafterl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __nextafterl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn nexttowardl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __nexttowardl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn remainderl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __remainderl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn scalbnl(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn __scalbnl(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
     pub fn ilogbl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
     pub fn __ilogbl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
-    pub fn scalblnl(__x: ::std::os::raw::c_double,
-                    __n: ::std::os::raw::c_long) -> ::std::os::raw::c_double;
-    pub fn __scalblnl(__x: ::std::os::raw::c_double,
-                      __n: ::std::os::raw::c_long)
-     -> ::std::os::raw::c_double;
-    pub fn nearbyintl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __nearbyintl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn scalblnl(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_long,
+    ) -> ::std::os::raw::c_double;
+    pub fn __scalblnl(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_long,
+    ) -> ::std::os::raw::c_double;
+    pub fn nearbyintl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn __nearbyintl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn roundl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __roundl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn __roundl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
     pub fn truncl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __truncl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn remquol(__x: ::std::os::raw::c_double,
-                   __y: ::std::os::raw::c_double,
-                   __quo: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
-    pub fn __remquol(__x: ::std::os::raw::c_double,
-                     __y: ::std::os::raw::c_double,
-                     __quo: *mut ::std::os::raw::c_int)
-     -> ::std::os::raw::c_double;
+    pub fn __truncl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn remquol(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+        __quo: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
+    pub fn __remquol(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+        __quo: *mut ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_double;
     pub fn lrintl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_long;
     pub fn __lrintl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_long;
-    pub fn llrintl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_longlong;
-    pub fn __llrintl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_longlong;
+    pub fn llrintl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_longlong;
+    pub fn __llrintl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_longlong;
     pub fn lroundl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_long;
     pub fn __lroundl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_long;
-    pub fn llroundl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_longlong;
-    pub fn __llroundl(__x: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_longlong;
-    pub fn fdiml(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __fdiml(__x: ::std::os::raw::c_double,
-                   __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn fmaxl(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __fmaxl(__x: ::std::os::raw::c_double,
-                   __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn fminl(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn __fminl(__x: ::std::os::raw::c_double,
-                   __y: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __fpclassifyl(__value: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
-    pub fn __signbitl(__value: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_int;
-    pub fn fmal(__x: ::std::os::raw::c_double, __y: ::std::os::raw::c_double,
-                __z: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __fmal(__x: ::std::os::raw::c_double,
-                  __y: ::std::os::raw::c_double,
-                  __z: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn scalbl(__x: ::std::os::raw::c_double,
-                  __n: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
-    pub fn __scalbl(__x: ::std::os::raw::c_double,
-                    __n: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
+    pub fn llroundl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_longlong;
+    pub fn __llroundl(__x: ::std::os::raw::c_double) -> ::std::os::raw::c_longlong;
+    pub fn fdiml(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fdiml(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn fmaxl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fmaxl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn fminl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fminl(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fpclassifyl(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
+    pub fn __signbitl(__value: ::std::os::raw::c_double) -> ::std::os::raw::c_int;
+    pub fn fmal(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+        __z: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __fmal(
+        __x: ::std::os::raw::c_double,
+        __y: ::std::os::raw::c_double,
+        __z: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn scalbl(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
+    pub fn __scalbl(
+        __x: ::std::os::raw::c_double,
+        __n: ::std::os::raw::c_double,
+    ) -> ::std::os::raw::c_double;
     pub fn matherr(__exc: *mut Struct_exception) -> ::std::os::raw::c_int;
     pub fn clock() -> clock_t;
     pub fn time(__timer: *mut time_t) -> time_t;
-    pub fn difftime(__time1: time_t, __time0: time_t)
-     -> ::std::os::raw::c_double;
+    pub fn difftime(__time1: time_t, __time0: time_t) -> ::std::os::raw::c_double;
     pub fn mktime(__tp: *mut Struct_tm) -> time_t;
-    pub fn strftime(__s: *mut ::std::os::raw::c_char, __maxsize: size_t,
-                    __format: *const ::std::os::raw::c_char,
-                    __tp: *const Struct_tm) -> size_t;
-    pub fn strftime_l(__s: *mut ::std::os::raw::c_char, __maxsize: size_t,
-                      __format: *const ::std::os::raw::c_char,
-                      __tp: *const Struct_tm, __loc: __locale_t) -> size_t;
+    pub fn strftime(
+        __s: *mut ::std::os::raw::c_char,
+        __maxsize: size_t,
+        __format: *const ::std::os::raw::c_char,
+        __tp: *const Struct_tm,
+    ) -> size_t;
+    pub fn strftime_l(
+        __s: *mut ::std::os::raw::c_char,
+        __maxsize: size_t,
+        __format: *const ::std::os::raw::c_char,
+        __tp: *const Struct_tm,
+        __loc: __locale_t,
+    ) -> size_t;
     pub fn gmtime(__timer: *const time_t) -> *mut Struct_tm;
     pub fn localtime(__timer: *const time_t) -> *mut Struct_tm;
-    pub fn gmtime_r(__timer: *const time_t, __tp: *mut Struct_tm)
-     -> *mut Struct_tm;
-    pub fn localtime_r(__timer: *const time_t, __tp: *mut Struct_tm)
-     -> *mut Struct_tm;
+    pub fn gmtime_r(__timer: *const time_t, __tp: *mut Struct_tm) -> *mut Struct_tm;
+    pub fn localtime_r(__timer: *const time_t, __tp: *mut Struct_tm) -> *mut Struct_tm;
     pub fn asctime(__tp: *const Struct_tm) -> *mut ::std::os::raw::c_char;
     pub fn ctime(__timer: *const time_t) -> *mut ::std::os::raw::c_char;
-    pub fn asctime_r(__tp: *const Struct_tm,
-                     __buf: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn ctime_r(__timer: *const time_t, __buf: *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
+    pub fn asctime_r(
+        __tp: *const Struct_tm,
+        __buf: *mut ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn ctime_r(
+        __timer: *const time_t,
+        __buf: *mut ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
     pub fn tzset();
     pub fn stime(__when: *const time_t) -> ::std::os::raw::c_int;
     pub fn timegm(__tp: *mut Struct_tm) -> time_t;
     pub fn timelocal(__tp: *mut Struct_tm) -> time_t;
     pub fn dysize(__year: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn nanosleep(__requested_time: *const Struct_timespec,
-                     __remaining: *mut Struct_timespec)
-     -> ::std::os::raw::c_int;
-    pub fn clock_getres(__clock_id: clockid_t, __res: *mut Struct_timespec)
-     -> ::std::os::raw::c_int;
-    pub fn clock_gettime(__clock_id: clockid_t, __tp: *mut Struct_timespec)
-     -> ::std::os::raw::c_int;
-    pub fn clock_settime(__clock_id: clockid_t, __tp: *const Struct_timespec)
-     -> ::std::os::raw::c_int;
-    pub fn clock_nanosleep(__clock_id: clockid_t,
-                           __flags: ::std::os::raw::c_int,
-                           __req: *const Struct_timespec,
-                           __rem: *mut Struct_timespec)
-     -> ::std::os::raw::c_int;
-    pub fn clock_getcpuclockid(__pid: pid_t, __clock_id: *mut clockid_t)
-     -> ::std::os::raw::c_int;
-    pub fn timer_create(__clock_id: clockid_t, __evp: *mut Struct_sigevent,
-                        __timerid: *mut timer_t) -> ::std::os::raw::c_int;
+    pub fn nanosleep(
+        __requested_time: *const Struct_timespec,
+        __remaining: *mut Struct_timespec,
+    ) -> ::std::os::raw::c_int;
+    pub fn clock_getres(
+        __clock_id: clockid_t,
+        __res: *mut Struct_timespec,
+    ) -> ::std::os::raw::c_int;
+    pub fn clock_gettime(
+        __clock_id: clockid_t,
+        __tp: *mut Struct_timespec,
+    ) -> ::std::os::raw::c_int;
+    pub fn clock_settime(
+        __clock_id: clockid_t,
+        __tp: *const Struct_timespec,
+    ) -> ::std::os::raw::c_int;
+    pub fn clock_nanosleep(
+        __clock_id: clockid_t,
+        __flags: ::std::os::raw::c_int,
+        __req: *const Struct_timespec,
+        __rem: *mut Struct_timespec,
+    ) -> ::std::os::raw::c_int;
+    pub fn clock_getcpuclockid(__pid: pid_t, __clock_id: *mut clockid_t) -> ::std::os::raw::c_int;
+    pub fn timer_create(
+        __clock_id: clockid_t,
+        __evp: *mut Struct_sigevent,
+        __timerid: *mut timer_t,
+    ) -> ::std::os::raw::c_int;
     pub fn timer_delete(__timerid: timer_t) -> ::std::os::raw::c_int;
-    pub fn timer_settime(__timerid: timer_t, __flags: ::std::os::raw::c_int,
-                         __value: *const Struct_itimerspec,
-                         __ovalue: *mut Struct_itimerspec)
-     -> ::std::os::raw::c_int;
-    pub fn timer_gettime(__timerid: timer_t, __value: *mut Struct_itimerspec)
-     -> ::std::os::raw::c_int;
+    pub fn timer_settime(
+        __timerid: timer_t,
+        __flags: ::std::os::raw::c_int,
+        __value: *const Struct_itimerspec,
+        __ovalue: *mut Struct_itimerspec,
+    ) -> ::std::os::raw::c_int;
+    pub fn timer_gettime(
+        __timerid: timer_t,
+        __value: *mut Struct_itimerspec,
+    ) -> ::std::os::raw::c_int;
     pub fn timer_getoverrun(__timerid: timer_t) -> ::std::os::raw::c_int;
-    pub fn timespec_get(__ts: *mut Struct_timespec,
-                        __base: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn timespec_get(
+        __ts: *mut Struct_timespec,
+        __base: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn __ctype_b_loc() -> *mut *const ::std::os::raw::c_ushort;
     pub fn __ctype_tolower_loc() -> *mut *const __int32_t;
     pub fn __ctype_toupper_loc() -> *mut *const __int32_t;
@@ -7411,3647 +8457,3707 @@ extern "C" {
     pub fn toascii(__c: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn _toupper(arg1: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn _tolower(arg1: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn isalnum_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn isalpha_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn iscntrl_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn isdigit_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn islower_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn isgraph_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn isprint_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn ispunct_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn isspace_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn isupper_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn isxdigit_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn isblank_l(arg1: ::std::os::raw::c_int, arg2: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn __tolower_l(__c: ::std::os::raw::c_int, __l: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn tolower_l(__c: ::std::os::raw::c_int, __l: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn __toupper_l(__c: ::std::os::raw::c_int, __l: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn toupper_l(__c: ::std::os::raw::c_int, __l: __locale_t)
-     -> ::std::os::raw::c_int;
-    pub fn _win_insque(__elem: *mut ::std::os::raw::c_void,
-                       __prev: *mut ::std::os::raw::c_void);
+    pub fn isalnum_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn isalpha_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn iscntrl_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn isdigit_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn islower_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn isgraph_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn isprint_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn ispunct_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn isspace_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn isupper_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn isxdigit_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn isblank_l(arg1: ::std::os::raw::c_int, arg2: __locale_t) -> ::std::os::raw::c_int;
+    pub fn __tolower_l(__c: ::std::os::raw::c_int, __l: __locale_t) -> ::std::os::raw::c_int;
+    pub fn tolower_l(__c: ::std::os::raw::c_int, __l: __locale_t) -> ::std::os::raw::c_int;
+    pub fn __toupper_l(__c: ::std::os::raw::c_int, __l: __locale_t) -> ::std::os::raw::c_int;
+    pub fn toupper_l(__c: ::std::os::raw::c_int, __l: __locale_t) -> ::std::os::raw::c_int;
+    pub fn _win_insque(__elem: *mut ::std::os::raw::c_void, __prev: *mut ::std::os::raw::c_void);
     pub fn _win_remque(__elem: *mut ::std::os::raw::c_void);
-    pub fn _win_hsearch(__item: PLIBC_SEARCH_ENTRY,
-                        __action: PLIBC_SEARCH_ACTION)
-     -> *mut PLIBC_SEARCH_ENTRY;
+    pub fn _win_hsearch(
+        __item: PLIBC_SEARCH_ENTRY,
+        __action: PLIBC_SEARCH_ACTION,
+    ) -> *mut PLIBC_SEARCH_ENTRY;
     pub fn _win_hcreate(__nel: size_t) -> ::std::os::raw::c_int;
     pub fn _win_hdestroy();
-    pub fn _win_hsearch_r(__item: PLIBC_SEARCH_ENTRY,
-                          __action: PLIBC_SEARCH_ACTION,
-                          __retval: *mut *mut PLIBC_SEARCH_ENTRY,
-                          __htab: *mut Struct_PLIBC_SEARCH_hsearch_data)
-     -> ::std::os::raw::c_int;
-    pub fn _win_hcreate_r(__nel: size_t,
-                          __htab: *mut Struct_PLIBC_SEARCH_hsearch_data)
-     -> ::std::os::raw::c_int;
+    pub fn _win_hsearch_r(
+        __item: PLIBC_SEARCH_ENTRY,
+        __action: PLIBC_SEARCH_ACTION,
+        __retval: *mut *mut PLIBC_SEARCH_ENTRY,
+        __htab: *mut Struct_PLIBC_SEARCH_hsearch_data,
+    ) -> ::std::os::raw::c_int;
+    pub fn _win_hcreate_r(
+        __nel: size_t,
+        __htab: *mut Struct_PLIBC_SEARCH_hsearch_data,
+    ) -> ::std::os::raw::c_int;
     pub fn _win_hdestroy_r(__htab: *mut Struct_PLIBC_SEARCH_hsearch_data);
-    pub fn _win_tsearch(__key: *const ::std::os::raw::c_void,
-                        __rootp: *mut *mut ::std::os::raw::c_void,
-                        __compar: PLIBC_SEARCH__compar_fn_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn _win_tfind(__key: *const ::std::os::raw::c_void,
-                      __rootp: *const *mut ::std::os::raw::c_void,
-                      __compar: PLIBC_SEARCH__compar_fn_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn _win_tdelete(__key: *const ::std::os::raw::c_void,
-                        __rootp: *mut *mut ::std::os::raw::c_void,
-                        __compar: PLIBC_SEARCH__compar_fn_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn _win_twalk(__root: *const ::std::os::raw::c_void,
-                      __action: PLIBC_SEARCH__action_fn_t);
-    pub fn _win_tdestroy(__root: *mut ::std::os::raw::c_void,
-                         __freefct: PLIBC_SEARCH__free_fn_t);
-    pub fn _win_lfind(__key: *const ::std::os::raw::c_void,
-                      __base: *const ::std::os::raw::c_void,
-                      __nmemb: *mut size_t, __size: size_t,
-                      __compar: PLIBC_SEARCH__compar_fn_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn _win_lsearch(__key: *const ::std::os::raw::c_void,
-                        __base: *mut ::std::os::raw::c_void,
-                        __nmemb: *mut size_t, __size: size_t,
-                        __compar: PLIBC_SEARCH__compar_fn_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn setlocale(__category: ::std::os::raw::c_int,
-                     __locale: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
+    pub fn _win_tsearch(
+        __key: *const ::std::os::raw::c_void,
+        __rootp: *mut *mut ::std::os::raw::c_void,
+        __compar: PLIBC_SEARCH__compar_fn_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn _win_tfind(
+        __key: *const ::std::os::raw::c_void,
+        __rootp: *const *mut ::std::os::raw::c_void,
+        __compar: PLIBC_SEARCH__compar_fn_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn _win_tdelete(
+        __key: *const ::std::os::raw::c_void,
+        __rootp: *mut *mut ::std::os::raw::c_void,
+        __compar: PLIBC_SEARCH__compar_fn_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn _win_twalk(__root: *const ::std::os::raw::c_void, __action: PLIBC_SEARCH__action_fn_t);
+    pub fn _win_tdestroy(__root: *mut ::std::os::raw::c_void, __freefct: PLIBC_SEARCH__free_fn_t);
+    pub fn _win_lfind(
+        __key: *const ::std::os::raw::c_void,
+        __base: *const ::std::os::raw::c_void,
+        __nmemb: *mut size_t,
+        __size: size_t,
+        __compar: PLIBC_SEARCH__compar_fn_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn _win_lsearch(
+        __key: *const ::std::os::raw::c_void,
+        __base: *mut ::std::os::raw::c_void,
+        __nmemb: *mut size_t,
+        __size: size_t,
+        __compar: PLIBC_SEARCH__compar_fn_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn setlocale(
+        __category: ::std::os::raw::c_int,
+        __locale: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
     pub fn localeconv() -> *mut Struct_lconv;
-    pub fn newlocale(__category_mask: ::std::os::raw::c_int,
-                     __locale: *const ::std::os::raw::c_char,
-                     __base: __locale_t) -> __locale_t;
+    pub fn newlocale(
+        __category_mask: ::std::os::raw::c_int,
+        __locale: *const ::std::os::raw::c_char,
+        __base: __locale_t,
+    ) -> __locale_t;
     pub fn duplocale(__dataset: __locale_t) -> __locale_t;
     pub fn freelocale(__dataset: __locale_t);
     pub fn uselocale(__dataset: __locale_t) -> __locale_t;
-    pub fn mmap(__addr: *mut ::std::os::raw::c_void, __len: size_t,
-                __prot: ::std::os::raw::c_int, __flags: ::std::os::raw::c_int,
-                __fd: ::std::os::raw::c_int, __offset: __off_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn munmap(__addr: *mut ::std::os::raw::c_void, __len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn mprotect(__addr: *mut ::std::os::raw::c_void, __len: size_t,
-                    __prot: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn msync(__addr: *mut ::std::os::raw::c_void, __len: size_t,
-                 __flags: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn madvise(__addr: *mut ::std::os::raw::c_void, __len: size_t,
-                   __advice: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
-    pub fn posix_madvise(__addr: *mut ::std::os::raw::c_void, __len: size_t,
-                         __advice: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn mlock(__addr: *const ::std::os::raw::c_void, __len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn munlock(__addr: *const ::std::os::raw::c_void, __len: size_t)
-     -> ::std::os::raw::c_int;
+    pub fn mmap(
+        __addr: *mut ::std::os::raw::c_void,
+        __len: size_t,
+        __prot: ::std::os::raw::c_int,
+        __flags: ::std::os::raw::c_int,
+        __fd: ::std::os::raw::c_int,
+        __offset: __off_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn munmap(__addr: *mut ::std::os::raw::c_void, __len: size_t) -> ::std::os::raw::c_int;
+    pub fn mprotect(
+        __addr: *mut ::std::os::raw::c_void,
+        __len: size_t,
+        __prot: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn msync(
+        __addr: *mut ::std::os::raw::c_void,
+        __len: size_t,
+        __flags: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn madvise(
+        __addr: *mut ::std::os::raw::c_void,
+        __len: size_t,
+        __advice: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn posix_madvise(
+        __addr: *mut ::std::os::raw::c_void,
+        __len: size_t,
+        __advice: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn mlock(__addr: *const ::std::os::raw::c_void, __len: size_t) -> ::std::os::raw::c_int;
+    pub fn munlock(__addr: *const ::std::os::raw::c_void, __len: size_t) -> ::std::os::raw::c_int;
     pub fn mlockall(__flags: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
     pub fn munlockall() -> ::std::os::raw::c_int;
-    pub fn mincore(__start: *mut ::std::os::raw::c_void, __len: size_t,
-                   __vec: *mut ::std::os::raw::c_uchar)
-     -> ::std::os::raw::c_int;
-    pub fn shm_open(__name: *const ::std::os::raw::c_char,
-                    __oflag: ::std::os::raw::c_int, __mode: mode_t)
-     -> ::std::os::raw::c_int;
-    pub fn shm_unlink(__name: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
+    pub fn mincore(
+        __start: *mut ::std::os::raw::c_void,
+        __len: size_t,
+        __vec: *mut ::std::os::raw::c_uchar,
+    ) -> ::std::os::raw::c_int;
+    pub fn shm_open(
+        __name: *const ::std::os::raw::c_char,
+        __oflag: ::std::os::raw::c_int,
+        __mode: mode_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn shm_unlink(__name: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
     pub fn GNUNET_get_log_skip() -> ::std::os::raw::c_int;
-    pub fn GNUNET_get_log_call_status(caller_level: ::std::os::raw::c_int,
-                                      comp: *const ::std::os::raw::c_char,
-                                      file: *const ::std::os::raw::c_char,
-                                      function: *const ::std::os::raw::c_char,
-                                      line: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_log_nocheck(kind: Enum_GNUNET_ErrorType,
-                              message: *const ::std::os::raw::c_char, ...);
-    pub fn GNUNET_log_from_nocheck(kind: Enum_GNUNET_ErrorType,
-                                   comp: *const ::std::os::raw::c_char,
-                                   message:
-                                       *const ::std::os::raw::c_char, ...);
-    pub fn GNUNET_log_config_missing(kind: Enum_GNUNET_ErrorType,
-                                     section: *const ::std::os::raw::c_char,
-                                     option: *const ::std::os::raw::c_char);
-    pub fn GNUNET_log_config_invalid(kind: Enum_GNUNET_ErrorType,
-                                     section: *const ::std::os::raw::c_char,
-                                     option: *const ::std::os::raw::c_char,
-                                     required: *const ::std::os::raw::c_char);
+    pub fn GNUNET_get_log_call_status(
+        caller_level: ::std::os::raw::c_int,
+        comp: *const ::std::os::raw::c_char,
+        file: *const ::std::os::raw::c_char,
+        function: *const ::std::os::raw::c_char,
+        line: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_log_nocheck(
+        kind: Enum_GNUNET_ErrorType,
+        message: *const ::std::os::raw::c_char,
+        ...
+    );
+    pub fn GNUNET_log_from_nocheck(
+        kind: Enum_GNUNET_ErrorType,
+        comp: *const ::std::os::raw::c_char,
+        message: *const ::std::os::raw::c_char,
+        ...
+    );
+    pub fn GNUNET_log_config_missing(
+        kind: Enum_GNUNET_ErrorType,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+    );
+    pub fn GNUNET_log_config_invalid(
+        kind: Enum_GNUNET_ErrorType,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        required: *const ::std::os::raw::c_char,
+    );
     pub fn GNUNET_abort();
-    pub fn GNUNET_log_skip(n: ::std::os::raw::c_int,
-                           check_reset: ::std::os::raw::c_int);
-    pub fn GNUNET_log_setup(comp: *const ::std::os::raw::c_char,
-                            loglevel: *const ::std::os::raw::c_char,
-                            logfile: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_logger_add(logger: GNUNET_Logger,
-                             logger_cls: *mut ::std::os::raw::c_void);
-    pub fn GNUNET_logger_remove(logger: GNUNET_Logger,
-                                logger_cls: *mut ::std::os::raw::c_void);
-    pub fn GNUNET_h2s(hc: *const Struct_GNUNET_HashCode)
-     -> *const ::std::os::raw::c_char;
-    pub fn GNUNET_h2s_full(hc: *const Struct_GNUNET_HashCode)
-     -> *const ::std::os::raw::c_char;
-    pub fn GNUNET_i2s(pid: *const Struct_GNUNET_PeerIdentity)
-     -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_log_skip(n: ::std::os::raw::c_int, check_reset: ::std::os::raw::c_int);
+    pub fn GNUNET_log_setup(
+        comp: *const ::std::os::raw::c_char,
+        loglevel: *const ::std::os::raw::c_char,
+        logfile: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_logger_add(logger: GNUNET_Logger, logger_cls: *mut ::std::os::raw::c_void);
+    pub fn GNUNET_logger_remove(logger: GNUNET_Logger, logger_cls: *mut ::std::os::raw::c_void);
+    pub fn GNUNET_h2s(hc: *const Struct_GNUNET_HashCode) -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_h2s_full(hc: *const Struct_GNUNET_HashCode) -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_i2s(pid: *const Struct_GNUNET_PeerIdentity) -> *const ::std::os::raw::c_char;
     pub fn GNUNET_i2s_full(pid: *const Struct_GNUNET_PeerIdentity)
-     -> *const ::std::os::raw::c_char;
-    pub fn GNUNET_a2s(addr: *const Struct_sockaddr, addrlen: socklen_t)
-     -> *const ::std::os::raw::c_char;
-    pub fn GNUNET_error_type_to_string(kind: Enum_GNUNET_ErrorType)
-     -> *const ::std::os::raw::c_char;
+        -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_a2s(
+        addr: *const Struct_sockaddr,
+        addrlen: socklen_t,
+    ) -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_error_type_to_string(
+        kind: Enum_GNUNET_ErrorType,
+    ) -> *const ::std::os::raw::c_char;
     pub fn GNUNET_ntohll(n: uint64_t) -> uint64_t;
     pub fn GNUNET_htonll(n: uint64_t) -> uint64_t;
-    pub fn GNUNET_hton_double(d: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn GNUNET_ntoh_double(d: ::std::os::raw::c_double)
-     -> ::std::os::raw::c_double;
-    pub fn GNUNET_snprintf(buf: *mut ::std::os::raw::c_char, size: size_t,
-                           format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_asprintf(buf: *mut *mut ::std::os::raw::c_char,
-                           format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_xmalloc_(size: size_t,
-                           filename: *const ::std::os::raw::c_char,
-                           linenumber: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_xmemdup_(buf: *const ::std::os::raw::c_void, size: size_t,
-                           filename: *const ::std::os::raw::c_char,
-                           linenumber: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_xmalloc_unchecked_(size: size_t,
-                                     filename: *const ::std::os::raw::c_char,
-                                     linenumber: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_xrealloc_(ptr: *mut ::std::os::raw::c_void, n: size_t,
-                            filename: *const ::std::os::raw::c_char,
-                            linenumber: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_xfree_(ptr: *mut ::std::os::raw::c_void,
-                         filename: *const ::std::os::raw::c_char,
-                         linenumber: ::std::os::raw::c_int);
-    pub fn GNUNET_xstrdup_(str: *const ::std::os::raw::c_char,
-                           filename: *const ::std::os::raw::c_char,
-                           linenumber: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_xstrndup_(str: *const ::std::os::raw::c_char, len: size_t,
-                            filename: *const ::std::os::raw::c_char,
-                            linenumber: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_xgrow_(old: *mut *mut ::std::os::raw::c_void,
-                         elementSize: size_t,
-                         oldCount: *mut ::std::os::raw::c_uint,
-                         newCount: ::std::os::raw::c_uint,
-                         filename: *const ::std::os::raw::c_char,
-                         linenumber: ::std::os::raw::c_int);
-    pub fn GNUNET_copy_message(msg: *const Struct_GNUNET_MessageHeader)
-     -> *mut Struct_GNUNET_MessageHeader;
+    pub fn GNUNET_hton_double(d: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn GNUNET_ntoh_double(d: ::std::os::raw::c_double) -> ::std::os::raw::c_double;
+    pub fn GNUNET_snprintf(
+        buf: *mut ::std::os::raw::c_char,
+        size: size_t,
+        format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_asprintf(
+        buf: *mut *mut ::std::os::raw::c_char,
+        format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_xmalloc_(
+        size: size_t,
+        filename: *const ::std::os::raw::c_char,
+        linenumber: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_xmemdup_(
+        buf: *const ::std::os::raw::c_void,
+        size: size_t,
+        filename: *const ::std::os::raw::c_char,
+        linenumber: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_xmalloc_unchecked_(
+        size: size_t,
+        filename: *const ::std::os::raw::c_char,
+        linenumber: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_xrealloc_(
+        ptr: *mut ::std::os::raw::c_void,
+        n: size_t,
+        filename: *const ::std::os::raw::c_char,
+        linenumber: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_xfree_(
+        ptr: *mut ::std::os::raw::c_void,
+        filename: *const ::std::os::raw::c_char,
+        linenumber: ::std::os::raw::c_int,
+    );
+    pub fn GNUNET_xstrdup_(
+        str: *const ::std::os::raw::c_char,
+        filename: *const ::std::os::raw::c_char,
+        linenumber: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_xstrndup_(
+        str: *const ::std::os::raw::c_char,
+        len: size_t,
+        filename: *const ::std::os::raw::c_char,
+        linenumber: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_xgrow_(
+        old: *mut *mut ::std::os::raw::c_void,
+        elementSize: size_t,
+        oldCount: *mut ::std::os::raw::c_uint,
+        newCount: ::std::os::raw::c_uint,
+        filename: *const ::std::os::raw::c_char,
+        linenumber: ::std::os::raw::c_int,
+    );
+    pub fn GNUNET_copy_message(
+        msg: *const Struct_GNUNET_MessageHeader,
+    ) -> *mut Struct_GNUNET_MessageHeader;
     pub fn GNUNET_TIME_relative_get_zero_() -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_absolute_get_zero_() -> Struct_GNUNET_TIME_Absolute;
     pub fn GNUNET_TIME_relative_get_unit_() -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_get_millisecond_()
-     -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_get_millisecond_() -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_relative_get_second_() -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_relative_get_minute_() -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_relative_get_hour_() -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_relative_get_forever_() -> Struct_GNUNET_TIME_Relative;
     pub fn GNUNET_TIME_absolute_get_forever_() -> Struct_GNUNET_TIME_Absolute;
     pub fn GNUNET_TIME_absolute_get() -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_relative_to_absolute(rel: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_relative_min(t1: Struct_GNUNET_TIME_Relative,
-                                    t2: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_max(t1: Struct_GNUNET_TIME_Relative,
-                                    t2: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_min(t1: Struct_GNUNET_TIME_Absolute,
-                                    t2: Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_absolute_max(t1: Struct_GNUNET_TIME_Absolute,
-                                    t2: Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_absolute_get_remaining(future:
-                                                  Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_calculate_eta(start: Struct_GNUNET_TIME_Absolute,
-                                     finished: uint64_t, total: uint64_t)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_get_difference(start:
-                                                   Struct_GNUNET_TIME_Absolute,
-                                               end:
-                                                   Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_get_duration(whence:
-                                                 Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_add(start: Struct_GNUNET_TIME_Absolute,
-                                    duration: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_absolute_subtract(start: Struct_GNUNET_TIME_Absolute,
-                                         duration:
-                                             Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_relative_multiply(rel: Struct_GNUNET_TIME_Relative,
-                                         factor: ::std::os::raw::c_uint)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_divide(rel: Struct_GNUNET_TIME_Relative,
-                                       factor: ::std::os::raw::c_uint)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_add(a1: Struct_GNUNET_TIME_Relative,
-                                    a2: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_subtract(a1: Struct_GNUNET_TIME_Relative,
-                                         a2: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_relative_hton(a: Struct_GNUNET_TIME_Relative)
-     -> Struct_GNUNET_TIME_RelativeNBO;
-    pub fn GNUNET_TIME_relative_ntoh(a: Struct_GNUNET_TIME_RelativeNBO)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_TIME_absolute_hton(a: Struct_GNUNET_TIME_Absolute)
-     -> Struct_GNUNET_TIME_AbsoluteNBO;
-    pub fn GNUNET_TIME_absolute_ntoh(a: Struct_GNUNET_TIME_AbsoluteNBO)
-     -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_relative_to_absolute(
+        rel: Struct_GNUNET_TIME_Relative,
+    ) -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_relative_min(
+        t1: Struct_GNUNET_TIME_Relative,
+        t2: Struct_GNUNET_TIME_Relative,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_max(
+        t1: Struct_GNUNET_TIME_Relative,
+        t2: Struct_GNUNET_TIME_Relative,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_min(
+        t1: Struct_GNUNET_TIME_Absolute,
+        t2: Struct_GNUNET_TIME_Absolute,
+    ) -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_absolute_max(
+        t1: Struct_GNUNET_TIME_Absolute,
+        t2: Struct_GNUNET_TIME_Absolute,
+    ) -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_absolute_get_remaining(
+        future: Struct_GNUNET_TIME_Absolute,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_calculate_eta(
+        start: Struct_GNUNET_TIME_Absolute,
+        finished: uint64_t,
+        total: uint64_t,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_get_difference(
+        start: Struct_GNUNET_TIME_Absolute,
+        end: Struct_GNUNET_TIME_Absolute,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_get_duration(
+        whence: Struct_GNUNET_TIME_Absolute,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_add(
+        start: Struct_GNUNET_TIME_Absolute,
+        duration: Struct_GNUNET_TIME_Relative,
+    ) -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_absolute_subtract(
+        start: Struct_GNUNET_TIME_Absolute,
+        duration: Struct_GNUNET_TIME_Relative,
+    ) -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_relative_multiply(
+        rel: Struct_GNUNET_TIME_Relative,
+        factor: ::std::os::raw::c_uint,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_divide(
+        rel: Struct_GNUNET_TIME_Relative,
+        factor: ::std::os::raw::c_uint,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_add(
+        a1: Struct_GNUNET_TIME_Relative,
+        a2: Struct_GNUNET_TIME_Relative,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_subtract(
+        a1: Struct_GNUNET_TIME_Relative,
+        a2: Struct_GNUNET_TIME_Relative,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_relative_hton(
+        a: Struct_GNUNET_TIME_Relative,
+    ) -> Struct_GNUNET_TIME_RelativeNBO;
+    pub fn GNUNET_TIME_relative_ntoh(
+        a: Struct_GNUNET_TIME_RelativeNBO,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_TIME_absolute_hton(
+        a: Struct_GNUNET_TIME_Absolute,
+    ) -> Struct_GNUNET_TIME_AbsoluteNBO;
+    pub fn GNUNET_TIME_absolute_ntoh(
+        a: Struct_GNUNET_TIME_AbsoluteNBO,
+    ) -> Struct_GNUNET_TIME_Absolute;
     pub fn GNUNET_TIME_set_offset(offset: ::std::os::raw::c_longlong);
     pub fn GNUNET_TIME_get_offset() -> ::std::os::raw::c_longlong;
     pub fn GNUNET_TIME_get_current_year() -> ::std::os::raw::c_uint;
-    pub fn GNUNET_TIME_year_to_time(year: ::std::os::raw::c_uint)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_TIME_time_to_year(at: Struct_GNUNET_TIME_Absolute)
-     -> ::std::os::raw::c_uint;
-    pub fn GNUNET_CONFIGURATION_create()
-     -> *mut Struct_GNUNET_CONFIGURATION_Handle;
-    pub fn GNUNET_CONFIGURATION_dup(cfg:
-                                        *const Struct_GNUNET_CONFIGURATION_Handle)
-     -> *mut Struct_GNUNET_CONFIGURATION_Handle;
-    pub fn GNUNET_CONFIGURATION_destroy(cfg:
-                                            *mut Struct_GNUNET_CONFIGURATION_Handle);
-    pub fn GNUNET_CONFIGURATION_load(cfg:
-                                         *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                     filename: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_load_from(cfg:
-                                              *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                          defaults_d:
-                                              *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_parse(cfg:
-                                          *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                      filename: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_serialize(cfg:
-                                              *const Struct_GNUNET_CONFIGURATION_Handle,
-                                          size: *mut size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_CONFIGURATION_deserialize(cfg:
-                                                *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                            mem:
-                                                *const ::std::os::raw::c_char,
-                                            size: size_t,
-                                            allow_inline:
-                                                ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_write(cfg:
-                                          *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                      filename: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_write_diffs(cfg_default:
-                                                *const Struct_GNUNET_CONFIGURATION_Handle,
-                                            cfg_new:
-                                                *const Struct_GNUNET_CONFIGURATION_Handle,
-                                            filename:
-                                                *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_get_diff(cfg_default:
-                                             *const Struct_GNUNET_CONFIGURATION_Handle,
-                                         cfg_new:
-                                             *const Struct_GNUNET_CONFIGURATION_Handle)
-     -> *mut Struct_GNUNET_CONFIGURATION_Handle;
-    pub fn GNUNET_CONFIGURATION_is_dirty(cfg:
-                                             *const Struct_GNUNET_CONFIGURATION_Handle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_iterate(cfg:
-                                            *const Struct_GNUNET_CONFIGURATION_Handle,
-                                        iter: GNUNET_CONFIGURATION_Iterator,
-                                        iter_cls:
-                                            *mut ::std::os::raw::c_void);
-    pub fn GNUNET_CONFIGURATION_iterate_sections(cfg:
-                                                     *const Struct_GNUNET_CONFIGURATION_Handle,
-                                                 iter:
-                                                     GNUNET_CONFIGURATION_Section_Iterator,
-                                                 iter_cls:
-                                                     *mut ::std::os::raw::c_void);
-    pub fn GNUNET_CONFIGURATION_remove_section(cfg:
-                                                   *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                               section:
-                                                   *const ::std::os::raw::c_char);
-    pub fn GNUNET_CONFIGURATION_get_value_number(cfg:
-                                                     *const Struct_GNUNET_CONFIGURATION_Handle,
-                                                 section:
-                                                     *const ::std::os::raw::c_char,
-                                                 option:
-                                                     *const ::std::os::raw::c_char,
-                                                 number:
-                                                     *mut ::std::os::raw::c_ulonglong)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_get_value_time(cfg:
-                                                   *const Struct_GNUNET_CONFIGURATION_Handle,
-                                               section:
-                                                   *const ::std::os::raw::c_char,
-                                               option:
-                                                   *const ::std::os::raw::c_char,
-                                               time:
-                                                   *mut Struct_GNUNET_TIME_Relative)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_get_value_size(cfg:
-                                                   *const Struct_GNUNET_CONFIGURATION_Handle,
-                                               section:
-                                                   *const ::std::os::raw::c_char,
-                                               option:
-                                                   *const ::std::os::raw::c_char,
-                                               size:
-                                                   *mut ::std::os::raw::c_ulonglong)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_have_value(cfg:
-                                               *const Struct_GNUNET_CONFIGURATION_Handle,
-                                           section:
-                                               *const ::std::os::raw::c_char,
-                                           option:
-                                               *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_get_value_string(cfg:
-                                                     *const Struct_GNUNET_CONFIGURATION_Handle,
-                                                 section:
-                                                     *const ::std::os::raw::c_char,
-                                                 option:
-                                                     *const ::std::os::raw::c_char,
-                                                 value:
-                                                     *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_get_value_filename(cfg:
-                                                       *const Struct_GNUNET_CONFIGURATION_Handle,
-                                                   section:
-                                                       *const ::std::os::raw::c_char,
-                                                   option:
-                                                       *const ::std::os::raw::c_char,
-                                                   value:
-                                                       *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_iterate_value_filenames(cfg:
-                                                            *const Struct_GNUNET_CONFIGURATION_Handle,
-                                                        section:
-                                                            *const ::std::os::raw::c_char,
-                                                        option:
-                                                            *const ::std::os::raw::c_char,
-                                                        cb:
-                                                            GNUNET_FileNameCallback,
-                                                        cb_cls:
-                                                            *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_iterate_section_values(cfg:
-                                                           *const Struct_GNUNET_CONFIGURATION_Handle,
-                                                       section:
-                                                           *const ::std::os::raw::c_char,
-                                                       iter:
-                                                           GNUNET_CONFIGURATION_Iterator,
-                                                       iter_cls:
-                                                           *mut ::std::os::raw::c_void);
-    pub fn GNUNET_CONFIGURATION_get_value_choice(cfg:
-                                                     *const Struct_GNUNET_CONFIGURATION_Handle,
-                                                 section:
-                                                     *const ::std::os::raw::c_char,
-                                                 option:
-                                                     *const ::std::os::raw::c_char,
-                                                 choices:
-                                                     *const *const ::std::os::raw::c_char,
-                                                 value:
-                                                     *mut *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_get_value_yesno(cfg:
-                                                    *const Struct_GNUNET_CONFIGURATION_Handle,
-                                                section:
-                                                    *const ::std::os::raw::c_char,
-                                                option:
-                                                    *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_expand_dollar(cfg:
-                                                  *const Struct_GNUNET_CONFIGURATION_Handle,
-                                              orig:
-                                                  *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_CONFIGURATION_set_value_number(cfg:
-                                                     *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                                 section:
-                                                     *const ::std::os::raw::c_char,
-                                                 option:
-                                                     *const ::std::os::raw::c_char,
-                                                 number:
-                                                     ::std::os::raw::c_ulonglong);
-    pub fn GNUNET_CONFIGURATION_set_value_string(cfg:
-                                                     *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                                 section:
-                                                     *const ::std::os::raw::c_char,
-                                                 option:
-                                                     *const ::std::os::raw::c_char,
-                                                 value:
-                                                     *const ::std::os::raw::c_char);
-    pub fn GNUNET_CONFIGURATION_remove_value_filename(cfg:
-                                                          *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                                      section:
-                                                          *const ::std::os::raw::c_char,
-                                                      option:
-                                                          *const ::std::os::raw::c_char,
-                                                      value:
-                                                          *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONFIGURATION_append_value_filename(cfg:
-                                                          *mut Struct_GNUNET_CONFIGURATION_Handle,
-                                                      section:
-                                                          *const ::std::os::raw::c_char,
-                                                      option:
-                                                          *const ::std::os::raw::c_char,
-                                                      value:
-                                                          *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_handle_invalid(h: *const Struct_GNUNET_DISK_FileHandle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_file_test(fil: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
+    pub fn GNUNET_TIME_year_to_time(year: ::std::os::raw::c_uint) -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_TIME_time_to_year(at: Struct_GNUNET_TIME_Absolute) -> ::std::os::raw::c_uint;
+    pub fn GNUNET_CONFIGURATION_create() -> *mut Struct_GNUNET_CONFIGURATION_Handle;
+    pub fn GNUNET_CONFIGURATION_dup(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+    ) -> *mut Struct_GNUNET_CONFIGURATION_Handle;
+    pub fn GNUNET_CONFIGURATION_destroy(cfg: *mut Struct_GNUNET_CONFIGURATION_Handle);
+    pub fn GNUNET_CONFIGURATION_load(
+        cfg: *mut Struct_GNUNET_CONFIGURATION_Handle,
+        filename: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_load_from(
+        cfg: *mut Struct_GNUNET_CONFIGURATION_Handle,
+        defaults_d: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_parse(
+        cfg: *mut Struct_GNUNET_CONFIGURATION_Handle,
+        filename: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_serialize(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        size: *mut size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_CONFIGURATION_deserialize(
+        cfg: *mut Struct_GNUNET_CONFIGURATION_Handle,
+        mem: *const ::std::os::raw::c_char,
+        size: size_t,
+        allow_inline: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_write(
+        cfg: *mut Struct_GNUNET_CONFIGURATION_Handle,
+        filename: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_write_diffs(
+        cfg_default: *const Struct_GNUNET_CONFIGURATION_Handle,
+        cfg_new: *const Struct_GNUNET_CONFIGURATION_Handle,
+        filename: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_get_diff(
+        cfg_default: *const Struct_GNUNET_CONFIGURATION_Handle,
+        cfg_new: *const Struct_GNUNET_CONFIGURATION_Handle,
+    ) -> *mut Struct_GNUNET_CONFIGURATION_Handle;
+    pub fn GNUNET_CONFIGURATION_is_dirty(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_iterate(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        iter: GNUNET_CONFIGURATION_Iterator,
+        iter_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_CONFIGURATION_iterate_sections(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        iter: GNUNET_CONFIGURATION_Section_Iterator,
+        iter_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_CONFIGURATION_remove_section(
+        cfg: *mut Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+    );
+    pub fn GNUNET_CONFIGURATION_get_value_number(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        number: *mut ::std::os::raw::c_ulonglong,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_get_value_time(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        time: *mut Struct_GNUNET_TIME_Relative,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_get_value_size(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        size: *mut ::std::os::raw::c_ulonglong,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_have_value(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_get_value_string(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        value: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_get_value_filename(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        value: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_iterate_value_filenames(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        cb: GNUNET_FileNameCallback,
+        cb_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_iterate_section_values(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        iter: GNUNET_CONFIGURATION_Iterator,
+        iter_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_CONFIGURATION_get_value_choice(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        choices: *const *const ::std::os::raw::c_char,
+        value: *mut *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_get_value_yesno(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_expand_dollar(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        orig: *mut ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_CONFIGURATION_set_value_number(
+        cfg: *mut Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        number: ::std::os::raw::c_ulonglong,
+    );
+    pub fn GNUNET_CONFIGURATION_set_value_string(
+        cfg: *mut Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    );
+    pub fn GNUNET_CONFIGURATION_remove_value_filename(
+        cfg: *mut Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONFIGURATION_append_value_filename(
+        cfg: *mut Struct_GNUNET_CONFIGURATION_Handle,
+        section: *const ::std::os::raw::c_char,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_handle_invalid(
+        h: *const Struct_GNUNET_DISK_FileHandle,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_file_test(fil: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
     pub fn GNUNET_DISK_file_backup(fil: *const ::std::os::raw::c_char);
-    pub fn GNUNET_DISK_file_seek(h: *const Struct_GNUNET_DISK_FileHandle,
-                                 offset: off_t, whence: Enum_GNUNET_DISK_Seek)
-     -> off_t;
-    pub fn GNUNET_DISK_file_size(filename: *const ::std::os::raw::c_char,
-                                 size: *mut uint64_t,
-                                 include_symbolic_links:
-                                     ::std::os::raw::c_int,
-                                 single_file_mode: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_file_get_identifiers(filename:
-                                                *const ::std::os::raw::c_char,
-                                            dev: *mut uint64_t,
-                                            ino: *mut uint64_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_mktemp(t: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_DISK_mkdtemp(t: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_DISK_file_open(_fn: *const ::std::os::raw::c_char,
-                                 flags: Enum_GNUNET_DISK_OpenFlags,
-                                 perm: Enum_GNUNET_DISK_AccessPermissions)
-     -> *mut Struct_GNUNET_DISK_FileHandle;
-    pub fn GNUNET_DISK_file_handle_size(fh:
-                                            *mut Struct_GNUNET_DISK_FileHandle,
-                                        size: *mut off_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_pipe(blocking_read: ::std::os::raw::c_int,
-                            blocking_write: ::std::os::raw::c_int,
-                            inherit_read: ::std::os::raw::c_int,
-                            inherit_write: ::std::os::raw::c_int)
-     -> *mut Struct_GNUNET_DISK_PipeHandle;
-    pub fn GNUNET_DISK_pipe_from_fd(blocking_read: ::std::os::raw::c_int,
-                                    blocking_write: ::std::os::raw::c_int,
-                                    fd: *mut ::std::os::raw::c_int)
-     -> *mut Struct_GNUNET_DISK_PipeHandle;
-    pub fn GNUNET_DISK_pipe_close(p: *mut Struct_GNUNET_DISK_PipeHandle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_pipe_close_end(p: *mut Struct_GNUNET_DISK_PipeHandle,
-                                      end: Enum_GNUNET_DISK_PipeEnd)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_pipe_detach_end(p: *mut Struct_GNUNET_DISK_PipeHandle,
-                                       end: Enum_GNUNET_DISK_PipeEnd)
-     -> *mut Struct_GNUNET_DISK_FileHandle;
-    pub fn GNUNET_DISK_file_close(h: *mut Struct_GNUNET_DISK_FileHandle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_pipe_handle(p: *const Struct_GNUNET_DISK_PipeHandle,
-                                   n: Enum_GNUNET_DISK_PipeEnd)
-     -> *const Struct_GNUNET_DISK_FileHandle;
-    pub fn GNUNET_DISK_fix_permissions(_fn: *const ::std::os::raw::c_char,
-                                       require_uid_match:
-                                           ::std::os::raw::c_int,
-                                       require_gid_match:
-                                           ::std::os::raw::c_int);
-    pub fn GNUNET_DISK_get_handle_from_int_fd(fno: ::std::os::raw::c_int)
-     -> *mut Struct_GNUNET_DISK_FileHandle;
-    pub fn GNUNET_DISK_get_handle_from_native(fd: *mut FILE)
-     -> *mut Struct_GNUNET_DISK_FileHandle;
-    pub fn GNUNET_DISK_file_read(h: *const Struct_GNUNET_DISK_FileHandle,
-                                 result: *mut ::std::os::raw::c_void,
-                                 len: size_t) -> ssize_t;
-    pub fn GNUNET_DISK_file_read_non_blocking(h:
-                                                  *const Struct_GNUNET_DISK_FileHandle,
-                                              result:
-                                                  *mut ::std::os::raw::c_void,
-                                              len: size_t) -> ssize_t;
-    pub fn GNUNET_DISK_fn_read(_fn: *const ::std::os::raw::c_char,
-                               result: *mut ::std::os::raw::c_void,
-                               len: size_t) -> ssize_t;
-    pub fn GNUNET_DISK_file_write(h: *const Struct_GNUNET_DISK_FileHandle,
-                                  buffer: *const ::std::os::raw::c_void,
-                                  n: size_t) -> ssize_t;
-    pub fn GNUNET_DISK_file_write_blocking(h:
-                                               *const Struct_GNUNET_DISK_FileHandle,
-                                           buffer:
-                                               *const ::std::os::raw::c_void,
-                                           n: size_t) -> ssize_t;
-    pub fn GNUNET_DISK_fn_write(_fn: *const ::std::os::raw::c_char,
-                                buffer: *const ::std::os::raw::c_void,
-                                n: size_t,
-                                mode: Enum_GNUNET_DISK_AccessPermissions)
-     -> ssize_t;
-    pub fn GNUNET_DISK_file_copy(src: *const ::std::os::raw::c_char,
-                                 dst: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_directory_scan(dir_name: *const ::std::os::raw::c_char,
-                                      callback: GNUNET_FileNameCallback,
-                                      callback_cls:
-                                          *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_directory_iterator_next(iter:
-                                                   *mut Struct_GNUNET_DISK_DirectoryIterator,
-                                               can: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_directory_iterator_start(prio:
-                                                    Enum_GNUNET_SCHEDULER_Priority,
-                                                dir_name:
-                                                    *const ::std::os::raw::c_char,
-                                                callback:
-                                                    GNUNET_DISK_DirectoryIteratorCallback,
-                                                callback_cls:
-                                                    *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_directory_create_for_file(filename:
-                                                     *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_directory_test(fil: *const ::std::os::raw::c_char,
-                                      is_readable: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_directory_remove(filename:
-                                            *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_directory_create(dir: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_file_lock(fh: *mut Struct_GNUNET_DISK_FileHandle,
-                                 lock_start: off_t, lock_end: off_t,
-                                 excl: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_file_unlock(fh: *mut Struct_GNUNET_DISK_FileHandle,
-                                   unlock_start: off_t, unlock_end: off_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_filename_canonicalize(_fn:
-                                                 *mut ::std::os::raw::c_char);
-    pub fn GNUNET_DISK_file_change_owner(filename:
-                                             *const ::std::os::raw::c_char,
-                                         user: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_file_map(h: *const Struct_GNUNET_DISK_FileHandle,
-                                m: *mut *mut Struct_GNUNET_DISK_MapHandle,
-                                access: Enum_GNUNET_DISK_MapType, len: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_DISK_file_unmap(h: *mut Struct_GNUNET_DISK_MapHandle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DISK_file_sync(h: *const Struct_GNUNET_DISK_FileHandle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_test_pf(pf: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_shorten_unixpath(unixpath:
-                                               *mut ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_NETWORK_socket_accept(desc:
-                                            *const Struct_GNUNET_NETWORK_Handle,
-                                        address: *mut Struct_sockaddr,
-                                        address_len: *mut socklen_t)
-     -> *mut Struct_GNUNET_NETWORK_Handle;
-    pub fn GNUNET_NETWORK_socket_box_native(fd: ::std::os::raw::c_int)
-     -> *mut Struct_GNUNET_NETWORK_Handle;
-    pub fn GNUNET_NETWORK_socket_set_blocking(fd:
-                                                  *mut Struct_GNUNET_NETWORK_Handle,
-                                              doBlock: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_socket_bind(desc: *mut Struct_GNUNET_NETWORK_Handle,
-                                      address: *const Struct_sockaddr,
-                                      address_len: socklen_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_socket_close(desc:
-                                           *mut Struct_GNUNET_NETWORK_Handle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_socket_free_memory_only_(desc:
-                                                       *mut Struct_GNUNET_NETWORK_Handle);
-    pub fn GNUNET_NETWORK_socket_connect(desc:
-                                             *const Struct_GNUNET_NETWORK_Handle,
-                                         address: *const Struct_sockaddr,
-                                         address_len: socklen_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_socket_getsockopt(desc:
-                                                *const Struct_GNUNET_NETWORK_Handle,
-                                            level: ::std::os::raw::c_int,
-                                            optname: ::std::os::raw::c_int,
-                                            optval:
-                                                *mut ::std::os::raw::c_void,
-                                            optlen: *mut socklen_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_socket_listen(desc:
-                                            *const Struct_GNUNET_NETWORK_Handle,
-                                        backlog: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_socket_recvfrom_amount(desc:
-                                                     *const Struct_GNUNET_NETWORK_Handle)
-     -> ssize_t;
-    pub fn GNUNET_NETWORK_socket_recvfrom(desc:
-                                              *const Struct_GNUNET_NETWORK_Handle,
-                                          buffer: *mut ::std::os::raw::c_void,
-                                          length: size_t,
-                                          src_addr: *mut Struct_sockaddr,
-                                          addrlen: *mut socklen_t) -> ssize_t;
-    pub fn GNUNET_NETWORK_socket_recv(desc:
-                                          *const Struct_GNUNET_NETWORK_Handle,
-                                      buffer: *mut ::std::os::raw::c_void,
-                                      length: size_t) -> ssize_t;
-    pub fn GNUNET_NETWORK_socket_select(rfds:
-                                            *mut Struct_GNUNET_NETWORK_FDSet,
-                                        wfds:
-                                            *mut Struct_GNUNET_NETWORK_FDSet,
-                                        efds:
-                                            *mut Struct_GNUNET_NETWORK_FDSet,
-                                        timeout: Struct_GNUNET_TIME_Relative)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_socket_send(desc:
-                                          *const Struct_GNUNET_NETWORK_Handle,
-                                      buffer: *const ::std::os::raw::c_void,
-                                      length: size_t) -> ssize_t;
-    pub fn GNUNET_NETWORK_socket_sendto(desc:
-                                            *const Struct_GNUNET_NETWORK_Handle,
-                                        message:
-                                            *const ::std::os::raw::c_void,
-                                        length: size_t,
-                                        dest_addr: *const Struct_sockaddr,
-                                        dest_len: socklen_t) -> ssize_t;
-    pub fn GNUNET_NETWORK_socket_setsockopt(fd:
-                                                *mut Struct_GNUNET_NETWORK_Handle,
-                                            level: ::std::os::raw::c_int,
-                                            option_name:
-                                                ::std::os::raw::c_int,
-                                            option_value:
-                                                *const ::std::os::raw::c_void,
-                                            option_len: socklen_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_socket_shutdown(desc:
-                                              *mut Struct_GNUNET_NETWORK_Handle,
-                                          how: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_socket_disable_corking(desc:
-                                                     *mut Struct_GNUNET_NETWORK_Handle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_socket_create(domain: ::std::os::raw::c_int,
-                                        _type: ::std::os::raw::c_int,
-                                        protocol: ::std::os::raw::c_int)
-     -> *mut Struct_GNUNET_NETWORK_Handle;
+    pub fn GNUNET_DISK_file_seek(
+        h: *const Struct_GNUNET_DISK_FileHandle,
+        offset: off_t,
+        whence: Enum_GNUNET_DISK_Seek,
+    ) -> off_t;
+    pub fn GNUNET_DISK_file_size(
+        filename: *const ::std::os::raw::c_char,
+        size: *mut uint64_t,
+        include_symbolic_links: ::std::os::raw::c_int,
+        single_file_mode: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_file_get_identifiers(
+        filename: *const ::std::os::raw::c_char,
+        dev: *mut uint64_t,
+        ino: *mut uint64_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_mktemp(t: *const ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_DISK_mkdtemp(t: *const ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_DISK_file_open(
+        _fn: *const ::std::os::raw::c_char,
+        flags: Enum_GNUNET_DISK_OpenFlags,
+        perm: Enum_GNUNET_DISK_AccessPermissions,
+    ) -> *mut Struct_GNUNET_DISK_FileHandle;
+    pub fn GNUNET_DISK_file_handle_size(
+        fh: *mut Struct_GNUNET_DISK_FileHandle,
+        size: *mut off_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_pipe(
+        blocking_read: ::std::os::raw::c_int,
+        blocking_write: ::std::os::raw::c_int,
+        inherit_read: ::std::os::raw::c_int,
+        inherit_write: ::std::os::raw::c_int,
+    ) -> *mut Struct_GNUNET_DISK_PipeHandle;
+    pub fn GNUNET_DISK_pipe_from_fd(
+        blocking_read: ::std::os::raw::c_int,
+        blocking_write: ::std::os::raw::c_int,
+        fd: *mut ::std::os::raw::c_int,
+    ) -> *mut Struct_GNUNET_DISK_PipeHandle;
+    pub fn GNUNET_DISK_pipe_close(p: *mut Struct_GNUNET_DISK_PipeHandle) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_pipe_close_end(
+        p: *mut Struct_GNUNET_DISK_PipeHandle,
+        end: Enum_GNUNET_DISK_PipeEnd,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_pipe_detach_end(
+        p: *mut Struct_GNUNET_DISK_PipeHandle,
+        end: Enum_GNUNET_DISK_PipeEnd,
+    ) -> *mut Struct_GNUNET_DISK_FileHandle;
+    pub fn GNUNET_DISK_file_close(h: *mut Struct_GNUNET_DISK_FileHandle) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_pipe_handle(
+        p: *const Struct_GNUNET_DISK_PipeHandle,
+        n: Enum_GNUNET_DISK_PipeEnd,
+    ) -> *const Struct_GNUNET_DISK_FileHandle;
+    pub fn GNUNET_DISK_fix_permissions(
+        _fn: *const ::std::os::raw::c_char,
+        require_uid_match: ::std::os::raw::c_int,
+        require_gid_match: ::std::os::raw::c_int,
+    );
+    pub fn GNUNET_DISK_get_handle_from_int_fd(
+        fno: ::std::os::raw::c_int,
+    ) -> *mut Struct_GNUNET_DISK_FileHandle;
+    pub fn GNUNET_DISK_get_handle_from_native(fd: *mut FILE) -> *mut Struct_GNUNET_DISK_FileHandle;
+    pub fn GNUNET_DISK_file_read(
+        h: *const Struct_GNUNET_DISK_FileHandle,
+        result: *mut ::std::os::raw::c_void,
+        len: size_t,
+    ) -> ssize_t;
+    pub fn GNUNET_DISK_file_read_non_blocking(
+        h: *const Struct_GNUNET_DISK_FileHandle,
+        result: *mut ::std::os::raw::c_void,
+        len: size_t,
+    ) -> ssize_t;
+    pub fn GNUNET_DISK_fn_read(
+        _fn: *const ::std::os::raw::c_char,
+        result: *mut ::std::os::raw::c_void,
+        len: size_t,
+    ) -> ssize_t;
+    pub fn GNUNET_DISK_file_write(
+        h: *const Struct_GNUNET_DISK_FileHandle,
+        buffer: *const ::std::os::raw::c_void,
+        n: size_t,
+    ) -> ssize_t;
+    pub fn GNUNET_DISK_file_write_blocking(
+        h: *const Struct_GNUNET_DISK_FileHandle,
+        buffer: *const ::std::os::raw::c_void,
+        n: size_t,
+    ) -> ssize_t;
+    pub fn GNUNET_DISK_fn_write(
+        _fn: *const ::std::os::raw::c_char,
+        buffer: *const ::std::os::raw::c_void,
+        n: size_t,
+        mode: Enum_GNUNET_DISK_AccessPermissions,
+    ) -> ssize_t;
+    pub fn GNUNET_DISK_file_copy(
+        src: *const ::std::os::raw::c_char,
+        dst: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_directory_scan(
+        dir_name: *const ::std::os::raw::c_char,
+        callback: GNUNET_FileNameCallback,
+        callback_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_directory_iterator_next(
+        iter: *mut Struct_GNUNET_DISK_DirectoryIterator,
+        can: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_directory_iterator_start(
+        prio: Enum_GNUNET_SCHEDULER_Priority,
+        dir_name: *const ::std::os::raw::c_char,
+        callback: GNUNET_DISK_DirectoryIteratorCallback,
+        callback_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_directory_create_for_file(
+        filename: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_directory_test(
+        fil: *const ::std::os::raw::c_char,
+        is_readable: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_directory_remove(
+        filename: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_directory_create(
+        dir: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_file_lock(
+        fh: *mut Struct_GNUNET_DISK_FileHandle,
+        lock_start: off_t,
+        lock_end: off_t,
+        excl: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_file_unlock(
+        fh: *mut Struct_GNUNET_DISK_FileHandle,
+        unlock_start: off_t,
+        unlock_end: off_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_filename_canonicalize(_fn: *mut ::std::os::raw::c_char);
+    pub fn GNUNET_DISK_file_change_owner(
+        filename: *const ::std::os::raw::c_char,
+        user: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_file_map(
+        h: *const Struct_GNUNET_DISK_FileHandle,
+        m: *mut *mut Struct_GNUNET_DISK_MapHandle,
+        access: Enum_GNUNET_DISK_MapType,
+        len: size_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_DISK_file_unmap(h: *mut Struct_GNUNET_DISK_MapHandle) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DISK_file_sync(h: *const Struct_GNUNET_DISK_FileHandle) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_test_pf(pf: ::std::os::raw::c_int) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_shorten_unixpath(
+        unixpath: *mut ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_NETWORK_socket_accept(
+        desc: *const Struct_GNUNET_NETWORK_Handle,
+        address: *mut Struct_sockaddr,
+        address_len: *mut socklen_t,
+    ) -> *mut Struct_GNUNET_NETWORK_Handle;
+    pub fn GNUNET_NETWORK_socket_box_native(
+        fd: ::std::os::raw::c_int,
+    ) -> *mut Struct_GNUNET_NETWORK_Handle;
+    pub fn GNUNET_NETWORK_socket_set_blocking(
+        fd: *mut Struct_GNUNET_NETWORK_Handle,
+        doBlock: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_socket_bind(
+        desc: *mut Struct_GNUNET_NETWORK_Handle,
+        address: *const Struct_sockaddr,
+        address_len: socklen_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_socket_close(
+        desc: *mut Struct_GNUNET_NETWORK_Handle,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_socket_free_memory_only_(desc: *mut Struct_GNUNET_NETWORK_Handle);
+    pub fn GNUNET_NETWORK_socket_connect(
+        desc: *const Struct_GNUNET_NETWORK_Handle,
+        address: *const Struct_sockaddr,
+        address_len: socklen_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_socket_getsockopt(
+        desc: *const Struct_GNUNET_NETWORK_Handle,
+        level: ::std::os::raw::c_int,
+        optname: ::std::os::raw::c_int,
+        optval: *mut ::std::os::raw::c_void,
+        optlen: *mut socklen_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_socket_listen(
+        desc: *const Struct_GNUNET_NETWORK_Handle,
+        backlog: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_socket_recvfrom_amount(
+        desc: *const Struct_GNUNET_NETWORK_Handle,
+    ) -> ssize_t;
+    pub fn GNUNET_NETWORK_socket_recvfrom(
+        desc: *const Struct_GNUNET_NETWORK_Handle,
+        buffer: *mut ::std::os::raw::c_void,
+        length: size_t,
+        src_addr: *mut Struct_sockaddr,
+        addrlen: *mut socklen_t,
+    ) -> ssize_t;
+    pub fn GNUNET_NETWORK_socket_recv(
+        desc: *const Struct_GNUNET_NETWORK_Handle,
+        buffer: *mut ::std::os::raw::c_void,
+        length: size_t,
+    ) -> ssize_t;
+    pub fn GNUNET_NETWORK_socket_select(
+        rfds: *mut Struct_GNUNET_NETWORK_FDSet,
+        wfds: *mut Struct_GNUNET_NETWORK_FDSet,
+        efds: *mut Struct_GNUNET_NETWORK_FDSet,
+        timeout: Struct_GNUNET_TIME_Relative,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_socket_send(
+        desc: *const Struct_GNUNET_NETWORK_Handle,
+        buffer: *const ::std::os::raw::c_void,
+        length: size_t,
+    ) -> ssize_t;
+    pub fn GNUNET_NETWORK_socket_sendto(
+        desc: *const Struct_GNUNET_NETWORK_Handle,
+        message: *const ::std::os::raw::c_void,
+        length: size_t,
+        dest_addr: *const Struct_sockaddr,
+        dest_len: socklen_t,
+    ) -> ssize_t;
+    pub fn GNUNET_NETWORK_socket_setsockopt(
+        fd: *mut Struct_GNUNET_NETWORK_Handle,
+        level: ::std::os::raw::c_int,
+        option_name: ::std::os::raw::c_int,
+        option_value: *const ::std::os::raw::c_void,
+        option_len: socklen_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_socket_shutdown(
+        desc: *mut Struct_GNUNET_NETWORK_Handle,
+        how: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_socket_disable_corking(
+        desc: *mut Struct_GNUNET_NETWORK_Handle,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_socket_create(
+        domain: ::std::os::raw::c_int,
+        _type: ::std::os::raw::c_int,
+        protocol: ::std::os::raw::c_int,
+    ) -> *mut Struct_GNUNET_NETWORK_Handle;
     pub fn GNUNET_NETWORK_fdset_zero(fds: *mut Struct_GNUNET_NETWORK_FDSet);
-    pub fn GNUNET_NETWORK_fdset_set(fds: *mut Struct_GNUNET_NETWORK_FDSet,
-                                    desc:
-                                        *const Struct_GNUNET_NETWORK_Handle);
-    pub fn GNUNET_NETWORK_fdset_isset(fds: *const Struct_GNUNET_NETWORK_FDSet,
-                                      desc:
-                                          *const Struct_GNUNET_NETWORK_Handle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_fdset_add(dst: *mut Struct_GNUNET_NETWORK_FDSet,
-                                    src: *const Struct_GNUNET_NETWORK_FDSet);
-    pub fn GNUNET_NETWORK_fdset_copy(to: *mut Struct_GNUNET_NETWORK_FDSet,
-                                     from:
-                                         *const Struct_GNUNET_NETWORK_FDSet);
-    pub fn GNUNET_NETWORK_get_fd(desc: *mut Struct_GNUNET_NETWORK_Handle)
-     -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_fdset_set(
+        fds: *mut Struct_GNUNET_NETWORK_FDSet,
+        desc: *const Struct_GNUNET_NETWORK_Handle,
+    );
+    pub fn GNUNET_NETWORK_fdset_isset(
+        fds: *const Struct_GNUNET_NETWORK_FDSet,
+        desc: *const Struct_GNUNET_NETWORK_Handle,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_fdset_add(
+        dst: *mut Struct_GNUNET_NETWORK_FDSet,
+        src: *const Struct_GNUNET_NETWORK_FDSet,
+    );
+    pub fn GNUNET_NETWORK_fdset_copy(
+        to: *mut Struct_GNUNET_NETWORK_FDSet,
+        from: *const Struct_GNUNET_NETWORK_FDSet,
+    );
+    pub fn GNUNET_NETWORK_get_fd(desc: *mut Struct_GNUNET_NETWORK_Handle) -> ::std::os::raw::c_int;
     pub fn GNUNET_NETWORK_get_addr(desc: *mut Struct_GNUNET_NETWORK_Handle)
-     -> *mut Struct_sockaddr;
-    pub fn GNUNET_NETWORK_get_addrlen(desc: *mut Struct_GNUNET_NETWORK_Handle)
-     -> socklen_t;
-    pub fn GNUNET_NETWORK_fdset_copy_native(to:
-                                                *mut Struct_GNUNET_NETWORK_FDSet,
-                                            from: *const fd_set,
-                                            nfds: ::std::os::raw::c_int);
-    pub fn GNUNET_NETWORK_fdset_set_native(to:
-                                               *mut Struct_GNUNET_NETWORK_FDSet,
-                                           nfd: ::std::os::raw::c_int);
-    pub fn GNUNET_NETWORK_fdset_test_native(to:
-                                                *const Struct_GNUNET_NETWORK_FDSet,
-                                            nfd: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_fdset_handle_set(fds:
-                                               *mut Struct_GNUNET_NETWORK_FDSet,
-                                           h:
-                                               *const Struct_GNUNET_DISK_FileHandle);
-    pub fn GNUNET_NETWORK_fdset_handle_isset(fds:
-                                                 *const Struct_GNUNET_NETWORK_FDSet,
-                                             h:
-                                                 *const Struct_GNUNET_DISK_FileHandle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_NETWORK_fdset_overlap(fds1:
-                                            *const Struct_GNUNET_NETWORK_FDSet,
-                                        fds2:
-                                            *const Struct_GNUNET_NETWORK_FDSet)
-     -> ::std::os::raw::c_int;
+        -> *mut Struct_sockaddr;
+    pub fn GNUNET_NETWORK_get_addrlen(desc: *mut Struct_GNUNET_NETWORK_Handle) -> socklen_t;
+    pub fn GNUNET_NETWORK_fdset_copy_native(
+        to: *mut Struct_GNUNET_NETWORK_FDSet,
+        from: *const fd_set,
+        nfds: ::std::os::raw::c_int,
+    );
+    pub fn GNUNET_NETWORK_fdset_set_native(
+        to: *mut Struct_GNUNET_NETWORK_FDSet,
+        nfd: ::std::os::raw::c_int,
+    );
+    pub fn GNUNET_NETWORK_fdset_test_native(
+        to: *const Struct_GNUNET_NETWORK_FDSet,
+        nfd: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_fdset_handle_set(
+        fds: *mut Struct_GNUNET_NETWORK_FDSet,
+        h: *const Struct_GNUNET_DISK_FileHandle,
+    );
+    pub fn GNUNET_NETWORK_fdset_handle_isset(
+        fds: *const Struct_GNUNET_NETWORK_FDSet,
+        h: *const Struct_GNUNET_DISK_FileHandle,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_NETWORK_fdset_overlap(
+        fds1: *const Struct_GNUNET_NETWORK_FDSet,
+        fds2: *const Struct_GNUNET_NETWORK_FDSet,
+    ) -> ::std::os::raw::c_int;
     pub fn GNUNET_NETWORK_fdset_create() -> *mut Struct_GNUNET_NETWORK_FDSet;
-    pub fn GNUNET_NETWORK_fdset_destroy(fds:
-                                            *mut Struct_GNUNET_NETWORK_FDSet);
-    pub fn GNUNET_SCHEDULER_run(task: GNUNET_SCHEDULER_Task,
-                                task_cls: *mut ::std::os::raw::c_void);
+    pub fn GNUNET_NETWORK_fdset_destroy(fds: *mut Struct_GNUNET_NETWORK_FDSet);
+    pub fn GNUNET_SCHEDULER_run(task: GNUNET_SCHEDULER_Task, task_cls: *mut ::std::os::raw::c_void);
     pub fn GNUNET_SCHEDULER_shutdown();
-    pub fn GNUNET_SCHEDULER_get_load(p: Enum_GNUNET_SCHEDULER_Priority)
-     -> ::std::os::raw::c_uint;
+    pub fn GNUNET_SCHEDULER_get_load(p: Enum_GNUNET_SCHEDULER_Priority) -> ::std::os::raw::c_uint;
     pub fn GNUNET_SCHEDULER_get_reason() -> Enum_GNUNET_SCHEDULER_Reason;
-    pub fn GNUNET_SCHEDULER_cancel(task: GNUNET_SCHEDULER_TaskIdentifier)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_SCHEDULER_add_continuation(task: GNUNET_SCHEDULER_Task,
-                                             task_cls:
-                                                 *mut ::std::os::raw::c_void,
-                                             reason:
-                                                 Enum_GNUNET_SCHEDULER_Reason);
-    pub fn GNUNET_SCHEDULER_add_continuation_with_priority(task:
-                                                               GNUNET_SCHEDULER_Task,
-                                                           task_cls:
-                                                               *mut ::std::os::raw::c_void,
-                                                           reason:
-                                                               Enum_GNUNET_SCHEDULER_Reason,
-                                                           priority:
-                                                               Enum_GNUNET_SCHEDULER_Priority);
-    pub fn GNUNET_SCHEDULER_add_with_priority(prio:
-                                                  Enum_GNUNET_SCHEDULER_Priority,
-                                              task: GNUNET_SCHEDULER_Task,
-                                              task_cls:
-                                                  *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_now(task: GNUNET_SCHEDULER_Task,
-                                    task_cls: *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_now_with_lifeness(lifeness:
-                                                      ::std::os::raw::c_int,
-                                                  task: GNUNET_SCHEDULER_Task,
-                                                  task_cls:
-                                                      *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_delayed(delay: Struct_GNUNET_TIME_Relative,
-                                        task: GNUNET_SCHEDULER_Task,
-                                        task_cls: *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_delayed_with_priority(delay:
-                                                          Struct_GNUNET_TIME_Relative,
-                                                      priority:
-                                                          Enum_GNUNET_SCHEDULER_Priority,
-                                                      task:
-                                                          GNUNET_SCHEDULER_Task,
-                                                      task_cls:
-                                                          *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_read_net(delay: Struct_GNUNET_TIME_Relative,
-                                         rfd:
-                                             *mut Struct_GNUNET_NETWORK_Handle,
-                                         task: GNUNET_SCHEDULER_Task,
-                                         task_cls:
-                                             *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_read_net_with_priority(delay:
-                                                           Struct_GNUNET_TIME_Relative,
-                                                       priority:
-                                                           Enum_GNUNET_SCHEDULER_Priority,
-                                                       rfd:
-                                                           *mut Struct_GNUNET_NETWORK_Handle,
-                                                       task:
-                                                           GNUNET_SCHEDULER_Task,
-                                                       task_cls:
-                                                           *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_write_net(delay: Struct_GNUNET_TIME_Relative,
-                                          wfd:
-                                              *mut Struct_GNUNET_NETWORK_Handle,
-                                          task: GNUNET_SCHEDULER_Task,
-                                          task_cls:
-                                              *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_net_with_priority(delay:
-                                                      Struct_GNUNET_TIME_Relative,
-                                                  priority:
-                                                      Enum_GNUNET_SCHEDULER_Priority,
-                                                  fd:
-                                                      *mut Struct_GNUNET_NETWORK_Handle,
-                                                  on_read:
-                                                      ::std::os::raw::c_int,
-                                                  on_write:
-                                                      ::std::os::raw::c_int,
-                                                  task: GNUNET_SCHEDULER_Task,
-                                                  task_cls:
-                                                      *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_read_file(delay: Struct_GNUNET_TIME_Relative,
-                                          rfd:
-                                              *const Struct_GNUNET_DISK_FileHandle,
-                                          task: GNUNET_SCHEDULER_Task,
-                                          task_cls:
-                                              *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_write_file(delay: Struct_GNUNET_TIME_Relative,
-                                           wfd:
-                                               *const Struct_GNUNET_DISK_FileHandle,
-                                           task: GNUNET_SCHEDULER_Task,
-                                           task_cls:
-                                               *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_file_with_priority(delay:
-                                                       Struct_GNUNET_TIME_Relative,
-                                                   priority:
-                                                       Enum_GNUNET_SCHEDULER_Priority,
-                                                   fd:
-                                                       *const Struct_GNUNET_DISK_FileHandle,
-                                                   on_read:
-                                                       ::std::os::raw::c_int,
-                                                   on_write:
-                                                       ::std::os::raw::c_int,
-                                                   task:
-                                                       GNUNET_SCHEDULER_Task,
-                                                   task_cls:
-                                                       *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_add_select(prio: Enum_GNUNET_SCHEDULER_Priority,
-                                       delay: Struct_GNUNET_TIME_Relative,
-                                       rs: *const Struct_GNUNET_NETWORK_FDSet,
-                                       ws: *const Struct_GNUNET_NETWORK_FDSet,
-                                       task: GNUNET_SCHEDULER_Task,
-                                       task_cls: *mut ::std::os::raw::c_void)
-     -> GNUNET_SCHEDULER_TaskIdentifier;
-    pub fn GNUNET_SCHEDULER_set_select(new_select: GNUNET_SCHEDULER_select,
-                                       new_select_cls:
-                                           *mut ::std::os::raw::c_void);
+    pub fn GNUNET_SCHEDULER_cancel(
+        task: GNUNET_SCHEDULER_TaskIdentifier,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_SCHEDULER_add_continuation(
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+        reason: Enum_GNUNET_SCHEDULER_Reason,
+    );
+    pub fn GNUNET_SCHEDULER_add_continuation_with_priority(
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+        reason: Enum_GNUNET_SCHEDULER_Reason,
+        priority: Enum_GNUNET_SCHEDULER_Priority,
+    );
+    pub fn GNUNET_SCHEDULER_add_with_priority(
+        prio: Enum_GNUNET_SCHEDULER_Priority,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_now(
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_now_with_lifeness(
+        lifeness: ::std::os::raw::c_int,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_delayed(
+        delay: Struct_GNUNET_TIME_Relative,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_delayed_with_priority(
+        delay: Struct_GNUNET_TIME_Relative,
+        priority: Enum_GNUNET_SCHEDULER_Priority,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_read_net(
+        delay: Struct_GNUNET_TIME_Relative,
+        rfd: *mut Struct_GNUNET_NETWORK_Handle,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_read_net_with_priority(
+        delay: Struct_GNUNET_TIME_Relative,
+        priority: Enum_GNUNET_SCHEDULER_Priority,
+        rfd: *mut Struct_GNUNET_NETWORK_Handle,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_write_net(
+        delay: Struct_GNUNET_TIME_Relative,
+        wfd: *mut Struct_GNUNET_NETWORK_Handle,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_net_with_priority(
+        delay: Struct_GNUNET_TIME_Relative,
+        priority: Enum_GNUNET_SCHEDULER_Priority,
+        fd: *mut Struct_GNUNET_NETWORK_Handle,
+        on_read: ::std::os::raw::c_int,
+        on_write: ::std::os::raw::c_int,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_read_file(
+        delay: Struct_GNUNET_TIME_Relative,
+        rfd: *const Struct_GNUNET_DISK_FileHandle,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_write_file(
+        delay: Struct_GNUNET_TIME_Relative,
+        wfd: *const Struct_GNUNET_DISK_FileHandle,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_file_with_priority(
+        delay: Struct_GNUNET_TIME_Relative,
+        priority: Enum_GNUNET_SCHEDULER_Priority,
+        fd: *const Struct_GNUNET_DISK_FileHandle,
+        on_read: ::std::os::raw::c_int,
+        on_write: ::std::os::raw::c_int,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_add_select(
+        prio: Enum_GNUNET_SCHEDULER_Priority,
+        delay: Struct_GNUNET_TIME_Relative,
+        rs: *const Struct_GNUNET_NETWORK_FDSet,
+        ws: *const Struct_GNUNET_NETWORK_FDSet,
+        task: GNUNET_SCHEDULER_Task,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> GNUNET_SCHEDULER_TaskIdentifier;
+    pub fn GNUNET_SCHEDULER_set_select(
+        new_select: GNUNET_SCHEDULER_select,
+        new_select_cls: *mut ::std::os::raw::c_void,
+    );
     pub fn gpg_err_init() -> gpg_error_t;
     pub fn gpg_err_deinit(mode: ::std::os::raw::c_int);
-    pub fn gpgrt_set_syscall_clamp(pre:
-                                       ::std::option::Option<extern "C" fn()>,
-                                   post:
-                                       ::std::option::Option<extern "C" fn()>);
-    pub fn gpgrt_set_alloc_func(f:
-                                    ::std::option::Option<unsafe extern "C" fn(a:
-                                                                                   *mut ::std::os::raw::c_void,
-                                                                               n:
-                                                                                   size_t)
-                                                              ->
-                                                                  *mut ::std::os::raw::c_void>);
+    pub fn gpgrt_set_syscall_clamp(
+        pre: ::std::option::Option<extern "C" fn()>,
+        post: ::std::option::Option<extern "C" fn()>,
+    );
+    pub fn gpgrt_set_alloc_func(
+        f: ::std::option::Option<
+            unsafe extern "C" fn(
+                a: *mut ::std::os::raw::c_void,
+                n: size_t,
+            ) -> *mut ::std::os::raw::c_void,
+        >,
+    );
     pub fn gpg_strerror(err: gpg_error_t) -> *const ::std::os::raw::c_char;
-    pub fn gpg_strerror_r(err: gpg_error_t, buf: *mut ::std::os::raw::c_char,
-                          buflen: size_t) -> ::std::os::raw::c_int;
+    pub fn gpg_strerror_r(
+        err: gpg_error_t,
+        buf: *mut ::std::os::raw::c_char,
+        buflen: size_t,
+    ) -> ::std::os::raw::c_int;
     pub fn gpg_strsource(err: gpg_error_t) -> *const ::std::os::raw::c_char;
-    pub fn gpg_err_code_from_errno(err: ::std::os::raw::c_int)
-     -> gpg_err_code_t;
-    pub fn gpg_err_code_to_errno(code: gpg_err_code_t)
-     -> ::std::os::raw::c_int;
+    pub fn gpg_err_code_from_errno(err: ::std::os::raw::c_int) -> gpg_err_code_t;
+    pub fn gpg_err_code_to_errno(code: gpg_err_code_t) -> ::std::os::raw::c_int;
     pub fn gpg_err_code_from_syserror() -> gpg_err_code_t;
     pub fn gpg_err_set_errno(err: ::std::os::raw::c_int);
-    pub fn gpgrt_check_version(req_version: *const ::std::os::raw::c_char)
-     -> *const ::std::os::raw::c_char;
-    pub fn gpg_error_check_version(req_version: *const ::std::os::raw::c_char)
-     -> *const ::std::os::raw::c_char;
+    pub fn gpgrt_check_version(
+        req_version: *const ::std::os::raw::c_char,
+    ) -> *const ::std::os::raw::c_char;
+    pub fn gpg_error_check_version(
+        req_version: *const ::std::os::raw::c_char,
+    ) -> *const ::std::os::raw::c_char;
     pub fn gpgrt_lock_init(lockhd: *mut gpgrt_lock_t) -> gpg_err_code_t;
     pub fn gpgrt_lock_lock(lockhd: *mut gpgrt_lock_t) -> gpg_err_code_t;
     pub fn gpgrt_lock_trylock(lockhd: *mut gpgrt_lock_t) -> gpg_err_code_t;
     pub fn gpgrt_lock_unlock(lockhd: *mut gpgrt_lock_t) -> gpg_err_code_t;
     pub fn gpgrt_lock_destroy(lockhd: *mut gpgrt_lock_t) -> gpg_err_code_t;
     pub fn gpgrt_yield() -> gpg_err_code_t;
-    pub fn gpgrt_fopen(path: *const ::std::os::raw::c_char,
-                       mode: *const ::std::os::raw::c_char) -> gpgrt_stream_t;
-    pub fn gpgrt_mopen(data: *mut ::std::os::raw::c_void, data_n: size_t,
-                       data_len: size_t, grow: ::std::os::raw::c_uint,
-                       func_realloc:
-                           ::std::option::Option<unsafe extern "C" fn(mem:
-                                                                          *mut ::std::os::raw::c_void,
-                                                                      size:
-                                                                          size_t)
-                                                     ->
-                                                         *mut ::std::os::raw::c_void>,
-                       func_free:
-                           ::std::option::Option<unsafe extern "C" fn(mem:
-                                                                          *mut ::std::os::raw::c_void)>,
-                       mode: *const ::std::os::raw::c_char) -> gpgrt_stream_t;
-    pub fn gpgrt_fopenmem(memlimit: size_t,
-                          mode: *const ::std::os::raw::c_char)
-     -> gpgrt_stream_t;
-    pub fn gpgrt_fopenmem_init(memlimit: size_t,
-                               mode: *const ::std::os::raw::c_char,
-                               data: *const ::std::os::raw::c_void,
-                               datalen: size_t) -> gpgrt_stream_t;
-    pub fn gpgrt_fdopen(filedes: ::std::os::raw::c_int,
-                        mode: *const ::std::os::raw::c_char)
-     -> gpgrt_stream_t;
-    pub fn gpgrt_fdopen_nc(filedes: ::std::os::raw::c_int,
-                           mode: *const ::std::os::raw::c_char)
-     -> gpgrt_stream_t;
-    pub fn gpgrt_sysopen(syshd: *mut gpgrt_syshd_t,
-                         mode: *const ::std::os::raw::c_char)
-     -> gpgrt_stream_t;
-    pub fn gpgrt_sysopen_nc(syshd: *mut gpgrt_syshd_t,
-                            mode: *const ::std::os::raw::c_char)
-     -> gpgrt_stream_t;
-    pub fn gpgrt_fpopen(fp: *mut FILE, mode: *const ::std::os::raw::c_char)
-     -> gpgrt_stream_t;
-    pub fn gpgrt_fpopen_nc(fp: *mut FILE, mode: *const ::std::os::raw::c_char)
-     -> gpgrt_stream_t;
-    pub fn gpgrt_freopen(path: *const ::std::os::raw::c_char,
-                         mode: *const ::std::os::raw::c_char,
-                         stream: gpgrt_stream_t) -> gpgrt_stream_t;
-    pub fn gpgrt_fopencookie(cookie: *mut ::std::os::raw::c_void,
-                             mode: *const ::std::os::raw::c_char,
-                             functions: gpgrt_cookie_io_functions_t)
-     -> gpgrt_stream_t;
+    pub fn gpgrt_fopen(
+        path: *const ::std::os::raw::c_char,
+        mode: *const ::std::os::raw::c_char,
+    ) -> gpgrt_stream_t;
+    pub fn gpgrt_mopen(
+        data: *mut ::std::os::raw::c_void,
+        data_n: size_t,
+        data_len: size_t,
+        grow: ::std::os::raw::c_uint,
+        func_realloc: ::std::option::Option<
+            unsafe extern "C" fn(
+                mem: *mut ::std::os::raw::c_void,
+                size: size_t,
+            ) -> *mut ::std::os::raw::c_void,
+        >,
+        func_free: ::std::option::Option<unsafe extern "C" fn(mem: *mut ::std::os::raw::c_void)>,
+        mode: *const ::std::os::raw::c_char,
+    ) -> gpgrt_stream_t;
+    pub fn gpgrt_fopenmem(memlimit: size_t, mode: *const ::std::os::raw::c_char) -> gpgrt_stream_t;
+    pub fn gpgrt_fopenmem_init(
+        memlimit: size_t,
+        mode: *const ::std::os::raw::c_char,
+        data: *const ::std::os::raw::c_void,
+        datalen: size_t,
+    ) -> gpgrt_stream_t;
+    pub fn gpgrt_fdopen(
+        filedes: ::std::os::raw::c_int,
+        mode: *const ::std::os::raw::c_char,
+    ) -> gpgrt_stream_t;
+    pub fn gpgrt_fdopen_nc(
+        filedes: ::std::os::raw::c_int,
+        mode: *const ::std::os::raw::c_char,
+    ) -> gpgrt_stream_t;
+    pub fn gpgrt_sysopen(
+        syshd: *mut gpgrt_syshd_t,
+        mode: *const ::std::os::raw::c_char,
+    ) -> gpgrt_stream_t;
+    pub fn gpgrt_sysopen_nc(
+        syshd: *mut gpgrt_syshd_t,
+        mode: *const ::std::os::raw::c_char,
+    ) -> gpgrt_stream_t;
+    pub fn gpgrt_fpopen(fp: *mut FILE, mode: *const ::std::os::raw::c_char) -> gpgrt_stream_t;
+    pub fn gpgrt_fpopen_nc(fp: *mut FILE, mode: *const ::std::os::raw::c_char) -> gpgrt_stream_t;
+    pub fn gpgrt_freopen(
+        path: *const ::std::os::raw::c_char,
+        mode: *const ::std::os::raw::c_char,
+        stream: gpgrt_stream_t,
+    ) -> gpgrt_stream_t;
+    pub fn gpgrt_fopencookie(
+        cookie: *mut ::std::os::raw::c_void,
+        mode: *const ::std::os::raw::c_char,
+        functions: gpgrt_cookie_io_functions_t,
+    ) -> gpgrt_stream_t;
     pub fn gpgrt_fclose(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
-    pub fn gpgrt_fclose_snatch(stream: gpgrt_stream_t,
-                               r_buffer: *mut *mut ::std::os::raw::c_void,
-                               r_buflen: *mut size_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_onclose(stream: gpgrt_stream_t, mode: ::std::os::raw::c_int,
-                         fnc:
-                             ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                            gpgrt_stream_t,
-                                                                        arg2:
-                                                                            *mut ::std::os::raw::c_void)>,
-                         fnc_value: *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
+    pub fn gpgrt_fclose_snatch(
+        stream: gpgrt_stream_t,
+        r_buffer: *mut *mut ::std::os::raw::c_void,
+        r_buflen: *mut size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_onclose(
+        stream: gpgrt_stream_t,
+        mode: ::std::os::raw::c_int,
+        fnc: ::std::option::Option<
+            unsafe extern "C" fn(arg1: gpgrt_stream_t, arg2: *mut ::std::os::raw::c_void),
+        >,
+        fnc_value: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
     pub fn gpgrt_fileno(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
-    pub fn gpgrt_fileno_unlocked(stream: gpgrt_stream_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_syshd(stream: gpgrt_stream_t, syshd: *mut gpgrt_syshd_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_syshd_unlocked(stream: gpgrt_stream_t,
-                                syshd: *mut gpgrt_syshd_t)
-     -> ::std::os::raw::c_int;
-    pub fn _gpgrt_set_std_fd(no: ::std::os::raw::c_int,
-                             fd: ::std::os::raw::c_int);
+    pub fn gpgrt_fileno_unlocked(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
+    pub fn gpgrt_syshd(stream: gpgrt_stream_t, syshd: *mut gpgrt_syshd_t) -> ::std::os::raw::c_int;
+    pub fn gpgrt_syshd_unlocked(
+        stream: gpgrt_stream_t,
+        syshd: *mut gpgrt_syshd_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn _gpgrt_set_std_fd(no: ::std::os::raw::c_int, fd: ::std::os::raw::c_int);
     pub fn _gpgrt_get_std_stream(fd: ::std::os::raw::c_int) -> gpgrt_stream_t;
     pub fn gpgrt_flockfile(stream: gpgrt_stream_t);
-    pub fn gpgrt_ftrylockfile(stream: gpgrt_stream_t)
-     -> ::std::os::raw::c_int;
+    pub fn gpgrt_ftrylockfile(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
     pub fn gpgrt_funlockfile(stream: gpgrt_stream_t);
     pub fn gpgrt_feof(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
-    pub fn gpgrt_feof_unlocked(stream: gpgrt_stream_t)
-     -> ::std::os::raw::c_int;
+    pub fn gpgrt_feof_unlocked(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
     pub fn gpgrt_ferror(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
-    pub fn gpgrt_ferror_unlocked(stream: gpgrt_stream_t)
-     -> ::std::os::raw::c_int;
+    pub fn gpgrt_ferror_unlocked(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
     pub fn gpgrt_clearerr(stream: gpgrt_stream_t);
     pub fn gpgrt_clearerr_unlocked(stream: gpgrt_stream_t);
     pub fn _gpgrt_pending(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
-    pub fn _gpgrt_pending_unlocked(stream: gpgrt_stream_t)
-     -> ::std::os::raw::c_int;
+    pub fn _gpgrt_pending_unlocked(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
     pub fn gpgrt_fflush(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
-    pub fn gpgrt_fseek(stream: gpgrt_stream_t, offset: ::std::os::raw::c_long,
-                       whence: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_fseeko(stream: gpgrt_stream_t, offset: gpgrt_off_t,
-                        whence: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn gpgrt_fseek(
+        stream: gpgrt_stream_t,
+        offset: ::std::os::raw::c_long,
+        whence: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_fseeko(
+        stream: gpgrt_stream_t,
+        offset: gpgrt_off_t,
+        whence: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn gpgrt_ftell(stream: gpgrt_stream_t) -> ::std::os::raw::c_long;
     pub fn gpgrt_ftello(stream: gpgrt_stream_t) -> gpgrt_off_t;
     pub fn gpgrt_rewind(stream: gpgrt_stream_t);
     pub fn gpgrt_fgetc(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
-    pub fn gpgrt_fputc(c: ::std::os::raw::c_int, stream: gpgrt_stream_t)
-     -> ::std::os::raw::c_int;
-    pub fn _gpgrt_getc_underflow(stream: gpgrt_stream_t)
-     -> ::std::os::raw::c_int;
-    pub fn _gpgrt_putc_overflow(c: ::std::os::raw::c_int,
-                                stream: gpgrt_stream_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_ungetc(c: ::std::os::raw::c_int, stream: gpgrt_stream_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_read(stream: gpgrt_stream_t,
-                      buffer: *mut ::std::os::raw::c_void,
-                      bytes_to_read: size_t, bytes_read: *mut size_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_write(stream: gpgrt_stream_t,
-                       buffer: *const ::std::os::raw::c_void,
-                       bytes_to_write: size_t, bytes_written: *mut size_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_write_sanitized(stream: gpgrt_stream_t,
-                                 buffer: *const ::std::os::raw::c_void,
-                                 length: size_t,
-                                 delimiters: *const ::std::os::raw::c_char,
-                                 bytes_written: *mut size_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_write_hexstring(stream: gpgrt_stream_t,
-                                 buffer: *const ::std::os::raw::c_void,
-                                 length: size_t,
-                                 reserved: ::std::os::raw::c_int,
-                                 bytes_written: *mut size_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_fread(ptr: *mut ::std::os::raw::c_void, size: size_t,
-                       nitems: size_t, stream: gpgrt_stream_t) -> size_t;
-    pub fn gpgrt_fwrite(ptr: *const ::std::os::raw::c_void, size: size_t,
-                        memb: size_t, stream: gpgrt_stream_t) -> size_t;
-    pub fn gpgrt_fgets(s: *mut ::std::os::raw::c_char,
-                       n: ::std::os::raw::c_int, stream: gpgrt_stream_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn gpgrt_fputs(s: *const ::std::os::raw::c_char,
-                       stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
-    pub fn gpgrt_fputs_unlocked(s: *const ::std::os::raw::c_char,
-                                stream: gpgrt_stream_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_getline(lineptr: *mut *mut ::std::os::raw::c_char,
-                         n: *mut size_t, stream: gpgrt_stream_t) -> ssize_t;
-    pub fn gpgrt_read_line(stream: gpgrt_stream_t,
-                           addr_of_buffer: *mut *mut ::std::os::raw::c_char,
-                           length_of_buffer: *mut size_t,
-                           max_length: *mut size_t) -> ssize_t;
+    pub fn gpgrt_fputc(c: ::std::os::raw::c_int, stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
+    pub fn _gpgrt_getc_underflow(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
+    pub fn _gpgrt_putc_overflow(
+        c: ::std::os::raw::c_int,
+        stream: gpgrt_stream_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_ungetc(c: ::std::os::raw::c_int, stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
+    pub fn gpgrt_read(
+        stream: gpgrt_stream_t,
+        buffer: *mut ::std::os::raw::c_void,
+        bytes_to_read: size_t,
+        bytes_read: *mut size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_write(
+        stream: gpgrt_stream_t,
+        buffer: *const ::std::os::raw::c_void,
+        bytes_to_write: size_t,
+        bytes_written: *mut size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_write_sanitized(
+        stream: gpgrt_stream_t,
+        buffer: *const ::std::os::raw::c_void,
+        length: size_t,
+        delimiters: *const ::std::os::raw::c_char,
+        bytes_written: *mut size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_write_hexstring(
+        stream: gpgrt_stream_t,
+        buffer: *const ::std::os::raw::c_void,
+        length: size_t,
+        reserved: ::std::os::raw::c_int,
+        bytes_written: *mut size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_fread(
+        ptr: *mut ::std::os::raw::c_void,
+        size: size_t,
+        nitems: size_t,
+        stream: gpgrt_stream_t,
+    ) -> size_t;
+    pub fn gpgrt_fwrite(
+        ptr: *const ::std::os::raw::c_void,
+        size: size_t,
+        memb: size_t,
+        stream: gpgrt_stream_t,
+    ) -> size_t;
+    pub fn gpgrt_fgets(
+        s: *mut ::std::os::raw::c_char,
+        n: ::std::os::raw::c_int,
+        stream: gpgrt_stream_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn gpgrt_fputs(
+        s: *const ::std::os::raw::c_char,
+        stream: gpgrt_stream_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_fputs_unlocked(
+        s: *const ::std::os::raw::c_char,
+        stream: gpgrt_stream_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_getline(
+        lineptr: *mut *mut ::std::os::raw::c_char,
+        n: *mut size_t,
+        stream: gpgrt_stream_t,
+    ) -> ssize_t;
+    pub fn gpgrt_read_line(
+        stream: gpgrt_stream_t,
+        addr_of_buffer: *mut *mut ::std::os::raw::c_char,
+        length_of_buffer: *mut size_t,
+        max_length: *mut size_t,
+    ) -> ssize_t;
     pub fn gpgrt_free(a: *mut ::std::os::raw::c_void);
-    pub fn gpgrt_fprintf(stream: gpgrt_stream_t,
-                         format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_fprintf_unlocked(stream: gpgrt_stream_t,
-                                  format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_printf(format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_printf_unlocked(format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_vfprintf(stream: gpgrt_stream_t,
-                          format: *const ::std::os::raw::c_char, ap: va_list)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_vfprintf_unlocked(stream: gpgrt_stream_t,
-                                   format: *const ::std::os::raw::c_char,
-                                   ap: va_list) -> ::std::os::raw::c_int;
-    pub fn gpgrt_setvbuf(stream: gpgrt_stream_t,
-                         buf: *mut ::std::os::raw::c_char,
-                         mode: ::std::os::raw::c_int, size: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_setbuf(stream: gpgrt_stream_t,
-                        buf: *mut ::std::os::raw::c_char);
+    pub fn gpgrt_fprintf(
+        stream: gpgrt_stream_t,
+        format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_fprintf_unlocked(
+        stream: gpgrt_stream_t,
+        format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_printf(format: *const ::std::os::raw::c_char, ...) -> ::std::os::raw::c_int;
+    pub fn gpgrt_printf_unlocked(
+        format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_vfprintf(
+        stream: gpgrt_stream_t,
+        format: *const ::std::os::raw::c_char,
+        ap: va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_vfprintf_unlocked(
+        stream: gpgrt_stream_t,
+        format: *const ::std::os::raw::c_char,
+        ap: va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_setvbuf(
+        stream: gpgrt_stream_t,
+        buf: *mut ::std::os::raw::c_char,
+        mode: ::std::os::raw::c_int,
+        size: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_setbuf(stream: gpgrt_stream_t, buf: *mut ::std::os::raw::c_char);
     pub fn gpgrt_set_binary(stream: gpgrt_stream_t);
-    pub fn gpgrt_set_nonblock(stream: gpgrt_stream_t,
-                              onoff: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_get_nonblock(stream: gpgrt_stream_t)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_poll(fdlist: *mut gpgrt_poll_t, nfds: ::std::os::raw::c_uint,
-                      timeout: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn gpgrt_set_nonblock(
+        stream: gpgrt_stream_t,
+        onoff: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_get_nonblock(stream: gpgrt_stream_t) -> ::std::os::raw::c_int;
+    pub fn gpgrt_poll(
+        fdlist: *mut gpgrt_poll_t,
+        nfds: ::std::os::raw::c_uint,
+        timeout: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn gpgrt_tmpfile() -> gpgrt_stream_t;
-    pub fn gpgrt_opaque_set(stream: gpgrt_stream_t,
-                            opaque: *mut ::std::os::raw::c_void);
-    pub fn gpgrt_opaque_get(stream: gpgrt_stream_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn gpgrt_fname_set(stream: gpgrt_stream_t,
-                           fname: *const ::std::os::raw::c_char);
-    pub fn gpgrt_fname_get(stream: gpgrt_stream_t)
-     -> *const ::std::os::raw::c_char;
-    pub fn gpgrt_asprintf(r_buf: *mut *mut ::std::os::raw::c_char,
-                          format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_vasprintf(r_buf: *mut *mut ::std::os::raw::c_char,
-                           format: *const ::std::os::raw::c_char, ap: va_list)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_bsprintf(format: *const ::std::os::raw::c_char, ...)
-     -> *mut ::std::os::raw::c_char;
-    pub fn gpgrt_vbsprintf(format: *const ::std::os::raw::c_char, ap: va_list)
-     -> *mut ::std::os::raw::c_char;
-    pub fn gpgrt_snprintf(buf: *mut ::std::os::raw::c_char, bufsize: size_t,
-                          format: *const ::std::os::raw::c_char, ...)
-     -> ::std::os::raw::c_int;
-    pub fn gpgrt_vsnprintf(buf: *mut ::std::os::raw::c_char, bufsize: size_t,
-                           format: *const ::std::os::raw::c_char,
-                           arg_ptr: va_list) -> ::std::os::raw::c_int;
+    pub fn gpgrt_opaque_set(stream: gpgrt_stream_t, opaque: *mut ::std::os::raw::c_void);
+    pub fn gpgrt_opaque_get(stream: gpgrt_stream_t) -> *mut ::std::os::raw::c_void;
+    pub fn gpgrt_fname_set(stream: gpgrt_stream_t, fname: *const ::std::os::raw::c_char);
+    pub fn gpgrt_fname_get(stream: gpgrt_stream_t) -> *const ::std::os::raw::c_char;
+    pub fn gpgrt_asprintf(
+        r_buf: *mut *mut ::std::os::raw::c_char,
+        format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_vasprintf(
+        r_buf: *mut *mut ::std::os::raw::c_char,
+        format: *const ::std::os::raw::c_char,
+        ap: va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_bsprintf(
+        format: *const ::std::os::raw::c_char,
+        ...
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn gpgrt_vbsprintf(
+        format: *const ::std::os::raw::c_char,
+        ap: va_list,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn gpgrt_snprintf(
+        buf: *mut ::std::os::raw::c_char,
+        bufsize: size_t,
+        format: *const ::std::os::raw::c_char,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn gpgrt_vsnprintf(
+        buf: *mut ::std::os::raw::c_char,
+        bufsize: size_t,
+        format: *const ::std::os::raw::c_char,
+        arg_ptr: va_list,
+    ) -> ::std::os::raw::c_int;
     pub fn gettimeofday(__tv: *mut Struct_timeval, __tz: __timezone_ptr_t)
-     -> ::std::os::raw::c_int;
-    pub fn settimeofday(__tv: *const Struct_timeval,
-                        __tz: *const Struct_timezone)
-     -> ::std::os::raw::c_int;
-    pub fn adjtime(__delta: *const Struct_timeval,
-                   __olddelta: *mut Struct_timeval) -> ::std::os::raw::c_int;
-    pub fn getitimer(__which: __itimer_which_t,
-                     __value: *mut Struct_itimerval) -> ::std::os::raw::c_int;
-    pub fn setitimer(__which: __itimer_which_t,
-                     __new: *const Struct_itimerval,
-                     __old: *mut Struct_itimerval) -> ::std::os::raw::c_int;
-    pub fn utimes(__file: *const ::std::os::raw::c_char,
-                  __tvp: *mut Struct_timeval) -> ::std::os::raw::c_int;
-    pub fn lutimes(__file: *const ::std::os::raw::c_char,
-                   __tvp: *mut Struct_timeval) -> ::std::os::raw::c_int;
-    pub fn futimes(__fd: ::std::os::raw::c_int, __tvp: *mut Struct_timeval)
-     -> ::std::os::raw::c_int;
+        -> ::std::os::raw::c_int;
+    pub fn settimeofday(
+        __tv: *const Struct_timeval,
+        __tz: *const Struct_timezone,
+    ) -> ::std::os::raw::c_int;
+    pub fn adjtime(
+        __delta: *const Struct_timeval,
+        __olddelta: *mut Struct_timeval,
+    ) -> ::std::os::raw::c_int;
+    pub fn getitimer(
+        __which: __itimer_which_t,
+        __value: *mut Struct_itimerval,
+    ) -> ::std::os::raw::c_int;
+    pub fn setitimer(
+        __which: __itimer_which_t,
+        __new: *const Struct_itimerval,
+        __old: *mut Struct_itimerval,
+    ) -> ::std::os::raw::c_int;
+    pub fn utimes(
+        __file: *const ::std::os::raw::c_char,
+        __tvp: *mut Struct_timeval,
+    ) -> ::std::os::raw::c_int;
+    pub fn lutimes(
+        __file: *const ::std::os::raw::c_char,
+        __tvp: *mut Struct_timeval,
+    ) -> ::std::os::raw::c_int;
+    pub fn futimes(
+        __fd: ::std::os::raw::c_int,
+        __tvp: *mut Struct_timeval,
+    ) -> ::std::os::raw::c_int;
     pub fn gcry_strerror(err: gcry_error_t) -> *const ::std::os::raw::c_char;
     pub fn gcry_strsource(err: gcry_error_t) -> *const ::std::os::raw::c_char;
-    pub fn gcry_err_code_from_errno(err: ::std::os::raw::c_int)
-     -> gcry_err_code_t;
-    pub fn gcry_err_code_to_errno(code: gcry_err_code_t)
-     -> ::std::os::raw::c_int;
-    pub fn gcry_err_make_from_errno(source: gcry_err_source_t,
-                                    err: ::std::os::raw::c_int)
-     -> gcry_error_t;
-    pub fn gcry_error_from_errno(err: ::std::os::raw::c_int)
-     -> gcry_err_code_t;
-    pub fn gcry_check_version(req_version: *const ::std::os::raw::c_char)
-     -> *const ::std::os::raw::c_char;
+    pub fn gcry_err_code_from_errno(err: ::std::os::raw::c_int) -> gcry_err_code_t;
+    pub fn gcry_err_code_to_errno(code: gcry_err_code_t) -> ::std::os::raw::c_int;
+    pub fn gcry_err_make_from_errno(
+        source: gcry_err_source_t,
+        err: ::std::os::raw::c_int,
+    ) -> gcry_error_t;
+    pub fn gcry_error_from_errno(err: ::std::os::raw::c_int) -> gcry_err_code_t;
+    pub fn gcry_check_version(
+        req_version: *const ::std::os::raw::c_char,
+    ) -> *const ::std::os::raw::c_char;
     pub fn gcry_control(CMD: Enum_gcry_ctl_cmds, ...) -> gcry_error_t;
-    pub fn gcry_sexp_new(retsexp: *mut gcry_sexp_t,
-                         buffer: *const ::std::os::raw::c_void,
-                         length: size_t, autodetect: ::std::os::raw::c_int)
-     -> gcry_error_t;
-    pub fn gcry_sexp_create(retsexp: *mut gcry_sexp_t,
-                            buffer: *mut ::std::os::raw::c_void,
-                            length: size_t, autodetect: ::std::os::raw::c_int,
-                            freefnc:
-                                ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                               *mut ::std::os::raw::c_void)>)
-     -> gcry_error_t;
-    pub fn gcry_sexp_sscan(retsexp: *mut gcry_sexp_t, erroff: *mut size_t,
-                           buffer: *const ::std::os::raw::c_char,
-                           length: size_t) -> gcry_error_t;
-    pub fn gcry_sexp_build(retsexp: *mut gcry_sexp_t, erroff: *mut size_t,
-                           format: *const ::std::os::raw::c_char, ...)
-     -> gcry_error_t;
-    pub fn gcry_sexp_build_array(retsexp: *mut gcry_sexp_t,
-                                 erroff: *mut size_t,
-                                 format: *const ::std::os::raw::c_char,
-                                 arg_list: *mut *mut ::std::os::raw::c_void)
-     -> gcry_error_t;
+    pub fn gcry_sexp_new(
+        retsexp: *mut gcry_sexp_t,
+        buffer: *const ::std::os::raw::c_void,
+        length: size_t,
+        autodetect: ::std::os::raw::c_int,
+    ) -> gcry_error_t;
+    pub fn gcry_sexp_create(
+        retsexp: *mut gcry_sexp_t,
+        buffer: *mut ::std::os::raw::c_void,
+        length: size_t,
+        autodetect: ::std::os::raw::c_int,
+        freefnc: ::std::option::Option<unsafe extern "C" fn(arg1: *mut ::std::os::raw::c_void)>,
+    ) -> gcry_error_t;
+    pub fn gcry_sexp_sscan(
+        retsexp: *mut gcry_sexp_t,
+        erroff: *mut size_t,
+        buffer: *const ::std::os::raw::c_char,
+        length: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_sexp_build(
+        retsexp: *mut gcry_sexp_t,
+        erroff: *mut size_t,
+        format: *const ::std::os::raw::c_char,
+        ...
+    ) -> gcry_error_t;
+    pub fn gcry_sexp_build_array(
+        retsexp: *mut gcry_sexp_t,
+        erroff: *mut size_t,
+        format: *const ::std::os::raw::c_char,
+        arg_list: *mut *mut ::std::os::raw::c_void,
+    ) -> gcry_error_t;
     pub fn gcry_sexp_release(sexp: gcry_sexp_t);
-    pub fn gcry_sexp_canon_len(buffer: *const ::std::os::raw::c_uchar,
-                               length: size_t, erroff: *mut size_t,
-                               errcode: *mut gcry_error_t) -> size_t;
-    pub fn gcry_sexp_sprint(sexp: gcry_sexp_t, mode: ::std::os::raw::c_int,
-                            buffer: *mut ::std::os::raw::c_void,
-                            maxlength: size_t) -> size_t;
+    pub fn gcry_sexp_canon_len(
+        buffer: *const ::std::os::raw::c_uchar,
+        length: size_t,
+        erroff: *mut size_t,
+        errcode: *mut gcry_error_t,
+    ) -> size_t;
+    pub fn gcry_sexp_sprint(
+        sexp: gcry_sexp_t,
+        mode: ::std::os::raw::c_int,
+        buffer: *mut ::std::os::raw::c_void,
+        maxlength: size_t,
+    ) -> size_t;
     pub fn gcry_sexp_dump(a: gcry_sexp_t);
     pub fn gcry_sexp_cons(a: gcry_sexp_t, b: gcry_sexp_t) -> gcry_sexp_t;
     pub fn gcry_sexp_alist(array: *const gcry_sexp_t) -> gcry_sexp_t;
     pub fn gcry_sexp_vlist(a: gcry_sexp_t, ...) -> gcry_sexp_t;
     pub fn gcry_sexp_append(a: gcry_sexp_t, n: gcry_sexp_t) -> gcry_sexp_t;
     pub fn gcry_sexp_prepend(a: gcry_sexp_t, n: gcry_sexp_t) -> gcry_sexp_t;
-    pub fn gcry_sexp_find_token(list: gcry_sexp_t,
-                                tok: *const ::std::os::raw::c_char,
-                                toklen: size_t) -> gcry_sexp_t;
+    pub fn gcry_sexp_find_token(
+        list: gcry_sexp_t,
+        tok: *const ::std::os::raw::c_char,
+        toklen: size_t,
+    ) -> gcry_sexp_t;
     pub fn gcry_sexp_length(list: gcry_sexp_t) -> ::std::os::raw::c_int;
-    pub fn gcry_sexp_nth(list: gcry_sexp_t, number: ::std::os::raw::c_int)
-     -> gcry_sexp_t;
+    pub fn gcry_sexp_nth(list: gcry_sexp_t, number: ::std::os::raw::c_int) -> gcry_sexp_t;
     pub fn gcry_sexp_car(list: gcry_sexp_t) -> gcry_sexp_t;
     pub fn gcry_sexp_cdr(list: gcry_sexp_t) -> gcry_sexp_t;
     pub fn gcry_sexp_cadr(list: gcry_sexp_t) -> gcry_sexp_t;
-    pub fn gcry_sexp_nth_data(list: gcry_sexp_t,
-                              number: ::std::os::raw::c_int,
-                              datalen: *mut size_t)
-     -> *const ::std::os::raw::c_char;
-    pub fn gcry_sexp_nth_buffer(list: gcry_sexp_t,
-                                number: ::std::os::raw::c_int,
-                                rlength: *mut size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn gcry_sexp_nth_string(list: gcry_sexp_t,
-                                number: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_char;
-    pub fn gcry_sexp_nth_mpi(list: gcry_sexp_t, number: ::std::os::raw::c_int,
-                             mpifmt: ::std::os::raw::c_int) -> gcry_mpi_t;
-    pub fn gcry_sexp_extract_param(sexp: gcry_sexp_t,
-                                   path: *const ::std::os::raw::c_char,
-                                   list: *const ::std::os::raw::c_char, ...)
-     -> gpg_error_t;
+    pub fn gcry_sexp_nth_data(
+        list: gcry_sexp_t,
+        number: ::std::os::raw::c_int,
+        datalen: *mut size_t,
+    ) -> *const ::std::os::raw::c_char;
+    pub fn gcry_sexp_nth_buffer(
+        list: gcry_sexp_t,
+        number: ::std::os::raw::c_int,
+        rlength: *mut size_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn gcry_sexp_nth_string(
+        list: gcry_sexp_t,
+        number: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn gcry_sexp_nth_mpi(
+        list: gcry_sexp_t,
+        number: ::std::os::raw::c_int,
+        mpifmt: ::std::os::raw::c_int,
+    ) -> gcry_mpi_t;
+    pub fn gcry_sexp_extract_param(
+        sexp: gcry_sexp_t,
+        path: *const ::std::os::raw::c_char,
+        list: *const ::std::os::raw::c_char,
+        ...
+    ) -> gpg_error_t;
     pub fn gcry_mpi_new(nbits: ::std::os::raw::c_uint) -> gcry_mpi_t;
     pub fn gcry_mpi_snew(nbits: ::std::os::raw::c_uint) -> gcry_mpi_t;
     pub fn gcry_mpi_release(a: gcry_mpi_t);
     pub fn gcry_mpi_copy(a: gcry_mpi_t) -> gcry_mpi_t;
     pub fn gcry_mpi_snatch(w: gcry_mpi_t, u: gcry_mpi_t);
     pub fn gcry_mpi_set(w: gcry_mpi_t, u: gcry_mpi_t) -> gcry_mpi_t;
-    pub fn gcry_mpi_set_ui(w: gcry_mpi_t, u: ::std::os::raw::c_ulong)
-     -> gcry_mpi_t;
+    pub fn gcry_mpi_set_ui(w: gcry_mpi_t, u: ::std::os::raw::c_ulong) -> gcry_mpi_t;
     pub fn gcry_mpi_swap(a: gcry_mpi_t, b: gcry_mpi_t);
     pub fn gcry_mpi_is_neg(a: gcry_mpi_t) -> ::std::os::raw::c_int;
     pub fn gcry_mpi_neg(w: gcry_mpi_t, u: gcry_mpi_t);
     pub fn gcry_mpi_abs(w: gcry_mpi_t);
-    pub fn gcry_mpi_cmp(u: gcry_mpi_t, v: gcry_mpi_t)
-     -> ::std::os::raw::c_int;
-    pub fn gcry_mpi_cmp_ui(u: gcry_mpi_t, v: ::std::os::raw::c_ulong)
-     -> ::std::os::raw::c_int;
-    pub fn gcry_mpi_scan(ret_mpi: *mut gcry_mpi_t,
-                         format: Enum_gcry_mpi_format,
-                         buffer: *const ::std::os::raw::c_void,
-                         buflen: size_t, nscanned: *mut size_t)
-     -> gcry_error_t;
-    pub fn gcry_mpi_print(format: Enum_gcry_mpi_format,
-                          buffer: *mut ::std::os::raw::c_uchar,
-                          buflen: size_t, nwritten: *mut size_t,
-                          a: gcry_mpi_t) -> gcry_error_t;
-    pub fn gcry_mpi_aprint(format: Enum_gcry_mpi_format,
-                           buffer: *mut *mut ::std::os::raw::c_uchar,
-                           nwritten: *mut size_t, a: gcry_mpi_t)
-     -> gcry_error_t;
+    pub fn gcry_mpi_cmp(u: gcry_mpi_t, v: gcry_mpi_t) -> ::std::os::raw::c_int;
+    pub fn gcry_mpi_cmp_ui(u: gcry_mpi_t, v: ::std::os::raw::c_ulong) -> ::std::os::raw::c_int;
+    pub fn gcry_mpi_scan(
+        ret_mpi: *mut gcry_mpi_t,
+        format: Enum_gcry_mpi_format,
+        buffer: *const ::std::os::raw::c_void,
+        buflen: size_t,
+        nscanned: *mut size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_mpi_print(
+        format: Enum_gcry_mpi_format,
+        buffer: *mut ::std::os::raw::c_uchar,
+        buflen: size_t,
+        nwritten: *mut size_t,
+        a: gcry_mpi_t,
+    ) -> gcry_error_t;
+    pub fn gcry_mpi_aprint(
+        format: Enum_gcry_mpi_format,
+        buffer: *mut *mut ::std::os::raw::c_uchar,
+        nwritten: *mut size_t,
+        a: gcry_mpi_t,
+    ) -> gcry_error_t;
     pub fn gcry_mpi_dump(a: gcry_mpi_t);
     pub fn gcry_mpi_add(w: gcry_mpi_t, u: gcry_mpi_t, v: gcry_mpi_t);
-    pub fn gcry_mpi_add_ui(w: gcry_mpi_t, u: gcry_mpi_t,
-                           v: ::std::os::raw::c_ulong);
-    pub fn gcry_mpi_addm(w: gcry_mpi_t, u: gcry_mpi_t, v: gcry_mpi_t,
-                         m: gcry_mpi_t);
+    pub fn gcry_mpi_add_ui(w: gcry_mpi_t, u: gcry_mpi_t, v: ::std::os::raw::c_ulong);
+    pub fn gcry_mpi_addm(w: gcry_mpi_t, u: gcry_mpi_t, v: gcry_mpi_t, m: gcry_mpi_t);
     pub fn gcry_mpi_sub(w: gcry_mpi_t, u: gcry_mpi_t, v: gcry_mpi_t);
-    pub fn gcry_mpi_sub_ui(w: gcry_mpi_t, u: gcry_mpi_t,
-                           v: ::std::os::raw::c_ulong);
-    pub fn gcry_mpi_subm(w: gcry_mpi_t, u: gcry_mpi_t, v: gcry_mpi_t,
-                         m: gcry_mpi_t);
+    pub fn gcry_mpi_sub_ui(w: gcry_mpi_t, u: gcry_mpi_t, v: ::std::os::raw::c_ulong);
+    pub fn gcry_mpi_subm(w: gcry_mpi_t, u: gcry_mpi_t, v: gcry_mpi_t, m: gcry_mpi_t);
     pub fn gcry_mpi_mul(w: gcry_mpi_t, u: gcry_mpi_t, v: gcry_mpi_t);
-    pub fn gcry_mpi_mul_ui(w: gcry_mpi_t, u: gcry_mpi_t,
-                           v: ::std::os::raw::c_ulong);
-    pub fn gcry_mpi_mulm(w: gcry_mpi_t, u: gcry_mpi_t, v: gcry_mpi_t,
-                         m: gcry_mpi_t);
-    pub fn gcry_mpi_mul_2exp(w: gcry_mpi_t, u: gcry_mpi_t,
-                             cnt: ::std::os::raw::c_ulong);
-    pub fn gcry_mpi_div(q: gcry_mpi_t, r: gcry_mpi_t, dividend: gcry_mpi_t,
-                        divisor: gcry_mpi_t, round: ::std::os::raw::c_int);
-    pub fn gcry_mpi_mod(r: gcry_mpi_t, dividend: gcry_mpi_t,
-                        divisor: gcry_mpi_t);
-    pub fn gcry_mpi_powm(w: gcry_mpi_t, b: gcry_mpi_t, e: gcry_mpi_t,
-                         m: gcry_mpi_t);
-    pub fn gcry_mpi_gcd(g: gcry_mpi_t, a: gcry_mpi_t, b: gcry_mpi_t)
-     -> ::std::os::raw::c_int;
-    pub fn gcry_mpi_invm(x: gcry_mpi_t, a: gcry_mpi_t, m: gcry_mpi_t)
-     -> ::std::os::raw::c_int;
-    pub fn gcry_mpi_point_new(nbits: ::std::os::raw::c_uint)
-     -> gcry_mpi_point_t;
+    pub fn gcry_mpi_mul_ui(w: gcry_mpi_t, u: gcry_mpi_t, v: ::std::os::raw::c_ulong);
+    pub fn gcry_mpi_mulm(w: gcry_mpi_t, u: gcry_mpi_t, v: gcry_mpi_t, m: gcry_mpi_t);
+    pub fn gcry_mpi_mul_2exp(w: gcry_mpi_t, u: gcry_mpi_t, cnt: ::std::os::raw::c_ulong);
+    pub fn gcry_mpi_div(
+        q: gcry_mpi_t,
+        r: gcry_mpi_t,
+        dividend: gcry_mpi_t,
+        divisor: gcry_mpi_t,
+        round: ::std::os::raw::c_int,
+    );
+    pub fn gcry_mpi_mod(r: gcry_mpi_t, dividend: gcry_mpi_t, divisor: gcry_mpi_t);
+    pub fn gcry_mpi_powm(w: gcry_mpi_t, b: gcry_mpi_t, e: gcry_mpi_t, m: gcry_mpi_t);
+    pub fn gcry_mpi_gcd(g: gcry_mpi_t, a: gcry_mpi_t, b: gcry_mpi_t) -> ::std::os::raw::c_int;
+    pub fn gcry_mpi_invm(x: gcry_mpi_t, a: gcry_mpi_t, m: gcry_mpi_t) -> ::std::os::raw::c_int;
+    pub fn gcry_mpi_point_new(nbits: ::std::os::raw::c_uint) -> gcry_mpi_point_t;
     pub fn gcry_mpi_point_release(point: gcry_mpi_point_t);
-    pub fn gcry_mpi_point_get(x: gcry_mpi_t, y: gcry_mpi_t, z: gcry_mpi_t,
-                              point: gcry_mpi_point_t);
-    pub fn gcry_mpi_point_snatch_get(x: gcry_mpi_t, y: gcry_mpi_t,
-                                     z: gcry_mpi_t, point: gcry_mpi_point_t);
-    pub fn gcry_mpi_point_set(point: gcry_mpi_point_t, x: gcry_mpi_t,
-                              y: gcry_mpi_t, z: gcry_mpi_t)
-     -> gcry_mpi_point_t;
-    pub fn gcry_mpi_point_snatch_set(point: gcry_mpi_point_t, x: gcry_mpi_t,
-                                     y: gcry_mpi_t, z: gcry_mpi_t)
-     -> gcry_mpi_point_t;
-    pub fn gcry_mpi_ec_new(r_ctx: *mut gcry_ctx_t, keyparam: gcry_sexp_t,
-                           curvename: *const ::std::os::raw::c_char)
-     -> gpg_error_t;
-    pub fn gcry_mpi_ec_get_mpi(name: *const ::std::os::raw::c_char,
-                               ctx: gcry_ctx_t, copy: ::std::os::raw::c_int)
-     -> gcry_mpi_t;
-    pub fn gcry_mpi_ec_get_point(name: *const ::std::os::raw::c_char,
-                                 ctx: gcry_ctx_t, copy: ::std::os::raw::c_int)
-     -> gcry_mpi_point_t;
-    pub fn gcry_mpi_ec_set_mpi(name: *const ::std::os::raw::c_char,
-                               newvalue: gcry_mpi_t, ctx: gcry_ctx_t)
-     -> gpg_error_t;
-    pub fn gcry_mpi_ec_set_point(name: *const ::std::os::raw::c_char,
-                                 newvalue: gcry_mpi_point_t, ctx: gcry_ctx_t)
-     -> gpg_error_t;
-    pub fn gcry_mpi_ec_get_affine(x: gcry_mpi_t, y: gcry_mpi_t,
-                                  point: gcry_mpi_point_t, ctx: gcry_ctx_t)
-     -> ::std::os::raw::c_int;
-    pub fn gcry_mpi_ec_dup(w: gcry_mpi_point_t, u: gcry_mpi_point_t,
-                           ctx: gcry_ctx_t);
-    pub fn gcry_mpi_ec_add(w: gcry_mpi_point_t, u: gcry_mpi_point_t,
-                           v: gcry_mpi_point_t, ctx: gcry_ctx_t);
-    pub fn gcry_mpi_ec_mul(w: gcry_mpi_point_t, n: gcry_mpi_t,
-                           u: gcry_mpi_point_t, ctx: gcry_ctx_t);
-    pub fn gcry_mpi_ec_curve_point(w: gcry_mpi_point_t, ctx: gcry_ctx_t)
-     -> ::std::os::raw::c_int;
+    pub fn gcry_mpi_point_get(x: gcry_mpi_t, y: gcry_mpi_t, z: gcry_mpi_t, point: gcry_mpi_point_t);
+    pub fn gcry_mpi_point_snatch_get(
+        x: gcry_mpi_t,
+        y: gcry_mpi_t,
+        z: gcry_mpi_t,
+        point: gcry_mpi_point_t,
+    );
+    pub fn gcry_mpi_point_set(
+        point: gcry_mpi_point_t,
+        x: gcry_mpi_t,
+        y: gcry_mpi_t,
+        z: gcry_mpi_t,
+    ) -> gcry_mpi_point_t;
+    pub fn gcry_mpi_point_snatch_set(
+        point: gcry_mpi_point_t,
+        x: gcry_mpi_t,
+        y: gcry_mpi_t,
+        z: gcry_mpi_t,
+    ) -> gcry_mpi_point_t;
+    pub fn gcry_mpi_ec_new(
+        r_ctx: *mut gcry_ctx_t,
+        keyparam: gcry_sexp_t,
+        curvename: *const ::std::os::raw::c_char,
+    ) -> gpg_error_t;
+    pub fn gcry_mpi_ec_get_mpi(
+        name: *const ::std::os::raw::c_char,
+        ctx: gcry_ctx_t,
+        copy: ::std::os::raw::c_int,
+    ) -> gcry_mpi_t;
+    pub fn gcry_mpi_ec_get_point(
+        name: *const ::std::os::raw::c_char,
+        ctx: gcry_ctx_t,
+        copy: ::std::os::raw::c_int,
+    ) -> gcry_mpi_point_t;
+    pub fn gcry_mpi_ec_set_mpi(
+        name: *const ::std::os::raw::c_char,
+        newvalue: gcry_mpi_t,
+        ctx: gcry_ctx_t,
+    ) -> gpg_error_t;
+    pub fn gcry_mpi_ec_set_point(
+        name: *const ::std::os::raw::c_char,
+        newvalue: gcry_mpi_point_t,
+        ctx: gcry_ctx_t,
+    ) -> gpg_error_t;
+    pub fn gcry_mpi_ec_get_affine(
+        x: gcry_mpi_t,
+        y: gcry_mpi_t,
+        point: gcry_mpi_point_t,
+        ctx: gcry_ctx_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn gcry_mpi_ec_dup(w: gcry_mpi_point_t, u: gcry_mpi_point_t, ctx: gcry_ctx_t);
+    pub fn gcry_mpi_ec_add(
+        w: gcry_mpi_point_t,
+        u: gcry_mpi_point_t,
+        v: gcry_mpi_point_t,
+        ctx: gcry_ctx_t,
+    );
+    pub fn gcry_mpi_ec_mul(
+        w: gcry_mpi_point_t,
+        n: gcry_mpi_t,
+        u: gcry_mpi_point_t,
+        ctx: gcry_ctx_t,
+    );
+    pub fn gcry_mpi_ec_curve_point(w: gcry_mpi_point_t, ctx: gcry_ctx_t) -> ::std::os::raw::c_int;
     pub fn gcry_mpi_get_nbits(a: gcry_mpi_t) -> ::std::os::raw::c_uint;
-    pub fn gcry_mpi_test_bit(a: gcry_mpi_t, n: ::std::os::raw::c_uint)
-     -> ::std::os::raw::c_int;
+    pub fn gcry_mpi_test_bit(a: gcry_mpi_t, n: ::std::os::raw::c_uint) -> ::std::os::raw::c_int;
     pub fn gcry_mpi_set_bit(a: gcry_mpi_t, n: ::std::os::raw::c_uint);
     pub fn gcry_mpi_clear_bit(a: gcry_mpi_t, n: ::std::os::raw::c_uint);
     pub fn gcry_mpi_set_highbit(a: gcry_mpi_t, n: ::std::os::raw::c_uint);
     pub fn gcry_mpi_clear_highbit(a: gcry_mpi_t, n: ::std::os::raw::c_uint);
-    pub fn gcry_mpi_rshift(x: gcry_mpi_t, a: gcry_mpi_t,
-                           n: ::std::os::raw::c_uint);
-    pub fn gcry_mpi_lshift(x: gcry_mpi_t, a: gcry_mpi_t,
-                           n: ::std::os::raw::c_uint);
-    pub fn gcry_mpi_set_opaque(a: gcry_mpi_t, p: *mut ::std::os::raw::c_void,
-                               nbits: ::std::os::raw::c_uint) -> gcry_mpi_t;
-    pub fn gcry_mpi_set_opaque_copy(a: gcry_mpi_t,
-                                    p: *const ::std::os::raw::c_void,
-                                    nbits: ::std::os::raw::c_uint)
-     -> gcry_mpi_t;
-    pub fn gcry_mpi_get_opaque(a: gcry_mpi_t,
-                               nbits: *mut ::std::os::raw::c_uint)
-     -> *mut ::std::os::raw::c_void;
+    pub fn gcry_mpi_rshift(x: gcry_mpi_t, a: gcry_mpi_t, n: ::std::os::raw::c_uint);
+    pub fn gcry_mpi_lshift(x: gcry_mpi_t, a: gcry_mpi_t, n: ::std::os::raw::c_uint);
+    pub fn gcry_mpi_set_opaque(
+        a: gcry_mpi_t,
+        p: *mut ::std::os::raw::c_void,
+        nbits: ::std::os::raw::c_uint,
+    ) -> gcry_mpi_t;
+    pub fn gcry_mpi_set_opaque_copy(
+        a: gcry_mpi_t,
+        p: *const ::std::os::raw::c_void,
+        nbits: ::std::os::raw::c_uint,
+    ) -> gcry_mpi_t;
+    pub fn gcry_mpi_get_opaque(
+        a: gcry_mpi_t,
+        nbits: *mut ::std::os::raw::c_uint,
+    ) -> *mut ::std::os::raw::c_void;
     pub fn gcry_mpi_set_flag(a: gcry_mpi_t, flag: Enum_gcry_mpi_flag);
     pub fn gcry_mpi_clear_flag(a: gcry_mpi_t, flag: Enum_gcry_mpi_flag);
-    pub fn gcry_mpi_get_flag(a: gcry_mpi_t, flag: Enum_gcry_mpi_flag)
-     -> ::std::os::raw::c_int;
+    pub fn gcry_mpi_get_flag(a: gcry_mpi_t, flag: Enum_gcry_mpi_flag) -> ::std::os::raw::c_int;
     pub fn _gcry_mpi_get_const(no: ::std::os::raw::c_int) -> gcry_mpi_t;
-    pub fn gcry_cipher_open(handle: *mut gcry_cipher_hd_t,
-                            algo: ::std::os::raw::c_int,
-                            mode: ::std::os::raw::c_int,
-                            flags: ::std::os::raw::c_uint) -> gcry_error_t;
+    pub fn gcry_cipher_open(
+        handle: *mut gcry_cipher_hd_t,
+        algo: ::std::os::raw::c_int,
+        mode: ::std::os::raw::c_int,
+        flags: ::std::os::raw::c_uint,
+    ) -> gcry_error_t;
     pub fn gcry_cipher_close(h: gcry_cipher_hd_t);
-    pub fn gcry_cipher_ctl(h: gcry_cipher_hd_t, cmd: ::std::os::raw::c_int,
-                           buffer: *mut ::std::os::raw::c_void,
-                           buflen: size_t) -> gcry_error_t;
-    pub fn gcry_cipher_info(h: gcry_cipher_hd_t, what: ::std::os::raw::c_int,
-                            buffer: *mut ::std::os::raw::c_void,
-                            nbytes: *mut size_t) -> gcry_error_t;
-    pub fn gcry_cipher_algo_info(algo: ::std::os::raw::c_int,
-                                 what: ::std::os::raw::c_int,
-                                 buffer: *mut ::std::os::raw::c_void,
-                                 nbytes: *mut size_t) -> gcry_error_t;
+    pub fn gcry_cipher_ctl(
+        h: gcry_cipher_hd_t,
+        cmd: ::std::os::raw::c_int,
+        buffer: *mut ::std::os::raw::c_void,
+        buflen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_cipher_info(
+        h: gcry_cipher_hd_t,
+        what: ::std::os::raw::c_int,
+        buffer: *mut ::std::os::raw::c_void,
+        nbytes: *mut size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_cipher_algo_info(
+        algo: ::std::os::raw::c_int,
+        what: ::std::os::raw::c_int,
+        buffer: *mut ::std::os::raw::c_void,
+        nbytes: *mut size_t,
+    ) -> gcry_error_t;
     pub fn gcry_cipher_algo_name(algorithm: ::std::os::raw::c_int)
-     -> *const ::std::os::raw::c_char;
-    pub fn gcry_cipher_map_name(name: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn gcry_cipher_mode_from_oid(string: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn gcry_cipher_encrypt(h: gcry_cipher_hd_t,
-                               out: *mut ::std::os::raw::c_void,
-                               outsize: size_t,
-                               _in: *const ::std::os::raw::c_void,
-                               inlen: size_t) -> gcry_error_t;
-    pub fn gcry_cipher_decrypt(h: gcry_cipher_hd_t,
-                               out: *mut ::std::os::raw::c_void,
-                               outsize: size_t,
-                               _in: *const ::std::os::raw::c_void,
-                               inlen: size_t) -> gcry_error_t;
-    pub fn gcry_cipher_setkey(hd: gcry_cipher_hd_t,
-                              key: *const ::std::os::raw::c_void,
-                              keylen: size_t) -> gcry_error_t;
-    pub fn gcry_cipher_setiv(hd: gcry_cipher_hd_t,
-                             iv: *const ::std::os::raw::c_void, ivlen: size_t)
-     -> gcry_error_t;
-    pub fn gcry_cipher_authenticate(hd: gcry_cipher_hd_t,
-                                    abuf: *const ::std::os::raw::c_void,
-                                    abuflen: size_t) -> gcry_error_t;
-    pub fn gcry_cipher_gettag(hd: gcry_cipher_hd_t,
-                              outtag: *mut ::std::os::raw::c_void,
-                              taglen: size_t) -> gcry_error_t;
-    pub fn gcry_cipher_checktag(hd: gcry_cipher_hd_t,
-                                intag: *const ::std::os::raw::c_void,
-                                taglen: size_t) -> gcry_error_t;
-    pub fn gcry_cipher_setctr(hd: gcry_cipher_hd_t,
-                              ctr: *const ::std::os::raw::c_void,
-                              ctrlen: size_t) -> gpg_error_t;
+        -> *const ::std::os::raw::c_char;
+    pub fn gcry_cipher_map_name(name: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn gcry_cipher_mode_from_oid(
+        string: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn gcry_cipher_encrypt(
+        h: gcry_cipher_hd_t,
+        out: *mut ::std::os::raw::c_void,
+        outsize: size_t,
+        _in: *const ::std::os::raw::c_void,
+        inlen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_cipher_decrypt(
+        h: gcry_cipher_hd_t,
+        out: *mut ::std::os::raw::c_void,
+        outsize: size_t,
+        _in: *const ::std::os::raw::c_void,
+        inlen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_cipher_setkey(
+        hd: gcry_cipher_hd_t,
+        key: *const ::std::os::raw::c_void,
+        keylen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_cipher_setiv(
+        hd: gcry_cipher_hd_t,
+        iv: *const ::std::os::raw::c_void,
+        ivlen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_cipher_authenticate(
+        hd: gcry_cipher_hd_t,
+        abuf: *const ::std::os::raw::c_void,
+        abuflen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_cipher_gettag(
+        hd: gcry_cipher_hd_t,
+        outtag: *mut ::std::os::raw::c_void,
+        taglen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_cipher_checktag(
+        hd: gcry_cipher_hd_t,
+        intag: *const ::std::os::raw::c_void,
+        taglen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_cipher_setctr(
+        hd: gcry_cipher_hd_t,
+        ctr: *const ::std::os::raw::c_void,
+        ctrlen: size_t,
+    ) -> gpg_error_t;
     pub fn gcry_cipher_get_algo_keylen(algo: ::std::os::raw::c_int) -> size_t;
     pub fn gcry_cipher_get_algo_blklen(algo: ::std::os::raw::c_int) -> size_t;
-    pub fn gcry_pk_encrypt(result: *mut gcry_sexp_t, data: gcry_sexp_t,
-                           pkey: gcry_sexp_t) -> gcry_error_t;
-    pub fn gcry_pk_decrypt(result: *mut gcry_sexp_t, data: gcry_sexp_t,
-                           skey: gcry_sexp_t) -> gcry_error_t;
-    pub fn gcry_pk_sign(result: *mut gcry_sexp_t, data: gcry_sexp_t,
-                        skey: gcry_sexp_t) -> gcry_error_t;
-    pub fn gcry_pk_verify(sigval: gcry_sexp_t, data: gcry_sexp_t,
-                          pkey: gcry_sexp_t) -> gcry_error_t;
+    pub fn gcry_pk_encrypt(
+        result: *mut gcry_sexp_t,
+        data: gcry_sexp_t,
+        pkey: gcry_sexp_t,
+    ) -> gcry_error_t;
+    pub fn gcry_pk_decrypt(
+        result: *mut gcry_sexp_t,
+        data: gcry_sexp_t,
+        skey: gcry_sexp_t,
+    ) -> gcry_error_t;
+    pub fn gcry_pk_sign(
+        result: *mut gcry_sexp_t,
+        data: gcry_sexp_t,
+        skey: gcry_sexp_t,
+    ) -> gcry_error_t;
+    pub fn gcry_pk_verify(
+        sigval: gcry_sexp_t,
+        data: gcry_sexp_t,
+        pkey: gcry_sexp_t,
+    ) -> gcry_error_t;
     pub fn gcry_pk_testkey(key: gcry_sexp_t) -> gcry_error_t;
-    pub fn gcry_pk_genkey(r_key: *mut gcry_sexp_t, s_parms: gcry_sexp_t)
-     -> gcry_error_t;
-    pub fn gcry_pk_ctl(cmd: ::std::os::raw::c_int,
-                       buffer: *mut ::std::os::raw::c_void, buflen: size_t)
-     -> gcry_error_t;
-    pub fn gcry_pk_algo_info(algo: ::std::os::raw::c_int,
-                             what: ::std::os::raw::c_int,
-                             buffer: *mut ::std::os::raw::c_void,
-                             nbytes: *mut size_t) -> gcry_error_t;
-    pub fn gcry_pk_algo_name(algorithm: ::std::os::raw::c_int)
-     -> *const ::std::os::raw::c_char;
-    pub fn gcry_pk_map_name(name: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
+    pub fn gcry_pk_genkey(r_key: *mut gcry_sexp_t, s_parms: gcry_sexp_t) -> gcry_error_t;
+    pub fn gcry_pk_ctl(
+        cmd: ::std::os::raw::c_int,
+        buffer: *mut ::std::os::raw::c_void,
+        buflen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_pk_algo_info(
+        algo: ::std::os::raw::c_int,
+        what: ::std::os::raw::c_int,
+        buffer: *mut ::std::os::raw::c_void,
+        nbytes: *mut size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_pk_algo_name(algorithm: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
+    pub fn gcry_pk_map_name(name: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
     pub fn gcry_pk_get_nbits(key: gcry_sexp_t) -> ::std::os::raw::c_uint;
-    pub fn gcry_pk_get_keygrip(key: gcry_sexp_t,
-                               array: *mut ::std::os::raw::c_uchar)
-     -> *mut ::std::os::raw::c_uchar;
-    pub fn gcry_pk_get_curve(key: gcry_sexp_t,
-                             iterator: ::std::os::raw::c_int,
-                             r_nbits: *mut ::std::os::raw::c_uint)
-     -> *const ::std::os::raw::c_char;
-    pub fn gcry_pk_get_param(algo: ::std::os::raw::c_int,
-                             name: *const ::std::os::raw::c_char)
-     -> gcry_sexp_t;
-    pub fn gcry_pubkey_get_sexp(r_sexp: *mut gcry_sexp_t,
-                                mode: ::std::os::raw::c_int, ctx: gcry_ctx_t)
-     -> gcry_error_t;
-    pub fn gcry_md_open(h: *mut gcry_md_hd_t, algo: ::std::os::raw::c_int,
-                        flags: ::std::os::raw::c_uint) -> gcry_error_t;
+    pub fn gcry_pk_get_keygrip(
+        key: gcry_sexp_t,
+        array: *mut ::std::os::raw::c_uchar,
+    ) -> *mut ::std::os::raw::c_uchar;
+    pub fn gcry_pk_get_curve(
+        key: gcry_sexp_t,
+        iterator: ::std::os::raw::c_int,
+        r_nbits: *mut ::std::os::raw::c_uint,
+    ) -> *const ::std::os::raw::c_char;
+    pub fn gcry_pk_get_param(
+        algo: ::std::os::raw::c_int,
+        name: *const ::std::os::raw::c_char,
+    ) -> gcry_sexp_t;
+    pub fn gcry_pubkey_get_sexp(
+        r_sexp: *mut gcry_sexp_t,
+        mode: ::std::os::raw::c_int,
+        ctx: gcry_ctx_t,
+    ) -> gcry_error_t;
+    pub fn gcry_md_open(
+        h: *mut gcry_md_hd_t,
+        algo: ::std::os::raw::c_int,
+        flags: ::std::os::raw::c_uint,
+    ) -> gcry_error_t;
     pub fn gcry_md_close(hd: gcry_md_hd_t);
-    pub fn gcry_md_enable(hd: gcry_md_hd_t, algo: ::std::os::raw::c_int)
-     -> gcry_error_t;
-    pub fn gcry_md_copy(bhd: *mut gcry_md_hd_t, ahd: gcry_md_hd_t)
-     -> gcry_error_t;
+    pub fn gcry_md_enable(hd: gcry_md_hd_t, algo: ::std::os::raw::c_int) -> gcry_error_t;
+    pub fn gcry_md_copy(bhd: *mut gcry_md_hd_t, ahd: gcry_md_hd_t) -> gcry_error_t;
     pub fn gcry_md_reset(hd: gcry_md_hd_t);
-    pub fn gcry_md_ctl(hd: gcry_md_hd_t, cmd: ::std::os::raw::c_int,
-                       buffer: *mut ::std::os::raw::c_void, buflen: size_t)
-     -> gcry_error_t;
-    pub fn gcry_md_write(hd: gcry_md_hd_t,
-                         buffer: *const ::std::os::raw::c_void,
-                         length: size_t);
-    pub fn gcry_md_read(hd: gcry_md_hd_t, algo: ::std::os::raw::c_int)
-     -> *mut ::std::os::raw::c_uchar;
-    pub fn gcry_md_hash_buffer(algo: ::std::os::raw::c_int,
-                               digest: *mut ::std::os::raw::c_void,
-                               buffer: *const ::std::os::raw::c_void,
-                               length: size_t);
-    pub fn gcry_md_hash_buffers(algo: ::std::os::raw::c_int,
-                                flags: ::std::os::raw::c_uint,
-                                digest: *mut ::std::os::raw::c_void,
-                                iov: *const gcry_buffer_t,
-                                iovcnt: ::std::os::raw::c_int) -> gpg_error_t;
+    pub fn gcry_md_ctl(
+        hd: gcry_md_hd_t,
+        cmd: ::std::os::raw::c_int,
+        buffer: *mut ::std::os::raw::c_void,
+        buflen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_md_write(hd: gcry_md_hd_t, buffer: *const ::std::os::raw::c_void, length: size_t);
+    pub fn gcry_md_read(
+        hd: gcry_md_hd_t,
+        algo: ::std::os::raw::c_int,
+    ) -> *mut ::std::os::raw::c_uchar;
+    pub fn gcry_md_hash_buffer(
+        algo: ::std::os::raw::c_int,
+        digest: *mut ::std::os::raw::c_void,
+        buffer: *const ::std::os::raw::c_void,
+        length: size_t,
+    );
+    pub fn gcry_md_hash_buffers(
+        algo: ::std::os::raw::c_int,
+        flags: ::std::os::raw::c_uint,
+        digest: *mut ::std::os::raw::c_void,
+        iov: *const gcry_buffer_t,
+        iovcnt: ::std::os::raw::c_int,
+    ) -> gpg_error_t;
     pub fn gcry_md_get_algo(hd: gcry_md_hd_t) -> ::std::os::raw::c_int;
-    pub fn gcry_md_get_algo_dlen(algo: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_uint;
-    pub fn gcry_md_is_enabled(a: gcry_md_hd_t, algo: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn gcry_md_get_algo_dlen(algo: ::std::os::raw::c_int) -> ::std::os::raw::c_uint;
+    pub fn gcry_md_is_enabled(
+        a: gcry_md_hd_t,
+        algo: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn gcry_md_is_secure(a: gcry_md_hd_t) -> ::std::os::raw::c_int;
-    pub fn gcry_md_info(h: gcry_md_hd_t, what: ::std::os::raw::c_int,
-                        buffer: *mut ::std::os::raw::c_void,
-                        nbytes: *mut size_t) -> gcry_error_t;
-    pub fn gcry_md_algo_info(algo: ::std::os::raw::c_int,
-                             what: ::std::os::raw::c_int,
-                             buffer: *mut ::std::os::raw::c_void,
-                             nbytes: *mut size_t) -> gcry_error_t;
-    pub fn gcry_md_algo_name(algo: ::std::os::raw::c_int)
-     -> *const ::std::os::raw::c_char;
-    pub fn gcry_md_map_name(name: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn gcry_md_setkey(hd: gcry_md_hd_t,
-                          key: *const ::std::os::raw::c_void, keylen: size_t)
-     -> gcry_error_t;
-    pub fn gcry_md_debug(hd: gcry_md_hd_t,
-                         suffix: *const ::std::os::raw::c_char);
-    pub fn gcry_mac_open(handle: *mut gcry_mac_hd_t,
-                         algo: ::std::os::raw::c_int,
-                         flags: ::std::os::raw::c_uint, ctx: gcry_ctx_t)
-     -> gcry_error_t;
+    pub fn gcry_md_info(
+        h: gcry_md_hd_t,
+        what: ::std::os::raw::c_int,
+        buffer: *mut ::std::os::raw::c_void,
+        nbytes: *mut size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_md_algo_info(
+        algo: ::std::os::raw::c_int,
+        what: ::std::os::raw::c_int,
+        buffer: *mut ::std::os::raw::c_void,
+        nbytes: *mut size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_md_algo_name(algo: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
+    pub fn gcry_md_map_name(name: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn gcry_md_setkey(
+        hd: gcry_md_hd_t,
+        key: *const ::std::os::raw::c_void,
+        keylen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_md_debug(hd: gcry_md_hd_t, suffix: *const ::std::os::raw::c_char);
+    pub fn gcry_mac_open(
+        handle: *mut gcry_mac_hd_t,
+        algo: ::std::os::raw::c_int,
+        flags: ::std::os::raw::c_uint,
+        ctx: gcry_ctx_t,
+    ) -> gcry_error_t;
     pub fn gcry_mac_close(h: gcry_mac_hd_t);
-    pub fn gcry_mac_ctl(h: gcry_mac_hd_t, cmd: ::std::os::raw::c_int,
-                        buffer: *mut ::std::os::raw::c_void, buflen: size_t)
-     -> gcry_error_t;
-    pub fn gcry_mac_algo_info(algo: ::std::os::raw::c_int,
-                              what: ::std::os::raw::c_int,
-                              buffer: *mut ::std::os::raw::c_void,
-                              nbytes: *mut size_t) -> gcry_error_t;
-    pub fn gcry_mac_setkey(hd: gcry_mac_hd_t,
-                           key: *const ::std::os::raw::c_void, keylen: size_t)
-     -> gcry_error_t;
-    pub fn gcry_mac_setiv(hd: gcry_mac_hd_t,
-                          iv: *const ::std::os::raw::c_void, ivlen: size_t)
-     -> gcry_error_t;
-    pub fn gcry_mac_write(hd: gcry_mac_hd_t,
-                          buffer: *const ::std::os::raw::c_void,
-                          length: size_t) -> gcry_error_t;
-    pub fn gcry_mac_read(hd: gcry_mac_hd_t,
-                         buffer: *mut ::std::os::raw::c_void,
-                         buflen: *mut size_t) -> gcry_error_t;
-    pub fn gcry_mac_verify(hd: gcry_mac_hd_t,
-                           buffer: *const ::std::os::raw::c_void,
-                           buflen: size_t) -> gcry_error_t;
-    pub fn gcry_mac_get_algo_maclen(algo: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_uint;
-    pub fn gcry_mac_get_algo_keylen(algo: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_uint;
-    pub fn gcry_mac_algo_name(algorithm: ::std::os::raw::c_int)
-     -> *const ::std::os::raw::c_char;
-    pub fn gcry_mac_map_name(name: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn gcry_kdf_derive(passphrase: *const ::std::os::raw::c_void,
-                           passphraselen: size_t, algo: ::std::os::raw::c_int,
-                           subalgo: ::std::os::raw::c_int,
-                           salt: *const ::std::os::raw::c_void,
-                           saltlen: size_t,
-                           iterations: ::std::os::raw::c_ulong,
-                           keysize: size_t,
-                           keybuffer: *mut ::std::os::raw::c_void)
-     -> gpg_error_t;
-    pub fn gcry_randomize(buffer: *mut ::std::os::raw::c_void, length: size_t,
-                          level: Enum_gcry_random_level);
-    pub fn gcry_random_add_bytes(buffer: *const ::std::os::raw::c_void,
-                                 length: size_t,
-                                 quality: ::std::os::raw::c_int)
-     -> gcry_error_t;
-    pub fn gcry_random_bytes(nbytes: size_t, level: Enum_gcry_random_level)
-     -> *mut ::std::os::raw::c_void;
-    pub fn gcry_random_bytes_secure(nbytes: size_t,
-                                    level: Enum_gcry_random_level)
-     -> *mut ::std::os::raw::c_void;
-    pub fn gcry_mpi_randomize(w: gcry_mpi_t, nbits: ::std::os::raw::c_uint,
-                              level: Enum_gcry_random_level);
-    pub fn gcry_create_nonce(buffer: *mut ::std::os::raw::c_void,
-                             length: size_t);
-    pub fn gcry_prime_generate(prime: *mut gcry_mpi_t,
-                               prime_bits: ::std::os::raw::c_uint,
-                               factor_bits: ::std::os::raw::c_uint,
-                               factors: *mut *mut gcry_mpi_t,
-                               cb_func: gcry_prime_check_func_t,
-                               cb_arg: *mut ::std::os::raw::c_void,
-                               random_level: gcry_random_level_t,
-                               flags: ::std::os::raw::c_uint) -> gcry_error_t;
-    pub fn gcry_prime_group_generator(r_g: *mut gcry_mpi_t, prime: gcry_mpi_t,
-                                      factors: *mut gcry_mpi_t,
-                                      start_g: gcry_mpi_t) -> gcry_error_t;
+    pub fn gcry_mac_ctl(
+        h: gcry_mac_hd_t,
+        cmd: ::std::os::raw::c_int,
+        buffer: *mut ::std::os::raw::c_void,
+        buflen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_mac_algo_info(
+        algo: ::std::os::raw::c_int,
+        what: ::std::os::raw::c_int,
+        buffer: *mut ::std::os::raw::c_void,
+        nbytes: *mut size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_mac_setkey(
+        hd: gcry_mac_hd_t,
+        key: *const ::std::os::raw::c_void,
+        keylen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_mac_setiv(
+        hd: gcry_mac_hd_t,
+        iv: *const ::std::os::raw::c_void,
+        ivlen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_mac_write(
+        hd: gcry_mac_hd_t,
+        buffer: *const ::std::os::raw::c_void,
+        length: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_mac_read(
+        hd: gcry_mac_hd_t,
+        buffer: *mut ::std::os::raw::c_void,
+        buflen: *mut size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_mac_verify(
+        hd: gcry_mac_hd_t,
+        buffer: *const ::std::os::raw::c_void,
+        buflen: size_t,
+    ) -> gcry_error_t;
+    pub fn gcry_mac_get_algo_maclen(algo: ::std::os::raw::c_int) -> ::std::os::raw::c_uint;
+    pub fn gcry_mac_get_algo_keylen(algo: ::std::os::raw::c_int) -> ::std::os::raw::c_uint;
+    pub fn gcry_mac_algo_name(algorithm: ::std::os::raw::c_int) -> *const ::std::os::raw::c_char;
+    pub fn gcry_mac_map_name(name: *const ::std::os::raw::c_char) -> ::std::os::raw::c_int;
+    pub fn gcry_kdf_derive(
+        passphrase: *const ::std::os::raw::c_void,
+        passphraselen: size_t,
+        algo: ::std::os::raw::c_int,
+        subalgo: ::std::os::raw::c_int,
+        salt: *const ::std::os::raw::c_void,
+        saltlen: size_t,
+        iterations: ::std::os::raw::c_ulong,
+        keysize: size_t,
+        keybuffer: *mut ::std::os::raw::c_void,
+    ) -> gpg_error_t;
+    pub fn gcry_randomize(
+        buffer: *mut ::std::os::raw::c_void,
+        length: size_t,
+        level: Enum_gcry_random_level,
+    );
+    pub fn gcry_random_add_bytes(
+        buffer: *const ::std::os::raw::c_void,
+        length: size_t,
+        quality: ::std::os::raw::c_int,
+    ) -> gcry_error_t;
+    pub fn gcry_random_bytes(
+        nbytes: size_t,
+        level: Enum_gcry_random_level,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn gcry_random_bytes_secure(
+        nbytes: size_t,
+        level: Enum_gcry_random_level,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn gcry_mpi_randomize(
+        w: gcry_mpi_t,
+        nbits: ::std::os::raw::c_uint,
+        level: Enum_gcry_random_level,
+    );
+    pub fn gcry_create_nonce(buffer: *mut ::std::os::raw::c_void, length: size_t);
+    pub fn gcry_prime_generate(
+        prime: *mut gcry_mpi_t,
+        prime_bits: ::std::os::raw::c_uint,
+        factor_bits: ::std::os::raw::c_uint,
+        factors: *mut *mut gcry_mpi_t,
+        cb_func: gcry_prime_check_func_t,
+        cb_arg: *mut ::std::os::raw::c_void,
+        random_level: gcry_random_level_t,
+        flags: ::std::os::raw::c_uint,
+    ) -> gcry_error_t;
+    pub fn gcry_prime_group_generator(
+        r_g: *mut gcry_mpi_t,
+        prime: gcry_mpi_t,
+        factors: *mut gcry_mpi_t,
+        start_g: gcry_mpi_t,
+    ) -> gcry_error_t;
     pub fn gcry_prime_release_factors(factors: *mut gcry_mpi_t);
-    pub fn gcry_prime_check(x: gcry_mpi_t, flags: ::std::os::raw::c_uint)
-     -> gcry_error_t;
+    pub fn gcry_prime_check(x: gcry_mpi_t, flags: ::std::os::raw::c_uint) -> gcry_error_t;
     pub fn gcry_ctx_release(ctx: gcry_ctx_t);
     pub fn gcry_log_debug(fmt: *const ::std::os::raw::c_char, ...);
-    pub fn gcry_log_debughex(text: *const ::std::os::raw::c_char,
-                             buffer: *const ::std::os::raw::c_void,
-                             length: size_t);
-    pub fn gcry_log_debugmpi(text: *const ::std::os::raw::c_char,
-                             mpi: gcry_mpi_t);
-    pub fn gcry_log_debugpnt(text: *const ::std::os::raw::c_char,
-                             point: gcry_mpi_point_t, ctx: gcry_ctx_t);
-    pub fn gcry_log_debugsxp(text: *const ::std::os::raw::c_char,
-                             sexp: gcry_sexp_t);
-    pub fn gcry_set_progress_handler(cb: gcry_handler_progress_t,
-                                     cb_data: *mut ::std::os::raw::c_void);
-    pub fn gcry_set_allocation_handler(func_alloc: gcry_handler_alloc_t,
-                                       func_alloc_secure:
-                                           gcry_handler_alloc_t,
-                                       func_secure_check:
-                                           gcry_handler_secure_check_t,
-                                       func_realloc: gcry_handler_realloc_t,
-                                       func_free: gcry_handler_free_t);
-    pub fn gcry_set_outofcore_handler(h: gcry_handler_no_mem_t,
-                                      opaque: *mut ::std::os::raw::c_void);
-    pub fn gcry_set_fatalerror_handler(fnc: gcry_handler_error_t,
-                                       opaque: *mut ::std::os::raw::c_void);
-    pub fn gcry_set_log_handler(f: gcry_handler_log_t,
-                                opaque: *mut ::std::os::raw::c_void);
-    pub fn gcry_set_gettext_handler(f:
-                                        ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                                       *const ::std::os::raw::c_char)
-                                                                  ->
-                                                                      *const ::std::os::raw::c_char>);
+    pub fn gcry_log_debughex(
+        text: *const ::std::os::raw::c_char,
+        buffer: *const ::std::os::raw::c_void,
+        length: size_t,
+    );
+    pub fn gcry_log_debugmpi(text: *const ::std::os::raw::c_char, mpi: gcry_mpi_t);
+    pub fn gcry_log_debugpnt(
+        text: *const ::std::os::raw::c_char,
+        point: gcry_mpi_point_t,
+        ctx: gcry_ctx_t,
+    );
+    pub fn gcry_log_debugsxp(text: *const ::std::os::raw::c_char, sexp: gcry_sexp_t);
+    pub fn gcry_set_progress_handler(
+        cb: gcry_handler_progress_t,
+        cb_data: *mut ::std::os::raw::c_void,
+    );
+    pub fn gcry_set_allocation_handler(
+        func_alloc: gcry_handler_alloc_t,
+        func_alloc_secure: gcry_handler_alloc_t,
+        func_secure_check: gcry_handler_secure_check_t,
+        func_realloc: gcry_handler_realloc_t,
+        func_free: gcry_handler_free_t,
+    );
+    pub fn gcry_set_outofcore_handler(
+        h: gcry_handler_no_mem_t,
+        opaque: *mut ::std::os::raw::c_void,
+    );
+    pub fn gcry_set_fatalerror_handler(
+        fnc: gcry_handler_error_t,
+        opaque: *mut ::std::os::raw::c_void,
+    );
+    pub fn gcry_set_log_handler(f: gcry_handler_log_t, opaque: *mut ::std::os::raw::c_void);
+    pub fn gcry_set_gettext_handler(
+        f: ::std::option::Option<
+            unsafe extern "C" fn(
+                arg1: *const ::std::os::raw::c_char,
+            ) -> *const ::std::os::raw::c_char,
+        >,
+    );
     pub fn gcry_malloc(n: size_t) -> *mut ::std::os::raw::c_void;
     pub fn gcry_calloc(n: size_t, m: size_t) -> *mut ::std::os::raw::c_void;
     pub fn gcry_malloc_secure(n: size_t) -> *mut ::std::os::raw::c_void;
-    pub fn gcry_calloc_secure(n: size_t, m: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn gcry_realloc(a: *mut ::std::os::raw::c_void, n: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn gcry_strdup(string: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
+    pub fn gcry_calloc_secure(n: size_t, m: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn gcry_realloc(a: *mut ::std::os::raw::c_void, n: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn gcry_strdup(string: *const ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
     pub fn gcry_xmalloc(n: size_t) -> *mut ::std::os::raw::c_void;
     pub fn gcry_xcalloc(n: size_t, m: size_t) -> *mut ::std::os::raw::c_void;
     pub fn gcry_xmalloc_secure(n: size_t) -> *mut ::std::os::raw::c_void;
-    pub fn gcry_xcalloc_secure(n: size_t, m: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn gcry_xrealloc(a: *mut ::std::os::raw::c_void, n: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn gcry_xstrdup(a: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
+    pub fn gcry_xcalloc_secure(n: size_t, m: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn gcry_xrealloc(a: *mut ::std::os::raw::c_void, n: size_t) -> *mut ::std::os::raw::c_void;
+    pub fn gcry_xstrdup(a: *const ::std::os::raw::c_char) -> *mut ::std::os::raw::c_char;
     pub fn gcry_free(a: *mut ::std::os::raw::c_void);
-    pub fn gcry_is_secure(a: *const ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
+    pub fn gcry_is_secure(a: *const ::std::os::raw::c_void) -> ::std::os::raw::c_int;
     pub fn GNUNET_CRYPTO_seed_weak_random(seed: int32_t);
-    pub fn GNUNET_CRYPTO_crc16_step(sum: uint32_t,
-                                    buf: *const ::std::os::raw::c_void,
-                                    len: size_t) -> uint32_t;
+    pub fn GNUNET_CRYPTO_crc16_step(
+        sum: uint32_t,
+        buf: *const ::std::os::raw::c_void,
+        len: size_t,
+    ) -> uint32_t;
     pub fn GNUNET_CRYPTO_crc16_finish(sum: uint32_t) -> uint16_t;
-    pub fn GNUNET_CRYPTO_crc16_n(buf: *const ::std::os::raw::c_void,
-                                 len: size_t) -> uint16_t;
-    pub fn GNUNET_CRYPTO_crc32_n(buf: *const ::std::os::raw::c_void,
-                                 len: size_t) -> int32_t;
-    pub fn GNUNET_CRYPTO_random_block(mode: Enum_GNUNET_CRYPTO_Quality,
-                                      buffer: *mut ::std::os::raw::c_void,
-                                      length: size_t);
-    pub fn GNUNET_CRYPTO_random_u32(mode: Enum_GNUNET_CRYPTO_Quality,
-                                    i: uint32_t) -> uint32_t;
-    pub fn GNUNET_CRYPTO_random_u64(mode: Enum_GNUNET_CRYPTO_Quality,
-                                    max: uint64_t) -> uint64_t;
-    pub fn GNUNET_CRYPTO_random_permute(mode: Enum_GNUNET_CRYPTO_Quality,
-                                        n: ::std::os::raw::c_uint)
-     -> *mut ::std::os::raw::c_uint;
-    pub fn GNUNET_CRYPTO_symmetric_create_session_key(key:
-                                                          *mut Struct_GNUNET_CRYPTO_SymmetricSessionKey);
-    pub fn GNUNET_CRYPTO_symmetric_encrypt(block:
-                                               *const ::std::os::raw::c_void,
-                                           size: size_t,
-                                           sessionkey:
-                                               *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
-                                           iv:
-                                               *const Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
-                                           result:
-                                               *mut ::std::os::raw::c_void)
-     -> ssize_t;
-    pub fn GNUNET_CRYPTO_symmetric_decrypt(block:
-                                               *const ::std::os::raw::c_void,
-                                           size: size_t,
-                                           sessionkey:
-                                               *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
-                                           iv:
-                                               *const Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
-                                           result:
-                                               *mut ::std::os::raw::c_void)
-     -> ssize_t;
-    pub fn GNUNET_CRYPTO_symmetric_derive_iv(iv:
-                                                 *mut Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
-                                             skey:
-                                                 *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
-                                             salt:
-                                                 *const ::std::os::raw::c_void,
-                                             salt_len: size_t, ...);
-    pub fn GNUNET_CRYPTO_symmetric_derive_iv_v(iv:
-                                                   *mut Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
-                                               skey:
-                                                   *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
-                                               salt:
-                                                   *const ::std::os::raw::c_void,
-                                               salt_len: size_t,
-                                               argp: va_list);
-    pub fn GNUNET_CRYPTO_hash_to_enc(block: *const Struct_GNUNET_HashCode,
-                                     result:
-                                         *mut Struct_GNUNET_CRYPTO_HashAsciiEncoded);
-    pub fn GNUNET_CRYPTO_hash_from_string2(enc: *const ::std::os::raw::c_char,
-                                           enclen: size_t,
-                                           result:
-                                               *mut Struct_GNUNET_HashCode)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_hash_distance_u32(a: *const Struct_GNUNET_HashCode,
-                                           b: *const Struct_GNUNET_HashCode)
-     -> uint32_t;
-    pub fn GNUNET_CRYPTO_hash(block: *const ::std::os::raw::c_void,
-                              size: size_t, ret: *mut Struct_GNUNET_HashCode);
-    pub fn GNUNET_CRYPTO_hmac(key: *const Struct_GNUNET_CRYPTO_AuthKey,
-                              plaintext: *const ::std::os::raw::c_void,
-                              plaintext_len: size_t,
-                              hmac: *mut Struct_GNUNET_HashCode);
-    pub fn GNUNET_CRYPTO_hash_file(priority: Enum_GNUNET_SCHEDULER_Priority,
-                                   filename: *const ::std::os::raw::c_char,
-                                   blocksize: size_t,
-                                   callback:
-                                       GNUNET_CRYPTO_HashCompletedCallback,
-                                   callback_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_CRYPTO_FileHashContext;
-    pub fn GNUNET_CRYPTO_hash_file_cancel(fhc:
-                                              *mut Struct_GNUNET_CRYPTO_FileHashContext);
-    pub fn GNUNET_CRYPTO_hash_create_random(mode: Enum_GNUNET_CRYPTO_Quality,
-                                            result:
-                                                *mut Struct_GNUNET_HashCode);
-    pub fn GNUNET_CRYPTO_hash_difference(a: *const Struct_GNUNET_HashCode,
-                                         b: *const Struct_GNUNET_HashCode,
-                                         result: *mut Struct_GNUNET_HashCode);
-    pub fn GNUNET_CRYPTO_hash_sum(a: *const Struct_GNUNET_HashCode,
-                                  delta: *const Struct_GNUNET_HashCode,
-                                  result: *mut Struct_GNUNET_HashCode);
-    pub fn GNUNET_CRYPTO_hash_xor(a: *const Struct_GNUNET_HashCode,
-                                  b: *const Struct_GNUNET_HashCode,
-                                  result: *mut Struct_GNUNET_HashCode);
-    pub fn GNUNET_CRYPTO_hash_to_aes_key(hc: *const Struct_GNUNET_HashCode,
-                                         skey:
-                                             *mut Struct_GNUNET_CRYPTO_SymmetricSessionKey,
-                                         iv:
-                                             *mut Struct_GNUNET_CRYPTO_SymmetricInitializationVector);
-    pub fn GNUNET_CRYPTO_hash_get_bit(code: *const Struct_GNUNET_HashCode,
-                                      bit: ::std::os::raw::c_uint)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_hash_matching_bits(first:
-                                                *const Struct_GNUNET_HashCode,
-                                            second:
-                                                *const Struct_GNUNET_HashCode)
-     -> ::std::os::raw::c_uint;
-    pub fn GNUNET_CRYPTO_hash_cmp(h1: *const Struct_GNUNET_HashCode,
-                                  h2: *const Struct_GNUNET_HashCode)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_hash_xorcmp(h1: *const Struct_GNUNET_HashCode,
-                                     h2: *const Struct_GNUNET_HashCode,
-                                     target: *const Struct_GNUNET_HashCode)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_hmac_derive_key_v(key:
-                                               *mut Struct_GNUNET_CRYPTO_AuthKey,
-                                           rkey:
-                                               *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
-                                           salt:
-                                               *const ::std::os::raw::c_void,
-                                           salt_len: size_t, argp: va_list);
-    pub fn GNUNET_CRYPTO_hmac_derive_key(key:
-                                             *mut Struct_GNUNET_CRYPTO_AuthKey,
-                                         rkey:
-                                             *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
-                                         salt: *const ::std::os::raw::c_void,
-                                         salt_len: size_t, ...);
-    pub fn GNUNET_CRYPTO_hkdf(result: *mut ::std::os::raw::c_void,
-                              out_len: size_t,
-                              xtr_algo: ::std::os::raw::c_int,
-                              prf_algo: ::std::os::raw::c_int,
-                              xts: *const ::std::os::raw::c_void,
-                              xts_len: size_t,
-                              skm: *const ::std::os::raw::c_void,
-                              skm_len: size_t, ...) -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_hkdf_v(result: *mut ::std::os::raw::c_void,
-                                out_len: size_t,
-                                xtr_algo: ::std::os::raw::c_int,
-                                prf_algo: ::std::os::raw::c_int,
-                                xts: *const ::std::os::raw::c_void,
-                                xts_len: size_t,
-                                skm: *const ::std::os::raw::c_void,
-                                skm_len: size_t, argp: va_list)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_kdf_v(result: *mut ::std::os::raw::c_void,
-                               out_len: size_t,
-                               xts: *const ::std::os::raw::c_void,
-                               xts_len: size_t,
-                               skm: *const ::std::os::raw::c_void,
-                               skm_len: size_t, argp: va_list)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_kdf(result: *mut ::std::os::raw::c_void,
-                             out_len: size_t,
-                             xts: *const ::std::os::raw::c_void,
-                             xts_len: size_t,
-                             skm: *const ::std::os::raw::c_void,
-                             skm_len: size_t, ...) -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_ecdsa_key_get_public(_priv:
-                                                  *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                              _pub:
-                                                  *mut Struct_GNUNET_CRYPTO_EcdsaPublicKey);
-    pub fn GNUNET_CRYPTO_eddsa_key_get_public(_priv:
-                                                  *const Struct_GNUNET_CRYPTO_EddsaPrivateKey,
-                                              _pub:
-                                                  *mut Struct_GNUNET_CRYPTO_EddsaPublicKey);
-    pub fn GNUNET_CRYPTO_ecdhe_key_get_public(_priv:
-                                                  *const Struct_GNUNET_CRYPTO_EcdhePrivateKey,
-                                              _pub:
-                                                  *mut Struct_GNUNET_CRYPTO_EcdhePublicKey);
-    pub fn GNUNET_CRYPTO_ecdsa_public_key_to_string(_pub:
-                                                        *const Struct_GNUNET_CRYPTO_EcdsaPublicKey)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_CRYPTO_eddsa_public_key_to_string(_pub:
-                                                        *const Struct_GNUNET_CRYPTO_EddsaPublicKey)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_CRYPTO_ecdsa_public_key_from_string(enc:
-                                                          *const ::std::os::raw::c_char,
-                                                      enclen: size_t,
-                                                      _pub:
-                                                          *mut Struct_GNUNET_CRYPTO_EcdsaPublicKey)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_eddsa_public_key_from_string(enc:
-                                                          *const ::std::os::raw::c_char,
-                                                      enclen: size_t,
-                                                      _pub:
-                                                          *mut Struct_GNUNET_CRYPTO_EddsaPublicKey)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_ecdsa_key_create_from_file(filename:
-                                                        *const ::std::os::raw::c_char)
-     -> *mut Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
-    pub fn GNUNET_CRYPTO_eddsa_key_create_from_file(filename:
-                                                        *const ::std::os::raw::c_char)
-     -> *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey;
-    pub fn GNUNET_CRYPTO_eddsa_key_create_from_configuration(cfg:
-                                                                 *const Struct_GNUNET_CONFIGURATION_Handle)
-     -> *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey;
-    pub fn GNUNET_CRYPTO_ecdsa_key_create()
-     -> *mut Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
-    pub fn GNUNET_CRYPTO_eddsa_key_create()
-     -> *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey;
-    pub fn GNUNET_CRYPTO_ecdhe_key_create()
-     -> *mut Struct_GNUNET_CRYPTO_EcdhePrivateKey;
-    pub fn GNUNET_CRYPTO_eddsa_key_clear(pk:
-                                             *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey);
-    pub fn GNUNET_CRYPTO_ecdsa_key_clear(pk:
-                                             *mut Struct_GNUNET_CRYPTO_EcdsaPrivateKey);
-    pub fn GNUNET_CRYPTO_ecdhe_key_clear(pk:
-                                             *mut Struct_GNUNET_CRYPTO_EcdhePrivateKey);
-    pub fn GNUNET_CRYPTO_ecdsa_key_get_anonymous()
-     -> *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
-    pub fn GNUNET_CRYPTO_eddsa_setup_hostkey(cfg_name:
-                                                 *const ::std::os::raw::c_char);
-    pub fn GNUNET_CRYPTO_get_peer_identity(cfg:
-                                               *const Struct_GNUNET_CONFIGURATION_Handle,
-                                           dst:
-                                               *mut Struct_GNUNET_PeerIdentity)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_cmp_peer_identity(first:
-                                               *const Struct_GNUNET_PeerIdentity,
-                                           second:
-                                               *const Struct_GNUNET_PeerIdentity)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_ecc_ecdh(_priv:
-                                      *const Struct_GNUNET_CRYPTO_EcdhePrivateKey,
-                                  _pub:
-                                      *const Struct_GNUNET_CRYPTO_EcdhePublicKey,
-                                  key_material: *mut Struct_GNUNET_HashCode)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_eddsa_sign(_priv:
-                                        *const Struct_GNUNET_CRYPTO_EddsaPrivateKey,
-                                    purpose:
-                                        *const Struct_GNUNET_CRYPTO_EccSignaturePurpose,
-                                    sig:
-                                        *mut Struct_GNUNET_CRYPTO_EddsaSignature)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_ecdsa_sign(_priv:
-                                        *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                    purpose:
-                                        *const Struct_GNUNET_CRYPTO_EccSignaturePurpose,
-                                    sig:
-                                        *mut Struct_GNUNET_CRYPTO_EcdsaSignature)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_eddsa_verify(purpose: uint32_t,
-                                      validate:
-                                          *const Struct_GNUNET_CRYPTO_EccSignaturePurpose,
-                                      sig:
-                                          *const Struct_GNUNET_CRYPTO_EddsaSignature,
-                                      _pub:
-                                          *const Struct_GNUNET_CRYPTO_EddsaPublicKey)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_ecdsa_verify(purpose: uint32_t,
-                                      validate:
-                                          *const Struct_GNUNET_CRYPTO_EccSignaturePurpose,
-                                      sig:
-                                          *const Struct_GNUNET_CRYPTO_EcdsaSignature,
-                                      _pub:
-                                          *const Struct_GNUNET_CRYPTO_EcdsaPublicKey)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_ecdsa_private_key_derive(_priv:
-                                                      *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                                  label:
-                                                      *const ::std::os::raw::c_char,
-                                                  context:
-                                                      *const ::std::os::raw::c_char)
-     -> *mut Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
-    pub fn GNUNET_CRYPTO_ecdsa_public_key_derive(_pub:
-                                                     *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
-                                                 label:
-                                                     *const ::std::os::raw::c_char,
-                                                 context:
-                                                     *const ::std::os::raw::c_char,
-                                                 result:
-                                                     *mut Struct_GNUNET_CRYPTO_EcdsaPublicKey);
-    pub fn GNUNET_CRYPTO_mpi_print_unsigned(buf: *mut ::std::os::raw::c_void,
-                                            size: size_t, val: gcry_mpi_t);
-    pub fn GNUNET_CRYPTO_mpi_scan_unsigned(result: *mut gcry_mpi_t,
-                                           data:
-                                               *const ::std::os::raw::c_void,
-                                           size: size_t);
-    pub fn GNUNET_CRYPTO_paillier_create(public_key:
-                                             *mut Struct_GNUNET_CRYPTO_PaillierPublicKey,
-                                         private_key:
-                                             *mut Struct_GNUNET_CRYPTO_PaillierPrivateKey);
-    pub fn GNUNET_CRYPTO_paillier_encrypt(public_key:
-                                              *const Struct_GNUNET_CRYPTO_PaillierPublicKey,
-                                          m: gcry_mpi_t,
-                                          desired_ops: ::std::os::raw::c_int,
-                                          ciphertext:
-                                              *mut Struct_GNUNET_CRYPTO_PaillierCiphertext)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_paillier_decrypt(private_key:
-                                              *const Struct_GNUNET_CRYPTO_PaillierPrivateKey,
-                                          public_key:
-                                              *const Struct_GNUNET_CRYPTO_PaillierPublicKey,
-                                          ciphertext:
-                                              *const Struct_GNUNET_CRYPTO_PaillierCiphertext,
-                                          m: gcry_mpi_t);
-    pub fn GNUNET_CRYPTO_paillier_hom_add(public_key:
-                                              *const Struct_GNUNET_CRYPTO_PaillierPublicKey,
-                                          c1:
-                                              *const Struct_GNUNET_CRYPTO_PaillierCiphertext,
-                                          c2:
-                                              *const Struct_GNUNET_CRYPTO_PaillierCiphertext,
-                                          result:
-                                              *mut Struct_GNUNET_CRYPTO_PaillierCiphertext)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CRYPTO_paillier_hom_get_remaining(c:
-                                                        *const Struct_GNUNET_CRYPTO_PaillierCiphertext)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BANDWIDTH_value_init(bytes_per_second: uint32_t)
-     -> Struct_GNUNET_BANDWIDTH_Value32NBO;
-    pub fn GNUNET_BANDWIDTH_value_get_available_until(bps:
-                                                          Struct_GNUNET_BANDWIDTH_Value32NBO,
-                                                      deadline:
-                                                          Struct_GNUNET_TIME_Relative)
-     -> uint64_t;
-    pub fn GNUNET_BANDWIDTH_value_get_delay_for(bps:
-                                                    Struct_GNUNET_BANDWIDTH_Value32NBO,
-                                                size: uint64_t)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_BANDWIDTH_value_min(b1: Struct_GNUNET_BANDWIDTH_Value32NBO,
-                                      b2: Struct_GNUNET_BANDWIDTH_Value32NBO)
-     -> Struct_GNUNET_BANDWIDTH_Value32NBO;
-    pub fn GNUNET_BANDWIDTH_tracker_init(av:
-                                             *mut Struct_GNUNET_BANDWIDTH_Tracker,
-                                         update_cb:
-                                             GNUNET_BANDWIDTH_TrackerUpdateCallback,
-                                         update_cb_cls:
-                                             *mut ::std::os::raw::c_void,
-                                         bytes_per_second_limit:
-                                             Struct_GNUNET_BANDWIDTH_Value32NBO,
-                                         max_carry_s: uint32_t);
-    pub fn GNUNET_BANDWIDTH_tracker_init2(av:
-                                              *mut Struct_GNUNET_BANDWIDTH_Tracker,
-                                          update_cb:
-                                              GNUNET_BANDWIDTH_TrackerUpdateCallback,
-                                          update_cb_cls:
-                                              *mut ::std::os::raw::c_void,
-                                          bytes_per_second_limit:
-                                              Struct_GNUNET_BANDWIDTH_Value32NBO,
-                                          max_carry_s: uint32_t,
-                                          excess_cb:
-                                              GNUNET_BANDWIDTH_ExcessNotificationCallback,
-                                          excess_cb_cls:
-                                              *mut ::std::os::raw::c_void);
-    pub fn GNUNET_BANDWIDTH_tracker_notification_stop(av:
-                                                          *mut Struct_GNUNET_BANDWIDTH_Tracker);
-    pub fn GNUNET_BANDWIDTH_tracker_consume(av:
-                                                *mut Struct_GNUNET_BANDWIDTH_Tracker,
-                                            size: ssize_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BANDWIDTH_tracker_get_delay(av:
-                                                  *mut Struct_GNUNET_BANDWIDTH_Tracker,
-                                              size: size_t)
-     -> Struct_GNUNET_TIME_Relative;
-    pub fn GNUNET_BANDWIDTH_tracker_get_available(av:
-                                                      *mut Struct_GNUNET_BANDWIDTH_Tracker)
-     -> int64_t;
-    pub fn GNUNET_BANDWIDTH_tracker_update_quota(av:
-                                                     *mut Struct_GNUNET_BANDWIDTH_Tracker,
-                                                 bytes_per_second_limit:
-                                                     Struct_GNUNET_BANDWIDTH_Value32NBO);
-    pub fn EXTRACTOR_metatype_to_string(_type: Enum_EXTRACTOR_MetaType)
-     -> *const ::std::os::raw::c_char;
-    pub fn EXTRACTOR_metatype_to_description(_type: Enum_EXTRACTOR_MetaType)
-     -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_CRYPTO_crc16_n(buf: *const ::std::os::raw::c_void, len: size_t) -> uint16_t;
+    pub fn GNUNET_CRYPTO_crc32_n(buf: *const ::std::os::raw::c_void, len: size_t) -> int32_t;
+    pub fn GNUNET_CRYPTO_random_block(
+        mode: Enum_GNUNET_CRYPTO_Quality,
+        buffer: *mut ::std::os::raw::c_void,
+        length: size_t,
+    );
+    pub fn GNUNET_CRYPTO_random_u32(mode: Enum_GNUNET_CRYPTO_Quality, i: uint32_t) -> uint32_t;
+    pub fn GNUNET_CRYPTO_random_u64(mode: Enum_GNUNET_CRYPTO_Quality, max: uint64_t) -> uint64_t;
+    pub fn GNUNET_CRYPTO_random_permute(
+        mode: Enum_GNUNET_CRYPTO_Quality,
+        n: ::std::os::raw::c_uint,
+    ) -> *mut ::std::os::raw::c_uint;
+    pub fn GNUNET_CRYPTO_symmetric_create_session_key(
+        key: *mut Struct_GNUNET_CRYPTO_SymmetricSessionKey,
+    );
+    pub fn GNUNET_CRYPTO_symmetric_encrypt(
+        block: *const ::std::os::raw::c_void,
+        size: size_t,
+        sessionkey: *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
+        iv: *const Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
+        result: *mut ::std::os::raw::c_void,
+    ) -> ssize_t;
+    pub fn GNUNET_CRYPTO_symmetric_decrypt(
+        block: *const ::std::os::raw::c_void,
+        size: size_t,
+        sessionkey: *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
+        iv: *const Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
+        result: *mut ::std::os::raw::c_void,
+    ) -> ssize_t;
+    pub fn GNUNET_CRYPTO_symmetric_derive_iv(
+        iv: *mut Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
+        skey: *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
+        salt: *const ::std::os::raw::c_void,
+        salt_len: size_t,
+        ...
+    );
+    pub fn GNUNET_CRYPTO_symmetric_derive_iv_v(
+        iv: *mut Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
+        skey: *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
+        salt: *const ::std::os::raw::c_void,
+        salt_len: size_t,
+        argp: va_list,
+    );
+    pub fn GNUNET_CRYPTO_hash_to_enc(
+        block: *const Struct_GNUNET_HashCode,
+        result: *mut Struct_GNUNET_CRYPTO_HashAsciiEncoded,
+    );
+    pub fn GNUNET_CRYPTO_hash_from_string2(
+        enc: *const ::std::os::raw::c_char,
+        enclen: size_t,
+        result: *mut Struct_GNUNET_HashCode,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_hash_distance_u32(
+        a: *const Struct_GNUNET_HashCode,
+        b: *const Struct_GNUNET_HashCode,
+    ) -> uint32_t;
+    pub fn GNUNET_CRYPTO_hash(
+        block: *const ::std::os::raw::c_void,
+        size: size_t,
+        ret: *mut Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_CRYPTO_hmac(
+        key: *const Struct_GNUNET_CRYPTO_AuthKey,
+        plaintext: *const ::std::os::raw::c_void,
+        plaintext_len: size_t,
+        hmac: *mut Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_CRYPTO_hash_file(
+        priority: Enum_GNUNET_SCHEDULER_Priority,
+        filename: *const ::std::os::raw::c_char,
+        blocksize: size_t,
+        callback: GNUNET_CRYPTO_HashCompletedCallback,
+        callback_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_CRYPTO_FileHashContext;
+    pub fn GNUNET_CRYPTO_hash_file_cancel(fhc: *mut Struct_GNUNET_CRYPTO_FileHashContext);
+    pub fn GNUNET_CRYPTO_hash_create_random(
+        mode: Enum_GNUNET_CRYPTO_Quality,
+        result: *mut Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_CRYPTO_hash_difference(
+        a: *const Struct_GNUNET_HashCode,
+        b: *const Struct_GNUNET_HashCode,
+        result: *mut Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_CRYPTO_hash_sum(
+        a: *const Struct_GNUNET_HashCode,
+        delta: *const Struct_GNUNET_HashCode,
+        result: *mut Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_CRYPTO_hash_xor(
+        a: *const Struct_GNUNET_HashCode,
+        b: *const Struct_GNUNET_HashCode,
+        result: *mut Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_CRYPTO_hash_to_aes_key(
+        hc: *const Struct_GNUNET_HashCode,
+        skey: *mut Struct_GNUNET_CRYPTO_SymmetricSessionKey,
+        iv: *mut Struct_GNUNET_CRYPTO_SymmetricInitializationVector,
+    );
+    pub fn GNUNET_CRYPTO_hash_get_bit(
+        code: *const Struct_GNUNET_HashCode,
+        bit: ::std::os::raw::c_uint,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_hash_matching_bits(
+        first: *const Struct_GNUNET_HashCode,
+        second: *const Struct_GNUNET_HashCode,
+    ) -> ::std::os::raw::c_uint;
+    pub fn GNUNET_CRYPTO_hash_cmp(
+        h1: *const Struct_GNUNET_HashCode,
+        h2: *const Struct_GNUNET_HashCode,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_hash_xorcmp(
+        h1: *const Struct_GNUNET_HashCode,
+        h2: *const Struct_GNUNET_HashCode,
+        target: *const Struct_GNUNET_HashCode,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_hmac_derive_key_v(
+        key: *mut Struct_GNUNET_CRYPTO_AuthKey,
+        rkey: *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
+        salt: *const ::std::os::raw::c_void,
+        salt_len: size_t,
+        argp: va_list,
+    );
+    pub fn GNUNET_CRYPTO_hmac_derive_key(
+        key: *mut Struct_GNUNET_CRYPTO_AuthKey,
+        rkey: *const Struct_GNUNET_CRYPTO_SymmetricSessionKey,
+        salt: *const ::std::os::raw::c_void,
+        salt_len: size_t,
+        ...
+    );
+    pub fn GNUNET_CRYPTO_hkdf(
+        result: *mut ::std::os::raw::c_void,
+        out_len: size_t,
+        xtr_algo: ::std::os::raw::c_int,
+        prf_algo: ::std::os::raw::c_int,
+        xts: *const ::std::os::raw::c_void,
+        xts_len: size_t,
+        skm: *const ::std::os::raw::c_void,
+        skm_len: size_t,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_hkdf_v(
+        result: *mut ::std::os::raw::c_void,
+        out_len: size_t,
+        xtr_algo: ::std::os::raw::c_int,
+        prf_algo: ::std::os::raw::c_int,
+        xts: *const ::std::os::raw::c_void,
+        xts_len: size_t,
+        skm: *const ::std::os::raw::c_void,
+        skm_len: size_t,
+        argp: va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_kdf_v(
+        result: *mut ::std::os::raw::c_void,
+        out_len: size_t,
+        xts: *const ::std::os::raw::c_void,
+        xts_len: size_t,
+        skm: *const ::std::os::raw::c_void,
+        skm_len: size_t,
+        argp: va_list,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_kdf(
+        result: *mut ::std::os::raw::c_void,
+        out_len: size_t,
+        xts: *const ::std::os::raw::c_void,
+        xts_len: size_t,
+        skm: *const ::std::os::raw::c_void,
+        skm_len: size_t,
+        ...
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_ecdsa_key_get_public(
+        _priv: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        _pub: *mut Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+    );
+    pub fn GNUNET_CRYPTO_eddsa_key_get_public(
+        _priv: *const Struct_GNUNET_CRYPTO_EddsaPrivateKey,
+        _pub: *mut Struct_GNUNET_CRYPTO_EddsaPublicKey,
+    );
+    pub fn GNUNET_CRYPTO_ecdhe_key_get_public(
+        _priv: *const Struct_GNUNET_CRYPTO_EcdhePrivateKey,
+        _pub: *mut Struct_GNUNET_CRYPTO_EcdhePublicKey,
+    );
+    pub fn GNUNET_CRYPTO_ecdsa_public_key_to_string(
+        _pub: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_CRYPTO_eddsa_public_key_to_string(
+        _pub: *const Struct_GNUNET_CRYPTO_EddsaPublicKey,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_CRYPTO_ecdsa_public_key_from_string(
+        enc: *const ::std::os::raw::c_char,
+        enclen: size_t,
+        _pub: *mut Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_eddsa_public_key_from_string(
+        enc: *const ::std::os::raw::c_char,
+        enclen: size_t,
+        _pub: *mut Struct_GNUNET_CRYPTO_EddsaPublicKey,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_ecdsa_key_create_from_file(
+        filename: *const ::std::os::raw::c_char,
+    ) -> *mut Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
+    pub fn GNUNET_CRYPTO_eddsa_key_create_from_file(
+        filename: *const ::std::os::raw::c_char,
+    ) -> *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey;
+    pub fn GNUNET_CRYPTO_eddsa_key_create_from_configuration(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+    ) -> *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey;
+    pub fn GNUNET_CRYPTO_ecdsa_key_create() -> *mut Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
+    pub fn GNUNET_CRYPTO_eddsa_key_create() -> *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey;
+    pub fn GNUNET_CRYPTO_ecdhe_key_create() -> *mut Struct_GNUNET_CRYPTO_EcdhePrivateKey;
+    pub fn GNUNET_CRYPTO_eddsa_key_clear(pk: *mut Struct_GNUNET_CRYPTO_EddsaPrivateKey);
+    pub fn GNUNET_CRYPTO_ecdsa_key_clear(pk: *mut Struct_GNUNET_CRYPTO_EcdsaPrivateKey);
+    pub fn GNUNET_CRYPTO_ecdhe_key_clear(pk: *mut Struct_GNUNET_CRYPTO_EcdhePrivateKey);
+    pub fn GNUNET_CRYPTO_ecdsa_key_get_anonymous() -> *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
+    pub fn GNUNET_CRYPTO_eddsa_setup_hostkey(cfg_name: *const ::std::os::raw::c_char);
+    pub fn GNUNET_CRYPTO_get_peer_identity(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        dst: *mut Struct_GNUNET_PeerIdentity,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_cmp_peer_identity(
+        first: *const Struct_GNUNET_PeerIdentity,
+        second: *const Struct_GNUNET_PeerIdentity,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_ecc_ecdh(
+        _priv: *const Struct_GNUNET_CRYPTO_EcdhePrivateKey,
+        _pub: *const Struct_GNUNET_CRYPTO_EcdhePublicKey,
+        key_material: *mut Struct_GNUNET_HashCode,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_eddsa_sign(
+        _priv: *const Struct_GNUNET_CRYPTO_EddsaPrivateKey,
+        purpose: *const Struct_GNUNET_CRYPTO_EccSignaturePurpose,
+        sig: *mut Struct_GNUNET_CRYPTO_EddsaSignature,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_ecdsa_sign(
+        _priv: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        purpose: *const Struct_GNUNET_CRYPTO_EccSignaturePurpose,
+        sig: *mut Struct_GNUNET_CRYPTO_EcdsaSignature,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_eddsa_verify(
+        purpose: uint32_t,
+        validate: *const Struct_GNUNET_CRYPTO_EccSignaturePurpose,
+        sig: *const Struct_GNUNET_CRYPTO_EddsaSignature,
+        _pub: *const Struct_GNUNET_CRYPTO_EddsaPublicKey,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_ecdsa_verify(
+        purpose: uint32_t,
+        validate: *const Struct_GNUNET_CRYPTO_EccSignaturePurpose,
+        sig: *const Struct_GNUNET_CRYPTO_EcdsaSignature,
+        _pub: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_ecdsa_private_key_derive(
+        _priv: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        label: *const ::std::os::raw::c_char,
+        context: *const ::std::os::raw::c_char,
+    ) -> *mut Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
+    pub fn GNUNET_CRYPTO_ecdsa_public_key_derive(
+        _pub: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+        label: *const ::std::os::raw::c_char,
+        context: *const ::std::os::raw::c_char,
+        result: *mut Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+    );
+    pub fn GNUNET_CRYPTO_mpi_print_unsigned(
+        buf: *mut ::std::os::raw::c_void,
+        size: size_t,
+        val: gcry_mpi_t,
+    );
+    pub fn GNUNET_CRYPTO_mpi_scan_unsigned(
+        result: *mut gcry_mpi_t,
+        data: *const ::std::os::raw::c_void,
+        size: size_t,
+    );
+    pub fn GNUNET_CRYPTO_paillier_create(
+        public_key: *mut Struct_GNUNET_CRYPTO_PaillierPublicKey,
+        private_key: *mut Struct_GNUNET_CRYPTO_PaillierPrivateKey,
+    );
+    pub fn GNUNET_CRYPTO_paillier_encrypt(
+        public_key: *const Struct_GNUNET_CRYPTO_PaillierPublicKey,
+        m: gcry_mpi_t,
+        desired_ops: ::std::os::raw::c_int,
+        ciphertext: *mut Struct_GNUNET_CRYPTO_PaillierCiphertext,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_paillier_decrypt(
+        private_key: *const Struct_GNUNET_CRYPTO_PaillierPrivateKey,
+        public_key: *const Struct_GNUNET_CRYPTO_PaillierPublicKey,
+        ciphertext: *const Struct_GNUNET_CRYPTO_PaillierCiphertext,
+        m: gcry_mpi_t,
+    );
+    pub fn GNUNET_CRYPTO_paillier_hom_add(
+        public_key: *const Struct_GNUNET_CRYPTO_PaillierPublicKey,
+        c1: *const Struct_GNUNET_CRYPTO_PaillierCiphertext,
+        c2: *const Struct_GNUNET_CRYPTO_PaillierCiphertext,
+        result: *mut Struct_GNUNET_CRYPTO_PaillierCiphertext,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CRYPTO_paillier_hom_get_remaining(
+        c: *const Struct_GNUNET_CRYPTO_PaillierCiphertext,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BANDWIDTH_value_init(
+        bytes_per_second: uint32_t,
+    ) -> Struct_GNUNET_BANDWIDTH_Value32NBO;
+    pub fn GNUNET_BANDWIDTH_value_get_available_until(
+        bps: Struct_GNUNET_BANDWIDTH_Value32NBO,
+        deadline: Struct_GNUNET_TIME_Relative,
+    ) -> uint64_t;
+    pub fn GNUNET_BANDWIDTH_value_get_delay_for(
+        bps: Struct_GNUNET_BANDWIDTH_Value32NBO,
+        size: uint64_t,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_BANDWIDTH_value_min(
+        b1: Struct_GNUNET_BANDWIDTH_Value32NBO,
+        b2: Struct_GNUNET_BANDWIDTH_Value32NBO,
+    ) -> Struct_GNUNET_BANDWIDTH_Value32NBO;
+    pub fn GNUNET_BANDWIDTH_tracker_init(
+        av: *mut Struct_GNUNET_BANDWIDTH_Tracker,
+        update_cb: GNUNET_BANDWIDTH_TrackerUpdateCallback,
+        update_cb_cls: *mut ::std::os::raw::c_void,
+        bytes_per_second_limit: Struct_GNUNET_BANDWIDTH_Value32NBO,
+        max_carry_s: uint32_t,
+    );
+    pub fn GNUNET_BANDWIDTH_tracker_init2(
+        av: *mut Struct_GNUNET_BANDWIDTH_Tracker,
+        update_cb: GNUNET_BANDWIDTH_TrackerUpdateCallback,
+        update_cb_cls: *mut ::std::os::raw::c_void,
+        bytes_per_second_limit: Struct_GNUNET_BANDWIDTH_Value32NBO,
+        max_carry_s: uint32_t,
+        excess_cb: GNUNET_BANDWIDTH_ExcessNotificationCallback,
+        excess_cb_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_BANDWIDTH_tracker_notification_stop(av: *mut Struct_GNUNET_BANDWIDTH_Tracker);
+    pub fn GNUNET_BANDWIDTH_tracker_consume(
+        av: *mut Struct_GNUNET_BANDWIDTH_Tracker,
+        size: ssize_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BANDWIDTH_tracker_get_delay(
+        av: *mut Struct_GNUNET_BANDWIDTH_Tracker,
+        size: size_t,
+    ) -> Struct_GNUNET_TIME_Relative;
+    pub fn GNUNET_BANDWIDTH_tracker_get_available(
+        av: *mut Struct_GNUNET_BANDWIDTH_Tracker,
+    ) -> int64_t;
+    pub fn GNUNET_BANDWIDTH_tracker_update_quota(
+        av: *mut Struct_GNUNET_BANDWIDTH_Tracker,
+        bytes_per_second_limit: Struct_GNUNET_BANDWIDTH_Value32NBO,
+    );
+    pub fn EXTRACTOR_metatype_to_string(
+        _type: Enum_EXTRACTOR_MetaType,
+    ) -> *const ::std::os::raw::c_char;
+    pub fn EXTRACTOR_metatype_to_description(
+        _type: Enum_EXTRACTOR_MetaType,
+    ) -> *const ::std::os::raw::c_char;
     pub fn EXTRACTOR_metatype_get_max() -> Enum_EXTRACTOR_MetaType;
-    pub fn EXTRACTOR_plugin_add_defaults(flags: Enum_EXTRACTOR_Options)
-     -> *mut Struct_EXTRACTOR_PluginList;
-    pub fn EXTRACTOR_plugin_add(prev: *mut Struct_EXTRACTOR_PluginList,
-                                library: *const ::std::os::raw::c_char,
-                                options: *const ::std::os::raw::c_char,
-                                flags: Enum_EXTRACTOR_Options)
-     -> *mut Struct_EXTRACTOR_PluginList;
-    pub fn EXTRACTOR_plugin_add_config(prev: *mut Struct_EXTRACTOR_PluginList,
-                                       config: *const ::std::os::raw::c_char,
-                                       flags: Enum_EXTRACTOR_Options)
-     -> *mut Struct_EXTRACTOR_PluginList;
-    pub fn EXTRACTOR_plugin_remove(prev: *mut Struct_EXTRACTOR_PluginList,
-                                   library: *const ::std::os::raw::c_char)
-     -> *mut Struct_EXTRACTOR_PluginList;
-    pub fn EXTRACTOR_plugin_remove_all(plugins:
-                                           *mut Struct_EXTRACTOR_PluginList);
-    pub fn EXTRACTOR_extract(plugins: *mut Struct_EXTRACTOR_PluginList,
-                             filename: *const ::std::os::raw::c_char,
-                             data: *const ::std::os::raw::c_void,
-                             size: size_t, _proc: EXTRACTOR_MetaDataProcessor,
-                             proc_cls: *mut ::std::os::raw::c_void);
-    pub fn EXTRACTOR_meta_data_print(handle: *mut ::std::os::raw::c_void,
-                                     plugin_name:
-                                         *const ::std::os::raw::c_char,
-                                     _type: Enum_EXTRACTOR_MetaType,
-                                     format: Enum_EXTRACTOR_MetaFormat,
-                                     data_mime_type:
-                                         *const ::std::os::raw::c_char,
-                                     data: *const ::std::os::raw::c_char,
-                                     data_len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_bloomfilter_load(filename:
-                                                 *const ::std::os::raw::c_char,
-                                             size: size_t,
-                                             k: ::std::os::raw::c_uint)
-     -> *mut Struct_GNUNET_CONTAINER_BloomFilter;
-    pub fn GNUNET_CONTAINER_bloomfilter_init(data:
-                                                 *const ::std::os::raw::c_char,
-                                             size: size_t,
-                                             k: ::std::os::raw::c_uint)
-     -> *mut Struct_GNUNET_CONTAINER_BloomFilter;
-    pub fn GNUNET_CONTAINER_bloomfilter_get_raw_data(bf:
-                                                         *const Struct_GNUNET_CONTAINER_BloomFilter,
-                                                     data:
-                                                         *mut ::std::os::raw::c_char,
-                                                     size: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_bloomfilter_test(bf:
-                                                 *const Struct_GNUNET_CONTAINER_BloomFilter,
-                                             e: *const Struct_GNUNET_HashCode)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_bloomfilter_add(bf:
-                                                *mut Struct_GNUNET_CONTAINER_BloomFilter,
-                                            e: *const Struct_GNUNET_HashCode);
-    pub fn GNUNET_CONTAINER_bloomfilter_remove(bf:
-                                                   *mut Struct_GNUNET_CONTAINER_BloomFilter,
-                                               e:
-                                                   *const Struct_GNUNET_HashCode);
-    pub fn GNUNET_CONTAINER_bloomfilter_copy(bf:
-                                                 *const Struct_GNUNET_CONTAINER_BloomFilter)
-     -> *mut Struct_GNUNET_CONTAINER_BloomFilter;
-    pub fn GNUNET_CONTAINER_bloomfilter_free(bf:
-                                                 *mut Struct_GNUNET_CONTAINER_BloomFilter);
-    pub fn GNUNET_CONTAINER_bloomfilter_get_element_addresses(bf:
-                                                                  *const Struct_GNUNET_CONTAINER_BloomFilter)
-     -> size_t;
-    pub fn GNUNET_CONTAINER_bloomfilter_get_size(bf:
-                                                     *const Struct_GNUNET_CONTAINER_BloomFilter)
-     -> size_t;
-    pub fn GNUNET_CONTAINER_bloomfilter_clear(bf:
-                                                  *mut Struct_GNUNET_CONTAINER_BloomFilter);
-    pub fn GNUNET_CONTAINER_bloomfilter_or(bf:
-                                               *mut Struct_GNUNET_CONTAINER_BloomFilter,
-                                           data:
-                                               *const ::std::os::raw::c_char,
-                                           size: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_bloomfilter_or2(bf:
-                                                *mut Struct_GNUNET_CONTAINER_BloomFilter,
-                                            to_or:
-                                                *const Struct_GNUNET_CONTAINER_BloomFilter)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_bloomfilter_resize(bf:
-                                                   *mut Struct_GNUNET_CONTAINER_BloomFilter,
-                                               iterator:
-                                                   GNUNET_HashCodeIterator,
-                                               iterator_cls:
-                                                   *mut ::std::os::raw::c_void,
-                                               size: size_t,
-                                               k: ::std::os::raw::c_uint);
-    pub fn GNUNET_CONTAINER_meta_data_create()
-     -> *mut Struct_GNUNET_CONTAINER_MetaData;
-    pub fn GNUNET_CONTAINER_meta_data_duplicate(md:
-                                                    *const Struct_GNUNET_CONTAINER_MetaData)
-     -> *mut Struct_GNUNET_CONTAINER_MetaData;
-    pub fn GNUNET_CONTAINER_meta_data_destroy(md:
-                                                  *mut Struct_GNUNET_CONTAINER_MetaData);
-    pub fn GNUNET_CONTAINER_meta_data_test_equal(md1:
-                                                     *const Struct_GNUNET_CONTAINER_MetaData,
-                                                 md2:
-                                                     *const Struct_GNUNET_CONTAINER_MetaData)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_meta_data_insert(md:
-                                                 *mut Struct_GNUNET_CONTAINER_MetaData,
-                                             plugin_name:
-                                                 *const ::std::os::raw::c_char,
-                                             _type: Enum_EXTRACTOR_MetaType,
-                                             format:
-                                                 Enum_EXTRACTOR_MetaFormat,
-                                             data_mime_type:
-                                                 *const ::std::os::raw::c_char,
-                                             data:
-                                                 *const ::std::os::raw::c_char,
-                                             data_size: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_meta_data_merge(md:
-                                                *mut Struct_GNUNET_CONTAINER_MetaData,
-                                            _in:
-                                                *const Struct_GNUNET_CONTAINER_MetaData);
-    pub fn GNUNET_CONTAINER_meta_data_delete(md:
-                                                 *mut Struct_GNUNET_CONTAINER_MetaData,
-                                             _type: Enum_EXTRACTOR_MetaType,
-                                             data:
-                                                 *const ::std::os::raw::c_char,
-                                             data_size: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_meta_data_clear(md:
-                                                *mut Struct_GNUNET_CONTAINER_MetaData);
-    pub fn GNUNET_CONTAINER_meta_data_add_publication_date(md:
-                                                               *mut Struct_GNUNET_CONTAINER_MetaData);
-    pub fn GNUNET_CONTAINER_meta_data_iterate(md:
-                                                  *const Struct_GNUNET_CONTAINER_MetaData,
-                                              iter:
-                                                  EXTRACTOR_MetaDataProcessor,
-                                              iter_cls:
-                                                  *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_meta_data_get_by_type(md:
-                                                      *const Struct_GNUNET_CONTAINER_MetaData,
-                                                  _type:
-                                                      Enum_EXTRACTOR_MetaType)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_CONTAINER_meta_data_get_first_by_types(md:
-                                                             *const Struct_GNUNET_CONTAINER_MetaData, ...)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_CONTAINER_meta_data_get_thumbnail(md:
-                                                        *const Struct_GNUNET_CONTAINER_MetaData,
-                                                    thumb:
-                                                        *mut *mut ::std::os::raw::c_uchar)
-     -> size_t;
-    pub fn GNUNET_CONTAINER_meta_data_serialize(md:
-                                                    *const Struct_GNUNET_CONTAINER_MetaData,
-                                                target:
-                                                    *mut *mut ::std::os::raw::c_char,
-                                                max: size_t,
-                                                opt:
-                                                    Enum_GNUNET_CONTAINER_MetaDataSerializationOptions)
-     -> ssize_t;
-    pub fn GNUNET_CONTAINER_meta_data_get_serialized_size(md:
-                                                              *const Struct_GNUNET_CONTAINER_MetaData)
-     -> ssize_t;
-    pub fn GNUNET_CONTAINER_meta_data_deserialize(input:
-                                                      *const ::std::os::raw::c_char,
-                                                  size: size_t)
-     -> *mut Struct_GNUNET_CONTAINER_MetaData;
-    pub fn GNUNET_CONTAINER_multihashmap_create(len: ::std::os::raw::c_uint,
-                                                do_not_copy_keys:
-                                                    ::std::os::raw::c_int)
-     -> *mut Struct_GNUNET_CONTAINER_MultiHashMap;
-    pub fn GNUNET_CONTAINER_multihashmap_destroy(map:
-                                                     *mut Struct_GNUNET_CONTAINER_MultiHashMap);
-    pub fn GNUNET_CONTAINER_multihashmap_get(map:
-                                                 *const Struct_GNUNET_CONTAINER_MultiHashMap,
-                                             key:
-                                                 *const Struct_GNUNET_HashCode)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_CONTAINER_multihashmap_remove(map:
-                                                    *mut Struct_GNUNET_CONTAINER_MultiHashMap,
-                                                key:
-                                                    *const Struct_GNUNET_HashCode,
-                                                value:
-                                                    *const ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap_remove_all(map:
-                                                        *mut Struct_GNUNET_CONTAINER_MultiHashMap,
-                                                    key:
-                                                        *const Struct_GNUNET_HashCode)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap_contains(map:
-                                                      *const Struct_GNUNET_CONTAINER_MultiHashMap,
-                                                  key:
-                                                      *const Struct_GNUNET_HashCode)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap_contains_value(map:
-                                                            *const Struct_GNUNET_CONTAINER_MultiHashMap,
-                                                        key:
-                                                            *const Struct_GNUNET_HashCode,
-                                                        value:
-                                                            *const ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap_put(map:
-                                                 *mut Struct_GNUNET_CONTAINER_MultiHashMap,
-                                             key:
-                                                 *const Struct_GNUNET_HashCode,
-                                             value:
-                                                 *mut ::std::os::raw::c_void,
-                                             opt:
-                                                 Enum_GNUNET_CONTAINER_MultiHashMapOption)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap_size(map:
-                                                  *const Struct_GNUNET_CONTAINER_MultiHashMap)
-     -> ::std::os::raw::c_uint;
-    pub fn GNUNET_CONTAINER_multihashmap_iterate(map:
-                                                     *const Struct_GNUNET_CONTAINER_MultiHashMap,
-                                                 it:
-                                                     GNUNET_CONTAINER_HashMapIterator,
-                                                 it_cls:
-                                                     *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap_iterator_create(map:
-                                                             *const Struct_GNUNET_CONTAINER_MultiHashMap)
-     -> *mut Struct_GNUNET_CONTAINER_MultiHashMapIterator;
-    pub fn GNUNET_CONTAINER_multihashmap_iterator_next(iter:
-                                                           *mut Struct_GNUNET_CONTAINER_MultiHashMapIterator,
-                                                       key:
-                                                           *mut Struct_GNUNET_HashCode,
-                                                       value:
-                                                           *mut *const ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap_iterator_destroy(iter:
-                                                              *mut Struct_GNUNET_CONTAINER_MultiHashMapIterator);
-    pub fn GNUNET_CONTAINER_multihashmap_get_multiple(map:
-                                                          *const Struct_GNUNET_CONTAINER_MultiHashMap,
-                                                      key:
-                                                          *const Struct_GNUNET_HashCode,
-                                                      it:
-                                                          GNUNET_CONTAINER_HashMapIterator,
-                                                      it_cls:
-                                                          *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multipeermap_create(len: ::std::os::raw::c_uint,
-                                                do_not_copy_keys:
-                                                    ::std::os::raw::c_int)
-     -> *mut Struct_GNUNET_CONTAINER_MultiPeerMap;
-    pub fn GNUNET_CONTAINER_multipeermap_destroy(map:
-                                                     *mut Struct_GNUNET_CONTAINER_MultiPeerMap);
-    pub fn GNUNET_CONTAINER_multipeermap_get(map:
-                                                 *const Struct_GNUNET_CONTAINER_MultiPeerMap,
-                                             key:
-                                                 *const Struct_GNUNET_PeerIdentity)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_CONTAINER_multipeermap_remove(map:
-                                                    *mut Struct_GNUNET_CONTAINER_MultiPeerMap,
-                                                key:
-                                                    *const Struct_GNUNET_PeerIdentity,
-                                                value:
-                                                    *const ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multipeermap_remove_all(map:
-                                                        *mut Struct_GNUNET_CONTAINER_MultiPeerMap,
-                                                    key:
-                                                        *const Struct_GNUNET_PeerIdentity)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multipeermap_contains(map:
-                                                      *const Struct_GNUNET_CONTAINER_MultiPeerMap,
-                                                  key:
-                                                      *const Struct_GNUNET_PeerIdentity)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multipeermap_contains_value(map:
-                                                            *const Struct_GNUNET_CONTAINER_MultiPeerMap,
-                                                        key:
-                                                            *const Struct_GNUNET_PeerIdentity,
-                                                        value:
-                                                            *const ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multipeermap_put(map:
-                                                 *mut Struct_GNUNET_CONTAINER_MultiPeerMap,
-                                             key:
-                                                 *const Struct_GNUNET_PeerIdentity,
-                                             value:
-                                                 *mut ::std::os::raw::c_void,
-                                             opt:
-                                                 Enum_GNUNET_CONTAINER_MultiHashMapOption)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multipeermap_size(map:
-                                                  *const Struct_GNUNET_CONTAINER_MultiPeerMap)
-     -> ::std::os::raw::c_uint;
-    pub fn GNUNET_CONTAINER_multipeermap_iterate(map:
-                                                     *const Struct_GNUNET_CONTAINER_MultiPeerMap,
-                                                 it:
-                                                     GNUNET_CONTAINER_PeerMapIterator,
-                                                 it_cls:
-                                                     *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multipeermap_iterator_create(map:
-                                                             *const Struct_GNUNET_CONTAINER_MultiPeerMap)
-     -> *mut Struct_GNUNET_CONTAINER_MultiPeerMapIterator;
-    pub fn GNUNET_CONTAINER_multipeermap_iterator_next(iter:
-                                                           *mut Struct_GNUNET_CONTAINER_MultiPeerMapIterator,
-                                                       key:
-                                                           *mut Struct_GNUNET_PeerIdentity,
-                                                       value:
-                                                           *mut *const ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multipeermap_iterator_destroy(iter:
-                                                              *mut Struct_GNUNET_CONTAINER_MultiPeerMapIterator);
-    pub fn GNUNET_CONTAINER_multipeermap_get_multiple(map:
-                                                          *const Struct_GNUNET_CONTAINER_MultiPeerMap,
-                                                      key:
-                                                          *const Struct_GNUNET_PeerIdentity,
-                                                      it:
-                                                          GNUNET_CONTAINER_PeerMapIterator,
-                                                      it_cls:
-                                                          *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap32_create(len: ::std::os::raw::c_uint)
-     -> *mut Struct_GNUNET_CONTAINER_MultiHashMap32;
-    pub fn GNUNET_CONTAINER_multihashmap32_destroy(map:
-                                                       *mut Struct_GNUNET_CONTAINER_MultiHashMap32);
-    pub fn GNUNET_CONTAINER_multihashmap32_size(map:
-                                                    *const Struct_GNUNET_CONTAINER_MultiHashMap32)
-     -> ::std::os::raw::c_uint;
-    pub fn GNUNET_CONTAINER_multihashmap32_get(map:
-                                                   *const Struct_GNUNET_CONTAINER_MultiHashMap32,
-                                               key: uint32_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_CONTAINER_multihashmap32_iterate(map:
-                                                       *const Struct_GNUNET_CONTAINER_MultiHashMap32,
-                                                   it:
-                                                       GNUNET_CONTAINER_HashMapIterator32,
-                                                   it_cls:
-                                                       *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap32_remove(map:
-                                                      *mut Struct_GNUNET_CONTAINER_MultiHashMap32,
-                                                  key: uint32_t,
-                                                  value:
-                                                      *const ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap32_remove_all(map:
-                                                          *mut Struct_GNUNET_CONTAINER_MultiHashMap32,
-                                                      key: uint32_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap32_contains(map:
-                                                        *const Struct_GNUNET_CONTAINER_MultiHashMap32,
-                                                    key: uint32_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap32_contains_value(map:
-                                                              *const Struct_GNUNET_CONTAINER_MultiHashMap32,
-                                                          key: uint32_t,
-                                                          value:
-                                                              *const ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap32_put(map:
-                                                   *mut Struct_GNUNET_CONTAINER_MultiHashMap32,
-                                               key: uint32_t,
-                                               value:
-                                                   *mut ::std::os::raw::c_void,
-                                               opt:
-                                                   Enum_GNUNET_CONTAINER_MultiHashMapOption)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap32_get_multiple(map:
-                                                            *const Struct_GNUNET_CONTAINER_MultiHashMap32,
-                                                        key: uint32_t,
-                                                        it:
-                                                            GNUNET_CONTAINER_HashMapIterator32,
-                                                        it_cls:
-                                                            *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap32_iterator_create(map:
-                                                               *const Struct_GNUNET_CONTAINER_MultiHashMap32)
-     -> *mut Struct_GNUNET_CONTAINER_MultiHashMap32Iterator;
-    pub fn GNUNET_CONTAINER_multihashmap32_iterator_next(iter:
-                                                             *mut Struct_GNUNET_CONTAINER_MultiHashMap32Iterator,
-                                                         key: *mut uint32_t,
-                                                         value:
-                                                             *mut *const ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_multihashmap32_iterator_destroy(iter:
-                                                                *mut Struct_GNUNET_CONTAINER_MultiHashMapIterator);
-    pub fn GNUNET_CONTAINER_heap_create(order:
-                                            Enum_GNUNET_CONTAINER_HeapOrder)
-     -> *mut Struct_GNUNET_CONTAINER_Heap;
-    pub fn GNUNET_CONTAINER_heap_destroy(heap:
-                                             *mut Struct_GNUNET_CONTAINER_Heap);
-    pub fn GNUNET_CONTAINER_heap_peek(heap:
-                                          *const Struct_GNUNET_CONTAINER_Heap)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_CONTAINER_heap_get_size(heap:
-                                              *const Struct_GNUNET_CONTAINER_Heap)
-     -> ::std::os::raw::c_uint;
-    pub fn GNUNET_CONTAINER_heap_node_get_cost(node:
-                                                   *const Struct_GNUNET_CONTAINER_HeapNode)
-     -> GNUNET_CONTAINER_HeapCostType;
-    pub fn GNUNET_CONTAINER_heap_iterate(heap:
-                                             *const Struct_GNUNET_CONTAINER_Heap,
-                                         iterator:
-                                             GNUNET_CONTAINER_HeapIterator,
-                                         iterator_cls:
-                                             *mut ::std::os::raw::c_void);
-    pub fn GNUNET_CONTAINER_heap_walk_get_next(heap:
-                                                   *mut Struct_GNUNET_CONTAINER_Heap)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_CONTAINER_heap_insert(heap:
-                                            *mut Struct_GNUNET_CONTAINER_Heap,
-                                        element: *mut ::std::os::raw::c_void,
-                                        cost: GNUNET_CONTAINER_HeapCostType)
-     -> *mut Struct_GNUNET_CONTAINER_HeapNode;
-    pub fn GNUNET_CONTAINER_heap_remove_root(heap:
-                                                 *mut Struct_GNUNET_CONTAINER_Heap)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_CONTAINER_heap_remove_node(node:
-                                                 *mut Struct_GNUNET_CONTAINER_HeapNode)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_CONTAINER_heap_update_cost(heap:
-                                                 *mut Struct_GNUNET_CONTAINER_Heap,
-                                             node:
-                                                 *mut Struct_GNUNET_CONTAINER_HeapNode,
-                                             new_cost:
-                                                 GNUNET_CONTAINER_HeapCostType);
-    pub fn GNUNET_CONTAINER_slist_add(l: *mut Struct_GNUNET_CONTAINER_SList,
-                                      disp:
-                                          Enum_GNUNET_CONTAINER_SListDisposition,
-                                      buf: *const ::std::os::raw::c_void,
-                                      len: size_t);
-    pub fn GNUNET_CONTAINER_slist_add_end(l:
-                                              *mut Struct_GNUNET_CONTAINER_SList,
-                                          disp:
-                                              Enum_GNUNET_CONTAINER_SListDisposition,
-                                          buf: *const ::std::os::raw::c_void,
-                                          len: size_t);
-    pub fn GNUNET_CONTAINER_slist_append(dst:
-                                             *mut Struct_GNUNET_CONTAINER_SList,
-                                         src:
-                                             *mut Struct_GNUNET_CONTAINER_SList);
-    pub fn GNUNET_CONTAINER_slist_create()
-     -> *mut Struct_GNUNET_CONTAINER_SList;
-    pub fn GNUNET_CONTAINER_slist_destroy(l:
-                                              *mut Struct_GNUNET_CONTAINER_SList);
-    pub fn GNUNET_CONTAINER_slist_begin(l: *mut Struct_GNUNET_CONTAINER_SList)
-     -> Struct_GNUNET_CONTAINER_SList_Iterator;
-    pub fn GNUNET_CONTAINER_slist_clear(l:
-                                            *mut Struct_GNUNET_CONTAINER_SList);
-    pub fn GNUNET_CONTAINER_slist_contains(l:
-                                               *const Struct_GNUNET_CONTAINER_SList,
-                                           buf: *const ::std::os::raw::c_void,
-                                           len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_slist_contains2(l:
-                                                *const Struct_GNUNET_CONTAINER_SList,
-                                            buf:
-                                                *const ::std::os::raw::c_void,
-                                            len: size_t,
-                                            compare:
-                                                ::std::option::Option<unsafe extern "C" fn(arg1:
-                                                                                               *const ::std::os::raw::c_void,
-                                                                                           arg2:
-                                                                                               size_t,
-                                                                                           arg3:
-                                                                                               *const ::std::os::raw::c_void,
-                                                                                           arg4:
-                                                                                               size_t)
-                                                                          ->
-                                                                              ::std::os::raw::c_int>)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_CONTAINER_slist_count(l:
-                                            *const Struct_GNUNET_CONTAINER_SList)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_slist_erase(i:
-                                            *mut Struct_GNUNET_CONTAINER_SList_Iterator);
-    pub fn GNUNET_CONTAINER_slist_insert(before:
-                                             *mut Struct_GNUNET_CONTAINER_SList_Iterator,
-                                         disp:
-                                             Enum_GNUNET_CONTAINER_SListDisposition,
-                                         buf: *const ::std::os::raw::c_void,
-                                         len: size_t);
-    pub fn GNUNET_CONTAINER_slist_next(i:
-                                           *mut Struct_GNUNET_CONTAINER_SList_Iterator)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_slist_end(i:
-                                          *mut Struct_GNUNET_CONTAINER_SList_Iterator)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONTAINER_slist_get(i:
-                                          *const Struct_GNUNET_CONTAINER_SList_Iterator,
-                                      len: *mut size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_CONTAINER_slist_iter_destroy(i:
-                                                   *mut Struct_GNUNET_CONTAINER_SList_Iterator);
-    pub fn GNUNET_BIO_read_open(_fn: *const ::std::os::raw::c_char)
-     -> *mut Struct_GNUNET_BIO_ReadHandle;
-    pub fn GNUNET_BIO_read_close(h: *mut Struct_GNUNET_BIO_ReadHandle,
-                                 emsg: *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_read(h: *mut Struct_GNUNET_BIO_ReadHandle,
-                           what: *const ::std::os::raw::c_char,
-                           result: *mut ::std::os::raw::c_void, len: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_read_fn(h: *mut Struct_GNUNET_BIO_ReadHandle,
-                              file: *const ::std::os::raw::c_char,
-                              line: ::std::os::raw::c_int,
-                              result: *mut ::std::os::raw::c_void,
-                              len: size_t) -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_read_string(h: *mut Struct_GNUNET_BIO_ReadHandle,
-                                  what: *const ::std::os::raw::c_char,
-                                  result: *mut *mut ::std::os::raw::c_char,
-                                  max_length: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_read_meta_data(h: *mut Struct_GNUNET_BIO_ReadHandle,
-                                     what: *const ::std::os::raw::c_char,
-                                     result:
-                                         *mut *mut Struct_GNUNET_CONTAINER_MetaData)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_read_int32__(h: *mut Struct_GNUNET_BIO_ReadHandle,
-                                   file: *const ::std::os::raw::c_char,
-                                   line: ::std::os::raw::c_int,
-                                   i: *mut int32_t) -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_read_int64__(h: *mut Struct_GNUNET_BIO_ReadHandle,
-                                   file: *const ::std::os::raw::c_char,
-                                   line: ::std::os::raw::c_int,
-                                   i: *mut int64_t) -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_write_open(_fn: *const ::std::os::raw::c_char)
-     -> *mut Struct_GNUNET_BIO_WriteHandle;
-    pub fn GNUNET_BIO_write_close(h: *mut Struct_GNUNET_BIO_WriteHandle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_write(h: *mut Struct_GNUNET_BIO_WriteHandle,
-                            buffer: *const ::std::os::raw::c_void, n: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_flush(h: *mut Struct_GNUNET_BIO_WriteHandle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_write_string(h: *mut Struct_GNUNET_BIO_WriteHandle,
-                                   s: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_write_meta_data(h: *mut Struct_GNUNET_BIO_WriteHandle,
-                                      m:
-                                          *const Struct_GNUNET_CONTAINER_MetaData)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_write_int32(h: *mut Struct_GNUNET_BIO_WriteHandle,
-                                  i: int32_t) -> ::std::os::raw::c_int;
-    pub fn GNUNET_BIO_write_int64(h: *mut Struct_GNUNET_BIO_WriteHandle,
-                                  i: int64_t) -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONNECTION_persist_(connection:
-                                          *mut Struct_GNUNET_CONNECTION_Handle);
-    pub fn GNUNET_CONNECTION_disable_corking(connection:
-                                                 *mut Struct_GNUNET_CONNECTION_Handle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONNECTION_create_from_existing(osSocket:
-                                                      *mut Struct_GNUNET_NETWORK_Handle)
-     -> *mut Struct_GNUNET_CONNECTION_Handle;
-    pub fn GNUNET_CONNECTION_create_from_accept(access:
-                                                    GNUNET_CONNECTION_AccessCheck,
-                                                access_cls:
-                                                    *mut ::std::os::raw::c_void,
-                                                lsock:
-                                                    *mut Struct_GNUNET_NETWORK_Handle)
-     -> *mut Struct_GNUNET_CONNECTION_Handle;
-    pub fn GNUNET_CONNECTION_create_from_connect(cfg:
-                                                     *const Struct_GNUNET_CONFIGURATION_Handle,
-                                                 hostname:
-                                                     *const ::std::os::raw::c_char,
-                                                 port: uint16_t)
-     -> *mut Struct_GNUNET_CONNECTION_Handle;
-    pub fn GNUNET_CONNECTION_create_from_connect_to_unixpath(cfg:
-                                                                 *const Struct_GNUNET_CONFIGURATION_Handle,
-                                                             unixpath:
-                                                                 *const ::std::os::raw::c_char)
-     -> *mut Struct_GNUNET_CONNECTION_Handle;
-    pub fn GNUNET_CONNECTION_create_from_sockaddr(af_family:
-                                                      ::std::os::raw::c_int,
-                                                  serv_addr:
-                                                      *const Struct_sockaddr,
-                                                  addrlen: socklen_t)
-     -> *mut Struct_GNUNET_CONNECTION_Handle;
-    pub fn GNUNET_CONNECTION_check(connection:
-                                       *mut Struct_GNUNET_CONNECTION_Handle)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONNECTION_get_address(connection:
-                                             *mut Struct_GNUNET_CONNECTION_Handle,
-                                         addr:
-                                             *mut *mut ::std::os::raw::c_void,
-                                         addrlen: *mut size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CONNECTION_destroy(connection:
-                                         *mut Struct_GNUNET_CONNECTION_Handle);
-    pub fn GNUNET_CONNECTION_receive(connection:
-                                         *mut Struct_GNUNET_CONNECTION_Handle,
-                                     max: size_t,
-                                     timeout: Struct_GNUNET_TIME_Relative,
-                                     receiver: GNUNET_CONNECTION_Receiver,
-                                     receiver_cls:
-                                         *mut ::std::os::raw::c_void);
-    pub fn GNUNET_CONNECTION_receive_cancel(connection:
-                                                *mut Struct_GNUNET_CONNECTION_Handle)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_CONNECTION_notify_transmit_ready(connection:
-                                                       *mut Struct_GNUNET_CONNECTION_Handle,
-                                                   size: size_t,
-                                                   timeout:
-                                                       Struct_GNUNET_TIME_Relative,
-                                                   notify:
-                                                       GNUNET_CONNECTION_TransmitReadyNotify,
-                                                   notify_cls:
-                                                       *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_CONNECTION_TransmitHandle;
-    pub fn GNUNET_CONNECTION_notify_transmit_ready_cancel(th:
-                                                              *mut Struct_GNUNET_CONNECTION_TransmitHandle);
-    pub fn GNUNET_CLIENT_connect(service_name: *const ::std::os::raw::c_char,
-                                 cfg:
-                                     *const Struct_GNUNET_CONFIGURATION_Handle)
-     -> *mut Struct_GNUNET_CLIENT_Connection;
-    pub fn GNUNET_CLIENT_disconnect(client:
-                                        *mut Struct_GNUNET_CLIENT_Connection);
-    pub fn GNUNET_CLIENT_receive(client: *mut Struct_GNUNET_CLIENT_Connection,
-                                 handler: GNUNET_CLIENT_MessageHandler,
-                                 handler_cls: *mut ::std::os::raw::c_void,
-                                 timeout: Struct_GNUNET_TIME_Relative);
-    pub fn GNUNET_CLIENT_notify_transmit_ready(client:
-                                                   *mut Struct_GNUNET_CLIENT_Connection,
-                                               size: size_t,
-                                               timeout:
-                                                   Struct_GNUNET_TIME_Relative,
-                                               auto_retry:
-                                                   ::std::os::raw::c_int,
-                                               notify:
-                                                   GNUNET_CONNECTION_TransmitReadyNotify,
-                                               notify_cls:
-                                                   *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_CLIENT_TransmitHandle;
-    pub fn GNUNET_CLIENT_notify_transmit_ready_cancel(th:
-                                                          *mut Struct_GNUNET_CLIENT_TransmitHandle);
-    pub fn GNUNET_CLIENT_transmit_and_get_response(client:
-                                                       *mut Struct_GNUNET_CLIENT_Connection,
-                                                   hdr:
-                                                       *const Struct_GNUNET_MessageHeader,
-                                                   timeout:
-                                                       Struct_GNUNET_TIME_Relative,
-                                                   auto_retry:
-                                                       ::std::os::raw::c_int,
-                                                   rn:
-                                                       GNUNET_CLIENT_MessageHandler,
-                                                   rn_cls:
-                                                       *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_CLIENT_service_test(service: *const ::std::os::raw::c_char,
-                                      cfg:
-                                          *const Struct_GNUNET_CONFIGURATION_Handle,
-                                      timeout: Struct_GNUNET_TIME_Relative,
-                                      cb: GNUNET_CLIENT_TestResultCallback,
-                                      cb_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_CLIENT_TestHandle;
-    pub fn GNUNET_CLIENT_service_test_cancel(th:
-                                                 *mut Struct_GNUNET_CLIENT_TestHandle);
-    pub fn GNUNET_GETOPT_run(binaryOptions: *const ::std::os::raw::c_char,
-                             allOptions:
-                                 *const Struct_GNUNET_GETOPT_CommandLineOption,
-                             argc: ::std::os::raw::c_uint,
-                             argv: *const *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GETOPT_set_ulong(ctx:
-                                       *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
-                                   scls: *mut ::std::os::raw::c_void,
-                                   option: *const ::std::os::raw::c_char,
-                                   value: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GETOPT_set_relative_time(ctx:
-                                               *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
-                                           scls: *mut ::std::os::raw::c_void,
-                                           option:
-                                               *const ::std::os::raw::c_char,
-                                           value:
-                                               *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GETOPT_set_uint(ctx:
-                                      *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
-                                  scls: *mut ::std::os::raw::c_void,
-                                  option: *const ::std::os::raw::c_char,
-                                  value: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GETOPT_set_one(ctx:
-                                     *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
-                                 scls: *mut ::std::os::raw::c_void,
-                                 option: *const ::std::os::raw::c_char,
-                                 value: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GETOPT_set_string(ctx:
-                                        *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
-                                    scls: *mut ::std::os::raw::c_void,
-                                    option: *const ::std::os::raw::c_char,
-                                    value: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GETOPT_set_filename(ctx:
-                                          *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
-                                      scls: *mut ::std::os::raw::c_void,
-                                      option: *const ::std::os::raw::c_char,
-                                      value: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GETOPT_increment_value(ctx:
-                                             *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
-                                         scls: *mut ::std::os::raw::c_void,
-                                         option:
-                                             *const ::std::os::raw::c_char,
-                                         value: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GETOPT_format_help_(ctx:
-                                          *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
-                                      scls: *mut ::std::os::raw::c_void,
-                                      option: *const ::std::os::raw::c_char,
-                                      value: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GETOPT_print_version_(ctx:
-                                            *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
-                                        scls: *mut ::std::os::raw::c_void,
-                                        option: *const ::std::os::raw::c_char,
-                                        value: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_SERVER_create_with_sockets(access:
-                                                 GNUNET_CONNECTION_AccessCheck,
-                                             access_cls:
-                                                 *mut ::std::os::raw::c_void,
-                                             lsocks:
-                                                 *mut *mut Struct_GNUNET_NETWORK_Handle,
-                                             idle_timeout:
-                                                 Struct_GNUNET_TIME_Relative,
-                                             require_found:
-                                                 ::std::os::raw::c_int)
-     -> *mut Struct_GNUNET_SERVER_Handle;
-    pub fn GNUNET_SERVER_create(access: GNUNET_CONNECTION_AccessCheck,
-                                access_cls: *mut ::std::os::raw::c_void,
-                                server_addr: *const *mut Struct_sockaddr,
-                                socklen: *const socklen_t,
-                                idle_timeout: Struct_GNUNET_TIME_Relative,
-                                require_found: ::std::os::raw::c_int)
-     -> *mut Struct_GNUNET_SERVER_Handle;
+    pub fn EXTRACTOR_plugin_add_defaults(
+        flags: Enum_EXTRACTOR_Options,
+    ) -> *mut Struct_EXTRACTOR_PluginList;
+    pub fn EXTRACTOR_plugin_add(
+        prev: *mut Struct_EXTRACTOR_PluginList,
+        library: *const ::std::os::raw::c_char,
+        options: *const ::std::os::raw::c_char,
+        flags: Enum_EXTRACTOR_Options,
+    ) -> *mut Struct_EXTRACTOR_PluginList;
+    pub fn EXTRACTOR_plugin_add_config(
+        prev: *mut Struct_EXTRACTOR_PluginList,
+        config: *const ::std::os::raw::c_char,
+        flags: Enum_EXTRACTOR_Options,
+    ) -> *mut Struct_EXTRACTOR_PluginList;
+    pub fn EXTRACTOR_plugin_remove(
+        prev: *mut Struct_EXTRACTOR_PluginList,
+        library: *const ::std::os::raw::c_char,
+    ) -> *mut Struct_EXTRACTOR_PluginList;
+    pub fn EXTRACTOR_plugin_remove_all(plugins: *mut Struct_EXTRACTOR_PluginList);
+    pub fn EXTRACTOR_extract(
+        plugins: *mut Struct_EXTRACTOR_PluginList,
+        filename: *const ::std::os::raw::c_char,
+        data: *const ::std::os::raw::c_void,
+        size: size_t,
+        _proc: EXTRACTOR_MetaDataProcessor,
+        proc_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn EXTRACTOR_meta_data_print(
+        handle: *mut ::std::os::raw::c_void,
+        plugin_name: *const ::std::os::raw::c_char,
+        _type: Enum_EXTRACTOR_MetaType,
+        format: Enum_EXTRACTOR_MetaFormat,
+        data_mime_type: *const ::std::os::raw::c_char,
+        data: *const ::std::os::raw::c_char,
+        data_len: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_bloomfilter_load(
+        filename: *const ::std::os::raw::c_char,
+        size: size_t,
+        k: ::std::os::raw::c_uint,
+    ) -> *mut Struct_GNUNET_CONTAINER_BloomFilter;
+    pub fn GNUNET_CONTAINER_bloomfilter_init(
+        data: *const ::std::os::raw::c_char,
+        size: size_t,
+        k: ::std::os::raw::c_uint,
+    ) -> *mut Struct_GNUNET_CONTAINER_BloomFilter;
+    pub fn GNUNET_CONTAINER_bloomfilter_get_raw_data(
+        bf: *const Struct_GNUNET_CONTAINER_BloomFilter,
+        data: *mut ::std::os::raw::c_char,
+        size: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_bloomfilter_test(
+        bf: *const Struct_GNUNET_CONTAINER_BloomFilter,
+        e: *const Struct_GNUNET_HashCode,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_bloomfilter_add(
+        bf: *mut Struct_GNUNET_CONTAINER_BloomFilter,
+        e: *const Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_CONTAINER_bloomfilter_remove(
+        bf: *mut Struct_GNUNET_CONTAINER_BloomFilter,
+        e: *const Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_CONTAINER_bloomfilter_copy(
+        bf: *const Struct_GNUNET_CONTAINER_BloomFilter,
+    ) -> *mut Struct_GNUNET_CONTAINER_BloomFilter;
+    pub fn GNUNET_CONTAINER_bloomfilter_free(bf: *mut Struct_GNUNET_CONTAINER_BloomFilter);
+    pub fn GNUNET_CONTAINER_bloomfilter_get_element_addresses(
+        bf: *const Struct_GNUNET_CONTAINER_BloomFilter,
+    ) -> size_t;
+    pub fn GNUNET_CONTAINER_bloomfilter_get_size(
+        bf: *const Struct_GNUNET_CONTAINER_BloomFilter,
+    ) -> size_t;
+    pub fn GNUNET_CONTAINER_bloomfilter_clear(bf: *mut Struct_GNUNET_CONTAINER_BloomFilter);
+    pub fn GNUNET_CONTAINER_bloomfilter_or(
+        bf: *mut Struct_GNUNET_CONTAINER_BloomFilter,
+        data: *const ::std::os::raw::c_char,
+        size: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_bloomfilter_or2(
+        bf: *mut Struct_GNUNET_CONTAINER_BloomFilter,
+        to_or: *const Struct_GNUNET_CONTAINER_BloomFilter,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_bloomfilter_resize(
+        bf: *mut Struct_GNUNET_CONTAINER_BloomFilter,
+        iterator: GNUNET_HashCodeIterator,
+        iterator_cls: *mut ::std::os::raw::c_void,
+        size: size_t,
+        k: ::std::os::raw::c_uint,
+    );
+    pub fn GNUNET_CONTAINER_meta_data_create() -> *mut Struct_GNUNET_CONTAINER_MetaData;
+    pub fn GNUNET_CONTAINER_meta_data_duplicate(
+        md: *const Struct_GNUNET_CONTAINER_MetaData,
+    ) -> *mut Struct_GNUNET_CONTAINER_MetaData;
+    pub fn GNUNET_CONTAINER_meta_data_destroy(md: *mut Struct_GNUNET_CONTAINER_MetaData);
+    pub fn GNUNET_CONTAINER_meta_data_test_equal(
+        md1: *const Struct_GNUNET_CONTAINER_MetaData,
+        md2: *const Struct_GNUNET_CONTAINER_MetaData,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_meta_data_insert(
+        md: *mut Struct_GNUNET_CONTAINER_MetaData,
+        plugin_name: *const ::std::os::raw::c_char,
+        _type: Enum_EXTRACTOR_MetaType,
+        format: Enum_EXTRACTOR_MetaFormat,
+        data_mime_type: *const ::std::os::raw::c_char,
+        data: *const ::std::os::raw::c_char,
+        data_size: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_meta_data_merge(
+        md: *mut Struct_GNUNET_CONTAINER_MetaData,
+        _in: *const Struct_GNUNET_CONTAINER_MetaData,
+    );
+    pub fn GNUNET_CONTAINER_meta_data_delete(
+        md: *mut Struct_GNUNET_CONTAINER_MetaData,
+        _type: Enum_EXTRACTOR_MetaType,
+        data: *const ::std::os::raw::c_char,
+        data_size: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_meta_data_clear(md: *mut Struct_GNUNET_CONTAINER_MetaData);
+    pub fn GNUNET_CONTAINER_meta_data_add_publication_date(
+        md: *mut Struct_GNUNET_CONTAINER_MetaData,
+    );
+    pub fn GNUNET_CONTAINER_meta_data_iterate(
+        md: *const Struct_GNUNET_CONTAINER_MetaData,
+        iter: EXTRACTOR_MetaDataProcessor,
+        iter_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_meta_data_get_by_type(
+        md: *const Struct_GNUNET_CONTAINER_MetaData,
+        _type: Enum_EXTRACTOR_MetaType,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_CONTAINER_meta_data_get_first_by_types(
+        md: *const Struct_GNUNET_CONTAINER_MetaData,
+        ...
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_CONTAINER_meta_data_get_thumbnail(
+        md: *const Struct_GNUNET_CONTAINER_MetaData,
+        thumb: *mut *mut ::std::os::raw::c_uchar,
+    ) -> size_t;
+    pub fn GNUNET_CONTAINER_meta_data_serialize(
+        md: *const Struct_GNUNET_CONTAINER_MetaData,
+        target: *mut *mut ::std::os::raw::c_char,
+        max: size_t,
+        opt: Enum_GNUNET_CONTAINER_MetaDataSerializationOptions,
+    ) -> ssize_t;
+    pub fn GNUNET_CONTAINER_meta_data_get_serialized_size(
+        md: *const Struct_GNUNET_CONTAINER_MetaData,
+    ) -> ssize_t;
+    pub fn GNUNET_CONTAINER_meta_data_deserialize(
+        input: *const ::std::os::raw::c_char,
+        size: size_t,
+    ) -> *mut Struct_GNUNET_CONTAINER_MetaData;
+    pub fn GNUNET_CONTAINER_multihashmap_create(
+        len: ::std::os::raw::c_uint,
+        do_not_copy_keys: ::std::os::raw::c_int,
+    ) -> *mut Struct_GNUNET_CONTAINER_MultiHashMap;
+    pub fn GNUNET_CONTAINER_multihashmap_destroy(map: *mut Struct_GNUNET_CONTAINER_MultiHashMap);
+    pub fn GNUNET_CONTAINER_multihashmap_get(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap,
+        key: *const Struct_GNUNET_HashCode,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_CONTAINER_multihashmap_remove(
+        map: *mut Struct_GNUNET_CONTAINER_MultiHashMap,
+        key: *const Struct_GNUNET_HashCode,
+        value: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap_remove_all(
+        map: *mut Struct_GNUNET_CONTAINER_MultiHashMap,
+        key: *const Struct_GNUNET_HashCode,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap_contains(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap,
+        key: *const Struct_GNUNET_HashCode,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap_contains_value(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap,
+        key: *const Struct_GNUNET_HashCode,
+        value: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap_put(
+        map: *mut Struct_GNUNET_CONTAINER_MultiHashMap,
+        key: *const Struct_GNUNET_HashCode,
+        value: *mut ::std::os::raw::c_void,
+        opt: Enum_GNUNET_CONTAINER_MultiHashMapOption,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap_size(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap,
+    ) -> ::std::os::raw::c_uint;
+    pub fn GNUNET_CONTAINER_multihashmap_iterate(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap,
+        it: GNUNET_CONTAINER_HashMapIterator,
+        it_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap_iterator_create(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap,
+    ) -> *mut Struct_GNUNET_CONTAINER_MultiHashMapIterator;
+    pub fn GNUNET_CONTAINER_multihashmap_iterator_next(
+        iter: *mut Struct_GNUNET_CONTAINER_MultiHashMapIterator,
+        key: *mut Struct_GNUNET_HashCode,
+        value: *mut *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap_iterator_destroy(
+        iter: *mut Struct_GNUNET_CONTAINER_MultiHashMapIterator,
+    );
+    pub fn GNUNET_CONTAINER_multihashmap_get_multiple(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap,
+        key: *const Struct_GNUNET_HashCode,
+        it: GNUNET_CONTAINER_HashMapIterator,
+        it_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multipeermap_create(
+        len: ::std::os::raw::c_uint,
+        do_not_copy_keys: ::std::os::raw::c_int,
+    ) -> *mut Struct_GNUNET_CONTAINER_MultiPeerMap;
+    pub fn GNUNET_CONTAINER_multipeermap_destroy(map: *mut Struct_GNUNET_CONTAINER_MultiPeerMap);
+    pub fn GNUNET_CONTAINER_multipeermap_get(
+        map: *const Struct_GNUNET_CONTAINER_MultiPeerMap,
+        key: *const Struct_GNUNET_PeerIdentity,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_CONTAINER_multipeermap_remove(
+        map: *mut Struct_GNUNET_CONTAINER_MultiPeerMap,
+        key: *const Struct_GNUNET_PeerIdentity,
+        value: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multipeermap_remove_all(
+        map: *mut Struct_GNUNET_CONTAINER_MultiPeerMap,
+        key: *const Struct_GNUNET_PeerIdentity,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multipeermap_contains(
+        map: *const Struct_GNUNET_CONTAINER_MultiPeerMap,
+        key: *const Struct_GNUNET_PeerIdentity,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multipeermap_contains_value(
+        map: *const Struct_GNUNET_CONTAINER_MultiPeerMap,
+        key: *const Struct_GNUNET_PeerIdentity,
+        value: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multipeermap_put(
+        map: *mut Struct_GNUNET_CONTAINER_MultiPeerMap,
+        key: *const Struct_GNUNET_PeerIdentity,
+        value: *mut ::std::os::raw::c_void,
+        opt: Enum_GNUNET_CONTAINER_MultiHashMapOption,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multipeermap_size(
+        map: *const Struct_GNUNET_CONTAINER_MultiPeerMap,
+    ) -> ::std::os::raw::c_uint;
+    pub fn GNUNET_CONTAINER_multipeermap_iterate(
+        map: *const Struct_GNUNET_CONTAINER_MultiPeerMap,
+        it: GNUNET_CONTAINER_PeerMapIterator,
+        it_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multipeermap_iterator_create(
+        map: *const Struct_GNUNET_CONTAINER_MultiPeerMap,
+    ) -> *mut Struct_GNUNET_CONTAINER_MultiPeerMapIterator;
+    pub fn GNUNET_CONTAINER_multipeermap_iterator_next(
+        iter: *mut Struct_GNUNET_CONTAINER_MultiPeerMapIterator,
+        key: *mut Struct_GNUNET_PeerIdentity,
+        value: *mut *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multipeermap_iterator_destroy(
+        iter: *mut Struct_GNUNET_CONTAINER_MultiPeerMapIterator,
+    );
+    pub fn GNUNET_CONTAINER_multipeermap_get_multiple(
+        map: *const Struct_GNUNET_CONTAINER_MultiPeerMap,
+        key: *const Struct_GNUNET_PeerIdentity,
+        it: GNUNET_CONTAINER_PeerMapIterator,
+        it_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap32_create(
+        len: ::std::os::raw::c_uint,
+    ) -> *mut Struct_GNUNET_CONTAINER_MultiHashMap32;
+    pub fn GNUNET_CONTAINER_multihashmap32_destroy(
+        map: *mut Struct_GNUNET_CONTAINER_MultiHashMap32,
+    );
+    pub fn GNUNET_CONTAINER_multihashmap32_size(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap32,
+    ) -> ::std::os::raw::c_uint;
+    pub fn GNUNET_CONTAINER_multihashmap32_get(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap32,
+        key: uint32_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_CONTAINER_multihashmap32_iterate(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap32,
+        it: GNUNET_CONTAINER_HashMapIterator32,
+        it_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap32_remove(
+        map: *mut Struct_GNUNET_CONTAINER_MultiHashMap32,
+        key: uint32_t,
+        value: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap32_remove_all(
+        map: *mut Struct_GNUNET_CONTAINER_MultiHashMap32,
+        key: uint32_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap32_contains(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap32,
+        key: uint32_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap32_contains_value(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap32,
+        key: uint32_t,
+        value: *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap32_put(
+        map: *mut Struct_GNUNET_CONTAINER_MultiHashMap32,
+        key: uint32_t,
+        value: *mut ::std::os::raw::c_void,
+        opt: Enum_GNUNET_CONTAINER_MultiHashMapOption,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap32_get_multiple(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap32,
+        key: uint32_t,
+        it: GNUNET_CONTAINER_HashMapIterator32,
+        it_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap32_iterator_create(
+        map: *const Struct_GNUNET_CONTAINER_MultiHashMap32,
+    ) -> *mut Struct_GNUNET_CONTAINER_MultiHashMap32Iterator;
+    pub fn GNUNET_CONTAINER_multihashmap32_iterator_next(
+        iter: *mut Struct_GNUNET_CONTAINER_MultiHashMap32Iterator,
+        key: *mut uint32_t,
+        value: *mut *const ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_multihashmap32_iterator_destroy(
+        iter: *mut Struct_GNUNET_CONTAINER_MultiHashMapIterator,
+    );
+    pub fn GNUNET_CONTAINER_heap_create(
+        order: Enum_GNUNET_CONTAINER_HeapOrder,
+    ) -> *mut Struct_GNUNET_CONTAINER_Heap;
+    pub fn GNUNET_CONTAINER_heap_destroy(heap: *mut Struct_GNUNET_CONTAINER_Heap);
+    pub fn GNUNET_CONTAINER_heap_peek(
+        heap: *const Struct_GNUNET_CONTAINER_Heap,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_CONTAINER_heap_get_size(
+        heap: *const Struct_GNUNET_CONTAINER_Heap,
+    ) -> ::std::os::raw::c_uint;
+    pub fn GNUNET_CONTAINER_heap_node_get_cost(
+        node: *const Struct_GNUNET_CONTAINER_HeapNode,
+    ) -> GNUNET_CONTAINER_HeapCostType;
+    pub fn GNUNET_CONTAINER_heap_iterate(
+        heap: *const Struct_GNUNET_CONTAINER_Heap,
+        iterator: GNUNET_CONTAINER_HeapIterator,
+        iterator_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_CONTAINER_heap_walk_get_next(
+        heap: *mut Struct_GNUNET_CONTAINER_Heap,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_CONTAINER_heap_insert(
+        heap: *mut Struct_GNUNET_CONTAINER_Heap,
+        element: *mut ::std::os::raw::c_void,
+        cost: GNUNET_CONTAINER_HeapCostType,
+    ) -> *mut Struct_GNUNET_CONTAINER_HeapNode;
+    pub fn GNUNET_CONTAINER_heap_remove_root(
+        heap: *mut Struct_GNUNET_CONTAINER_Heap,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_CONTAINER_heap_remove_node(
+        node: *mut Struct_GNUNET_CONTAINER_HeapNode,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_CONTAINER_heap_update_cost(
+        heap: *mut Struct_GNUNET_CONTAINER_Heap,
+        node: *mut Struct_GNUNET_CONTAINER_HeapNode,
+        new_cost: GNUNET_CONTAINER_HeapCostType,
+    );
+    pub fn GNUNET_CONTAINER_slist_add(
+        l: *mut Struct_GNUNET_CONTAINER_SList,
+        disp: Enum_GNUNET_CONTAINER_SListDisposition,
+        buf: *const ::std::os::raw::c_void,
+        len: size_t,
+    );
+    pub fn GNUNET_CONTAINER_slist_add_end(
+        l: *mut Struct_GNUNET_CONTAINER_SList,
+        disp: Enum_GNUNET_CONTAINER_SListDisposition,
+        buf: *const ::std::os::raw::c_void,
+        len: size_t,
+    );
+    pub fn GNUNET_CONTAINER_slist_append(
+        dst: *mut Struct_GNUNET_CONTAINER_SList,
+        src: *mut Struct_GNUNET_CONTAINER_SList,
+    );
+    pub fn GNUNET_CONTAINER_slist_create() -> *mut Struct_GNUNET_CONTAINER_SList;
+    pub fn GNUNET_CONTAINER_slist_destroy(l: *mut Struct_GNUNET_CONTAINER_SList);
+    pub fn GNUNET_CONTAINER_slist_begin(
+        l: *mut Struct_GNUNET_CONTAINER_SList,
+    ) -> Struct_GNUNET_CONTAINER_SList_Iterator;
+    pub fn GNUNET_CONTAINER_slist_clear(l: *mut Struct_GNUNET_CONTAINER_SList);
+    pub fn GNUNET_CONTAINER_slist_contains(
+        l: *const Struct_GNUNET_CONTAINER_SList,
+        buf: *const ::std::os::raw::c_void,
+        len: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_slist_contains2(
+        l: *const Struct_GNUNET_CONTAINER_SList,
+        buf: *const ::std::os::raw::c_void,
+        len: size_t,
+        compare: ::std::option::Option<
+            unsafe extern "C" fn(
+                arg1: *const ::std::os::raw::c_void,
+                arg2: size_t,
+                arg3: *const ::std::os::raw::c_void,
+                arg4: size_t,
+            ) -> ::std::os::raw::c_int,
+        >,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_CONTAINER_slist_count(
+        l: *const Struct_GNUNET_CONTAINER_SList,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_slist_erase(i: *mut Struct_GNUNET_CONTAINER_SList_Iterator);
+    pub fn GNUNET_CONTAINER_slist_insert(
+        before: *mut Struct_GNUNET_CONTAINER_SList_Iterator,
+        disp: Enum_GNUNET_CONTAINER_SListDisposition,
+        buf: *const ::std::os::raw::c_void,
+        len: size_t,
+    );
+    pub fn GNUNET_CONTAINER_slist_next(
+        i: *mut Struct_GNUNET_CONTAINER_SList_Iterator,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_slist_end(
+        i: *mut Struct_GNUNET_CONTAINER_SList_Iterator,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONTAINER_slist_get(
+        i: *const Struct_GNUNET_CONTAINER_SList_Iterator,
+        len: *mut size_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_CONTAINER_slist_iter_destroy(i: *mut Struct_GNUNET_CONTAINER_SList_Iterator);
+    pub fn GNUNET_BIO_read_open(
+        _fn: *const ::std::os::raw::c_char,
+    ) -> *mut Struct_GNUNET_BIO_ReadHandle;
+    pub fn GNUNET_BIO_read_close(
+        h: *mut Struct_GNUNET_BIO_ReadHandle,
+        emsg: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_read(
+        h: *mut Struct_GNUNET_BIO_ReadHandle,
+        what: *const ::std::os::raw::c_char,
+        result: *mut ::std::os::raw::c_void,
+        len: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_read_fn(
+        h: *mut Struct_GNUNET_BIO_ReadHandle,
+        file: *const ::std::os::raw::c_char,
+        line: ::std::os::raw::c_int,
+        result: *mut ::std::os::raw::c_void,
+        len: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_read_string(
+        h: *mut Struct_GNUNET_BIO_ReadHandle,
+        what: *const ::std::os::raw::c_char,
+        result: *mut *mut ::std::os::raw::c_char,
+        max_length: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_read_meta_data(
+        h: *mut Struct_GNUNET_BIO_ReadHandle,
+        what: *const ::std::os::raw::c_char,
+        result: *mut *mut Struct_GNUNET_CONTAINER_MetaData,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_read_int32__(
+        h: *mut Struct_GNUNET_BIO_ReadHandle,
+        file: *const ::std::os::raw::c_char,
+        line: ::std::os::raw::c_int,
+        i: *mut int32_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_read_int64__(
+        h: *mut Struct_GNUNET_BIO_ReadHandle,
+        file: *const ::std::os::raw::c_char,
+        line: ::std::os::raw::c_int,
+        i: *mut int64_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_write_open(
+        _fn: *const ::std::os::raw::c_char,
+    ) -> *mut Struct_GNUNET_BIO_WriteHandle;
+    pub fn GNUNET_BIO_write_close(h: *mut Struct_GNUNET_BIO_WriteHandle) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_write(
+        h: *mut Struct_GNUNET_BIO_WriteHandle,
+        buffer: *const ::std::os::raw::c_void,
+        n: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_flush(h: *mut Struct_GNUNET_BIO_WriteHandle) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_write_string(
+        h: *mut Struct_GNUNET_BIO_WriteHandle,
+        s: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_write_meta_data(
+        h: *mut Struct_GNUNET_BIO_WriteHandle,
+        m: *const Struct_GNUNET_CONTAINER_MetaData,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_write_int32(
+        h: *mut Struct_GNUNET_BIO_WriteHandle,
+        i: int32_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BIO_write_int64(
+        h: *mut Struct_GNUNET_BIO_WriteHandle,
+        i: int64_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONNECTION_persist_(connection: *mut Struct_GNUNET_CONNECTION_Handle);
+    pub fn GNUNET_CONNECTION_disable_corking(
+        connection: *mut Struct_GNUNET_CONNECTION_Handle,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONNECTION_create_from_existing(
+        osSocket: *mut Struct_GNUNET_NETWORK_Handle,
+    ) -> *mut Struct_GNUNET_CONNECTION_Handle;
+    pub fn GNUNET_CONNECTION_create_from_accept(
+        access: GNUNET_CONNECTION_AccessCheck,
+        access_cls: *mut ::std::os::raw::c_void,
+        lsock: *mut Struct_GNUNET_NETWORK_Handle,
+    ) -> *mut Struct_GNUNET_CONNECTION_Handle;
+    pub fn GNUNET_CONNECTION_create_from_connect(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        hostname: *const ::std::os::raw::c_char,
+        port: uint16_t,
+    ) -> *mut Struct_GNUNET_CONNECTION_Handle;
+    pub fn GNUNET_CONNECTION_create_from_connect_to_unixpath(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        unixpath: *const ::std::os::raw::c_char,
+    ) -> *mut Struct_GNUNET_CONNECTION_Handle;
+    pub fn GNUNET_CONNECTION_create_from_sockaddr(
+        af_family: ::std::os::raw::c_int,
+        serv_addr: *const Struct_sockaddr,
+        addrlen: socklen_t,
+    ) -> *mut Struct_GNUNET_CONNECTION_Handle;
+    pub fn GNUNET_CONNECTION_check(
+        connection: *mut Struct_GNUNET_CONNECTION_Handle,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONNECTION_get_address(
+        connection: *mut Struct_GNUNET_CONNECTION_Handle,
+        addr: *mut *mut ::std::os::raw::c_void,
+        addrlen: *mut size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CONNECTION_destroy(connection: *mut Struct_GNUNET_CONNECTION_Handle);
+    pub fn GNUNET_CONNECTION_receive(
+        connection: *mut Struct_GNUNET_CONNECTION_Handle,
+        max: size_t,
+        timeout: Struct_GNUNET_TIME_Relative,
+        receiver: GNUNET_CONNECTION_Receiver,
+        receiver_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_CONNECTION_receive_cancel(
+        connection: *mut Struct_GNUNET_CONNECTION_Handle,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_CONNECTION_notify_transmit_ready(
+        connection: *mut Struct_GNUNET_CONNECTION_Handle,
+        size: size_t,
+        timeout: Struct_GNUNET_TIME_Relative,
+        notify: GNUNET_CONNECTION_TransmitReadyNotify,
+        notify_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_CONNECTION_TransmitHandle;
+    pub fn GNUNET_CONNECTION_notify_transmit_ready_cancel(
+        th: *mut Struct_GNUNET_CONNECTION_TransmitHandle,
+    );
+    pub fn GNUNET_CLIENT_connect(
+        service_name: *const ::std::os::raw::c_char,
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+    ) -> *mut Struct_GNUNET_CLIENT_Connection;
+    pub fn GNUNET_CLIENT_disconnect(client: *mut Struct_GNUNET_CLIENT_Connection);
+    pub fn GNUNET_CLIENT_receive(
+        client: *mut Struct_GNUNET_CLIENT_Connection,
+        handler: GNUNET_CLIENT_MessageHandler,
+        handler_cls: *mut ::std::os::raw::c_void,
+        timeout: Struct_GNUNET_TIME_Relative,
+    );
+    pub fn GNUNET_CLIENT_notify_transmit_ready(
+        client: *mut Struct_GNUNET_CLIENT_Connection,
+        size: size_t,
+        timeout: Struct_GNUNET_TIME_Relative,
+        auto_retry: ::std::os::raw::c_int,
+        notify: GNUNET_CONNECTION_TransmitReadyNotify,
+        notify_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_CLIENT_TransmitHandle;
+    pub fn GNUNET_CLIENT_notify_transmit_ready_cancel(th: *mut Struct_GNUNET_CLIENT_TransmitHandle);
+    pub fn GNUNET_CLIENT_transmit_and_get_response(
+        client: *mut Struct_GNUNET_CLIENT_Connection,
+        hdr: *const Struct_GNUNET_MessageHeader,
+        timeout: Struct_GNUNET_TIME_Relative,
+        auto_retry: ::std::os::raw::c_int,
+        rn: GNUNET_CLIENT_MessageHandler,
+        rn_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_CLIENT_service_test(
+        service: *const ::std::os::raw::c_char,
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        timeout: Struct_GNUNET_TIME_Relative,
+        cb: GNUNET_CLIENT_TestResultCallback,
+        cb_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_CLIENT_TestHandle;
+    pub fn GNUNET_CLIENT_service_test_cancel(th: *mut Struct_GNUNET_CLIENT_TestHandle);
+    pub fn GNUNET_GETOPT_run(
+        binaryOptions: *const ::std::os::raw::c_char,
+        allOptions: *const Struct_GNUNET_GETOPT_CommandLineOption,
+        argc: ::std::os::raw::c_uint,
+        argv: *const *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GETOPT_set_ulong(
+        ctx: *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
+        scls: *mut ::std::os::raw::c_void,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GETOPT_set_relative_time(
+        ctx: *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
+        scls: *mut ::std::os::raw::c_void,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GETOPT_set_uint(
+        ctx: *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
+        scls: *mut ::std::os::raw::c_void,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GETOPT_set_one(
+        ctx: *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
+        scls: *mut ::std::os::raw::c_void,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GETOPT_set_string(
+        ctx: *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
+        scls: *mut ::std::os::raw::c_void,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GETOPT_set_filename(
+        ctx: *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
+        scls: *mut ::std::os::raw::c_void,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GETOPT_increment_value(
+        ctx: *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
+        scls: *mut ::std::os::raw::c_void,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GETOPT_format_help_(
+        ctx: *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
+        scls: *mut ::std::os::raw::c_void,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GETOPT_print_version_(
+        ctx: *mut Struct_GNUNET_GETOPT_CommandLineProcessorContext,
+        scls: *mut ::std::os::raw::c_void,
+        option: *const ::std::os::raw::c_char,
+        value: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_SERVER_create_with_sockets(
+        access: GNUNET_CONNECTION_AccessCheck,
+        access_cls: *mut ::std::os::raw::c_void,
+        lsocks: *mut *mut Struct_GNUNET_NETWORK_Handle,
+        idle_timeout: Struct_GNUNET_TIME_Relative,
+        require_found: ::std::os::raw::c_int,
+    ) -> *mut Struct_GNUNET_SERVER_Handle;
+    pub fn GNUNET_SERVER_create(
+        access: GNUNET_CONNECTION_AccessCheck,
+        access_cls: *mut ::std::os::raw::c_void,
+        server_addr: *const *mut Struct_sockaddr,
+        socklen: *const socklen_t,
+        idle_timeout: Struct_GNUNET_TIME_Relative,
+        require_found: ::std::os::raw::c_int,
+    ) -> *mut Struct_GNUNET_SERVER_Handle;
     pub fn GNUNET_SERVER_suspend(server: *mut Struct_GNUNET_SERVER_Handle);
     pub fn GNUNET_SERVER_resume(server: *mut Struct_GNUNET_SERVER_Handle);
-    pub fn GNUNET_SERVER_stop_listening(server:
-                                            *mut Struct_GNUNET_SERVER_Handle);
+    pub fn GNUNET_SERVER_stop_listening(server: *mut Struct_GNUNET_SERVER_Handle);
     pub fn GNUNET_SERVER_destroy(server: *mut Struct_GNUNET_SERVER_Handle);
-    pub fn GNUNET_SERVER_add_handlers(server:
-                                          *mut Struct_GNUNET_SERVER_Handle,
-                                      handlers:
-                                          *const Struct_GNUNET_SERVER_MessageHandler);
-    pub fn GNUNET_SERVER_notify_transmit_ready(client:
-                                                   *mut Struct_GNUNET_SERVER_Client,
-                                               size: size_t,
-                                               timeout:
-                                                   Struct_GNUNET_TIME_Relative,
-                                               callback:
-                                                   GNUNET_CONNECTION_TransmitReadyNotify,
-                                               callback_cls:
-                                                   *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_SERVER_TransmitHandle;
-    pub fn GNUNET_SERVER_notify_transmit_ready_cancel(th:
-                                                          *mut Struct_GNUNET_SERVER_TransmitHandle);
-    pub fn GNUNET_SERVER_client_mark_monitor(client:
-                                                 *mut Struct_GNUNET_SERVER_Client);
-    pub fn GNUNET_SERVER_client_persist_(client:
-                                             *mut Struct_GNUNET_SERVER_Client);
-    pub fn GNUNET_SERVER_receive_done(client:
-                                          *mut Struct_GNUNET_SERVER_Client,
-                                      success: ::std::os::raw::c_int);
-    pub fn GNUNET_SERVER_client_set_timeout(client:
-                                                *mut Struct_GNUNET_SERVER_Client,
-                                            timeout:
-                                                Struct_GNUNET_TIME_Relative);
-    pub fn GNUNET_SERVER_client_get_user_context_(client:
-                                                      *mut Struct_GNUNET_SERVER_Client,
-                                                  size: size_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_SERVER_client_set_user_context_(client:
-                                                      *mut Struct_GNUNET_SERVER_Client,
-                                                  ptr:
-                                                      *mut ::std::os::raw::c_void,
-                                                  size: size_t);
-    pub fn GNUNET_SERVER_disable_receive_done_warning(client:
-                                                          *mut Struct_GNUNET_SERVER_Client);
-    pub fn GNUNET_SERVER_inject(server: *mut Struct_GNUNET_SERVER_Handle,
-                                sender: *mut Struct_GNUNET_SERVER_Client,
-                                message: *const Struct_GNUNET_MessageHeader)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_SERVER_connect_socket(server:
-                                            *mut Struct_GNUNET_SERVER_Handle,
-                                        connection:
-                                            *mut Struct_GNUNET_CONNECTION_Handle)
-     -> *mut Struct_GNUNET_SERVER_Client;
-    pub fn GNUNET_SERVER_client_keep(client:
-                                         *mut Struct_GNUNET_SERVER_Client);
-    pub fn GNUNET_SERVER_client_drop(client:
-                                         *mut Struct_GNUNET_SERVER_Client);
-    pub fn GNUNET_SERVER_client_get_address(client:
-                                                *mut Struct_GNUNET_SERVER_Client,
-                                            addr:
-                                                *mut *mut ::std::os::raw::c_void,
-                                            addrlen: *mut size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_SERVER_disconnect_notify(server:
-                                               *mut Struct_GNUNET_SERVER_Handle,
-                                           callback:
-                                               GNUNET_SERVER_DisconnectCallback,
-                                           callback_cls:
-                                               *mut ::std::os::raw::c_void);
-    pub fn GNUNET_SERVER_connect_notify(server:
-                                            *mut Struct_GNUNET_SERVER_Handle,
-                                        callback:
-                                            GNUNET_SERVER_ConnectCallback,
-                                        callback_cls:
-                                            *mut ::std::os::raw::c_void);
-    pub fn GNUNET_SERVER_disconnect_notify_cancel(server:
-                                                      *mut Struct_GNUNET_SERVER_Handle,
-                                                  callback:
-                                                      GNUNET_SERVER_DisconnectCallback,
-                                                  callback_cls:
-                                                      *mut ::std::os::raw::c_void);
-    pub fn GNUNET_SERVER_connect_notify_cancel(server:
-                                                   *mut Struct_GNUNET_SERVER_Handle,
-                                               callback:
-                                                   GNUNET_SERVER_ConnectCallback,
-                                               callback_cls:
-                                                   *mut ::std::os::raw::c_void);
-    pub fn GNUNET_SERVER_client_disconnect(client:
-                                               *mut Struct_GNUNET_SERVER_Client);
-    pub fn GNUNET_SERVER_client_disable_corking(client:
-                                                    *mut Struct_GNUNET_SERVER_Client)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_SERVER_transmit_context_create(client:
-                                                     *mut Struct_GNUNET_SERVER_Client)
-     -> *mut Struct_GNUNET_SERVER_TransmitContext;
-    pub fn GNUNET_SERVER_transmit_context_append_data(tc:
-                                                          *mut Struct_GNUNET_SERVER_TransmitContext,
-                                                      data:
-                                                          *const ::std::os::raw::c_void,
-                                                      length: size_t,
-                                                      _type: uint16_t);
-    pub fn GNUNET_SERVER_transmit_context_append_message(tc:
-                                                             *mut Struct_GNUNET_SERVER_TransmitContext,
-                                                         msg:
-                                                             *const Struct_GNUNET_MessageHeader);
-    pub fn GNUNET_SERVER_transmit_context_run(tc:
-                                                  *mut Struct_GNUNET_SERVER_TransmitContext,
-                                              timeout:
-                                                  Struct_GNUNET_TIME_Relative);
-    pub fn GNUNET_SERVER_transmit_context_destroy(tc:
-                                                      *mut Struct_GNUNET_SERVER_TransmitContext,
-                                                  success:
-                                                      ::std::os::raw::c_int);
-    pub fn GNUNET_SERVER_notification_context_create(server:
-                                                         *mut Struct_GNUNET_SERVER_Handle,
-                                                     queue_length:
-                                                         ::std::os::raw::c_uint)
-     -> *mut Struct_GNUNET_SERVER_NotificationContext;
-    pub fn GNUNET_SERVER_notification_context_destroy(nc:
-                                                          *mut Struct_GNUNET_SERVER_NotificationContext);
-    pub fn GNUNET_SERVER_notification_context_add(nc:
-                                                      *mut Struct_GNUNET_SERVER_NotificationContext,
-                                                  client:
-                                                      *mut Struct_GNUNET_SERVER_Client);
-    pub fn GNUNET_SERVER_notification_context_unicast(nc:
-                                                          *mut Struct_GNUNET_SERVER_NotificationContext,
-                                                      client:
-                                                          *mut Struct_GNUNET_SERVER_Client,
-                                                      msg:
-                                                          *const Struct_GNUNET_MessageHeader,
-                                                      can_drop:
-                                                          ::std::os::raw::c_int);
-    pub fn GNUNET_SERVER_notification_context_broadcast(nc:
-                                                            *mut Struct_GNUNET_SERVER_NotificationContext,
-                                                        msg:
-                                                            *const Struct_GNUNET_MessageHeader,
-                                                        can_drop:
-                                                            ::std::os::raw::c_int);
-    pub fn GNUNET_SERVER_mst_create(cb:
-                                        GNUNET_SERVER_MessageTokenizerCallback,
-                                    cb_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_SERVER_MessageStreamTokenizer;
-    pub fn GNUNET_SERVER_mst_receive(mst:
-                                         *mut Struct_GNUNET_SERVER_MessageStreamTokenizer,
-                                     client_identity:
-                                         *mut ::std::os::raw::c_void,
-                                     buf: *const ::std::os::raw::c_char,
-                                     size: size_t,
-                                     purge: ::std::os::raw::c_int,
-                                     one_shot: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_SERVER_mst_destroy(mst:
-                                         *mut Struct_GNUNET_SERVER_MessageStreamTokenizer);
-    pub fn GNUNET_SERVER_set_callbacks(server:
-                                           *mut Struct_GNUNET_SERVER_Handle,
-                                       create:
-                                           GNUNET_SERVER_MstCreateCallback,
-                                       destroy:
-                                           GNUNET_SERVER_MstDestroyCallback,
-                                       receive:
-                                           GNUNET_SERVER_MstReceiveCallback,
-                                       cls: *mut ::std::os::raw::c_void);
-    pub fn GNUNET_HELPER_start(with_control_pipe: ::std::os::raw::c_int,
-                               binary_name: *const ::std::os::raw::c_char,
-                               binary_argv: *mut *mut ::std::os::raw::c_char,
-                               cb: GNUNET_SERVER_MessageTokenizerCallback,
-                               exp_cb: GNUNET_HELPER_ExceptionCallback,
-                               cb_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_HELPER_Handle;
-    pub fn GNUNET_HELPER_kill(h: *mut Struct_GNUNET_HELPER_Handle,
-                              soft_kill: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_HELPER_wait(h: *mut Struct_GNUNET_HELPER_Handle)
-     -> ::std::os::raw::c_int;
+    pub fn GNUNET_SERVER_add_handlers(
+        server: *mut Struct_GNUNET_SERVER_Handle,
+        handlers: *const Struct_GNUNET_SERVER_MessageHandler,
+    );
+    pub fn GNUNET_SERVER_notify_transmit_ready(
+        client: *mut Struct_GNUNET_SERVER_Client,
+        size: size_t,
+        timeout: Struct_GNUNET_TIME_Relative,
+        callback: GNUNET_CONNECTION_TransmitReadyNotify,
+        callback_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_SERVER_TransmitHandle;
+    pub fn GNUNET_SERVER_notify_transmit_ready_cancel(th: *mut Struct_GNUNET_SERVER_TransmitHandle);
+    pub fn GNUNET_SERVER_client_mark_monitor(client: *mut Struct_GNUNET_SERVER_Client);
+    pub fn GNUNET_SERVER_client_persist_(client: *mut Struct_GNUNET_SERVER_Client);
+    pub fn GNUNET_SERVER_receive_done(
+        client: *mut Struct_GNUNET_SERVER_Client,
+        success: ::std::os::raw::c_int,
+    );
+    pub fn GNUNET_SERVER_client_set_timeout(
+        client: *mut Struct_GNUNET_SERVER_Client,
+        timeout: Struct_GNUNET_TIME_Relative,
+    );
+    pub fn GNUNET_SERVER_client_get_user_context_(
+        client: *mut Struct_GNUNET_SERVER_Client,
+        size: size_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_SERVER_client_set_user_context_(
+        client: *mut Struct_GNUNET_SERVER_Client,
+        ptr: *mut ::std::os::raw::c_void,
+        size: size_t,
+    );
+    pub fn GNUNET_SERVER_disable_receive_done_warning(client: *mut Struct_GNUNET_SERVER_Client);
+    pub fn GNUNET_SERVER_inject(
+        server: *mut Struct_GNUNET_SERVER_Handle,
+        sender: *mut Struct_GNUNET_SERVER_Client,
+        message: *const Struct_GNUNET_MessageHeader,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_SERVER_connect_socket(
+        server: *mut Struct_GNUNET_SERVER_Handle,
+        connection: *mut Struct_GNUNET_CONNECTION_Handle,
+    ) -> *mut Struct_GNUNET_SERVER_Client;
+    pub fn GNUNET_SERVER_client_keep(client: *mut Struct_GNUNET_SERVER_Client);
+    pub fn GNUNET_SERVER_client_drop(client: *mut Struct_GNUNET_SERVER_Client);
+    pub fn GNUNET_SERVER_client_get_address(
+        client: *mut Struct_GNUNET_SERVER_Client,
+        addr: *mut *mut ::std::os::raw::c_void,
+        addrlen: *mut size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_SERVER_disconnect_notify(
+        server: *mut Struct_GNUNET_SERVER_Handle,
+        callback: GNUNET_SERVER_DisconnectCallback,
+        callback_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_SERVER_connect_notify(
+        server: *mut Struct_GNUNET_SERVER_Handle,
+        callback: GNUNET_SERVER_ConnectCallback,
+        callback_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_SERVER_disconnect_notify_cancel(
+        server: *mut Struct_GNUNET_SERVER_Handle,
+        callback: GNUNET_SERVER_DisconnectCallback,
+        callback_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_SERVER_connect_notify_cancel(
+        server: *mut Struct_GNUNET_SERVER_Handle,
+        callback: GNUNET_SERVER_ConnectCallback,
+        callback_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_SERVER_client_disconnect(client: *mut Struct_GNUNET_SERVER_Client);
+    pub fn GNUNET_SERVER_client_disable_corking(
+        client: *mut Struct_GNUNET_SERVER_Client,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_SERVER_transmit_context_create(
+        client: *mut Struct_GNUNET_SERVER_Client,
+    ) -> *mut Struct_GNUNET_SERVER_TransmitContext;
+    pub fn GNUNET_SERVER_transmit_context_append_data(
+        tc: *mut Struct_GNUNET_SERVER_TransmitContext,
+        data: *const ::std::os::raw::c_void,
+        length: size_t,
+        _type: uint16_t,
+    );
+    pub fn GNUNET_SERVER_transmit_context_append_message(
+        tc: *mut Struct_GNUNET_SERVER_TransmitContext,
+        msg: *const Struct_GNUNET_MessageHeader,
+    );
+    pub fn GNUNET_SERVER_transmit_context_run(
+        tc: *mut Struct_GNUNET_SERVER_TransmitContext,
+        timeout: Struct_GNUNET_TIME_Relative,
+    );
+    pub fn GNUNET_SERVER_transmit_context_destroy(
+        tc: *mut Struct_GNUNET_SERVER_TransmitContext,
+        success: ::std::os::raw::c_int,
+    );
+    pub fn GNUNET_SERVER_notification_context_create(
+        server: *mut Struct_GNUNET_SERVER_Handle,
+        queue_length: ::std::os::raw::c_uint,
+    ) -> *mut Struct_GNUNET_SERVER_NotificationContext;
+    pub fn GNUNET_SERVER_notification_context_destroy(
+        nc: *mut Struct_GNUNET_SERVER_NotificationContext,
+    );
+    pub fn GNUNET_SERVER_notification_context_add(
+        nc: *mut Struct_GNUNET_SERVER_NotificationContext,
+        client: *mut Struct_GNUNET_SERVER_Client,
+    );
+    pub fn GNUNET_SERVER_notification_context_unicast(
+        nc: *mut Struct_GNUNET_SERVER_NotificationContext,
+        client: *mut Struct_GNUNET_SERVER_Client,
+        msg: *const Struct_GNUNET_MessageHeader,
+        can_drop: ::std::os::raw::c_int,
+    );
+    pub fn GNUNET_SERVER_notification_context_broadcast(
+        nc: *mut Struct_GNUNET_SERVER_NotificationContext,
+        msg: *const Struct_GNUNET_MessageHeader,
+        can_drop: ::std::os::raw::c_int,
+    );
+    pub fn GNUNET_SERVER_mst_create(
+        cb: GNUNET_SERVER_MessageTokenizerCallback,
+        cb_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_SERVER_MessageStreamTokenizer;
+    pub fn GNUNET_SERVER_mst_receive(
+        mst: *mut Struct_GNUNET_SERVER_MessageStreamTokenizer,
+        client_identity: *mut ::std::os::raw::c_void,
+        buf: *const ::std::os::raw::c_char,
+        size: size_t,
+        purge: ::std::os::raw::c_int,
+        one_shot: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_SERVER_mst_destroy(mst: *mut Struct_GNUNET_SERVER_MessageStreamTokenizer);
+    pub fn GNUNET_SERVER_set_callbacks(
+        server: *mut Struct_GNUNET_SERVER_Handle,
+        create: GNUNET_SERVER_MstCreateCallback,
+        destroy: GNUNET_SERVER_MstDestroyCallback,
+        receive: GNUNET_SERVER_MstReceiveCallback,
+        cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_HELPER_start(
+        with_control_pipe: ::std::os::raw::c_int,
+        binary_name: *const ::std::os::raw::c_char,
+        binary_argv: *mut *mut ::std::os::raw::c_char,
+        cb: GNUNET_SERVER_MessageTokenizerCallback,
+        exp_cb: GNUNET_HELPER_ExceptionCallback,
+        cb_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_HELPER_Handle;
+    pub fn GNUNET_HELPER_kill(
+        h: *mut Struct_GNUNET_HELPER_Handle,
+        soft_kill: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_HELPER_wait(h: *mut Struct_GNUNET_HELPER_Handle) -> ::std::os::raw::c_int;
     pub fn GNUNET_HELPER_destroy(h: *mut Struct_GNUNET_HELPER_Handle);
-    pub fn GNUNET_HELPER_stop(h: *mut Struct_GNUNET_HELPER_Handle,
-                              soft_kill: ::std::os::raw::c_int);
-    pub fn GNUNET_HELPER_send(h: *mut Struct_GNUNET_HELPER_Handle,
-                              msg: *const Struct_GNUNET_MessageHeader,
-                              can_drop: ::std::os::raw::c_int,
-                              cont: GNUNET_HELPER_Continuation,
-                              cont_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_HELPER_SendHandle;
-    pub fn GNUNET_HELPER_send_cancel(sh:
-                                         *mut Struct_GNUNET_HELPER_SendHandle);
-    pub fn GNUNET_MQ_extract_nested_mh_(mh:
-                                            *const Struct_GNUNET_MessageHeader,
-                                        base_size: uint16_t)
-     -> *mut Struct_GNUNET_MessageHeader;
-    pub fn GNUNET_MQ_msg_nested_mh_(mhp:
-                                        *mut *mut Struct_GNUNET_MessageHeader,
-                                    base_size: uint16_t, _type: uint16_t,
-                                    nested_mh:
-                                        *const Struct_GNUNET_MessageHeader)
-     -> *mut Struct_GNUNET_MQ_Envelope;
-    pub fn GNUNET_MQ_msg_(mhp: *mut *mut Struct_GNUNET_MessageHeader,
-                          size: uint16_t, _type: uint16_t)
-     -> *mut Struct_GNUNET_MQ_Envelope;
+    pub fn GNUNET_HELPER_stop(
+        h: *mut Struct_GNUNET_HELPER_Handle,
+        soft_kill: ::std::os::raw::c_int,
+    );
+    pub fn GNUNET_HELPER_send(
+        h: *mut Struct_GNUNET_HELPER_Handle,
+        msg: *const Struct_GNUNET_MessageHeader,
+        can_drop: ::std::os::raw::c_int,
+        cont: GNUNET_HELPER_Continuation,
+        cont_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_HELPER_SendHandle;
+    pub fn GNUNET_HELPER_send_cancel(sh: *mut Struct_GNUNET_HELPER_SendHandle);
+    pub fn GNUNET_MQ_extract_nested_mh_(
+        mh: *const Struct_GNUNET_MessageHeader,
+        base_size: uint16_t,
+    ) -> *mut Struct_GNUNET_MessageHeader;
+    pub fn GNUNET_MQ_msg_nested_mh_(
+        mhp: *mut *mut Struct_GNUNET_MessageHeader,
+        base_size: uint16_t,
+        _type: uint16_t,
+        nested_mh: *const Struct_GNUNET_MessageHeader,
+    ) -> *mut Struct_GNUNET_MQ_Envelope;
+    pub fn GNUNET_MQ_msg_(
+        mhp: *mut *mut Struct_GNUNET_MessageHeader,
+        size: uint16_t,
+        _type: uint16_t,
+    ) -> *mut Struct_GNUNET_MQ_Envelope;
     pub fn GNUNET_MQ_discard(mqm: *mut Struct_GNUNET_MQ_Envelope);
-    pub fn GNUNET_MQ_send(mq: *mut Struct_GNUNET_MQ_Handle,
-                          ev: *mut Struct_GNUNET_MQ_Envelope);
+    pub fn GNUNET_MQ_send(mq: *mut Struct_GNUNET_MQ_Handle, ev: *mut Struct_GNUNET_MQ_Envelope);
     pub fn GNUNET_MQ_send_cancel(ev: *mut Struct_GNUNET_MQ_Envelope);
-    pub fn GNUNET_MQ_assoc_add(mq: *mut Struct_GNUNET_MQ_Handle,
-                               assoc_data: *mut ::std::os::raw::c_void)
-     -> uint32_t;
-    pub fn GNUNET_MQ_assoc_get(mq: *mut Struct_GNUNET_MQ_Handle,
-                               request_id: uint32_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_MQ_assoc_remove(mq: *mut Struct_GNUNET_MQ_Handle,
-                                  request_id: uint32_t)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_MQ_queue_for_connection_client(connection:
-                                                     *mut Struct_GNUNET_CLIENT_Connection,
-                                                 handlers:
-                                                     *const Struct_GNUNET_MQ_MessageHandler,
-                                                 error_handler:
-                                                     GNUNET_MQ_ErrorHandler,
-                                                 cls:
-                                                     *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_MQ_Handle;
-    pub fn GNUNET_MQ_queue_for_server_client(client:
-                                                 *mut Struct_GNUNET_SERVER_Client)
-     -> *mut Struct_GNUNET_MQ_Handle;
-    pub fn GNUNET_MQ_queue_for_callbacks(send: GNUNET_MQ_SendImpl,
-                                         destroy: GNUNET_MQ_DestroyImpl,
-                                         cancel: GNUNET_MQ_CancelImpl,
-                                         impl_state:
-                                             *mut ::std::os::raw::c_void,
-                                         handlers:
-                                             *const Struct_GNUNET_MQ_MessageHandler,
-                                         error_handler:
-                                             GNUNET_MQ_ErrorHandler,
-                                         cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_MQ_Handle;
-    pub fn GNUNET_MQ_replace_handlers(mq: *mut Struct_GNUNET_MQ_Handle,
-                                      new_handlers:
-                                          *const Struct_GNUNET_MQ_MessageHandler,
-                                      cls: *mut ::std::os::raw::c_void);
-    pub fn GNUNET_MQ_notify_sent(ev: *mut Struct_GNUNET_MQ_Envelope,
-                                 cb: GNUNET_MQ_NotifyCallback,
-                                 cls: *mut ::std::os::raw::c_void);
+    pub fn GNUNET_MQ_assoc_add(
+        mq: *mut Struct_GNUNET_MQ_Handle,
+        assoc_data: *mut ::std::os::raw::c_void,
+    ) -> uint32_t;
+    pub fn GNUNET_MQ_assoc_get(
+        mq: *mut Struct_GNUNET_MQ_Handle,
+        request_id: uint32_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_MQ_assoc_remove(
+        mq: *mut Struct_GNUNET_MQ_Handle,
+        request_id: uint32_t,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_MQ_queue_for_connection_client(
+        connection: *mut Struct_GNUNET_CLIENT_Connection,
+        handlers: *const Struct_GNUNET_MQ_MessageHandler,
+        error_handler: GNUNET_MQ_ErrorHandler,
+        cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_MQ_Handle;
+    pub fn GNUNET_MQ_queue_for_server_client(
+        client: *mut Struct_GNUNET_SERVER_Client,
+    ) -> *mut Struct_GNUNET_MQ_Handle;
+    pub fn GNUNET_MQ_queue_for_callbacks(
+        send: GNUNET_MQ_SendImpl,
+        destroy: GNUNET_MQ_DestroyImpl,
+        cancel: GNUNET_MQ_CancelImpl,
+        impl_state: *mut ::std::os::raw::c_void,
+        handlers: *const Struct_GNUNET_MQ_MessageHandler,
+        error_handler: GNUNET_MQ_ErrorHandler,
+        cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_MQ_Handle;
+    pub fn GNUNET_MQ_replace_handlers(
+        mq: *mut Struct_GNUNET_MQ_Handle,
+        new_handlers: *const Struct_GNUNET_MQ_MessageHandler,
+        cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_MQ_notify_sent(
+        ev: *mut Struct_GNUNET_MQ_Envelope,
+        cb: GNUNET_MQ_NotifyCallback,
+        cls: *mut ::std::os::raw::c_void,
+    );
     pub fn GNUNET_MQ_destroy(mq: *mut Struct_GNUNET_MQ_Handle);
-    pub fn GNUNET_MQ_inject_message(mq: *mut Struct_GNUNET_MQ_Handle,
-                                    mh: *const Struct_GNUNET_MessageHeader);
-    pub fn GNUNET_MQ_inject_error(mq: *mut Struct_GNUNET_MQ_Handle,
-                                  error: Enum_GNUNET_MQ_Error);
+    pub fn GNUNET_MQ_inject_message(
+        mq: *mut Struct_GNUNET_MQ_Handle,
+        mh: *const Struct_GNUNET_MessageHeader,
+    );
+    pub fn GNUNET_MQ_inject_error(mq: *mut Struct_GNUNET_MQ_Handle, error: Enum_GNUNET_MQ_Error);
     pub fn GNUNET_MQ_impl_send_continue(mq: *mut Struct_GNUNET_MQ_Handle);
-    pub fn GNUNET_MQ_impl_current(mq: *mut Struct_GNUNET_MQ_Handle)
-     -> *const Struct_GNUNET_MessageHeader;
-    pub fn GNUNET_MQ_impl_state(mq: *mut Struct_GNUNET_MQ_Handle)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_OS_installation_get_path(dirkind:
-                                               Enum_GNUNET_OS_InstallationPathKind)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_OS_get_libexec_binary_path(progname:
-                                                 *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_OS_network_interfaces_list(_proc:
-                                                 GNUNET_OS_NetworkInterfaceProcessor,
-                                             proc_cls:
-                                                 *mut ::std::os::raw::c_void);
+    pub fn GNUNET_MQ_impl_current(
+        mq: *mut Struct_GNUNET_MQ_Handle,
+    ) -> *const Struct_GNUNET_MessageHeader;
+    pub fn GNUNET_MQ_impl_state(mq: *mut Struct_GNUNET_MQ_Handle) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_OS_installation_get_path(
+        dirkind: Enum_GNUNET_OS_InstallationPathKind,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_OS_get_libexec_binary_path(
+        progname: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_OS_network_interfaces_list(
+        _proc: GNUNET_OS_NetworkInterfaceProcessor,
+        proc_cls: *mut ::std::os::raw::c_void,
+    );
     pub fn GNUNET_OS_process_current() -> *mut Struct_GNUNET_OS_Process;
-    pub fn GNUNET_OS_process_kill(_proc: *mut Struct_GNUNET_OS_Process,
-                                  sig: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
+    pub fn GNUNET_OS_process_kill(
+        _proc: *mut Struct_GNUNET_OS_Process,
+        sig: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
     pub fn GNUNET_OS_process_destroy(_proc: *mut Struct_GNUNET_OS_Process);
-    pub fn GNUNET_OS_process_get_pid(_proc: *mut Struct_GNUNET_OS_Process)
-     -> pid_t;
-    pub fn GNUNET_OS_start_process_vap(pipe_control: ::std::os::raw::c_int,
-                                       std_inheritance:
-                                           Enum_GNUNET_OS_InheritStdioFlags,
-                                       pipe_stdin:
-                                           *mut Struct_GNUNET_DISK_PipeHandle,
-                                       pipe_stdout:
-                                           *mut Struct_GNUNET_DISK_PipeHandle,
-                                       pipe_stderr:
-                                           *mut Struct_GNUNET_DISK_PipeHandle,
-                                       filename:
-                                           *const ::std::os::raw::c_char,
-                                       argv: *mut *mut ::std::os::raw::c_char)
-     -> *mut Struct_GNUNET_OS_Process;
-    pub fn GNUNET_OS_start_process(pipe_control: ::std::os::raw::c_int,
-                                   std_inheritance:
-                                       Enum_GNUNET_OS_InheritStdioFlags,
-                                   pipe_stdin:
-                                       *mut Struct_GNUNET_DISK_PipeHandle,
-                                   pipe_stdout:
-                                       *mut Struct_GNUNET_DISK_PipeHandle,
-                                   pipe_stderr:
-                                       *mut Struct_GNUNET_DISK_PipeHandle,
-                                   filename:
-                                       *const ::std::os::raw::c_char, ...)
-     -> *mut Struct_GNUNET_OS_Process;
-    pub fn GNUNET_OS_start_process_va(pipe_control: ::std::os::raw::c_int,
-                                      std_inheritance:
-                                          Enum_GNUNET_OS_InheritStdioFlags,
-                                      pipe_stdin:
-                                          *mut Struct_GNUNET_DISK_PipeHandle,
-                                      pipe_stdout:
-                                          *mut Struct_GNUNET_DISK_PipeHandle,
-                                      pipe_stderr:
-                                          *mut Struct_GNUNET_DISK_PipeHandle,
-                                      filename: *const ::std::os::raw::c_char,
-                                      va: va_list)
-     -> *mut Struct_GNUNET_OS_Process;
-    pub fn GNUNET_OS_start_process_v(pipe_control: ::std::os::raw::c_int,
-                                     std_inheritance:
-                                         Enum_GNUNET_OS_InheritStdioFlags,
-                                     lsocks: *const ::std::os::raw::c_int,
-                                     filename: *const ::std::os::raw::c_char,
-                                     argv: *mut *mut ::std::os::raw::c_char)
-     -> *mut Struct_GNUNET_OS_Process;
-    pub fn GNUNET_OS_start_process_s(pipe_control: ::std::os::raw::c_int,
-                                     std_inheritance: ::std::os::raw::c_uint,
-                                     lsocks: *const ::std::os::raw::c_int,
-                                     filename:
-                                         *const ::std::os::raw::c_char, ...)
-     -> *mut Struct_GNUNET_OS_Process;
+    pub fn GNUNET_OS_process_get_pid(_proc: *mut Struct_GNUNET_OS_Process) -> pid_t;
+    pub fn GNUNET_OS_start_process_vap(
+        pipe_control: ::std::os::raw::c_int,
+        std_inheritance: Enum_GNUNET_OS_InheritStdioFlags,
+        pipe_stdin: *mut Struct_GNUNET_DISK_PipeHandle,
+        pipe_stdout: *mut Struct_GNUNET_DISK_PipeHandle,
+        pipe_stderr: *mut Struct_GNUNET_DISK_PipeHandle,
+        filename: *const ::std::os::raw::c_char,
+        argv: *mut *mut ::std::os::raw::c_char,
+    ) -> *mut Struct_GNUNET_OS_Process;
+    pub fn GNUNET_OS_start_process(
+        pipe_control: ::std::os::raw::c_int,
+        std_inheritance: Enum_GNUNET_OS_InheritStdioFlags,
+        pipe_stdin: *mut Struct_GNUNET_DISK_PipeHandle,
+        pipe_stdout: *mut Struct_GNUNET_DISK_PipeHandle,
+        pipe_stderr: *mut Struct_GNUNET_DISK_PipeHandle,
+        filename: *const ::std::os::raw::c_char,
+        ...
+    ) -> *mut Struct_GNUNET_OS_Process;
+    pub fn GNUNET_OS_start_process_va(
+        pipe_control: ::std::os::raw::c_int,
+        std_inheritance: Enum_GNUNET_OS_InheritStdioFlags,
+        pipe_stdin: *mut Struct_GNUNET_DISK_PipeHandle,
+        pipe_stdout: *mut Struct_GNUNET_DISK_PipeHandle,
+        pipe_stderr: *mut Struct_GNUNET_DISK_PipeHandle,
+        filename: *const ::std::os::raw::c_char,
+        va: va_list,
+    ) -> *mut Struct_GNUNET_OS_Process;
+    pub fn GNUNET_OS_start_process_v(
+        pipe_control: ::std::os::raw::c_int,
+        std_inheritance: Enum_GNUNET_OS_InheritStdioFlags,
+        lsocks: *const ::std::os::raw::c_int,
+        filename: *const ::std::os::raw::c_char,
+        argv: *mut *mut ::std::os::raw::c_char,
+    ) -> *mut Struct_GNUNET_OS_Process;
+    pub fn GNUNET_OS_start_process_s(
+        pipe_control: ::std::os::raw::c_int,
+        std_inheritance: ::std::os::raw::c_uint,
+        lsocks: *const ::std::os::raw::c_int,
+        filename: *const ::std::os::raw::c_char,
+        ...
+    ) -> *mut Struct_GNUNET_OS_Process;
     pub fn GNUNET_OS_command_stop(cmd: *mut Struct_GNUNET_OS_CommandHandle);
-    pub fn GNUNET_OS_command_run(_proc: GNUNET_OS_LineProcessor,
-                                 proc_cls: *mut ::std::os::raw::c_void,
-                                 timeout: Struct_GNUNET_TIME_Relative,
-                                 binary: *const ::std::os::raw::c_char, ...)
-     -> *mut Struct_GNUNET_OS_CommandHandle;
-    pub fn GNUNET_OS_process_status(_proc: *mut Struct_GNUNET_OS_Process,
-                                    _type:
-                                        *mut Enum_GNUNET_OS_ProcessStatusType,
-                                    code: *mut ::std::os::raw::c_ulong)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_OS_process_wait(_proc: *mut Struct_GNUNET_OS_Process)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_OS_install_parent_control_handler(cls:
-                                                        *mut ::std::os::raw::c_void,
-                                                    tc:
-                                                        *const Struct_GNUNET_SCHEDULER_TaskContext);
-    pub fn GNUNET_OS_check_helper_binary(binary:
-                                             *const ::std::os::raw::c_char,
-                                         check_suid: ::std::os::raw::c_int,
-                                         params:
-                                             *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_PEER_search(pid: *const Struct_GNUNET_PeerIdentity)
-     -> GNUNET_PEER_Id;
-    pub fn GNUNET_PEER_intern(pid: *const Struct_GNUNET_PeerIdentity)
-     -> GNUNET_PEER_Id;
-    pub fn GNUNET_PEER_change_rc(id: GNUNET_PEER_Id,
-                                 delta: ::std::os::raw::c_int);
-    pub fn GNUNET_PEER_decrement_rcs(ids: *const GNUNET_PEER_Id,
-                                     count: ::std::os::raw::c_uint);
-    pub fn GNUNET_PEER_resolve(id: GNUNET_PEER_Id,
-                               pid: *mut Struct_GNUNET_PeerIdentity);
-    pub fn GNUNET_PEER_resolve2(id: GNUNET_PEER_Id)
-     -> *const Struct_GNUNET_PeerIdentity;
+    pub fn GNUNET_OS_command_run(
+        _proc: GNUNET_OS_LineProcessor,
+        proc_cls: *mut ::std::os::raw::c_void,
+        timeout: Struct_GNUNET_TIME_Relative,
+        binary: *const ::std::os::raw::c_char,
+        ...
+    ) -> *mut Struct_GNUNET_OS_CommandHandle;
+    pub fn GNUNET_OS_process_status(
+        _proc: *mut Struct_GNUNET_OS_Process,
+        _type: *mut Enum_GNUNET_OS_ProcessStatusType,
+        code: *mut ::std::os::raw::c_ulong,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_OS_process_wait(_proc: *mut Struct_GNUNET_OS_Process) -> ::std::os::raw::c_int;
+    pub fn GNUNET_OS_install_parent_control_handler(
+        cls: *mut ::std::os::raw::c_void,
+        tc: *const Struct_GNUNET_SCHEDULER_TaskContext,
+    );
+    pub fn GNUNET_OS_check_helper_binary(
+        binary: *const ::std::os::raw::c_char,
+        check_suid: ::std::os::raw::c_int,
+        params: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_PEER_search(pid: *const Struct_GNUNET_PeerIdentity) -> GNUNET_PEER_Id;
+    pub fn GNUNET_PEER_intern(pid: *const Struct_GNUNET_PeerIdentity) -> GNUNET_PEER_Id;
+    pub fn GNUNET_PEER_change_rc(id: GNUNET_PEER_Id, delta: ::std::os::raw::c_int);
+    pub fn GNUNET_PEER_decrement_rcs(ids: *const GNUNET_PEER_Id, count: ::std::os::raw::c_uint);
+    pub fn GNUNET_PEER_resolve(id: GNUNET_PEER_Id, pid: *mut Struct_GNUNET_PeerIdentity);
+    pub fn GNUNET_PEER_resolve2(id: GNUNET_PEER_Id) -> *const Struct_GNUNET_PeerIdentity;
     pub fn GNUNET_PLUGIN_test(library_name: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_PLUGIN_load(library_name: *const ::std::os::raw::c_char,
-                              arg: *mut ::std::os::raw::c_void)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_PLUGIN_load_all(__xpg_basename:
-                                      *const ::std::os::raw::c_char,
-                                  arg: *mut ::std::os::raw::c_void,
-                                  cb: GNUNET_PLUGIN_LoaderCallback,
-                                  cb_cls: *mut ::std::os::raw::c_void);
-    pub fn GNUNET_PLUGIN_unload(library_name: *const ::std::os::raw::c_char,
-                                arg: *mut ::std::os::raw::c_void)
-     -> *mut ::std::os::raw::c_void;
-    pub fn GNUNET_PROGRAM_run2(argc: ::std::os::raw::c_int,
-                               argv: *const *mut ::std::os::raw::c_char,
-                               binaryName: *const ::std::os::raw::c_char,
-                               binaryHelp: *const ::std::os::raw::c_char,
-                               options:
-                                   *const Struct_GNUNET_GETOPT_CommandLineOption,
-                               task: GNUNET_PROGRAM_Main,
-                               task_cls: *mut ::std::os::raw::c_void,
-                               run_without_scheduler: ::std::os::raw::c_int)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_PROGRAM_run(argc: ::std::os::raw::c_int,
-                              argv: *const *mut ::std::os::raw::c_char,
-                              binaryName: *const ::std::os::raw::c_char,
-                              binaryHelp: *const ::std::os::raw::c_char,
-                              options:
-                                  *const Struct_GNUNET_GETOPT_CommandLineOption,
-                              task: GNUNET_PROGRAM_Main,
-                              task_cls: *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_SERVICE_get_server_addresses(service_name:
-                                                   *const ::std::os::raw::c_char,
-                                               cfg:
-                                                   *const Struct_GNUNET_CONFIGURATION_Handle,
-                                               addrs:
-                                                   *mut *mut *mut Struct_sockaddr,
-                                               addr_lens: *mut *mut socklen_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_SERVICE_run(argc: ::std::os::raw::c_int,
-                              argv: *const *mut ::std::os::raw::c_char,
-                              service_name: *const ::std::os::raw::c_char,
-                              options: Enum_GNUNET_SERVICE_Options,
-                              task: GNUNET_SERVICE_Main,
-                              task_cls: *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_SERVICE_start(service_name: *const ::std::os::raw::c_char,
-                                cfg:
-                                    *const Struct_GNUNET_CONFIGURATION_Handle,
-                                options: Enum_GNUNET_SERVICE_Options)
-     -> *mut Struct_GNUNET_SERVICE_Context;
-    pub fn GNUNET_SERVICE_get_server(ctx: *mut Struct_GNUNET_SERVICE_Context)
-     -> *mut Struct_GNUNET_SERVER_Handle;
+        -> ::std::os::raw::c_int;
+    pub fn GNUNET_PLUGIN_load(
+        library_name: *const ::std::os::raw::c_char,
+        arg: *mut ::std::os::raw::c_void,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_PLUGIN_load_all(
+        __xpg_basename: *const ::std::os::raw::c_char,
+        arg: *mut ::std::os::raw::c_void,
+        cb: GNUNET_PLUGIN_LoaderCallback,
+        cb_cls: *mut ::std::os::raw::c_void,
+    );
+    pub fn GNUNET_PLUGIN_unload(
+        library_name: *const ::std::os::raw::c_char,
+        arg: *mut ::std::os::raw::c_void,
+    ) -> *mut ::std::os::raw::c_void;
+    pub fn GNUNET_PROGRAM_run2(
+        argc: ::std::os::raw::c_int,
+        argv: *const *mut ::std::os::raw::c_char,
+        binaryName: *const ::std::os::raw::c_char,
+        binaryHelp: *const ::std::os::raw::c_char,
+        options: *const Struct_GNUNET_GETOPT_CommandLineOption,
+        task: GNUNET_PROGRAM_Main,
+        task_cls: *mut ::std::os::raw::c_void,
+        run_without_scheduler: ::std::os::raw::c_int,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_PROGRAM_run(
+        argc: ::std::os::raw::c_int,
+        argv: *const *mut ::std::os::raw::c_char,
+        binaryName: *const ::std::os::raw::c_char,
+        binaryHelp: *const ::std::os::raw::c_char,
+        options: *const Struct_GNUNET_GETOPT_CommandLineOption,
+        task: GNUNET_PROGRAM_Main,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_SERVICE_get_server_addresses(
+        service_name: *const ::std::os::raw::c_char,
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        addrs: *mut *mut *mut Struct_sockaddr,
+        addr_lens: *mut *mut socklen_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_SERVICE_run(
+        argc: ::std::os::raw::c_int,
+        argv: *const *mut ::std::os::raw::c_char,
+        service_name: *const ::std::os::raw::c_char,
+        options: Enum_GNUNET_SERVICE_Options,
+        task: GNUNET_SERVICE_Main,
+        task_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_SERVICE_start(
+        service_name: *const ::std::os::raw::c_char,
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        options: Enum_GNUNET_SERVICE_Options,
+    ) -> *mut Struct_GNUNET_SERVICE_Context;
+    pub fn GNUNET_SERVICE_get_server(
+        ctx: *mut Struct_GNUNET_SERVICE_Context,
+    ) -> *mut Struct_GNUNET_SERVER_Handle;
     pub fn GNUNET_SERVICE_stop(sctx: *mut Struct_GNUNET_SERVICE_Context);
-    pub fn GNUNET_SIGNAL_handler_install(signal: ::std::os::raw::c_int,
-                                         handler: GNUNET_SIGNAL_Handler)
-     -> *mut Struct_GNUNET_SIGNAL_Context;
-    pub fn GNUNET_SIGNAL_handler_uninstall(ctx:
-                                               *mut Struct_GNUNET_SIGNAL_Context);
+    pub fn GNUNET_SIGNAL_handler_install(
+        signal: ::std::os::raw::c_int,
+        handler: GNUNET_SIGNAL_Handler,
+    ) -> *mut Struct_GNUNET_SIGNAL_Context;
+    pub fn GNUNET_SIGNAL_handler_uninstall(ctx: *mut Struct_GNUNET_SIGNAL_Context);
     pub fn GNUNET_SIGNAL_raise(sig: ::std::os::raw::c_int);
-    pub fn GNUNET_STRINGS_fancy_size_to_bytes(fancy_size:
-                                                  *const ::std::os::raw::c_char,
-                                              size:
-                                                  *mut ::std::os::raw::c_ulonglong)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_STRINGS_fancy_time_to_relative(fancy_time:
-                                                     *const ::std::os::raw::c_char,
-                                                 rtime:
-                                                     *mut Struct_GNUNET_TIME_Relative)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_STRINGS_fancy_time_to_absolute(fancy_time:
-                                                     *const ::std::os::raw::c_char,
-                                                 atime:
-                                                     *mut Struct_GNUNET_TIME_Absolute)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_STRINGS_byte_size_fancy(size: ::std::os::raw::c_ulonglong)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_STRINGS_conv(input: *const ::std::os::raw::c_char,
-                               len: size_t,
-                               input_charset: *const ::std::os::raw::c_char,
-                               output_charset: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_STRINGS_to_utf8(input: *const ::std::os::raw::c_char,
-                                  len: size_t,
-                                  charset: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_STRINGS_from_utf8(input: *const ::std::os::raw::c_char,
-                                    len: size_t,
-                                    charset: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_STRINGS_utf8_tolower(input: *const ::std::os::raw::c_char,
-                                       output: *mut ::std::os::raw::c_char);
-    pub fn GNUNET_STRINGS_utf8_toupper(input: *const ::std::os::raw::c_char,
-                                       output: *mut ::std::os::raw::c_char);
-    pub fn GNUNET_STRINGS_filename_expand(fil: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_STRINGS_buffer_fill(buffer: *mut ::std::os::raw::c_char,
-                                      size: size_t,
-                                      count: ::std::os::raw::c_uint, ...)
-     -> size_t;
-    pub fn GNUNET_STRINGS_buffer_tokenize(buffer:
-                                              *const ::std::os::raw::c_char,
-                                          size: size_t,
-                                          count: ::std::os::raw::c_uint, ...)
-     -> ::std::os::raw::c_uint;
-    pub fn GNUNET_STRINGS_absolute_time_to_string(t:
-                                                      Struct_GNUNET_TIME_Absolute)
-     -> *const ::std::os::raw::c_char;
-    pub fn GNUNET_STRINGS_relative_time_to_string(delta:
-                                                      Struct_GNUNET_TIME_Relative,
-                                                  do_round:
-                                                      ::std::os::raw::c_int)
-     -> *const ::std::os::raw::c_char;
-    pub fn GNUNET_STRINGS_get_short_name(filename:
-                                             *const ::std::os::raw::c_char)
-     -> *const ::std::os::raw::c_char;
-    pub fn GNUNET_STRINGS_data_to_string(data: *const ::std::os::raw::c_void,
-                                         size: size_t,
-                                         out: *mut ::std::os::raw::c_char,
-                                         out_size: size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_STRINGS_string_to_data(enc: *const ::std::os::raw::c_char,
-                                         enclen: size_t,
-                                         out: *mut ::std::os::raw::c_void,
-                                         out_size: size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_STRINGS_base64_encode(data: *const ::std::os::raw::c_char,
-                                        len: size_t,
-                                        output:
-                                            *mut *mut ::std::os::raw::c_char)
-     -> size_t;
-    pub fn GNUNET_STRINGS_base64_decode(data: *const ::std::os::raw::c_char,
-                                        len: size_t,
-                                        output:
-                                            *mut *mut ::std::os::raw::c_char)
-     -> size_t;
-    pub fn GNUNET_STRINGS_parse_uri(path: *const ::std::os::raw::c_char,
-                                    scheme_part:
-                                        *mut *mut ::std::os::raw::c_char,
-                                    path_part:
-                                        *mut *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_STRINGS_path_is_absolute(filename:
-                                               *const ::std::os::raw::c_char,
-                                           can_be_uri: ::std::os::raw::c_int,
-                                           r_is_uri:
-                                               *mut ::std::os::raw::c_int,
-                                           r_uri_scheme:
-                                               *mut *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_STRINGS_check_filename(filename:
-                                             *const ::std::os::raw::c_char,
-                                         checks:
-                                             Enum_GNUNET_STRINGS_FilenameCheck)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_STRINGS_to_address_ipv6(zt_addr:
-                                              *const ::std::os::raw::c_char,
-                                          addrlen: uint16_t,
-                                          r_buf: *mut Struct_sockaddr_in6)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_STRINGS_to_address_ipv4(zt_addr:
-                                              *const ::std::os::raw::c_char,
-                                          addrlen: uint16_t,
-                                          r_buf: *mut Struct_sockaddr_in)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_STRINGS_to_address_ip(addr: *const ::std::os::raw::c_char,
-                                        addrlen: uint16_t,
-                                        r_buf: *mut Struct_sockaddr_storage)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_STRINGS_get_utf8_args(argc: ::std::os::raw::c_int,
-                                        argv:
-                                            *const *mut ::std::os::raw::c_char,
-                                        u8argc: *mut ::std::os::raw::c_int,
-                                        u8argv:
-                                            *mut *const *mut ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_STRINGS_parse_ipv4_policy(routeListX:
-                                                *const ::std::os::raw::c_char)
-     -> *mut Struct_GNUNET_STRINGS_IPv4NetworkPolicy;
-    pub fn GNUNET_STRINGS_parse_ipv6_policy(routeListX:
-                                                *const ::std::os::raw::c_char)
-     -> *mut Struct_GNUNET_STRINGS_IPv6NetworkPolicy;
-    pub fn GNUNET_TUN_initialize_ipv4_header(ip:
-                                                 *mut Struct_GNUNET_TUN_IPv4Header,
-                                             protocol: uint8_t,
-                                             payload_length: uint16_t,
-                                             src: *const Struct_in_addr,
-                                             dst: *const Struct_in_addr);
-    pub fn GNUNET_TUN_initialize_ipv6_header(ip:
-                                                 *mut Struct_GNUNET_TUN_IPv6Header,
-                                             protocol: uint8_t,
-                                             payload_length: uint16_t,
-                                             src: *const Struct_in6_addr,
-                                             dst: *const Struct_in6_addr);
-    pub fn GNUNET_TUN_calculate_tcp4_checksum(ip:
-                                                  *const Struct_GNUNET_TUN_IPv4Header,
-                                              tcp:
-                                                  *mut Struct_GNUNET_TUN_TcpHeader,
-                                              payload:
-                                                  *const ::std::os::raw::c_void,
-                                              payload_length: uint16_t);
-    pub fn GNUNET_TUN_calculate_tcp6_checksum(ip:
-                                                  *const Struct_GNUNET_TUN_IPv6Header,
-                                              tcp:
-                                                  *mut Struct_GNUNET_TUN_TcpHeader,
-                                              payload:
-                                                  *const ::std::os::raw::c_void,
-                                              payload_length: uint16_t);
-    pub fn GNUNET_TUN_calculate_udp4_checksum(ip:
-                                                  *const Struct_GNUNET_TUN_IPv4Header,
-                                              udp:
-                                                  *mut Struct_GNUNET_TUN_UdpHeader,
-                                              payload:
-                                                  *const ::std::os::raw::c_void,
-                                              payload_length: uint16_t);
-    pub fn GNUNET_TUN_calculate_udp6_checksum(ip:
-                                                  *const Struct_GNUNET_TUN_IPv6Header,
-                                              udp:
-                                                  *mut Struct_GNUNET_TUN_UdpHeader,
-                                              payload:
-                                                  *const ::std::os::raw::c_void,
-                                              payload_length: uint16_t);
-    pub fn GNUNET_TUN_calculate_icmp_checksum(icmp:
-                                                  *mut Struct_GNUNET_TUN_IcmpHeader,
-                                              payload:
-                                                  *const ::std::os::raw::c_void,
-                                              payload_length: uint16_t);
-    pub fn GNUNET_TUN_ipv4toregexsearch(ip: *const Struct_in_addr,
-                                        port: uint16_t,
-                                        rxstr: *mut ::std::os::raw::c_char);
-    pub fn GNUNET_TUN_ipv6toregexsearch(ipv6: *const Struct_in6_addr,
-                                        port: uint16_t,
-                                        rxstr: *mut ::std::os::raw::c_char);
-    pub fn GNUNET_TUN_ipv6policy2regex(policy: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_TUN_ipv4policy2regex(policy: *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_TUN_service_name_to_hash(service_name:
-                                               *const ::std::os::raw::c_char,
-                                           hc: *mut Struct_GNUNET_HashCode);
-    pub fn GNUNET_DNSPARSER_check_label(label: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DNSPARSER_check_name(name: *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DNSPARSER_parse(udp_payload: *const ::std::os::raw::c_char,
-                                  udp_payload_length: size_t)
-     -> *mut Struct_GNUNET_DNSPARSER_Packet;
-    pub fn GNUNET_DNSPARSER_free_packet(p:
-                                            *mut Struct_GNUNET_DNSPARSER_Packet);
-    pub fn GNUNET_DNSPARSER_pack(p: *const Struct_GNUNET_DNSPARSER_Packet,
-                                 max: uint16_t,
-                                 buf: *mut *mut ::std::os::raw::c_char,
-                                 buf_length: *mut size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DNSPARSER_builder_add_name(dst: *mut ::std::os::raw::c_char,
-                                             dst_len: size_t,
-                                             off: *mut size_t,
-                                             name:
-                                                 *const ::std::os::raw::c_char)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DNSPARSER_builder_add_query(dst:
-                                                  *mut ::std::os::raw::c_char,
-                                              dst_len: size_t,
-                                              off: *mut size_t,
-                                              query:
-                                                  *const Struct_GNUNET_DNSPARSER_Query)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DNSPARSER_builder_add_mx(dst: *mut ::std::os::raw::c_char,
-                                           dst_len: size_t, off: *mut size_t,
-                                           mx:
-                                               *const Struct_GNUNET_DNSPARSER_MxRecord)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DNSPARSER_builder_add_soa(dst: *mut ::std::os::raw::c_char,
-                                            dst_len: size_t, off: *mut size_t,
-                                            soa:
-                                                *const Struct_GNUNET_DNSPARSER_SoaRecord)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DNSPARSER_builder_add_cert(dst: *mut ::std::os::raw::c_char,
-                                             dst_len: size_t,
-                                             off: *mut size_t,
-                                             cert:
-                                                 *const Struct_GNUNET_DNSPARSER_CertRecord)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DNSPARSER_builder_add_srv(dst: *mut ::std::os::raw::c_char,
-                                            dst_len: size_t, off: *mut size_t,
-                                            srv:
-                                                *const Struct_GNUNET_DNSPARSER_SrvRecord)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DNSPARSER_parse_record(udp_payload:
-                                             *const ::std::os::raw::c_char,
-                                         udp_payload_length: size_t,
-                                         off: *mut size_t,
-                                         r:
-                                             *mut Struct_GNUNET_DNSPARSER_Record)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DNSPARSER_parse_name(udp_payload:
-                                           *const ::std::os::raw::c_char,
-                                       udp_payload_length: size_t,
-                                       off: *mut size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_DNSPARSER_parse_query(udp_payload:
-                                            *const ::std::os::raw::c_char,
-                                        udp_payload_length: size_t,
-                                        off: *mut size_t,
-                                        q: *mut Struct_GNUNET_DNSPARSER_Query)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_DNSPARSER_parse_soa(udp_payload:
-                                          *const ::std::os::raw::c_char,
-                                      udp_payload_length: size_t,
-                                      off: *mut size_t)
-     -> *mut Struct_GNUNET_DNSPARSER_SoaRecord;
-    pub fn GNUNET_DNSPARSER_parse_cert(udp_payload:
-                                           *const ::std::os::raw::c_char,
-                                       udp_payload_length: size_t,
-                                       off: *mut size_t)
-     -> *mut Struct_GNUNET_DNSPARSER_CertRecord;
-    pub fn GNUNET_DNSPARSER_parse_mx(udp_payload:
-                                         *const ::std::os::raw::c_char,
-                                     udp_payload_length: size_t,
-                                     off: *mut size_t)
-     -> *mut Struct_GNUNET_DNSPARSER_MxRecord;
-    pub fn GNUNET_DNSPARSER_parse_srv(r_name: *const ::std::os::raw::c_char,
-                                      udp_payload:
-                                          *const ::std::os::raw::c_char,
-                                      udp_payload_length: size_t,
-                                      off: *mut size_t)
-     -> *mut Struct_GNUNET_DNSPARSER_SrvRecord;
-    pub fn GNUNET_DNSPARSER_free_record(r:
-                                            *mut Struct_GNUNET_DNSPARSER_Record);
-    pub fn GNUNET_DNSPARSER_free_mx(mx:
-                                        *mut Struct_GNUNET_DNSPARSER_MxRecord);
-    pub fn GNUNET_DNSPARSER_free_srv(srv:
-                                         *mut Struct_GNUNET_DNSPARSER_SrvRecord);
-    pub fn GNUNET_DNSPARSER_free_soa(soa:
-                                         *mut Struct_GNUNET_DNSPARSER_SoaRecord);
-    pub fn GNUNET_DNSPARSER_free_cert(cert:
-                                          *mut Struct_GNUNET_DNSPARSER_CertRecord);
-    pub fn GNUNET_BLOCK_mingle_hash(_in: *const Struct_GNUNET_HashCode,
-                                    mingle_number: uint32_t,
-                                    hc: *mut Struct_GNUNET_HashCode);
-    pub fn GNUNET_BLOCK_context_create(cfg:
-                                           *const Struct_GNUNET_CONFIGURATION_Handle)
-     -> *mut Struct_GNUNET_BLOCK_Context;
-    pub fn GNUNET_BLOCK_context_destroy(ctx:
-                                            *mut Struct_GNUNET_BLOCK_Context);
-    pub fn GNUNET_BLOCK_evaluate(ctx: *mut Struct_GNUNET_BLOCK_Context,
-                                 _type: Enum_GNUNET_BLOCK_Type,
-                                 query: *const Struct_GNUNET_HashCode,
-                                 bf:
-                                     *mut *mut Struct_GNUNET_CONTAINER_BloomFilter,
-                                 bf_mutator: int32_t,
-                                 xquery: *const ::std::os::raw::c_void,
-                                 xquery_size: size_t,
-                                 reply_block: *const ::std::os::raw::c_void,
-                                 reply_block_size: size_t)
-     -> Enum_GNUNET_BLOCK_EvaluationResult;
-    pub fn GNUNET_BLOCK_get_key(ctx: *mut Struct_GNUNET_BLOCK_Context,
-                                _type: Enum_GNUNET_BLOCK_Type,
-                                block: *const ::std::os::raw::c_void,
-                                block_size: size_t,
-                                key: *mut Struct_GNUNET_HashCode)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_BLOCK_construct_bloomfilter(bf_mutator: int32_t,
-                                              seen_results:
-                                                  *const Struct_GNUNET_HashCode,
-                                              seen_results_count:
-                                                  ::std::os::raw::c_uint)
-     -> *mut Struct_GNUNET_CONTAINER_BloomFilter;
-    pub fn GNUNET_GNSRECORD_value_to_string(_type: uint32_t,
-                                            data:
-                                                *const ::std::os::raw::c_void,
-                                            data_size: size_t)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_GNSRECORD_string_to_value(_type: uint32_t,
-                                            s: *const ::std::os::raw::c_char,
-                                            data:
-                                                *mut *mut ::std::os::raw::c_void,
-                                            data_size: *mut size_t)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GNSRECORD_typename_to_number(dns_typename:
-                                                   *const ::std::os::raw::c_char)
-     -> uint32_t;
-    pub fn GNUNET_GNSRECORD_number_to_typename(_type: uint32_t)
-     -> *const ::std::os::raw::c_char;
-    pub fn GNUNET_GNSRECORD_records_get_size(rd_count: ::std::os::raw::c_uint,
-                                             rd:
-                                                 *const Struct_GNUNET_GNSRECORD_Data)
-     -> size_t;
-    pub fn GNUNET_GNSRECORD_records_serialize(rd_count:
-                                                  ::std::os::raw::c_uint,
-                                              rd:
-                                                  *const Struct_GNUNET_GNSRECORD_Data,
-                                              dest_size: size_t,
-                                              dest:
-                                                  *mut ::std::os::raw::c_char)
-     -> ssize_t;
-    pub fn GNUNET_GNSRECORD_records_deserialize(len: size_t,
-                                                src:
-                                                    *const ::std::os::raw::c_char,
-                                                rd_count:
-                                                    ::std::os::raw::c_uint,
-                                                dest:
-                                                    *mut Struct_GNUNET_GNSRECORD_Data)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GNSRECORD_is_expired(rd:
-                                           *const Struct_GNUNET_GNSRECORD_Data)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GNSRECORD_string_to_lowercase(src:
-                                                    *const ::std::os::raw::c_char)
-     -> *mut ::std::os::raw::c_char;
-    pub fn GNUNET_GNSRECORD_z2s(z: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey)
-     -> *const ::std::os::raw::c_char;
-    pub fn GNUNET_GNSRECORD_pkey_to_zkey(pkey:
-                                             *const Struct_GNUNET_CRYPTO_EcdsaPublicKey)
-     -> *const ::std::os::raw::c_char;
-    pub fn GNUNET_GNSRECORD_zkey_to_pkey(zkey: *const ::std::os::raw::c_char,
-                                         pkey:
-                                             *mut Struct_GNUNET_CRYPTO_EcdsaPublicKey)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GNSRECORD_query_from_private_key(zone:
-                                                       *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                                   label:
-                                                       *const ::std::os::raw::c_char,
-                                                   query:
-                                                       *mut Struct_GNUNET_HashCode);
-    pub fn GNUNET_GNSRECORD_query_from_public_key(_pub:
-                                                      *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
-                                                  label:
-                                                      *const ::std::os::raw::c_char,
-                                                  query:
-                                                      *mut Struct_GNUNET_HashCode);
-    pub fn GNUNET_GNSRECORD_block_create(key:
-                                             *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                         expire: Struct_GNUNET_TIME_Absolute,
-                                         label: *const ::std::os::raw::c_char,
-                                         rd:
-                                             *const Struct_GNUNET_GNSRECORD_Data,
-                                         rd_count: ::std::os::raw::c_uint)
-     -> *mut Struct_GNUNET_GNSRECORD_Block;
-    pub fn GNUNET_GNSRECORD_block_verify(block:
-                                             *const Struct_GNUNET_GNSRECORD_Block)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GNSRECORD_block_decrypt(block:
-                                              *const Struct_GNUNET_GNSRECORD_Block,
-                                          zone_key:
-                                              *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
-                                          label:
-                                              *const ::std::os::raw::c_char,
-                                          _proc:
-                                              GNUNET_GNSRECORD_RecordCallback,
-                                          proc_cls:
-                                              *mut ::std::os::raw::c_void)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GNSRECORD_records_cmp(a:
-                                            *const Struct_GNUNET_GNSRECORD_Data,
-                                        b:
-                                            *const Struct_GNUNET_GNSRECORD_Data)
-     -> ::std::os::raw::c_int;
-    pub fn GNUNET_GNSRECORD_record_get_expiration_time(rd_count:
-                                                           ::std::os::raw::c_uint,
-                                                       rd:
-                                                           *const Struct_GNUNET_GNSRECORD_Data)
-     -> Struct_GNUNET_TIME_Absolute;
-    pub fn GNUNET_NAMESTORE_connect(cfg:
-                                        *const Struct_GNUNET_CONFIGURATION_Handle)
-     -> *mut Struct_GNUNET_NAMESTORE_Handle;
-    pub fn GNUNET_NAMESTORE_disconnect(h:
-                                           *mut Struct_GNUNET_NAMESTORE_Handle);
-    pub fn GNUNET_NAMESTORE_records_store(h:
-                                              *mut Struct_GNUNET_NAMESTORE_Handle,
-                                          pkey:
-                                              *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                          label:
-                                              *const ::std::os::raw::c_char,
-                                          rd_count: ::std::os::raw::c_uint,
-                                          rd:
-                                              *const Struct_GNUNET_GNSRECORD_Data,
-                                          cont:
-                                              GNUNET_NAMESTORE_ContinuationWithStatus,
-                                          cont_cls:
-                                              *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
-    pub fn GNUNET_NAMESTORE_set_nick(h: *mut Struct_GNUNET_NAMESTORE_Handle,
-                                     pkey:
-                                         *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                     nick: *const ::std::os::raw::c_char,
-                                     cont:
-                                         GNUNET_NAMESTORE_ContinuationWithStatus,
-                                     cont_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
-    pub fn GNUNET_NAMESTORE_records_lookup(h:
-                                               *mut Struct_GNUNET_NAMESTORE_Handle,
-                                           pkey:
-                                               *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                           label:
-                                               *const ::std::os::raw::c_char,
-                                           rm: GNUNET_NAMESTORE_RecordMonitor,
-                                           rm_cls:
-                                               *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
-    pub fn GNUNET_NAMESTORE_zone_to_name(h:
-                                             *mut Struct_GNUNET_NAMESTORE_Handle,
-                                         zone:
-                                             *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                         value_zone:
-                                             *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
-                                         _proc:
-                                             GNUNET_NAMESTORE_RecordMonitor,
-                                         proc_cls:
-                                             *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
-    pub fn GNUNET_NAMESTORE_cancel(qe:
-                                       *mut Struct_GNUNET_NAMESTORE_QueueEntry);
-    pub fn GNUNET_NAMESTORE_zone_iteration_start(h:
-                                                     *mut Struct_GNUNET_NAMESTORE_Handle,
-                                                 zone:
-                                                     *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                                 _proc:
-                                                     GNUNET_NAMESTORE_RecordMonitor,
-                                                 proc_cls:
-                                                     *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_NAMESTORE_ZoneIterator;
-    pub fn GNUNET_NAMESTORE_zone_iterator_next(it:
-                                                   *mut Struct_GNUNET_NAMESTORE_ZoneIterator);
-    pub fn GNUNET_NAMESTORE_zone_iteration_stop(it:
-                                                    *mut Struct_GNUNET_NAMESTORE_ZoneIterator);
-    pub fn GNUNET_NAMESTORE_zone_monitor_start(cfg:
-                                                   *const Struct_GNUNET_CONFIGURATION_Handle,
-                                               zone:
-                                                   *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                                               iterate_first:
-                                                   ::std::os::raw::c_int,
-                                               monitor:
-                                                   GNUNET_NAMESTORE_RecordMonitor,
-                                               sync_cb:
-                                                   GNUNET_NAMESTORE_RecordsSynchronizedCallback,
-                                               cls:
-                                                   *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_NAMESTORE_ZoneMonitor;
-    pub fn GNUNET_NAMESTORE_zone_monitor_stop(zm:
-                                                  *mut Struct_GNUNET_NAMESTORE_ZoneMonitor);
-    pub fn GNUNET_GNS_connect(cfg: *const Struct_GNUNET_CONFIGURATION_Handle)
-     -> *mut Struct_GNUNET_GNS_Handle;
+    pub fn GNUNET_STRINGS_fancy_size_to_bytes(
+        fancy_size: *const ::std::os::raw::c_char,
+        size: *mut ::std::os::raw::c_ulonglong,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_STRINGS_fancy_time_to_relative(
+        fancy_time: *const ::std::os::raw::c_char,
+        rtime: *mut Struct_GNUNET_TIME_Relative,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_STRINGS_fancy_time_to_absolute(
+        fancy_time: *const ::std::os::raw::c_char,
+        atime: *mut Struct_GNUNET_TIME_Absolute,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_STRINGS_byte_size_fancy(
+        size: ::std::os::raw::c_ulonglong,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_STRINGS_conv(
+        input: *const ::std::os::raw::c_char,
+        len: size_t,
+        input_charset: *const ::std::os::raw::c_char,
+        output_charset: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_STRINGS_to_utf8(
+        input: *const ::std::os::raw::c_char,
+        len: size_t,
+        charset: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_STRINGS_from_utf8(
+        input: *const ::std::os::raw::c_char,
+        len: size_t,
+        charset: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_STRINGS_utf8_tolower(
+        input: *const ::std::os::raw::c_char,
+        output: *mut ::std::os::raw::c_char,
+    );
+    pub fn GNUNET_STRINGS_utf8_toupper(
+        input: *const ::std::os::raw::c_char,
+        output: *mut ::std::os::raw::c_char,
+    );
+    pub fn GNUNET_STRINGS_filename_expand(
+        fil: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_STRINGS_buffer_fill(
+        buffer: *mut ::std::os::raw::c_char,
+        size: size_t,
+        count: ::std::os::raw::c_uint,
+        ...
+    ) -> size_t;
+    pub fn GNUNET_STRINGS_buffer_tokenize(
+        buffer: *const ::std::os::raw::c_char,
+        size: size_t,
+        count: ::std::os::raw::c_uint,
+        ...
+    ) -> ::std::os::raw::c_uint;
+    pub fn GNUNET_STRINGS_absolute_time_to_string(
+        t: Struct_GNUNET_TIME_Absolute,
+    ) -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_STRINGS_relative_time_to_string(
+        delta: Struct_GNUNET_TIME_Relative,
+        do_round: ::std::os::raw::c_int,
+    ) -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_STRINGS_get_short_name(
+        filename: *const ::std::os::raw::c_char,
+    ) -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_STRINGS_data_to_string(
+        data: *const ::std::os::raw::c_void,
+        size: size_t,
+        out: *mut ::std::os::raw::c_char,
+        out_size: size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_STRINGS_string_to_data(
+        enc: *const ::std::os::raw::c_char,
+        enclen: size_t,
+        out: *mut ::std::os::raw::c_void,
+        out_size: size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_STRINGS_base64_encode(
+        data: *const ::std::os::raw::c_char,
+        len: size_t,
+        output: *mut *mut ::std::os::raw::c_char,
+    ) -> size_t;
+    pub fn GNUNET_STRINGS_base64_decode(
+        data: *const ::std::os::raw::c_char,
+        len: size_t,
+        output: *mut *mut ::std::os::raw::c_char,
+    ) -> size_t;
+    pub fn GNUNET_STRINGS_parse_uri(
+        path: *const ::std::os::raw::c_char,
+        scheme_part: *mut *mut ::std::os::raw::c_char,
+        path_part: *mut *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_STRINGS_path_is_absolute(
+        filename: *const ::std::os::raw::c_char,
+        can_be_uri: ::std::os::raw::c_int,
+        r_is_uri: *mut ::std::os::raw::c_int,
+        r_uri_scheme: *mut *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_STRINGS_check_filename(
+        filename: *const ::std::os::raw::c_char,
+        checks: Enum_GNUNET_STRINGS_FilenameCheck,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_STRINGS_to_address_ipv6(
+        zt_addr: *const ::std::os::raw::c_char,
+        addrlen: uint16_t,
+        r_buf: *mut Struct_sockaddr_in6,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_STRINGS_to_address_ipv4(
+        zt_addr: *const ::std::os::raw::c_char,
+        addrlen: uint16_t,
+        r_buf: *mut Struct_sockaddr_in,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_STRINGS_to_address_ip(
+        addr: *const ::std::os::raw::c_char,
+        addrlen: uint16_t,
+        r_buf: *mut Struct_sockaddr_storage,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_STRINGS_get_utf8_args(
+        argc: ::std::os::raw::c_int,
+        argv: *const *mut ::std::os::raw::c_char,
+        u8argc: *mut ::std::os::raw::c_int,
+        u8argv: *mut *const *mut ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_STRINGS_parse_ipv4_policy(
+        routeListX: *const ::std::os::raw::c_char,
+    ) -> *mut Struct_GNUNET_STRINGS_IPv4NetworkPolicy;
+    pub fn GNUNET_STRINGS_parse_ipv6_policy(
+        routeListX: *const ::std::os::raw::c_char,
+    ) -> *mut Struct_GNUNET_STRINGS_IPv6NetworkPolicy;
+    pub fn GNUNET_TUN_initialize_ipv4_header(
+        ip: *mut Struct_GNUNET_TUN_IPv4Header,
+        protocol: uint8_t,
+        payload_length: uint16_t,
+        src: *const Struct_in_addr,
+        dst: *const Struct_in_addr,
+    );
+    pub fn GNUNET_TUN_initialize_ipv6_header(
+        ip: *mut Struct_GNUNET_TUN_IPv6Header,
+        protocol: uint8_t,
+        payload_length: uint16_t,
+        src: *const Struct_in6_addr,
+        dst: *const Struct_in6_addr,
+    );
+    pub fn GNUNET_TUN_calculate_tcp4_checksum(
+        ip: *const Struct_GNUNET_TUN_IPv4Header,
+        tcp: *mut Struct_GNUNET_TUN_TcpHeader,
+        payload: *const ::std::os::raw::c_void,
+        payload_length: uint16_t,
+    );
+    pub fn GNUNET_TUN_calculate_tcp6_checksum(
+        ip: *const Struct_GNUNET_TUN_IPv6Header,
+        tcp: *mut Struct_GNUNET_TUN_TcpHeader,
+        payload: *const ::std::os::raw::c_void,
+        payload_length: uint16_t,
+    );
+    pub fn GNUNET_TUN_calculate_udp4_checksum(
+        ip: *const Struct_GNUNET_TUN_IPv4Header,
+        udp: *mut Struct_GNUNET_TUN_UdpHeader,
+        payload: *const ::std::os::raw::c_void,
+        payload_length: uint16_t,
+    );
+    pub fn GNUNET_TUN_calculate_udp6_checksum(
+        ip: *const Struct_GNUNET_TUN_IPv6Header,
+        udp: *mut Struct_GNUNET_TUN_UdpHeader,
+        payload: *const ::std::os::raw::c_void,
+        payload_length: uint16_t,
+    );
+    pub fn GNUNET_TUN_calculate_icmp_checksum(
+        icmp: *mut Struct_GNUNET_TUN_IcmpHeader,
+        payload: *const ::std::os::raw::c_void,
+        payload_length: uint16_t,
+    );
+    pub fn GNUNET_TUN_ipv4toregexsearch(
+        ip: *const Struct_in_addr,
+        port: uint16_t,
+        rxstr: *mut ::std::os::raw::c_char,
+    );
+    pub fn GNUNET_TUN_ipv6toregexsearch(
+        ipv6: *const Struct_in6_addr,
+        port: uint16_t,
+        rxstr: *mut ::std::os::raw::c_char,
+    );
+    pub fn GNUNET_TUN_ipv6policy2regex(
+        policy: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_TUN_ipv4policy2regex(
+        policy: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_TUN_service_name_to_hash(
+        service_name: *const ::std::os::raw::c_char,
+        hc: *mut Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_DNSPARSER_check_label(
+        label: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DNSPARSER_check_name(
+        name: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DNSPARSER_parse(
+        udp_payload: *const ::std::os::raw::c_char,
+        udp_payload_length: size_t,
+    ) -> *mut Struct_GNUNET_DNSPARSER_Packet;
+    pub fn GNUNET_DNSPARSER_free_packet(p: *mut Struct_GNUNET_DNSPARSER_Packet);
+    pub fn GNUNET_DNSPARSER_pack(
+        p: *const Struct_GNUNET_DNSPARSER_Packet,
+        max: uint16_t,
+        buf: *mut *mut ::std::os::raw::c_char,
+        buf_length: *mut size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DNSPARSER_builder_add_name(
+        dst: *mut ::std::os::raw::c_char,
+        dst_len: size_t,
+        off: *mut size_t,
+        name: *const ::std::os::raw::c_char,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DNSPARSER_builder_add_query(
+        dst: *mut ::std::os::raw::c_char,
+        dst_len: size_t,
+        off: *mut size_t,
+        query: *const Struct_GNUNET_DNSPARSER_Query,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DNSPARSER_builder_add_mx(
+        dst: *mut ::std::os::raw::c_char,
+        dst_len: size_t,
+        off: *mut size_t,
+        mx: *const Struct_GNUNET_DNSPARSER_MxRecord,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DNSPARSER_builder_add_soa(
+        dst: *mut ::std::os::raw::c_char,
+        dst_len: size_t,
+        off: *mut size_t,
+        soa: *const Struct_GNUNET_DNSPARSER_SoaRecord,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DNSPARSER_builder_add_cert(
+        dst: *mut ::std::os::raw::c_char,
+        dst_len: size_t,
+        off: *mut size_t,
+        cert: *const Struct_GNUNET_DNSPARSER_CertRecord,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DNSPARSER_builder_add_srv(
+        dst: *mut ::std::os::raw::c_char,
+        dst_len: size_t,
+        off: *mut size_t,
+        srv: *const Struct_GNUNET_DNSPARSER_SrvRecord,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DNSPARSER_parse_record(
+        udp_payload: *const ::std::os::raw::c_char,
+        udp_payload_length: size_t,
+        off: *mut size_t,
+        r: *mut Struct_GNUNET_DNSPARSER_Record,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DNSPARSER_parse_name(
+        udp_payload: *const ::std::os::raw::c_char,
+        udp_payload_length: size_t,
+        off: *mut size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_DNSPARSER_parse_query(
+        udp_payload: *const ::std::os::raw::c_char,
+        udp_payload_length: size_t,
+        off: *mut size_t,
+        q: *mut Struct_GNUNET_DNSPARSER_Query,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_DNSPARSER_parse_soa(
+        udp_payload: *const ::std::os::raw::c_char,
+        udp_payload_length: size_t,
+        off: *mut size_t,
+    ) -> *mut Struct_GNUNET_DNSPARSER_SoaRecord;
+    pub fn GNUNET_DNSPARSER_parse_cert(
+        udp_payload: *const ::std::os::raw::c_char,
+        udp_payload_length: size_t,
+        off: *mut size_t,
+    ) -> *mut Struct_GNUNET_DNSPARSER_CertRecord;
+    pub fn GNUNET_DNSPARSER_parse_mx(
+        udp_payload: *const ::std::os::raw::c_char,
+        udp_payload_length: size_t,
+        off: *mut size_t,
+    ) -> *mut Struct_GNUNET_DNSPARSER_MxRecord;
+    pub fn GNUNET_DNSPARSER_parse_srv(
+        r_name: *const ::std::os::raw::c_char,
+        udp_payload: *const ::std::os::raw::c_char,
+        udp_payload_length: size_t,
+        off: *mut size_t,
+    ) -> *mut Struct_GNUNET_DNSPARSER_SrvRecord;
+    pub fn GNUNET_DNSPARSER_free_record(r: *mut Struct_GNUNET_DNSPARSER_Record);
+    pub fn GNUNET_DNSPARSER_free_mx(mx: *mut Struct_GNUNET_DNSPARSER_MxRecord);
+    pub fn GNUNET_DNSPARSER_free_srv(srv: *mut Struct_GNUNET_DNSPARSER_SrvRecord);
+    pub fn GNUNET_DNSPARSER_free_soa(soa: *mut Struct_GNUNET_DNSPARSER_SoaRecord);
+    pub fn GNUNET_DNSPARSER_free_cert(cert: *mut Struct_GNUNET_DNSPARSER_CertRecord);
+    pub fn GNUNET_BLOCK_mingle_hash(
+        _in: *const Struct_GNUNET_HashCode,
+        mingle_number: uint32_t,
+        hc: *mut Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_BLOCK_context_create(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+    ) -> *mut Struct_GNUNET_BLOCK_Context;
+    pub fn GNUNET_BLOCK_context_destroy(ctx: *mut Struct_GNUNET_BLOCK_Context);
+    pub fn GNUNET_BLOCK_evaluate(
+        ctx: *mut Struct_GNUNET_BLOCK_Context,
+        _type: Enum_GNUNET_BLOCK_Type,
+        query: *const Struct_GNUNET_HashCode,
+        bf: *mut *mut Struct_GNUNET_CONTAINER_BloomFilter,
+        bf_mutator: int32_t,
+        xquery: *const ::std::os::raw::c_void,
+        xquery_size: size_t,
+        reply_block: *const ::std::os::raw::c_void,
+        reply_block_size: size_t,
+    ) -> Enum_GNUNET_BLOCK_EvaluationResult;
+    pub fn GNUNET_BLOCK_get_key(
+        ctx: *mut Struct_GNUNET_BLOCK_Context,
+        _type: Enum_GNUNET_BLOCK_Type,
+        block: *const ::std::os::raw::c_void,
+        block_size: size_t,
+        key: *mut Struct_GNUNET_HashCode,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_BLOCK_construct_bloomfilter(
+        bf_mutator: int32_t,
+        seen_results: *const Struct_GNUNET_HashCode,
+        seen_results_count: ::std::os::raw::c_uint,
+    ) -> *mut Struct_GNUNET_CONTAINER_BloomFilter;
+    pub fn GNUNET_GNSRECORD_value_to_string(
+        _type: uint32_t,
+        data: *const ::std::os::raw::c_void,
+        data_size: size_t,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_GNSRECORD_string_to_value(
+        _type: uint32_t,
+        s: *const ::std::os::raw::c_char,
+        data: *mut *mut ::std::os::raw::c_void,
+        data_size: *mut size_t,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GNSRECORD_typename_to_number(
+        dns_typename: *const ::std::os::raw::c_char,
+    ) -> uint32_t;
+    pub fn GNUNET_GNSRECORD_number_to_typename(_type: uint32_t) -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_GNSRECORD_records_get_size(
+        rd_count: ::std::os::raw::c_uint,
+        rd: *const Struct_GNUNET_GNSRECORD_Data,
+    ) -> size_t;
+    pub fn GNUNET_GNSRECORD_records_serialize(
+        rd_count: ::std::os::raw::c_uint,
+        rd: *const Struct_GNUNET_GNSRECORD_Data,
+        dest_size: size_t,
+        dest: *mut ::std::os::raw::c_char,
+    ) -> ssize_t;
+    pub fn GNUNET_GNSRECORD_records_deserialize(
+        len: size_t,
+        src: *const ::std::os::raw::c_char,
+        rd_count: ::std::os::raw::c_uint,
+        dest: *mut Struct_GNUNET_GNSRECORD_Data,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GNSRECORD_is_expired(
+        rd: *const Struct_GNUNET_GNSRECORD_Data,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GNSRECORD_string_to_lowercase(
+        src: *const ::std::os::raw::c_char,
+    ) -> *mut ::std::os::raw::c_char;
+    pub fn GNUNET_GNSRECORD_z2s(
+        z: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+    ) -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_GNSRECORD_pkey_to_zkey(
+        pkey: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+    ) -> *const ::std::os::raw::c_char;
+    pub fn GNUNET_GNSRECORD_zkey_to_pkey(
+        zkey: *const ::std::os::raw::c_char,
+        pkey: *mut Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GNSRECORD_query_from_private_key(
+        zone: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        label: *const ::std::os::raw::c_char,
+        query: *mut Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_GNSRECORD_query_from_public_key(
+        _pub: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+        label: *const ::std::os::raw::c_char,
+        query: *mut Struct_GNUNET_HashCode,
+    );
+    pub fn GNUNET_GNSRECORD_block_create(
+        key: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        expire: Struct_GNUNET_TIME_Absolute,
+        label: *const ::std::os::raw::c_char,
+        rd: *const Struct_GNUNET_GNSRECORD_Data,
+        rd_count: ::std::os::raw::c_uint,
+    ) -> *mut Struct_GNUNET_GNSRECORD_Block;
+    pub fn GNUNET_GNSRECORD_block_verify(
+        block: *const Struct_GNUNET_GNSRECORD_Block,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GNSRECORD_block_decrypt(
+        block: *const Struct_GNUNET_GNSRECORD_Block,
+        zone_key: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+        label: *const ::std::os::raw::c_char,
+        _proc: GNUNET_GNSRECORD_RecordCallback,
+        proc_cls: *mut ::std::os::raw::c_void,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GNSRECORD_records_cmp(
+        a: *const Struct_GNUNET_GNSRECORD_Data,
+        b: *const Struct_GNUNET_GNSRECORD_Data,
+    ) -> ::std::os::raw::c_int;
+    pub fn GNUNET_GNSRECORD_record_get_expiration_time(
+        rd_count: ::std::os::raw::c_uint,
+        rd: *const Struct_GNUNET_GNSRECORD_Data,
+    ) -> Struct_GNUNET_TIME_Absolute;
+    pub fn GNUNET_NAMESTORE_connect(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+    ) -> *mut Struct_GNUNET_NAMESTORE_Handle;
+    pub fn GNUNET_NAMESTORE_disconnect(h: *mut Struct_GNUNET_NAMESTORE_Handle);
+    pub fn GNUNET_NAMESTORE_records_store(
+        h: *mut Struct_GNUNET_NAMESTORE_Handle,
+        pkey: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        label: *const ::std::os::raw::c_char,
+        rd_count: ::std::os::raw::c_uint,
+        rd: *const Struct_GNUNET_GNSRECORD_Data,
+        cont: GNUNET_NAMESTORE_ContinuationWithStatus,
+        cont_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
+    pub fn GNUNET_NAMESTORE_set_nick(
+        h: *mut Struct_GNUNET_NAMESTORE_Handle,
+        pkey: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        nick: *const ::std::os::raw::c_char,
+        cont: GNUNET_NAMESTORE_ContinuationWithStatus,
+        cont_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
+    pub fn GNUNET_NAMESTORE_records_lookup(
+        h: *mut Struct_GNUNET_NAMESTORE_Handle,
+        pkey: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        label: *const ::std::os::raw::c_char,
+        rm: GNUNET_NAMESTORE_RecordMonitor,
+        rm_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
+    pub fn GNUNET_NAMESTORE_zone_to_name(
+        h: *mut Struct_GNUNET_NAMESTORE_Handle,
+        zone: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        value_zone: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+        _proc: GNUNET_NAMESTORE_RecordMonitor,
+        proc_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_NAMESTORE_QueueEntry;
+    pub fn GNUNET_NAMESTORE_cancel(qe: *mut Struct_GNUNET_NAMESTORE_QueueEntry);
+    pub fn GNUNET_NAMESTORE_zone_iteration_start(
+        h: *mut Struct_GNUNET_NAMESTORE_Handle,
+        zone: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        _proc: GNUNET_NAMESTORE_RecordMonitor,
+        proc_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_NAMESTORE_ZoneIterator;
+    pub fn GNUNET_NAMESTORE_zone_iterator_next(it: *mut Struct_GNUNET_NAMESTORE_ZoneIterator);
+    pub fn GNUNET_NAMESTORE_zone_iteration_stop(it: *mut Struct_GNUNET_NAMESTORE_ZoneIterator);
+    pub fn GNUNET_NAMESTORE_zone_monitor_start(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        zone: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        iterate_first: ::std::os::raw::c_int,
+        monitor: GNUNET_NAMESTORE_RecordMonitor,
+        sync_cb: GNUNET_NAMESTORE_RecordsSynchronizedCallback,
+        cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_NAMESTORE_ZoneMonitor;
+    pub fn GNUNET_NAMESTORE_zone_monitor_stop(zm: *mut Struct_GNUNET_NAMESTORE_ZoneMonitor);
+    pub fn GNUNET_GNS_connect(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+    ) -> *mut Struct_GNUNET_GNS_Handle;
     pub fn GNUNET_GNS_disconnect(handle: *mut Struct_GNUNET_GNS_Handle);
-    pub fn GNUNET_GNS_lookup(handle: *mut Struct_GNUNET_GNS_Handle,
-                             name: *const ::std::os::raw::c_char,
-                             zone: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
-                             _type: uint32_t,
-                             options: Enum_GNUNET_GNS_LocalOptions,
-                             shorten_zone_key:
-                                 *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
-                             _proc: GNUNET_GNS_LookupResultProcessor,
-                             proc_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_GNS_LookupRequest;
+    pub fn GNUNET_GNS_lookup(
+        handle: *mut Struct_GNUNET_GNS_Handle,
+        name: *const ::std::os::raw::c_char,
+        zone: *const Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+        _type: uint32_t,
+        options: Enum_GNUNET_GNS_LocalOptions,
+        shorten_zone_key: *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey,
+        _proc: GNUNET_GNS_LookupResultProcessor,
+        proc_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_GNS_LookupRequest;
     pub fn GNUNET_GNS_lookup_cancel(lr: *mut Struct_GNUNET_GNS_LookupRequest);
-    pub fn GNUNET_IDENTITY_ego_get_private_key(ego:
-                                                   *const Struct_GNUNET_IDENTITY_Ego)
-     -> *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
-    pub fn GNUNET_IDENTITY_ego_get_anonymous()
-     -> *const Struct_GNUNET_IDENTITY_Ego;
-    pub fn GNUNET_IDENTITY_ego_get_public_key(ego:
-                                                  *const Struct_GNUNET_IDENTITY_Ego,
-                                              pk:
-                                                  *mut Struct_GNUNET_CRYPTO_EcdsaPublicKey);
-    pub fn GNUNET_IDENTITY_connect(cfg:
-                                       *const Struct_GNUNET_CONFIGURATION_Handle,
-                                   cb: GNUNET_IDENTITY_Callback,
-                                   cb_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_IDENTITY_Handle;
-    pub fn GNUNET_IDENTITY_get(id: *mut Struct_GNUNET_IDENTITY_Handle,
-                               service_name: *const ::std::os::raw::c_char,
-                               cb: GNUNET_IDENTITY_Callback,
-                               cb_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_IDENTITY_Operation;
-    pub fn GNUNET_IDENTITY_set(id: *mut Struct_GNUNET_IDENTITY_Handle,
-                               service_name: *const ::std::os::raw::c_char,
-                               ego: *mut Struct_GNUNET_IDENTITY_Ego,
-                               cont: GNUNET_IDENTITY_Continuation,
-                               cont_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_IDENTITY_Operation;
+    pub fn GNUNET_IDENTITY_ego_get_private_key(
+        ego: *const Struct_GNUNET_IDENTITY_Ego,
+    ) -> *const Struct_GNUNET_CRYPTO_EcdsaPrivateKey;
+    pub fn GNUNET_IDENTITY_ego_get_anonymous() -> *const Struct_GNUNET_IDENTITY_Ego;
+    pub fn GNUNET_IDENTITY_ego_get_public_key(
+        ego: *const Struct_GNUNET_IDENTITY_Ego,
+        pk: *mut Struct_GNUNET_CRYPTO_EcdsaPublicKey,
+    );
+    pub fn GNUNET_IDENTITY_connect(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        cb: GNUNET_IDENTITY_Callback,
+        cb_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_IDENTITY_Handle;
+    pub fn GNUNET_IDENTITY_get(
+        id: *mut Struct_GNUNET_IDENTITY_Handle,
+        service_name: *const ::std::os::raw::c_char,
+        cb: GNUNET_IDENTITY_Callback,
+        cb_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_IDENTITY_Operation;
+    pub fn GNUNET_IDENTITY_set(
+        id: *mut Struct_GNUNET_IDENTITY_Handle,
+        service_name: *const ::std::os::raw::c_char,
+        ego: *mut Struct_GNUNET_IDENTITY_Ego,
+        cont: GNUNET_IDENTITY_Continuation,
+        cont_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_IDENTITY_Operation;
     pub fn GNUNET_IDENTITY_disconnect(h: *mut Struct_GNUNET_IDENTITY_Handle);
-    pub fn GNUNET_IDENTITY_create(id: *mut Struct_GNUNET_IDENTITY_Handle,
-                                  name: *const ::std::os::raw::c_char,
-                                  cont: GNUNET_IDENTITY_Continuation,
-                                  cont_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_IDENTITY_Operation;
-    pub fn GNUNET_IDENTITY_rename(id: *mut Struct_GNUNET_IDENTITY_Handle,
-                                  old_name: *const ::std::os::raw::c_char,
-                                  new_name: *const ::std::os::raw::c_char,
-                                  cb: GNUNET_IDENTITY_Continuation,
-                                  cb_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_IDENTITY_Operation;
-    pub fn GNUNET_IDENTITY_delete(id: *mut Struct_GNUNET_IDENTITY_Handle,
-                                  name: *const ::std::os::raw::c_char,
-                                  cb: GNUNET_IDENTITY_Continuation,
-                                  cb_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_IDENTITY_Operation;
+    pub fn GNUNET_IDENTITY_create(
+        id: *mut Struct_GNUNET_IDENTITY_Handle,
+        name: *const ::std::os::raw::c_char,
+        cont: GNUNET_IDENTITY_Continuation,
+        cont_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_IDENTITY_Operation;
+    pub fn GNUNET_IDENTITY_rename(
+        id: *mut Struct_GNUNET_IDENTITY_Handle,
+        old_name: *const ::std::os::raw::c_char,
+        new_name: *const ::std::os::raw::c_char,
+        cb: GNUNET_IDENTITY_Continuation,
+        cb_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_IDENTITY_Operation;
+    pub fn GNUNET_IDENTITY_delete(
+        id: *mut Struct_GNUNET_IDENTITY_Handle,
+        name: *const ::std::os::raw::c_char,
+        cb: GNUNET_IDENTITY_Continuation,
+        cb_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_IDENTITY_Operation;
     pub fn GNUNET_IDENTITY_cancel(op: *mut Struct_GNUNET_IDENTITY_Operation);
-    pub fn GNUNET_IDENTITY_ego_lookup(cfg:
-                                          *const Struct_GNUNET_CONFIGURATION_Handle,
-                                      name: *const ::std::os::raw::c_char,
-                                      cb: GNUNET_IDENTITY_EgoCallback,
-                                      cb_cls: *mut ::std::os::raw::c_void)
-     -> *mut Struct_GNUNET_IDENTITY_EgoLookup;
-    pub fn GNUNET_IDENTITY_ego_lookup_cancel(el:
-                                                 *mut Struct_GNUNET_IDENTITY_EgoLookup);
+    pub fn GNUNET_IDENTITY_ego_lookup(
+        cfg: *const Struct_GNUNET_CONFIGURATION_Handle,
+        name: *const ::std::os::raw::c_char,
+        cb: GNUNET_IDENTITY_EgoCallback,
+        cb_cls: *mut ::std::os::raw::c_void,
+    ) -> *mut Struct_GNUNET_IDENTITY_EgoLookup;
+    pub fn GNUNET_IDENTITY_ego_lookup_cancel(el: *mut Struct_GNUNET_IDENTITY_EgoLookup);
 }
 
 pub const GNUNET_NO: ::libc::c_int = 0;

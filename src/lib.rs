@@ -7,27 +7,28 @@
 #![feature(unboxed_closures)]
 #![feature(plugin)]
 #![crate_name = "gnunet"]
-
 #![allow(deprecated)]
 
-extern crate libc;
-extern crate unix_socket;
-extern crate rand;
 extern crate byteorder;
 extern crate crypto as rcrypto;
+extern crate libc;
 extern crate num;
+extern crate rand;
 extern crate regex;
-#[macro_use] extern crate gj;
+extern crate unix_socket;
+#[macro_use]
+extern crate gj;
 extern crate gjio;
-#[macro_use] extern crate thiserror;
+#[macro_use]
+extern crate thiserror;
 
 pub use configuration::Cfg;
-pub use crypto::{EcdsaPublicKey, EcdsaPrivateKey, HashCode};
+pub use crypto::{EcdsaPrivateKey, EcdsaPublicKey, HashCode};
 
-pub use gns::{lookup_in_master, GNS, LocalOptions};
-pub use identity::{get_default_ego, Ego, IdentityService};
+pub use gns::{lookup_in_master, LocalOptions, GNS};
 pub use hello::Hello;
-pub use peerinfo::{get_peers, get_peers_vec, get_peer, get_self_id, PeerIdentity};
+pub use identity::{get_default_ego, Ego, IdentityService};
+pub use peerinfo::{get_peer, get_peers, get_peers_vec, get_self_id, PeerIdentity};
 //pub use dht::DHT;
 
 /*
@@ -57,15 +58,15 @@ macro_rules! byteorder_error_chain {
 */
 
 macro_rules! unwrap_result {
-  ($e:expr) => (
-    match $e {
-      Ok(o) => o,
-      Err(ref e) => {
-        ::print_error(e, file!(), line!());
-        panic!();
-      }
-    }
-  )
+    ($e:expr) => {
+        match $e {
+            Ok(o) => o,
+            Err(ref e) => {
+                ::print_error(e, file!(), line!());
+                panic!();
+            }
+        }
+    };
 }
 
 #[cfg(test)]
@@ -80,21 +81,26 @@ fn print_error<E: ::std::error::Error>(error: &E, file: &str, line: u32) {
 
 //const HOMEPAGE: &'static str = "http://github.com/canndrew/gnunet-rs";
 
-#[allow(dead_code, non_camel_case_types, non_snake_case, non_upper_case_globals)]
+#[allow(
+    dead_code,
+    non_camel_case_types,
+    non_snake_case,
+    non_upper_case_globals
+)]
 mod ll;
 
 #[macro_use]
 pub mod service;
 pub mod configuration;
-pub mod time;
-pub mod paths;
 pub mod gns;
+pub mod paths;
+pub mod time;
 //pub mod dht;
 mod crypto;
-pub mod identity;
-pub mod util;
-pub mod peerinfo;
 pub mod hello;
+pub mod identity;
+pub mod peerinfo;
+pub mod util;
 //pub mod cadet;
 pub mod data;
 pub mod transport;

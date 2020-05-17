@@ -1,21 +1,23 @@
-use std::str::FromStr;
 use std::fmt::{self, Debug, Formatter};
-use std::str::from_utf8;
 use std::io::{self, Read, Write};
+use std::str::from_utf8;
+use std::str::FromStr;
 
 use crypto::hashcode::HashCode;
 use util::strings::{data_to_string, string_to_data};
 
-
 /// A 256bit ECDSA public key.
 #[derive(Copy, Clone)]
 pub struct EcdsaPublicKey {
-    data: [u8; 32]
+    data: [u8; 32],
 }
 
 impl EcdsaPublicKey {
     /// Serialize key to a byte stream.
-    pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error> where T: Write {
+    pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error>
+    where
+        T: Write,
+    {
         w.write_all(&self.data)
     }
 
@@ -38,9 +40,9 @@ impl FromStr for EcdsaPublicKey {
     fn from_str(s: &str) -> Result<EcdsaPublicKey, EcdsaPublicKeyFromStrError> {
         let mut res = [0; 32];
         if string_to_data(&s.to_string(), &mut res) {
-            return Ok(EcdsaPublicKey { data: res })
+            return Ok(EcdsaPublicKey { data: res });
         } else {
-            return Err(EcdsaPublicKeyFromStrError::ParsingFailed)
+            return Err(EcdsaPublicKeyFromStrError::ParsingFailed);
         }
     }
 }
@@ -61,20 +63,24 @@ impl fmt::Display for EcdsaPublicKey {
 /// A 256bit ECDSA private key.
 #[derive(Copy, Clone)]
 pub struct EcdsaPrivateKey {
-    data: [u8; 32]
+    data: [u8; 32],
 }
 
 impl EcdsaPrivateKey {
     /// Serialize this key to a byte stream.
-    pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error> where T: Write {
+    pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error>
+    where
+        T: Write,
+    {
         w.write_all(&self.data)
     }
 
     /// Deserialize a from a byte stream.
-    pub fn deserialize<T>(r: &mut T) -> Result<EcdsaPrivateKey, io::Error> where T: Read {
-        let mut sk = EcdsaPrivateKey {
-            data: [0; 32]
-        };
+    pub fn deserialize<T>(r: &mut T) -> Result<EcdsaPrivateKey, io::Error>
+    where
+        T: Read,
+    {
+        let mut sk = EcdsaPrivateKey { data: [0; 32] };
         r.read_exact(&mut sk.data[..])?;
         Ok(sk)
     }
@@ -88,7 +94,7 @@ impl EcdsaPrivateKey {
         let mut data = self.data.clone();
         data.reverse();
         EcdsaPublicKey {
-            data: ge_scalarmult_base(&data).to_bytes()
+            data: ge_scalarmult_base(&data).to_bytes(),
         }
     }
 

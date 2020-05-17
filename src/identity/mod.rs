@@ -83,17 +83,29 @@ pub struct IdentityService {
 #[derive(Debug, Error)]
 pub enum ConnectError {
     #[error("Failed to connect to the service. Reason: {source}")]
-    Connect { #[from] source: service::ConnectError },
+    Connect {
+        #[from]
+        source: service::ConnectError,
+    },
     #[error("The service disconnected unexpectedly")]
     Disconnected,
     #[error(
         "An I/O error occured while communicating with the identity service. Specifically: {source}"
     )]
-    Io { #[from] source: io::Error },
+    Io {
+        #[from]
+        source: io::Error,
+    },
     #[error("Failed to read a message from the server. Specifically: {source}")]
-    ReadMessage { #[from] source: service::ReadMessageError },
+    ReadMessage {
+        #[from]
+        source: service::ReadMessageError,
+    },
     #[error("The service responded with a name containing invalid utf-8 during initial exchange. *(It is a bug to see this error)*. Utf8-error: {source}")]
-    InvalidName { #[from] source: string::FromUtf8Error },
+    InvalidName {
+        #[from]
+        source: string::FromUtf8Error,
+    },
     #[error("Received an unexpected message from the service during initial exchange. *(It is a bug to see this error)*. Message type {ty} was not expected.")]
     UnexpectedMessageType { ty: u16 },
 }
@@ -108,19 +120,32 @@ pub enum GetDefaultEgoError {
     #[error(
         "An I/O error occured while communicating with the identity service. Specifically: {source}"
     )]
-    Io { #[from] source: io::Error },
+    Io {
+        #[from]
+        source: io::Error,
+    },
     #[error("Failed to read a message from the server. Specifically: {source}")]
-    ReadMessage { #[from] source: service::ReadMessageError },
+    ReadMessage {
+        #[from]
+        source: service::ReadMessageError,
+    },
     #[error("The service responded with an error message. Error: \"{response}\"")]
     ServiceResponse { response: String },
     #[error("The service responded with an error message but the message contained invalid utf-8. Utf8-error: {source}")]
-    MalformedErrorResponse { #[from] source: string::FromUtf8Error },
-    #[error(
-        "Failed to receive the identity name from the service. Reason: {source}"
-    )]
-    ReceiveName { #[from] source: ReadCStringWithLenError },
+    MalformedErrorResponse {
+        #[from]
+        source: string::FromUtf8Error,
+    },
+    #[error("Failed to receive the identity name from the service. Reason: {source}")]
+    ReceiveName {
+        #[from]
+        source: ReadCStringWithLenError,
+    },
     #[error("Failed to connect to the identity service. Reason: {source}")]
-    Connect { #[from] source: ConnectError },
+    Connect {
+        #[from]
+        source: ConnectError,
+    },
     #[error("The service response was incoherent. You should file a bug-report if you encounter this error.")]
     InvalidResponse,
     #[error("The service disconnected unexpectedly")]
@@ -257,9 +282,7 @@ impl IdentityService {
                 mr.read_u32::<BigEndian>()?;
                 match mr.read_c_string() {
                     Err(e) => match e {
-                        ReadCStringError::Io { source } => {
-                            Err(GetDefaultEgoError::Io { source })
-                        }
+                        ReadCStringError::Io { source } => Err(GetDefaultEgoError::Io { source }),
                         ReadCStringError::FromUtf8 { source } => {
                             Err(GetDefaultEgoError::MalformedErrorResponse { source })
                         }
@@ -298,15 +321,22 @@ impl IdentityService {
 #[derive(Debug, Error)]
 pub enum ConnectGetDefaultEgoError {
     #[error("Ego lookup failed. Reason: {source}")]
-    GetDefaultEgo { #[from] source: GetDefaultEgoError },
-    #[error(
-        "Failed to connect to the service and perform initialization. Reason: {source}"
-    )]
-    Connect { #[from] source: ConnectError },
+    GetDefaultEgo {
+        #[from]
+        source: GetDefaultEgoError,
+    },
+    #[error("Failed to connect to the service and perform initialization. Reason: {source}")]
+    Connect {
+        #[from]
+        source: ConnectError,
+    },
     #[error(
         "An I/O error occured while communicating with the identity service. Specifically: {source}"
     )]
-    Io { #[from] source: io::Error },
+    Io {
+        #[from]
+        source: io::Error,
+    },
 }
 
 /// Get the default identity associated with a service.
