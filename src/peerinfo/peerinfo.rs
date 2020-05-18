@@ -1,7 +1,7 @@
 use byteorder::{BigEndian, ReadBytesExt};
 use std::fmt;
 use std::io::{self, Cursor, Read, Write};
-use std::mem::{size_of, size_of_val, uninitialized};
+use std::mem::{size_of, size_of_val};
 use std::str::FromStr;
 
 use gj::Promise;
@@ -13,10 +13,14 @@ use transport::{self, TransportServiceInitError};
 use util::strings::{data_to_string, string_to_data};
 use Cfg;
 use Hello;
+use MessageType;
+
+type EddsaPublicKey = ll::Struct_GNUNET_CRYPTO_EddsaPublicKey;
 
 /// The identity of a GNUnet peer.
+#[derive(Copy, Clone, Default)]
 pub struct PeerIdentity {
-    data: ll::Struct_GNUNET_PeerIdentity,
+    public_key: EddsaPublicKey,
 }
 
 impl PeerIdentity {
@@ -25,9 +29,9 @@ impl PeerIdentity {
     where
         R: Read,
     {
-        let mut ret: PeerIdentity = unsafe { uninitialized() };
-        r.read_exact(&mut ret.data.public_key.q_y[..])?;
-        Ok(ret)
+        let mut public_key = EddsaPublicKey::default();
+        r.read_exact(&mut public_key.q_y[..])?;
+        Ok(PeerIdentity { public_key })
     }
 
     /// Serializes and writes the identity into a writer.
@@ -35,7 +39,7 @@ impl PeerIdentity {
     where
         T: Write,
     {
-        w.write_all(&self.data.public_key.q_y[..])
+        w.write_all(&self.public_key.q_y[..])
     }
 }
 
@@ -50,15 +54,11 @@ impl FromStr for PeerIdentity {
     type Err = PeerIdentityFromStrError;
 
     fn from_str(s: &str) -> Result<PeerIdentity, PeerIdentityFromStrError> {
-        let pk = &mut [0; 32]; // TODO can we dynamically set the size?
-        let res = string_to_data(&s.to_string(), pk);
-        match res {
-            true => Ok(PeerIdentity {
-                data: ll::Struct_GNUNET_PeerIdentity {
-                    public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey { q_y: *pk },
-                },
-            }),
-            _ => Err(PeerIdentityFromStrError::ParsingFailed),
+        let mut public_key = EddsaPublicKey::default();
+        if string_to_data(s, &mut public_key.q_y) {
+            Ok(PeerIdentity { public_key })
+        } else {
+            Err(PeerIdentityFromStrError::ParsingFailed)
         }
     }
 }
@@ -207,8 +207,8 @@ pub struct Peers {
 pub enum PeerInfoError {
     #[error("The response from the gnunet-peerinfo service was incoherent")]
     InvalidResponse,
-    #[error("The peerinfo service sent an unexpected response message type: {ty}.")]
-    UnexpectedMessageType { ty: u16 },
+    #[error("The peerinfo service sent an unexpected response message type: {ty:?}.")]
+    UnexpectedMessageType { ty: MessageType },
     #[error(
         "There was an I/O error communicating with the peerinfo service. Specifically: {source}"
     )]
@@ -267,11 +267,11 @@ impl Peers {
 
 /// Parse some data in `mr` into a tuple of `PeerIdentity` and optionally a `Hello`.
 fn parse_peer(
-    tpe: u16,
+    tpe: MessageType,
     mut mr: Cursor<Vec<u8>>,
 ) -> Result<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
     match tpe {
-        ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
+        MessageType::PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
             Err(e) => match e.kind() {
                 io::ErrorKind::UnexpectedEof => Err(PeerInfoError::Disconnected),
                 _ => Err(PeerInfoError::Io { source: e }),
@@ -295,15 +295,15 @@ fn parse_peer(
                 },
             },
         },
-        ll::GNUNET_MESSAGE_TYPE_PEERINFO_INFO_END => Ok(None),
+        MessageType::PEERINFO_INFO_END => Ok(None),
         x => Err(PeerInfoError::UnexpectedMessageType { ty: x }),
     }
 }
 
 impl fmt::Debug for PeerIdentity {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        assert!(52usize == (size_of_val(&self.data.public_key.q_y) * 8 + 4) / 5);
-        let res = data_to_string(&self.data.public_key.q_y);
+        assert!(52usize == (size_of_val(&self.public_key.q_y) * 8 + 4) / 5);
+        let res = data_to_string(&self.public_key.q_y);
         fmt::Display::fmt(res.as_str(), f)
     }
 }
@@ -330,7 +330,7 @@ impl ListAllPeersMessage {
         ListAllPeersMessage {
             header: MessageHeader {
                 len: (len as u16).to_be(),
-                tpe: ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET_ALL.to_be(),
+                tpe: (MessageType::PEERINFO_GET_ALL as u16).to_be(),
             },
             include_friend_only: include_friend_only.to_be(),
         }
@@ -357,7 +357,7 @@ impl ListPeerMessage {
         ListPeerMessage {
             header: MessageHeader {
                 len: (len as u16).to_be(),
-                tpe: ll::GNUNET_MESSAGE_TYPE_PEERINFO_GET.to_be(),
+                tpe: (MessageType::PEERINFO_GET as u16).to_be(),
             },
             include_friend_only: include_friend_only.to_be(),
             peer: peer,

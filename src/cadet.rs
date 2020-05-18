@@ -44,7 +44,7 @@ impl Cadet {
     }));
     {
       let msg_length: u16 = 4 + 4 * listen_ports.len() as u16; // TODO: check for overflow
-      let mut mw = service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_CADET_LOCAL_CONNECT);
+      let mut mw = service_writer.write_message(msg_length, MessageType::CADET_LOCAL_CONNECT);
       for port in listen_ports.iter() {
         mw.write_u32::<BigEndian>(*port).unwrap();
       }
@@ -59,7 +59,7 @@ impl Cadet {
 
   pub fn connect(&mut self, peer: &PeerIdentity, port: u32, opt: ChannelOptions) -> Result<Channel, io::Error> {
     let msg_length = 4 + 4 + 32 + 4 + 4;
-    let mut mw = self.service_writer.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_CADET_LOCAL_CHANNEL_CREATE);
+    let mut mw = self.service_writer.write_message(msg_length, MessageType::CADET_LOCAL_CHANNEL_CREATE);
     let id = self.next_channel_id;
     self.next_channel_id += 1;
     mw.write_u32::<BigEndian>(id).unwrap();

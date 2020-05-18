@@ -3,11 +3,15 @@
 
 use byteorder::{BigEndian, ReadBytesExt};
 use std::io::{self, Cursor};
+use num::FromPrimitive;
 
 use gj::{FulfillerDropped, Promise};
 use gjio::{AsyncRead, AsyncWrite, Network, SocketStream};
 
 use configuration::{self, Cfg};
+use MessageType;
+
+
 
 /// Created by `service::connect`. Used to read messages from a GNUnet service.
 #[derive(Clone)]
@@ -88,6 +92,9 @@ pub enum ReadMessageError {
     Disconnected,
     #[error("Promise fulfiller was dropped")]
     FulfillerDropped,
+    #[error("Unrecognized message type: {0}")]
+    UnrecognizedMessageType(u16)
+
 }
 
 impl FulfillerDropped for ReadMessageError {
@@ -101,7 +108,7 @@ impl ServiceReader {
     ///
     /// When using this function multiple times on the same socket the caller needs to make sure the reads are chained together,
     /// otherwise it may return bogus results.
-    pub fn read_message(&mut self) -> Promise<(u16, Cursor<Vec<u8>>), ReadMessageError> {
+    pub fn read_message(&mut self) -> Promise<(MessageType, Cursor<Vec<u8>>), ReadMessageError> {
         use util::async::PromiseReader;
         let mut connection2 = self.connection.clone(); // this is ok we're just bumping Rc count
         self.connection.read_u16().lift().then(move |len| {
@@ -114,8 +121,12 @@ impl ServiceReader {
                 .lift()
                 .map(move |(buf, _)| {
                     let mut mr = Cursor::new(buf);
-                    let tpe = mr.read_u16::<BigEndian>()?;
-                    Ok((tpe, mr))
+                    let mt = mr.read_u16::<BigEndian>()?;
+                    if let Some(mt) = MessageType::from_u16(mt) {
+                        Ok((mt, mr))
+                    } else {
+                        Err(ReadMessageError::UnrecognizedMessageType(mt))
+                    }
                 })
         })
     }
@@ -190,8 +201,6 @@ fn test_service() {
     use std::io::Read;
     use std::mem::size_of;
 
-    const DUMMY_TYPE: u16 = 24;
-
     #[repr(C, packed)]
     struct DummyMsg {
         header: MessageHeader,
@@ -210,7 +219,7 @@ fn test_service() {
             DummyMsg {
                 header: MessageHeader {
                     len: len.to_be(),
-                    tpe: DUMMY_TYPE.to_be(),
+                    tpe: (MessageType::DUMMY2 as u16).to_be(),
                 },
                 body: body,
             }
@@ -235,7 +244,7 @@ fn test_service() {
                     let mut buf = vec![0u8; 4];
                     mr.read_exact(&mut buf)?;
                     assert_eq!(msg_body.to_be(), BigEndian::read_u32(&buf));
-                    assert_eq!(DUMMY_TYPE, tpe);
+                    assert_eq!(MessageType::DUMMY2, tpe);
                     Ok(())
                 })
             })

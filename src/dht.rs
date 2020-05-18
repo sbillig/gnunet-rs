@@ -178,7 +178,7 @@ impl DHT {
       xquery: &[u8])
   {
     let msg_length = 88 + xquery.len();
-    let mut mw = self.service.write_message(msg_length, ll::GNUNET_MESSAGE_TYPE_DHT_CLIENT_GET);
+    let mut mw = self.service.write_message(msg_length, MessageType::DHT_CLIENT_GET);
     mw.write_be_u32(route_options.bits)?;
     mw.write_be_u32(desired_replication_level)?;
     mw.write_be_u32(block_type)?;

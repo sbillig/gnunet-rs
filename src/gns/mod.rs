@@ -17,6 +17,7 @@ use service::{self, MessageHeader, MessageTrait, ReadMessageError, ServiceReader
 use Cfg;
 use EcdsaPrivateKey;
 use EcdsaPublicKey;
+use MessageType;
 
 mod record;
 
@@ -44,8 +45,8 @@ pub enum LocalOptions {
 /// Possible errors returned by the GNS lookup functions.
 #[derive(Debug, Error)]
 pub enum LookupError {
-    #[error("The received message type '{tpe}' is invalid.")]
-    InvalidType { tpe: u16 },
+    #[error("The received message type '{tpe:?}' is invalid.")]
+    InvalidType { tpe: MessageType },
     #[error("The domain name '{name}' is too long to lookup.")]
     NameTooLong { name: String },
     #[error("There was an I/O error communicating with the service. Specifically {source}")]
@@ -190,12 +191,12 @@ impl GNS {
 
     // in this function, results are inserted in to the map
     fn parse_lookup_result(
-        tpe: u16,
+        tpe: MessageType,
         mut reader: Cursor<Vec<u8>>,
         map: Rc<RefCell<HashMap<u32, Vec<Record>>>>,
     ) -> Result<(), LookupError> {
         match tpe {
-            ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP_RESULT => {
+            MessageType::GNS_LOOKUP_RESULT => {
                 let mut records = Vec::new();
 
                 let id = reader.read_u32::<BigEndian>()?;
@@ -256,7 +257,7 @@ impl LookupMessage {
         Ok(LookupMessage {
             header: MessageHeader {
                 len: msg_len.to_be(),
-                tpe: ll::GNUNET_MESSAGE_TYPE_GNS_LOOKUP.to_be(),
+                tpe: (MessageType::GNS_LOOKUP as u16).to_be(),
             },
             id: id.to_be(),
             zone: zone,

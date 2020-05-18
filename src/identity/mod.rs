@@ -9,15 +9,14 @@ use std::rc::Rc;
 use std::string;
 
 use configuration::Cfg;
-use ll;
+use gj::Promise;
+use gjio::Network;
 use service::{self, MessageHeader, MessageTrait, ServiceReader, ServiceWriter};
 use util::{ReadCString, ReadCStringError, ReadCStringWithLenError};
 use EcdsaPrivateKey;
 use EcdsaPublicKey;
 use HashCode;
-
-use gj::Promise;
-use gjio::Network;
+use MessageType;
 
 /// A GNUnet identity.
 ///
@@ -106,8 +105,8 @@ pub enum ConnectError {
         #[from]
         source: string::FromUtf8Error,
     },
-    #[error("Received an unexpected message from the service during initial exchange. *(It is a bug to see this error)*. Message type {ty} was not expected.")]
-    UnexpectedMessageType { ty: u16 },
+    #[error("Received an unexpected message from the service during initial exchange. *(It is a bug to see this error)*. Message type {ty:?} was not expected.")]
+    UnexpectedMessageType { ty: MessageType },
 }
 
 /// Errors returned by `IdentityService::get_default_ego`
@@ -194,7 +193,7 @@ impl IdentityService {
     ) -> Promise<(ServiceReader, HashMap<HashCode, Ego>), ConnectError> {
         sr.read_message().lift().then(|(tpe, mut mr)| {
             match tpe {
-                ll::GNUNET_MESSAGE_TYPE_IDENTITY_UPDATE => {
+                MessageType::IDENTITY_UPDATE => {
                     let name_len = pry!(mr.read_u16::<BigEndian>());
                     let eol = pry!(mr.read_u16::<BigEndian>());
                     if eol != 0 {
@@ -273,12 +272,12 @@ impl IdentityService {
     fn parse_identity(
         rc_egos: Rc<HashMap<HashCode, Ego>>,
         name: &str,
-        tpe: u16,
+        tpe: MessageType,
         mut mr: Cursor<Vec<u8>>,
     ) -> Result<Ego, GetDefaultEgoError> {
         let egos = rc_egos.as_ref();
         match tpe {
-            ll::GNUNET_MESSAGE_TYPE_IDENTITY_RESULT_CODE => {
+            MessageType::IDENTITY_RESULT_CODE => {
                 mr.read_u32::<BigEndian>()?;
                 match mr.read_c_string() {
                     Err(e) => match e {
@@ -291,7 +290,7 @@ impl IdentityService {
                     Ok(s) => Err(GetDefaultEgoError::ServiceResponse { response: s }),
                 }
             }
-            ll::GNUNET_MESSAGE_TYPE_IDENTITY_SET_DEFAULT => match mr.read_u16::<BigEndian>()? {
+            MessageType::IDENTITY_SET_DEFAULT => match mr.read_u16::<BigEndian>()? {
                 0 => Err(GetDefaultEgoError::InvalidResponse),
                 reply_name_len => {
                     let zero = mr.read_u16::<BigEndian>()?;
@@ -386,7 +385,7 @@ impl StartMessage {
         StartMessage {
             header: MessageHeader {
                 len: 4u16.to_be(),
-                tpe: ll::GNUNET_MESSAGE_TYPE_IDENTITY_START.to_be(),
+                tpe: (MessageType::IDENTITY_START as u16).to_be(),
             },
         }
     }
@@ -424,7 +423,7 @@ impl GetDefaultMessage {
         Ok(GetDefaultMessage {
             header: MessageHeader {
                 len: (msg_len as u16).to_be(),
-                tpe: ll::GNUNET_MESSAGE_TYPE_IDENTITY_GET_DEFAULT.to_be(),
+                tpe: (MessageType::IDENTITY_GET_DEFAULT as u16).to_be(),
             },
             name_len: ((name_len + 1) as u16).to_be(),
             reserved: 0u16.to_be(),

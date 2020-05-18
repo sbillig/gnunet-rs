@@ -12,6 +12,8 @@ extern crate byteorder;
 extern crate crypto as rcrypto;
 extern crate libc;
 extern crate num;
+#[macro_use]
+extern crate num_derive;
 extern crate rand;
 extern crate regex;
 extern crate unix_socket;
@@ -27,6 +29,8 @@ pub use crypto::{EcdsaPrivateKey, EcdsaPublicKey, HashCode};
 pub use gns::{lookup_in_master, LocalOptions, GNS};
 pub use hello::Hello;
 pub use identity::{get_default_ego, Ego, IdentityService};
+mod message_type;
+pub use message_type::MessageType;
 pub use peerinfo::{get_peer, get_peers, get_peers_vec, get_self_id, PeerIdentity};
 //pub use dht::DHT;
 

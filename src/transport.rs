@@ -1,11 +1,12 @@
 use gj::Promise;
 use gjio::Network;
 use hello::HelloDeserializeError;
-use ll;
+use peerinfo::PeerIdentity;
 use service::{self, MessageHeader, MessageTrait, ReadMessageError};
 use std::io;
 use Cfg;
 use Hello;
+use MessageType;
 
 pub struct TransportService {
     //service_reader: ServiceReader,
@@ -15,8 +16,8 @@ pub struct TransportService {
 
 #[derive(Debug, Error)]
 pub enum TransportServiceInitError {
-    #[error("Expected a HELLO message from the service but received a different message type. Received message type {ty} instead.")]
-    NonHelloMessage { ty: u16 },
+    #[error("Expected a HELLO message from the service but received a different message type. Received message type {ty:?} instead.")]
+    NonHelloMessage { ty: MessageType },
     #[error("There was an I/O error communicating with the service. Error: {source}")]
     Io {
         #[from]
@@ -47,15 +48,13 @@ impl TransportService {
         service::connect(cfg, "transport", network)
             .lift()
             .then(move |(sr, mut sw)| {
-                let id = ll::Struct_GNUNET_PeerIdentity {
-                    public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey { q_y: [0; 32] },
-                };
+                let id = PeerIdentity::default();
                 let msg = StartMessage::new(0, id);
                 sw.send(msg).lift().map(|_| Ok(sr))
             })
             .then(move |mut sr| sr.read_message().lift())
             .map(move |(ty, mut mr)| {
-                if ty != ll::GNUNET_MESSAGE_TYPE_HELLO {
+                if ty != MessageType::HELLO {
                     return Err(TransportServiceInitError::NonHelloMessage { ty: ty });
                 }
                 let hello = Hello::deserialize(&mut mr)?;
@@ -73,16 +72,16 @@ pub fn self_hello(cfg: &Cfg, network: &Network) -> Promise<Hello, TransportServi
 struct StartMessage {
     header: MessageHeader,
     options: u32,
-    myself: ll::Struct_GNUNET_PeerIdentity,
+    myself: PeerIdentity,
 }
 
 impl StartMessage {
-    fn new(options: u32, peer: ll::Struct_GNUNET_PeerIdentity) -> StartMessage {
+    fn new(options: u32, peer: PeerIdentity) -> StartMessage {
         let len = ::std::mem::size_of::<StartMessage>();
         StartMessage {
             header: MessageHeader {
                 len: (len as u16).to_be(),
-                tpe: ll::GNUNET_MESSAGE_TYPE_TRANSPORT_START.to_be(),
+                tpe: (MessageType::TRANSPORT_START as u16).to_be(),
             },
             options: options.to_be(),
             myself: peer,
