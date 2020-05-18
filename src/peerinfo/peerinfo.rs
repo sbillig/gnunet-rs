@@ -18,6 +18,7 @@ use MessageType;
 type EddsaPublicKey = ll::Struct_GNUNET_CRYPTO_EddsaPublicKey;
 
 /// The identity of a GNUnet peer.
+#[repr(C)]
 #[derive(Copy, Clone, Default)]
 pub struct PeerIdentity {
     public_key: EddsaPublicKey,
@@ -90,11 +91,8 @@ pub fn get_peer(
     pk_string: &str,
 ) -> Promise<(Option<PeerIdentity>, Option<Hello>), PeerInfoError> {
     // prepare peer identity
-    let pk = &mut [0; 32];
-    string_to_data(pk_string, pk);
-    let id = ll::Struct_GNUNET_PeerIdentity {
-        public_key: ll::Struct_GNUNET_CRYPTO_EddsaPublicKey { q_y: *pk },
-    };
+    let mut id = PeerIdentity::default();
+    string_to_data(pk_string, &mut id.public_key.q_y);
 
     connect(cfg, "peerinfo", network)
         .lift()
@@ -348,11 +346,11 @@ impl MessageTrait for ListAllPeersMessage {
 struct ListPeerMessage {
     header: MessageHeader,
     include_friend_only: u32,
-    peer: ll::Struct_GNUNET_PeerIdentity,
+    peer: PeerIdentity,
 }
 
 impl ListPeerMessage {
-    fn new(include_friend_only: u32, peer: ll::Struct_GNUNET_PeerIdentity) -> ListPeerMessage {
+    fn new(include_friend_only: u32, peer: PeerIdentity) -> ListPeerMessage {
         let len = size_of::<ListPeerMessage>();
         ListPeerMessage {
             header: MessageHeader {

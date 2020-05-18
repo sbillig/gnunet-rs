@@ -6,7 +6,7 @@ use std::os::raw::c_void;
 use std::str::FromStr;
 
 use self::RecordType::*;
-use ll::{self, size_t};
+use ll;
 use util::io::ReadUtil;
 
 /// An enum of the different GNS record types.
@@ -135,7 +135,7 @@ impl Record {
         T: Read,
     {
         let expiration_time = reader.read_u64::<BigEndian>()?;
-        let data_size = reader.read_u32::<BigEndian>()? as u64;
+        let data_size = reader.read_u32::<BigEndian>()? as usize;
         let record_type = reader.read_u32::<BigEndian>()?;
         let flags = reader.read_u32::<BigEndian>()?;
         let flags: ll::Enum_GNUNET_GNSRECORD_Flags = unsafe { ::std::mem::transmute(flags) };
@@ -146,7 +146,7 @@ impl Record {
             data: ll::Struct_GNUNET_GNSRECORD_Data {
                 data: data,
                 expiration_time: expiration_time,
-                data_size: data_size as size_t,
+                data_size,
                 record_type: record_type,
                 flags: flags,
             },
