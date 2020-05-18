@@ -8,6 +8,8 @@
 #![feature(plugin)]
 #![crate_name = "gnunet"]
 
+#[macro_use]
+extern crate bitflags;
 extern crate byteorder;
 extern crate crypto as rcrypto;
 extern crate libc;

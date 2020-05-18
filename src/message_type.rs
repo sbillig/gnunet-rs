@@ -1,4 +1,5 @@
 #[allow(non_camel_case_types)]
+#[repr(u16)]
 #[derive(Debug, FromPrimitive, PartialEq, Eq)]
 pub enum MessageType {
     // UTIL message types

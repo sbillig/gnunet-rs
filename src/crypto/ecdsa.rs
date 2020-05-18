@@ -100,7 +100,7 @@ impl EcdsaPrivateKey {
 
     /// Return the private key of the global, anonymous user.
     pub fn anonymous() -> EcdsaPrivateKey {
-        unimplemented!()
+        todo!()
     }
 
     pub fn zeros() -> EcdsaPrivateKey {

@@ -1,19 +1,17 @@
+use self::RecordType::*;
 use byteorder::{BigEndian, ReadBytesExt};
+use num::FromPrimitive;
 use std::fmt;
 use std::fmt::{Debug, Formatter};
 use std::io::{self, Read};
-use std::os::raw::c_void;
 use std::str::FromStr;
-
-use self::RecordType::*;
-use ll;
 use util::io::ReadUtil;
 
 /// An enum of the different GNS record types.
 ///
 /// Some of these records exist in the legacy DNS (but are still used in GNS). Others are specific
 /// to GNS. These are marked **Legacy** and **GNS** respectively.
-#[derive(Copy, Clone, Debug, PartialEq, Eq)]
+#[derive(Copy, Clone, Debug, FromPrimitive, PartialEq, Eq)]
 pub enum RecordType {
     /// **Legacy.** Address record. Stores a 32bit IPv4 address.
     A = 1,
@@ -45,42 +43,6 @@ pub enum RecordType {
     VPN = 65539,
     /// **GNS.** GNS2DNS record. Used to delegate authority to a legacy DNS zone.
     GNS2DNS = 65540,
-}
-
-impl RecordType {
-    /// Creates a RecordType from it's record type number.
-    ///
-    /// # Example
-    ///
-    /// ```rust
-    /// use gnunet::gns::RecordType::{self, A};
-    ///
-    /// let x = RecordType::from_u32(1);
-    /// let y = RecordType::from_u32(1234);
-    /// assert!(x == Some(A));
-    /// assert!(y == None);
-    /// ```
-    pub fn from_u32(x: u32) -> Option<RecordType> {
-        Some(match x {
-            1 => A,
-            2 => NS,
-            5 => CNAME,
-            6 => SOA,
-            12 => PTR,
-            15 => MX,
-            16 => TXT,
-            28 => AAAA,
-            52 => TLSA,
-
-            65536 => PKEY,
-            65537 => NICK,
-            65538 => LEHO,
-            65539 => VPN,
-            65540 => GNS2DNS,
-
-            _ => return None,
-        })
-    }
 }
 
 /// Error generated when attempting to parse a `RecordType`
@@ -121,11 +83,24 @@ impl fmt::Display for RecordType {
     }
 }
 
+bitflags! {
+    pub struct RecordFlags: u32 {
+        const NONE = 0;
+        const PRIVATE = 2;
+        const PENDING = 4;
+        const RELATIVE_EXPIRATION = 8;
+        const SHADOW_RECORD = 16;
+    }
+}
+
 /// A record in the GNU Name System.
-#[allow(dead_code)]
+#[derive(Clone)]
 pub struct Record {
-    data: ll::Struct_GNUNET_GNSRECORD_Data,
-    buff: Vec<u8>,
+    pub data: Vec<u8>,
+    pub expiration_time: u64,
+    pub data_size: usize,
+    pub record_type: RecordType,
+    pub flags: RecordFlags,
 }
 
 impl Record {
@@ -136,39 +111,33 @@ impl Record {
     {
         let expiration_time = reader.read_u64::<BigEndian>()?;
         let data_size = reader.read_u32::<BigEndian>()? as usize;
-        let record_type = reader.read_u32::<BigEndian>()?;
-        let flags = reader.read_u32::<BigEndian>()?;
-        let flags: ll::Enum_GNUNET_GNSRECORD_Flags = unsafe { ::std::mem::transmute(flags) };
-        let buff = reader.read_exact_alloc(data_size as usize)?;
-        let data = buff.as_ptr() as *const c_void;
+        // TODO: handle invalid recordtype
+        let record_type = RecordType::from_u32(reader.read_u32::<BigEndian>()?).unwrap();
+        // TODO: handle invalid flags
+        let flags = RecordFlags::from_bits_truncate(reader.read_u32::<BigEndian>()?);
+        let data = reader.read_exact_alloc(data_size as usize)?;
 
         Ok(Record {
-            data: ll::Struct_GNUNET_GNSRECORD_Data {
-                data: data,
-                expiration_time: expiration_time,
-                data_size,
-                record_type: record_type,
-                flags: flags,
-            },
-            buff: buff,
+            data,
+            expiration_time,
+            data_size,
+            record_type,
+            flags,
         })
     }
 
     /// Get the type of a record.
     pub fn record_type(&self) -> RecordType {
-        RecordType::from_u32(self.data.record_type).unwrap()
+        self.record_type
     }
 }
 
 impl Debug for Record {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
         // TODO properly implement ll::GNUNET_GNSRECORD_value_to_string
-        assert!(self.data.data_size == 4);
-
-        let slice = unsafe {
-            ::std::slice::from_raw_parts(self.data.data as *mut u8, self.data.data_size as usize)
-        };
-        let addr = ::std::net::Ipv4Addr::new(slice[0], slice[1], slice[2], slice[3]);
+        assert!(self.data.len() == 4);
+        let addr =
+            ::std::net::Ipv4Addr::new(self.data[0], self.data[1], self.data[2], self.data[3]);
         addr.fmt(f)
     }
 }
