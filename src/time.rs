@@ -7,7 +7,7 @@ pub struct Relative {
     micros: u64,
 }
 
-static RELATIVE_UNITS: [(&'static str, u64); 17] = [
+static RELATIVE_UNITS: [(&str, u64); 17] = [
     ("us", 1),
     ("ms", 1000),
     ("s", 1000 * 1000),
@@ -22,16 +22,16 @@ static RELATIVE_UNITS: [(&'static str, u64); 17] = [
     ("days", 24 * 60 * 60 * 1000 * 1000),
     ("week", 7 * 24 * 60 * 60 * 1000 * 1000),
     ("weeks", 7 * 24 * 60 * 60 * 1000 * 1000),
-    ("year", 31536000000000 /* year */),
-    ("years", 31536000000000 /* year */),
-    ("a", 31536000000000 /* year */),
+    ("year", 31_536_000_000_000 /* year */),
+    ("years", 31_536_000_000_000 /* year */),
+    ("a", 31_536_000_000_000 /* year */),
 ];
 
 impl FromStr for Relative {
     type Err = util::strings::ParseQuantityWithUnitsError;
     fn from_str(s: &str) -> Result<Relative, util::strings::ParseQuantityWithUnitsError> {
         let micros = util::strings::parse_quantity_with_units(s, &RELATIVE_UNITS[..])?;
-        Ok(Relative { micros: micros })
+        Ok(Relative { micros })
     }
 }
 
@@ -40,7 +40,7 @@ impl From<Duration> for Relative {
         Relative {
             micros: d
                 .as_secs()
-                .checked_mul(1000000)
+                .checked_mul(1_000_000)
                 .and_then(|n| n.checked_add(d.subsec_nanos() as u64))
                 .unwrap_or(u64::MAX),
         }
@@ -52,7 +52,7 @@ impl From<Relative> for Duration {
         if r.micros == u64::MAX {
             Duration::new(u64::MAX, u32::MAX)
         } else {
-            Duration::new(r.micros / 1000000, ((r.micros % 1000000) as u32) * 1000)
+            Duration::new(r.micros / 1_000_000, ((r.micros % 1_000_000) as u32) * 1000)
         }
     }
 }

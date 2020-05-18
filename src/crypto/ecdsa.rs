@@ -40,9 +40,9 @@ impl FromStr for EcdsaPublicKey {
     fn from_str(s: &str) -> Result<EcdsaPublicKey, EcdsaPublicKeyFromStrError> {
         let mut res = [0; 32];
         if string_to_data(&s.to_string(), &mut res) {
-            return Ok(EcdsaPublicKey { data: res });
+            Ok(EcdsaPublicKey { data: res })
         } else {
-            return Err(EcdsaPublicKeyFromStrError::ParsingFailed);
+            Err(EcdsaPublicKeyFromStrError::ParsingFailed)
         }
     }
 }
@@ -91,7 +91,7 @@ impl EcdsaPrivateKey {
         // the representation for scalarmult that rust-crypto expects is the reverse of libgcrypt
         // so we create temporary data and then reverse it
         // TODO cloning data every time this fn is called isn't ideal, consider reversing the representation in the struct
-        let mut data = self.data.clone();
+        let mut data = self.data;
         data.reverse();
         EcdsaPublicKey {
             data: ge_scalarmult_base(&data).to_bytes(),

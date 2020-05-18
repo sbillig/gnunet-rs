@@ -53,7 +53,7 @@ impl TransportService {
             .then(move |mut sr| sr.read_message().lift())
             .map(move |(ty, mut mr)| {
                 if ty != MessageType::HELLO {
-                    return Err(TransportServiceInitError::NonHelloMessage { ty: ty });
+                    return Err(TransportServiceInitError::NonHelloMessage { ty });
                 }
                 let hello = Hello::deserialize(&mut mr)?;
                 Ok(TransportService { our_hello: hello })

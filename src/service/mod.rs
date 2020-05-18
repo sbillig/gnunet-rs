@@ -110,7 +110,7 @@ impl ServiceReader {
         let mut connection2 = self.connection.clone(); // this is ok we're just bumping Rc count
         self.connection.read_u16().lift().then(move |len| {
             if len < 4 {
-                return Promise::err(ReadMessageError::ShortMessage { len: len });
+                return Promise::err(ReadMessageError::ShortMessage { len });
             }
             let rem = len as usize - 2;
             connection2
@@ -218,7 +218,7 @@ fn test_service() {
                     len: len.to_be(),
                     tpe: (MessageType::DUMMY2 as u16).to_be(),
                 },
-                body: body,
+                body,
             }
         }
     }

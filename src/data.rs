@@ -10,9 +10,7 @@ pub struct CrockfordEncode<'a>(pub &'a [u8]);
 
 impl<'a> fmt::Display for CrockfordEncode<'a> {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        match self {
-            &CrockfordEncode(buf) => crockford_encode_fmt(f, buf),
-        }
+        crockford_encode_fmt(f, self.0)
     }
 }
 

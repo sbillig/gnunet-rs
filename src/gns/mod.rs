@@ -177,11 +177,11 @@ impl GNS {
                     // read again if the id is not available yet
                     let result = map2.borrow_mut().remove(&id);
                     match result {
-                        Some(x) => return Promise::ok(x),
-                        None => return GNS::lookup_loop(&mut sr2, id, map2),
-                    };
+                        Some(x) => Promise::ok(x),
+                        None => GNS::lookup_loop(&mut sr2, id, map2),
+                    }
                 }
-                Err(e) => return Promise::err(e),
+                Err(e) => Promise::err(e),
             }
         })
     }
@@ -257,7 +257,7 @@ impl LookupMessage {
                 tpe: (MessageType::GNS_LOOKUP as u16).to_be(),
             },
             id: id.to_be(),
-            zone: zone,
+            zone,
             options: (options as i16).to_be(),
             have_key: (shorten.is_some() as i16).to_be(),
             record_type: (record_type as i32).to_be(),

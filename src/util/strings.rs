@@ -142,7 +142,7 @@ pub fn string_to_data(string: &str, out_data: &mut [u8]) -> bool {
         assert!(rpos != 0);
         rpos -= 1;
         ret = get_value(string.as_bytes()[rpos]) as i64;
-        bits = ret << vbit | bits;
+        bits |= ret << vbit;
         if -1 == ret {
             return false;
         }
@@ -161,19 +161,17 @@ pub fn string_to_data(string: &str, out_data: &mut [u8]) -> bool {
 }
 
 fn get_encoded_string_len(data_size: usize) -> usize {
-    return (data_size * 8 + 4) / 5;
+    (data_size * 8 + 4) / 5
 }
 
 fn get_value(a: u8) -> i32 {
-    //       '0'          '9'
-    if (a >= 48) && (a <= 57) {
-        return a as i32 - 48;
+    if (a >= b'0') && (a <= b'9') {
+        a as i32 - b'0' as i32
+    } else if (a >= b'A') && (a <= b'V') {
+        a as i32 - (b'A' as i32) + 10
+    } else {
+        -1
     }
-    //       'A'          'V'
-    if (a >= 65) && (a <= 86) {
-        return a as i32 - 65 + 10;
-    }
-    return -1;
 }
 
 #[test]

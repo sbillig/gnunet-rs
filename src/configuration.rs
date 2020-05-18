@@ -1,5 +1,4 @@
 use crate::{paths, time, util};
-use std;
 use std::borrow::{Borrow, Cow};
 use std::collections::{hash_map, HashMap};
 use std::ffi::OsStr;
@@ -388,12 +387,10 @@ impl Cfg {
                 None => match std::env::var(name) {
                     Ok(s) => Some(self.expand_dollar(s.borrow())),
                     Err(e) => match e {
-                        VarError::NotPresent => return None,
-                        VarError::NotUnicode(_) => {
-                            return Some(Err(NonUnicodeEnvVar {
-                                var_name: name.to_string(),
-                            }))
-                        }
+                        VarError::NotPresent => None,
+                        VarError::NotUnicode(_) => Some(Err(NonUnicodeEnvVar {
+                            var_name: name.to_string(),
+                        })),
                     },
                 },
             }
@@ -445,7 +442,7 @@ impl Cfg {
                                     ':' => {
                                         if let Some((pos, c)) = chars.next() {
                                             if c != '-' {
-                                                return Err(Syntax { pos: pos });
+                                                return Err(Syntax { pos });
                                             }
                                             if let Some(&(start, _)) = chars.peek() {
                                                 let mut depth = 0usize;
@@ -471,13 +468,12 @@ impl Cfg {
                                                 if let Some(expanded) = lookup(name) {
                                                     // have "${name:-def}" and we were able to
                                                     // resolve `name` to `expanded`
-                                                    ret.push_str(&(expanded?)).borrow();
+                                                    ret.push_str(&(expanded?));
                                                 } else {
                                                     // have "${name:-def}" and we were not able
                                                     // to resolve name
                                                     let def = &orig[start..end];
-                                                    ret.push_str(&(self.expand_dollar(def))?)
-                                                        .borrow();
+                                                    ret.push_str(&(self.expand_dollar(def))?);
                                                 }
                                             } else {
                                                 // string ended after "${name:-"
@@ -490,7 +486,7 @@ impl Cfg {
                                     }
                                     _ => {
                                         // got string "${name_" where _ is an invalid character
-                                        return Err(Syntax { pos: pos });
+                                        return Err(Syntax { pos });
                                     }
                                 }
                             } else {
@@ -518,7 +514,7 @@ impl Cfg {
                 ret.push(c);
             }
         }
-        return Ok(ret);
+        Ok(ret)
     }
 }
 

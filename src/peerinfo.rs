@@ -227,7 +227,7 @@ impl Peers {
     /// Returns a promise to the next iteration.
     pub fn iterate(&mut self) -> Promise<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
         self.service.read_message().map_else(move |x| match x {
-            Err(e) => return Err(PeerInfoError::ReadMessage { source: e }),
+            Err(e) => Err(PeerInfoError::ReadMessage { source: e }),
             Ok((tpe, mr)) => parse_peer(tpe, mr),
         })
     }
@@ -245,14 +245,14 @@ impl Peers {
     ) -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
         let mut sr2 = sr.clone();
         sr.read_message().then_else(move |x| match x {
-            Err(e) => return Promise::err(PeerInfoError::ReadMessage { source: e }),
+            Err(e) => Promise::err(PeerInfoError::ReadMessage { source: e }),
             Ok((tpe, mr)) => match parse_peer(tpe, mr) {
                 Ok(Some(x)) => {
                     v.push(x);
                     Peers::peers_loop(&mut sr2, v)
                 }
-                Ok(None) => return Promise::ok(v),
-                Err(e) => return Promise::err(e),
+                Ok(None) => Promise::ok(v),
+                Err(e) => Promise::err(e),
             },
         })
     }
@@ -269,24 +269,20 @@ fn parse_peer(
                 io::ErrorKind::UnexpectedEof => Err(PeerInfoError::Disconnected),
                 _ => Err(PeerInfoError::Io { source: e }),
             },
-            Ok(x) => match x == 0 {
-                false => Err(PeerInfoError::InvalidResponse),
-                true => match PeerIdentity::deserialize(&mut mr) {
-                    Err(e) => Err(PeerInfoError::Io { source: e }),
-                    Ok(pi) => {
-                        Ok(Some((pi, None)))
-                        /*
-                                * when we have hello parsing
-                                match mr.eof() {
-                                true  => Some(Ok(pi, None)),
-                                false => {
-
-                        },
+            Ok(x) => {
+                if x == 0 {
+                    match PeerIdentity::deserialize(&mut mr) {
+                        Err(e) => Err(PeerInfoError::Io { source: e }),
+                        Ok(pi) => {
+                            Ok(Some((pi, None)))
+                            // when we have hello parsing
+                            // if mr.eof() { Some(Ok(pi, None)) } else { .. }
                         }
-                                */
                     }
-                },
-            },
+                } else {
+                    Err(PeerInfoError::InvalidResponse)
+                }
+            }
         },
         MessageType::PEERINFO_INFO_END => Ok(None),
         x => Err(PeerInfoError::UnexpectedMessageType { ty: x }),
@@ -353,7 +349,7 @@ impl ListPeerMessage {
                 tpe: (MessageType::PEERINFO_GET as u16).to_be(),
             },
             include_friend_only: include_friend_only.to_be(),
-            peer: peer,
+            peer,
         }
     }
 }

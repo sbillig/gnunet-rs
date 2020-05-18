@@ -3,7 +3,6 @@ use rcrypto::digest::Digest;
 use rcrypto::sha2::Sha512;
 use std::cmp::Ordering;
 use std::fmt;
-use std::hash;
 use std::num::Wrapping;
 use std::ops::{Add, BitXor, Sub};
 use std::slice;
@@ -12,7 +11,7 @@ use std::str::FromStr;
 use crate::data;
 
 /// A 512-bit hashcode used in various places throughout GNUnet.
-#[derive(PartialEq, Eq, Clone, PartialOrd, Ord)]
+#[derive(Hash, PartialEq, Eq, Clone, PartialOrd, Ord)]
 pub struct HashCode {
     data: [u32; 16],
 }
@@ -161,24 +160,6 @@ impl BitXor<HashCode> for HashCode {
             ret.data[i] = self.data[i] ^ rhs.data[i];
         }
         ret
-    }
-}
-
-impl hash::Hash for HashCode {
-    fn hash<H>(&self, state: &mut H)
-    where
-        H: hash::Hasher,
-    {
-        self.data.hash(state)
-    }
-
-    fn hash_slice<H>(data: &[HashCode], state: &mut H)
-    where
-        H: hash::Hasher,
-    {
-        for h in data.iter() {
-            h.hash(state);
-        }
     }
 }
 

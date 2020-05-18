@@ -40,10 +40,7 @@ impl Hello {
             }
         };
         let id = PeerIdentity::deserialize(r)?;
-        Ok(Hello {
-            friend_only: friend_only,
-            id: id,
-        })
+        Ok(Hello { friend_only, id })
     }
 }
 

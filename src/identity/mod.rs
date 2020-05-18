@@ -30,11 +30,7 @@ impl Ego {
     pub fn anonymous() -> Ego {
         let sk = EcdsaPrivateKey::anonymous();
         let id = sk.get_public().hash();
-        Ego {
-            sk: sk,
-            name: None,
-            id: id,
-        }
+        Ego { sk, name: None, id }
     }
 
     /// Get the public key of an ego.
@@ -44,7 +40,7 @@ impl Ego {
 
     /// Get the private key of an ego.
     pub fn get_private_key(&self) -> EcdsaPrivateKey {
-        self.sk.clone()
+        self.sk
     }
 
     /// Get the name of an ego.
@@ -184,44 +180,42 @@ impl IdentityService {
 
     /// This recursive function reads data from the ServiceReader `sr`
     /// and attempts to parse the result into egos.
-    fn parse_egos<'a>(
+    fn parse_egos(
         mut sr: ServiceReader,
         mut egos: HashMap<HashCode, Ego>,
     ) -> Promise<(ServiceReader, HashMap<HashCode, Ego>), ConnectError> {
-        sr.read_message().lift().then(|(tpe, mut mr)| {
-            match tpe {
-                MessageType::IDENTITY_UPDATE => {
-                    let name_len = pry!(mr.read_u16::<BigEndian>());
-                    let eol = pry!(mr.read_u16::<BigEndian>());
-                    if eol != 0 {
-                        return Promise::ok((sr, egos));
-                    };
-                    let sk = pry!(EcdsaPrivateKey::deserialize(&mut mr));
-                    let mut v: Vec<u8> = Vec::with_capacity(name_len as usize);
-                    for r in mr.bytes() {
-                        let b = pry!(r);
-                        if b == 0u8 {
-                            break;
-                        }
-                        v.push(b)
+        sr.read_message().lift().then(|(tpe, mut mr)| match tpe {
+            MessageType::IDENTITY_UPDATE => {
+                let name_len = pry!(mr.read_u16::<BigEndian>());
+                let eol = pry!(mr.read_u16::<BigEndian>());
+                if eol != 0 {
+                    return Promise::ok((sr, egos));
+                };
+                let sk = pry!(EcdsaPrivateKey::deserialize(&mut mr));
+                let mut v: Vec<u8> = Vec::with_capacity(name_len as usize);
+                for r in mr.bytes() {
+                    let b = pry!(r);
+                    if b == 0u8 {
+                        break;
                     }
-                    let name = match String::from_utf8(v) {
-                        Ok(n) => n,
-                        Err(v) => return Promise::err(ConnectError::InvalidName { source: v }),
-                    };
-                    let id = sk.get_public().hash();
-                    egos.insert(
-                        id.clone(),
-                        Ego {
-                            sk: sk,
-                            name: Some(name),
-                            id: id,
-                        },
-                    );
-                    return IdentityService::parse_egos(sr, egos);
+                    v.push(b)
                 }
-                _ => return Promise::err(ConnectError::UnexpectedMessageType { ty: tpe }),
-            };
+                let name = match String::from_utf8(v) {
+                    Ok(n) => n,
+                    Err(v) => return Promise::err(ConnectError::InvalidName { source: v }),
+                };
+                let id = sk.get_public().hash();
+                egos.insert(
+                    id.clone(),
+                    Ego {
+                        sk,
+                        name: Some(name),
+                        id,
+                    },
+                );
+                IdentityService::parse_egos(sr, egos)
+            }
+            _ => Promise::err(ConnectError::UnexpectedMessageType { ty: tpe }),
         })
     }
 
@@ -296,12 +290,11 @@ impl IdentityService {
                             let sk = EcdsaPrivateKey::deserialize(&mut mr)?;
                             let s: String =
                                 mr.read_c_string_with_len((reply_name_len - 1) as usize)?;
-                            match &s[..] == name {
-                                true => {
-                                    let id = sk.get_public().hash();
-                                    Ok(egos[&id].clone())
-                                }
-                                false => Err(GetDefaultEgoError::InvalidResponse),
+                            if &s[..] == name {
+                                let id = sk.get_public().hash();
+                                Ok(egos[&id].clone())
+                            } else {
+                                Err(GetDefaultEgoError::InvalidResponse)
                             }
                         }
                         _ => Err(GetDefaultEgoError::InvalidResponse),
