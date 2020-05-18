@@ -8,6 +8,7 @@ documentation = "http://canndrew.org/rust-doc/gnunet"
 license = "GPL-3.0"
 readme = "README.md"
 keywords = ["gnunet", "gns", "p2p"]
+edition = "2018"
 
 [dependencies]
 unix_socket = "0.5"

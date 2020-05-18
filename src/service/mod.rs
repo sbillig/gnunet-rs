@@ -2,16 +2,14 @@
 //! that are common to all services.
 
 use byteorder::{BigEndian, ReadBytesExt};
-use std::io::{self, Cursor};
 use num::FromPrimitive;
+use std::io::{self, Cursor};
 
 use gj::{FulfillerDropped, Promise};
 use gjio::{AsyncRead, AsyncWrite, Network, SocketStream};
 
-use configuration::{self, Cfg};
-use MessageType;
-
-
+use crate::configuration::{self, Cfg};
+use crate::MessageType;
 
 /// Created by `service::connect`. Used to read messages from a GNUnet service.
 #[derive(Clone)]
@@ -93,8 +91,7 @@ pub enum ReadMessageError {
     #[error("Promise fulfiller was dropped")]
     FulfillerDropped,
     #[error("Unrecognized message type: {0}")]
-    UnrecognizedMessageType(u16)
-
+    UnrecognizedMessageType(u16),
 }
 
 impl FulfillerDropped for ReadMessageError {
@@ -109,7 +106,7 @@ impl ServiceReader {
     /// When using this function multiple times on the same socket the caller needs to make sure the reads are chained together,
     /// otherwise it may return bogus results.
     pub fn read_message(&mut self) -> Promise<(MessageType, Cursor<Vec<u8>>), ReadMessageError> {
-        use util::async::PromiseReader;
+        use crate::util::asynch::PromiseReader;
         let mut connection2 = self.connection.clone(); // this is ok we're just bumping Rc count
         self.connection.read_u16().lift().then(move |len| {
             if len < 4 {

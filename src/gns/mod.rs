@@ -11,13 +11,10 @@ use std::rc::Rc;
 use thiserror::Error;
 
 pub use self::record::*;
-use identity;
-use ll;
-use service::{self, MessageHeader, MessageTrait, ReadMessageError, ServiceReader, ServiceWriter};
-use Cfg;
-use EcdsaPrivateKey;
-use EcdsaPublicKey;
-use MessageType;
+use crate::service::{
+    self, MessageHeader, MessageTrait, ReadMessageError, ServiceReader, ServiceWriter,
+};
+use crate::{identity, ll, Cfg, EcdsaPrivateKey, EcdsaPublicKey, MessageType};
 
 mod record;
 
@@ -90,14 +87,14 @@ impl GNS {
     ///
     /// ```rust
     /// use gnunet::{Cfg, identity, gns, GNS};
-    /// use gnunet::util::async;
+    /// use gnunet::util::asynch;
     ///
     /// let config = Cfg::default().unwrap();
-    /// let mut event_port = async::EventPort::new().unwrap();
+    /// let mut event_port = asynch::EventPort::new().unwrap();
     /// let network = event_port.get_network();
     /// let gns_master = ::std::rc::Rc::new("gns-master".to_string());
     ///
-    /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+    /// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
     ///     let ego = identity::get_default_ego(&config, gns_master, &network).wait(wait_scope, &mut event_port).unwrap();
     ///     let pk = ego.get_public_key();
     ///     let mut gns = GNS::connect(&config, &network).wait(wait_scope, &mut event_port).unwrap();
@@ -108,7 +105,7 @@ impl GNS {
     ///                    gns::LocalOptions::LocalMaster,
     ///                    None)
     ///     });
-    ///     let ips = async::Promise::all(promises).wait(wait_scope, &mut event_port).unwrap();
+    ///     let ips = asynch::Promise::all(promises).wait(wait_scope, &mut event_port).unwrap();
     ///     println!("{:?}", ips);
     ///     Ok(())
     /// }).expect("top_level");
@@ -309,15 +306,15 @@ pub enum ConnectLookupError {
 ///
 /// ```rust
 /// use gnunet::{Cfg, identity, gns};
-/// use gnunet::util::async;
+/// use gnunet::util::asynch;
 ///
 /// let config = Cfg::default().unwrap();
-/// let mut event_port = async::EventPort::new().unwrap();
+/// let mut event_port = asynch::EventPort::new().unwrap();
 /// let network = event_port.get_network();
 /// let gns_master = ::std::rc::Rc::new("gns-master".to_string());
 /// let gnu_org = ::std::rc::Rc::new("gnu.org".to_string());
 ///
-/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+/// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let ego = identity::get_default_ego(&config, gns_master, &network).wait(wait_scope, &mut event_port).unwrap();
 ///     let pk = ego.get_public_key();
 ///     let record = gns::lookup(&config,
@@ -387,14 +384,14 @@ pub enum ConnectLookupInMasterError {
 ///
 /// ```rust
 /// use gnunet::{Cfg, gns};
-/// use gnunet::util::async;
+/// use gnunet::util::asynch;
 ///
 /// let config = Cfg::default().unwrap();
-/// let mut event_port = async::EventPort::new().unwrap();
+/// let mut event_port = asynch::EventPort::new().unwrap();
 /// let network = event_port.get_network();
 /// let gnu_org = ::std::rc::Rc::new("gnu.org".to_string());
 ///
-/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+/// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let record_promise = gnunet::lookup_in_master(&config, &network, gnu_org, gns::RecordType::A, None);
 ///     let record = record_promise.wait(wait_scope, &mut event_port).unwrap();
 ///     println!("Got the IPv4 record for gnu.org: {}", record);

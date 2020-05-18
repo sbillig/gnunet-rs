@@ -3,7 +3,7 @@ use std::fmt;
 use std::io::{self, Read};
 use thiserror::Error;
 
-use PeerIdentity;
+use crate::PeerIdentity;
 
 #[derive(Debug)]
 pub struct Hello {

@@ -9,7 +9,7 @@ use std::ops::{Add, BitXor, Sub};
 use std::slice;
 use std::str::FromStr;
 
-use data;
+use crate::data;
 
 /// A 512-bit hashcode used in various places throughout GNUnet.
 #[derive(PartialEq, Eq, Clone, PartialOrd, Ord)]

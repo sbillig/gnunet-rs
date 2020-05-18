@@ -25,8 +25,8 @@ extern crate gjio;
 #[macro_use]
 extern crate thiserror;
 
+pub use crate::crypto::{EcdsaPrivateKey, EcdsaPublicKey, HashCode};
 pub use configuration::Cfg;
-pub use crypto::{EcdsaPrivateKey, EcdsaPublicKey, HashCode};
 
 pub use gns::{lookup_in_master, LocalOptions, GNS};
 pub use hello::Hello;

@@ -136,7 +136,7 @@ pub fn crockford_decode(enc: &str, dec: &mut [u8]) -> Result<(), CrockfordDecode
 
 #[cfg(test)]
 mod tests {
-    use data::*;
+    use crate::data::*;
 
     fn decode_encode(s0: &str, buf: &mut [u8]) {
         println!("decoding: {}", s0);

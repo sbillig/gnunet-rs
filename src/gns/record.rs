@@ -1,11 +1,11 @@
 use self::RecordType::*;
+use crate::util::io::ReadUtil;
 use byteorder::{BigEndian, ReadBytesExt};
 use num::FromPrimitive;
 use std::fmt;
 use std::fmt::{Debug, Formatter};
 use std::io::{self, Read};
 use std::str::FromStr;
-use util::io::ReadUtil;
 
 /// An enum of the different GNS record types.
 ///

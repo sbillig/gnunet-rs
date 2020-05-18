@@ -1,4 +1,4 @@
-use paths;
+use crate::{paths, time, util};
 use std;
 use std::borrow::{Borrow, Cow};
 use std::collections::{hash_map, HashMap};
@@ -9,8 +9,6 @@ use std::num::{ParseFloatError, ParseIntError};
 use std::path::{Path, PathBuf};
 use std::str::FromStr;
 use thiserror::Error;
-use time;
-use util;
 
 #[derive(Clone)]
 pub struct Cfg {

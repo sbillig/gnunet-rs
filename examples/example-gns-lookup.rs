@@ -2,7 +2,7 @@ extern crate gj;
 extern crate gjio;
 extern crate gnunet;
 
-use gnunet::util::async;
+use gnunet::util::asynch;
 use std::rc::Rc;
 
 fn print_help(executable: String) {
@@ -29,9 +29,9 @@ fn main() {
         None => (),
     }
 
-    async::EventLoop::top_level(move |wait_scope| -> Result<(), ::std::io::Error> {
+    asynch::EventLoop::top_level(move |wait_scope| -> Result<(), ::std::io::Error> {
         let config = gnunet::Cfg::default().unwrap();
-        let mut event_port = async::EventPort::new().unwrap();
+        let mut event_port = asynch::EventPort::new().unwrap();
         let network = event_port.get_network();
 
         let record_promise = gnunet::gns::lookup_in_master(

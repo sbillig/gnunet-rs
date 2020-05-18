@@ -1,12 +1,10 @@
+use crate::hello::HelloDeserializeError;
+use crate::peerinfo::PeerIdentity;
+use crate::service::{self, MessageHeader, MessageTrait, ReadMessageError};
+use crate::{Cfg, Hello, MessageType};
 use gj::Promise;
 use gjio::Network;
-use hello::HelloDeserializeError;
-use peerinfo::PeerIdentity;
-use service::{self, MessageHeader, MessageTrait, ReadMessageError};
 use std::io;
-use Cfg;
-use Hello;
-use MessageType;
 
 pub struct TransportService {
     //service_reader: ServiceReader,

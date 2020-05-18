@@ -1,7 +1,7 @@
+use crate::util;
 use std::str::FromStr;
 use std::time::Duration;
 use std::{u32, u64};
-use util;
 
 pub struct Relative {
     micros: u64,

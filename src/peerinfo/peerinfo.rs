@@ -7,13 +7,10 @@ use std::str::FromStr;
 use gj::Promise;
 use gjio::Network;
 
-use ll;
-use service::{self, connect, MessageHeader, MessageTrait, ReadMessageError, ServiceReader};
-use transport::{self, TransportServiceInitError};
-use util::strings::{data_to_string, string_to_data};
-use Cfg;
-use Hello;
-use MessageType;
+use crate::service::{self, connect, MessageHeader, MessageTrait, ReadMessageError, ServiceReader};
+use crate::transport::{self, TransportServiceInitError};
+use crate::util::strings::{data_to_string, string_to_data};
+use crate::{ll, Cfg, Hello, MessageType};
 
 type EddsaPublicKey = ll::Struct_GNUNET_CRYPTO_EddsaPublicKey;
 
@@ -70,14 +67,14 @@ impl FromStr for PeerIdentity {
 ///
 /// ```rust
 /// use gnunet::Cfg;
-/// use gnunet::util::async;
+/// use gnunet::util::asynch;
 ///
 /// let config = Cfg::default().unwrap();
-/// let mut event_port = async::EventPort::new().unwrap();
+/// let mut event_port = asynch::EventPort::new().unwrap();
 /// let network = event_port.get_network();
 /// let pk_string = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0";
 ///
-/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+/// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let peer_promise = gnunet::get_peer(&config, &network, pk_string).map(|(peer, _)| { Ok(peer) });
 ///     let peer = peer_promise.wait(wait_scope, &mut event_port);
 ///     // do something with `peer`
@@ -116,13 +113,13 @@ pub fn get_peer(
 ///
 /// ```rust
 /// use gnunet::Cfg;
-/// use gnunet::util::async;
+/// use gnunet::util::asynch;
 ///
 /// let config = Cfg::default().unwrap();
-/// let mut event_port = async::EventPort::new().unwrap();
+/// let mut event_port = asynch::EventPort::new().unwrap();
 /// let network = event_port.get_network();
 ///
-/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+/// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let peers_promise = gnunet::get_peers(&config, &network);
 ///     let peers = peers_promise.wait(wait_scope, &mut event_port);
 ///     // do things with `peers`, i.e. use its methods such as `iterate` or `get_vec`
@@ -146,13 +143,13 @@ pub fn get_peers(cfg: &Cfg, network: &Network) -> Promise<Peers, PeerInfoError> 
 ///
 /// ```rust
 /// use gnunet::Cfg;
-/// use gnunet::util::async;
+/// use gnunet::util::asynch;
 ///
 /// let config = Cfg::default().unwrap();
-/// let mut event_port = async::EventPort::new().unwrap();
+/// let mut event_port = asynch::EventPort::new().unwrap();
 /// let network = event_port.get_network();
 ///
-/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+/// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let peers_vec = gnunet::get_peers_vec(&config, &network).wait(wait_scope, &mut event_port).unwrap();
 ///     for (peerinfo, _) in peers_vec {
 ///         // do something with `peerinfo`
@@ -174,13 +171,13 @@ pub fn get_peers_vec(
 ///
 /// ```rust
 /// use gnunet::Cfg;
-/// use gnunet::util::async;
+/// use gnunet::util::asynch;
 ///
 /// let config = Cfg::default().unwrap();
-/// let mut event_port = async::EventPort::new().unwrap();
+/// let mut event_port = asynch::EventPort::new().unwrap();
 /// let network = event_port.get_network();
 ///
-/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+/// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let get_self_id_promise = gnunet::get_self_id(&config, &network);
 ///     let get_self_id = get_self_id_promise.wait(wait_scope, &mut event_port);
 ///     // do something with `get_self_id`

@@ -8,15 +8,12 @@ use std::io::{self, Cursor, Read};
 use std::rc::Rc;
 use std::string;
 
-use configuration::Cfg;
+use crate::configuration::Cfg;
+use crate::service::{self, MessageHeader, MessageTrait, ServiceReader, ServiceWriter};
+use crate::util::{ReadCString, ReadCStringError, ReadCStringWithLenError};
+use crate::{EcdsaPrivateKey, EcdsaPublicKey, HashCode, MessageType};
 use gj::Promise;
 use gjio::Network;
-use service::{self, MessageHeader, MessageTrait, ServiceReader, ServiceWriter};
-use util::{ReadCString, ReadCStringError, ReadCStringWithLenError};
-use EcdsaPrivateKey;
-use EcdsaPublicKey;
-use HashCode;
-use MessageType;
 
 /// A GNUnet identity.
 ///
@@ -236,14 +233,14 @@ impl IdentityService {
     ///
     /// ```rust
     /// use gnunet::{Cfg, IdentityService};
-    /// use gnunet::util::async;
+    /// use gnunet::util::asynch;
     ///
-    /// let mut event_port = async::EventPort::new().unwrap();
+    /// let mut event_port = asynch::EventPort::new().unwrap();
     /// let network = event_port.get_network();
     /// let config = Cfg::default().unwrap();
     /// let gns_master = ::std::rc::Rc::new("gns-master".to_string());
     ///
-    /// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+    /// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
     ///     let ego_promise = IdentityService::connect(&config, &network).lift()
     ///                         .then(|mut is| { is.get_default_ego(gns_master) });
     ///     let ego = ego_promise.wait(wait_scope, &mut event_port);
@@ -344,14 +341,14 @@ pub enum ConnectGetDefaultEgoError {
 ///
 /// ```rust
 /// use gnunet::Cfg;
-/// use gnunet::util::async;
+/// use gnunet::util::asynch;
 ///
 /// let config = Cfg::default().unwrap();
-/// let mut event_port = async::EventPort::new().unwrap();
+/// let mut event_port = asynch::EventPort::new().unwrap();
 /// let network = event_port.get_network();
 /// let gns_master = ::std::rc::Rc::new("gns-master".to_string());
 ///
-/// async::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
+/// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
 ///     let ego_promise = gnunet::get_default_ego(&config, gns_master, &network);
 ///     let ego = ego_promise.wait(wait_scope, &mut event_port);
 ///     Ok(())
