@@ -10,9 +10,7 @@ use gjio::Network;
 use crate::service::{self, connect, MessageHeader, MessageTrait, ReadMessageError, ServiceReader};
 use crate::transport::{self, TransportServiceInitError};
 use crate::util::strings::{data_to_string, string_to_data};
-use crate::{ll, Cfg, Hello, MessageType};
-
-type EddsaPublicKey = ll::Struct_GNUNET_CRYPTO_EddsaPublicKey;
+use crate::{ll::EddsaPublicKey, Cfg, Hello, MessageType};
 
 /// The identity of a GNUnet peer.
 #[repr(C)]

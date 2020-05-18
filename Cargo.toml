@@ -1,5 +1,4 @@
 [package]
-
 name = "gnunet"
 version = "0.0.15"
 authors = ["Andrew Cann <shum@canndrew.org>"]

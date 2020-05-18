@@ -4,10 +4,6 @@
 //! running in order to use this library.
 //! ```
 
-#![feature(unboxed_closures)]
-#![feature(plugin)]
-#![crate_name = "gnunet"]
-
 #[macro_use]
 extern crate bitflags;
 extern crate byteorder;
@@ -36,38 +32,6 @@ pub use message_type::MessageType;
 pub use peerinfo::{get_peer, get_peers, get_peers_vec, get_self_id, PeerIdentity};
 //pub use dht::DHT;
 
-/*
-macro_rules! error_chain {
-  ($from:ty, $to:ident, $f:ident) => (
-    impl From<$from> for $to {
-      fn from(e: $from) -> $to {
-        $to::$f(e)
-      }
-    }
-  )
-}
-
-macro_rules! byteorder_error_chain {
-  ($t:ident) => (
-    impl From<byteorder::Error> for $t {
-      #[inline]
-      fn from(e: byteorder::Error) -> $t {
-        match e {
-          byteorder::Error::UnexpectedEOF => $t::Disconnected,
-          byteorder::Error::Io(e)         => $t::Io(e),
-        }
-      }
-    }
-  )
-}
-*/
-
-#[allow(
-    dead_code,
-    non_camel_case_types,
-    non_snake_case,
-    non_upper_case_globals
-)]
 mod ll;
 
 #[macro_use]
