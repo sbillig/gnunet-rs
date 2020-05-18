@@ -415,12 +415,12 @@ impl Cfg {
                         loop {
                             if let Some(&(end, c)) = chars.peek() {
                                 if !(c.is_alphanumeric() || c == '_') {
-                                    let name = unsafe { orig.slice_unchecked(start, end) };
+                                    let name = &orig[start..end];
                                     return (name, chars);
                                 }
                                 chars.next();
                             } else {
-                                let name = unsafe { orig.slice_unchecked(start, orig.len()) };
+                                let name = &orig[start..];
                                 return (name, chars);
                             }
                         }
@@ -477,8 +477,7 @@ impl Cfg {
                                                 } else {
                                                     // have "${name:-def}" and we were not able
                                                     // to resolve name
-                                                    let def =
-                                                        unsafe { orig.slice_unchecked(start, end) };
+                                                    let def = &orig[start..end];
                                                     ret.push_str(&(self.expand_dollar(def))?)
                                                         .borrow();
                                                 }

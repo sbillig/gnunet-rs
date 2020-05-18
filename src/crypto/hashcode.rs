@@ -19,12 +19,12 @@ pub struct HashCode {
 
 impl HashCode {
     /// Get the data underlying buffer as a buffer
-    pub fn as_slice(&self) -> &[u8] {
+    fn as_slice(&self) -> &[u8] {
         unsafe { slice::from_raw_parts(self.data.as_ptr() as *const u8, 64) }
     }
 
     /// Get the data underlying buffer as a mutable buffer
-    pub fn as_mut_slice(&mut self) -> &mut [u8] {
+    fn as_mut_slice(&mut self) -> &mut [u8] {
         unsafe { slice::from_raw_parts_mut(self.data.as_mut_ptr() as *mut u8, 64) }
     }
 

@@ -60,18 +60,6 @@ macro_rules! byteorder_error_chain {
 }
 */
 
-#[cfg(test)]
-fn print_error<E: ::std::error::Error>(error: &E, file: &str, line: u32) {
-    println!("{}:{}: unwrap_result! called on an Err", file, line);
-    let mut err: Option<&::std::error::Error> = Some(error);
-    while let Some(e) = err {
-        println!("    {}", e);
-        err = e.cause();
-    }
-}
-
-//const HOMEPAGE: &'static str = "http://github.com/canndrew/gnunet-rs";
-
 #[allow(
     dead_code,
     non_camel_case_types,
