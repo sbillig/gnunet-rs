@@ -1,40 +1,126 @@
 //! Module for communicating with GNUnet services. Implements the parts of the GNUnet IPC protocols
 //! that are common to all services.
 
-use byteorder::{BigEndian, ReadBytesExt};
-use num::FromPrimitive;
-use std::io::{self, Cursor};
-
-use gj::{FulfillerDropped, Promise};
-use gjio::{AsyncRead, AsyncWrite, Network, SocketStream};
-
 use crate::configuration::{self, Cfg};
 use crate::MessageType;
 
+use async_std::io;
+use async_std::os::unix::net::UnixStream;
+use futures::io::{AsyncReadExt, AsyncWriteExt};
+use std::convert::TryInto;
+use std::fmt;
+use tracing::{debug, instrument};
+
+#[repr(C, packed)]
+pub struct MessageHeader {
+    len: u16, // bigendian
+    typ: u16, // bigendian
+}
+
+impl MessageHeader {
+    pub fn new(len: u16, msg_type: MessageType) -> Self {
+        MessageHeader {
+            len: len.to_be(),
+            typ: (msg_type as u16).to_be(),
+        }
+    }
+
+    pub fn length(&self) -> u16 {
+        self.len.to_le()
+    }
+
+    pub fn msg_type_u16(&self) -> u16 {
+        self.typ.to_le()
+    }
+
+    pub fn msg_type(&self) -> Option<MessageType> {
+        MessageType::from_u16(self.msg_type_u16())
+    }
+}
+
+pub trait MessageTrait {
+    fn into_slice(&self) -> &[u8];
+}
+
 /// Created by `service::connect`. Used to read messages from a GNUnet service.
-#[derive(Clone)]
-pub struct ServiceReader {
-    /// The underlying socket wrapped by `ServiceReader`. This is a read-only socket.
-    pub connection: SocketStream,
+pub struct ServiceConnection {
+    name: String,
+    inner: UnixStream,
 }
 
-/// Created by `service::connect`. Used to send messages to a GNUnet service.
-#[derive(Clone)]
-pub struct ServiceWriter {
-    /// The underlying socket wrapped by `ServiceWriter`. This is a write-only socket.
-    pub connection: SocketStream,
+impl ServiceConnection {
+    /// Sends a message to the connected socket.
+    ///
+    /// The message should not have a null-terminated string, otherwise use `send_with_str`.
+    pub async fn send<T: MessageTrait>(&mut self, message: T) -> Result<(), io::Error> {
+        self.inner.write_all(message.into_slice()).await
+    }
+
+    /// Sends a message with a null-terminated string to the connected socket.
+    ///
+    /// The caller needs to ensure that the message corresponds to the string, i.e. the message length should add up.
+    pub async fn send_with_str<T: MessageTrait>(
+        &mut self,
+        message: T,
+        string: &str,
+    ) -> Result<(), io::Error> {
+        self.inner.write_all(message.into_slice()).await?;
+        self.inner.write_all(string.as_bytes()).await?;
+        self.inner.write_all(&[0u8]).await?;
+        Ok(())
+    }
+
+    #[instrument]
+    pub async fn recv(&mut self) -> Result<(u16, Vec<u8>), io::Error> {
+        let mut head = [0u8; 4];
+        self.inner.read_exact(&mut head).await?;
+
+        let len = u16::from_be_bytes(head[0..2].try_into().unwrap());
+        let msg_type = u16::from_be_bytes(head[2..].try_into().unwrap());
+
+        debug!(
+            type_u16 = msg_type,
+            len,
+            "type: {:?}",
+            MessageType::from_u16(msg_type)
+        );
+
+        let rem = len - 4; // len includes header (except for some msg types? TODO)
+
+        let mut rest = vec![0; rem as usize];
+        self.inner.read_exact(&mut rest).await?;
+
+        Ok((msg_type, rest))
+    }
+
+    pub fn from_stream(name: String, inner: UnixStream) -> Self {
+        ServiceConnection { name, inner }
+    }
 }
 
-/// Callbacks passed to `ServiceReader::spawn_callback_loop` return a `ProcessMessageResult` to
-/// tell the callback loop what action to take next.
-#[derive(Copy, Clone)]
-pub enum ProcessMessageResult {
-    /// Continue talking to the service and passing received messages to the callback.
-    Continue,
-    /// Attempt to reconnect to the service.
-    Reconnect,
-    /// Exit the callback loop, shutting down it's thread.
-    Shutdown,
+impl fmt::Debug for ServiceConnection {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.debug_struct("ServiceConnection")
+            .field("name", &self.name)
+            .finish()
+    }
+}
+
+/// Attempt to connect to the local GNUnet service named `name`.
+///
+/// eg. `connect(&cfg, "arm")` will attempt to connect to the locally-running `gnunet-arm` service
+/// using the congfiguration details (eg. socket address, port etc.) in `cfg`.
+pub async fn connect(cfg: &Cfg, name: &str) -> Result<ServiceConnection, ConnectError> {
+    let path = cfg.get_filename(name, "UNIXPATH")?;
+    let sock = UnixStream::connect(&path).await?;
+
+    // see gnunet/src/util/client.c::start_connect
+    // TODO: tcp
+
+    Ok(ServiceConnection {
+        name: name.to_string(),
+        inner: sock,
+    })
 }
 
 /// Error that can be generated when attempting to connect to a service.
@@ -50,117 +136,6 @@ pub enum ConnectError {
         #[from]
         source: io::Error,
     },
-}
-
-/// Attempt to connect to the local GNUnet service named `name`.
-///
-/// eg. `connect(cfg, "arm")` will attempt to connect to the locally-running `gnunet-arm` service
-/// using the congfiguration details (eg. socket address, port etc.) in `cfg`.
-pub fn connect(
-    cfg: &Cfg,
-    name: &str,
-    network: &Network,
-) -> Promise<(ServiceReader, ServiceWriter), ConnectError> {
-    let unixpath = pry!(cfg.get_filename(name, "UNIXPATH"));
-    let addr = pry!(network.get_unix_address(unixpath.as_path()));
-    addr.connect().lift().then(move |in_stream| {
-        let out_stream = in_stream.clone();
-        Promise::ok((
-            ServiceReader {
-                connection: in_stream,
-            },
-            ServiceWriter {
-                connection: out_stream,
-            },
-        ))
-    })
-}
-
-/// Error that can be generated when attempting to receive data from a service.
-#[derive(Debug, Error)]
-pub enum ReadMessageError {
-    #[error("There was an I/O error communicating with the service. Specifically {source}")]
-    Io {
-        #[from]
-        source: io::Error,
-    },
-    #[error("The message received from the service was too short. Length was {len} bytes.")]
-    ShortMessage { len: u16 },
-    #[error("The service disconnected unexpectedly")]
-    Disconnected,
-    #[error("Promise fulfiller was dropped")]
-    FulfillerDropped,
-    #[error("Unrecognized message type: {0}")]
-    UnrecognizedMessageType(u16),
-}
-
-impl FulfillerDropped for ReadMessageError {
-    fn fulfiller_dropped() -> ReadMessageError {
-        ReadMessageError::FulfillerDropped
-    }
-}
-
-impl ServiceReader {
-    /// Reads a message from the connected socket.
-    ///
-    /// When using this function multiple times on the same socket the caller needs to make sure the reads are chained together,
-    /// otherwise it may return bogus results.
-    pub fn read_message(&mut self) -> Promise<(MessageType, Cursor<Vec<u8>>), ReadMessageError> {
-        use crate::util::asynch::PromiseReader;
-        let mut connection2 = self.connection.clone(); // this is ok we're just bumping Rc count
-        self.connection.read_u16().lift().then(move |len| {
-            if len < 4 {
-                return Promise::err(ReadMessageError::ShortMessage { len });
-            }
-            let rem = len as usize - 2;
-            connection2
-                .read(vec![0; rem], rem)
-                .lift()
-                .map(move |(buf, _)| {
-                    let mut mr = Cursor::new(buf);
-                    let mt = mr.read_u16::<BigEndian>()?;
-                    if let Some(mt) = MessageType::from_u16(mt) {
-                        Ok((mt, mr))
-                    } else {
-                        Err(ReadMessageError::UnrecognizedMessageType(mt))
-                    }
-                })
-        })
-    }
-}
-
-impl ServiceWriter {
-    /// Sends a message to the connected socket.
-    ///
-    /// The message should not have a null-terminated string, otherwise use `send_with_str`.
-    pub fn send<T: MessageTrait>(&mut self, message: T) -> Promise<(), io::Error> {
-        let x = message.into_slice().to_vec();
-        self.connection.write(x).map(|_| Ok(()))
-    }
-
-    /// Sends a message with a null-terminated string to the connected socket.
-    ///
-    /// The caller needs to ensure that the message corresponds to the string, i.e. the message length should add up.
-    pub fn send_with_str<T: MessageTrait>(
-        &mut self,
-        message: T,
-        string: &str,
-    ) -> Promise<(), io::Error> {
-        let mut x = message.into_slice().to_vec();
-        x.extend_from_slice(string.as_bytes());
-        x.push(0u8.to_be()); // for null-termination of the string
-        self.connection.write(x).map(|_| Ok(()))
-    }
-}
-
-#[repr(C, packed)]
-pub struct MessageHeader {
-    pub len: u16,
-    pub tpe: u16,
-}
-
-pub trait MessageTrait {
-    fn into_slice(&self) -> &[u8];
 }
 
 #[macro_export]
@@ -190,18 +165,15 @@ fn test_message_to_slice() {
     assert_eq!(slice.len(), 6);
 }
 
-#[test]
-fn test_service() {
-    use byteorder::ByteOrder;
-    use gj::EventLoop;
-    use gjio::EventPort;
-    use std::io::Read;
+#[async_std::test]
+async fn test_service() {
+    use async_std::os::unix::net::UnixStream;
     use std::mem::size_of;
 
     #[repr(C, packed)]
     struct DummyMsg {
         header: MessageHeader,
-        body: u32,
+        body: [u8; 4],
     }
 
     impl MessageTrait for DummyMsg {
@@ -211,44 +183,25 @@ fn test_service() {
     }
 
     impl DummyMsg {
-        fn new(body: u32) -> DummyMsg {
+        fn new(body: [u8; 4]) -> DummyMsg {
             let len = size_of::<DummyMsg>() as u16;
             DummyMsg {
-                header: MessageHeader {
-                    len: len.to_be(),
-                    tpe: (MessageType::DUMMY2 as u16).to_be(),
-                },
+                header: MessageHeader::new(len, MessageType::DUMMY2),
                 body,
             }
         }
     }
 
-    EventLoop::top_level(move |wait_scope| -> Result<(), ::std::io::Error> {
-        let mut event_port = EventPort::new().unwrap();
-        let network = event_port.get_network();
-        let (reader, writer) = network.new_socket_pair().unwrap();
+    let (reader, writer) = UnixStream::pair().unwrap();
+    let mut sr = ServiceConnection::from_stream("r".to_string(), reader);
+    let mut sw = ServiceConnection::from_stream("w".to_string(), writer);
 
-        let mut sr = ServiceReader { connection: reader };
-        let mut sw = ServiceWriter { connection: writer };
-        let msg_body: u32 = 42;
+    let body = [2, 4, 6, 8];
 
-        let msg = DummyMsg::new(msg_body);
+    sw.send(DummyMsg::new(body)).await.unwrap();
+    let (typ, buf) = sr.recv().await.unwrap();
+    assert_eq!(MessageType::from_u16(typ), Some(MessageType::DUMMY2));
 
-        sw.send(msg)
-            .lift()
-            .then(move |()| {
-                sr.read_message().map(move |(tpe, mut mr)| {
-                    let mut buf = vec![0u8; 4];
-                    mr.read_exact(&mut buf)?;
-                    assert_eq!(msg_body.to_be(), BigEndian::read_u32(&buf));
-                    assert_eq!(MessageType::DUMMY2, tpe);
-                    Ok(())
-                })
-            })
-            .wait(wait_scope, &mut event_port)
-            .unwrap();
-
-        Ok(())
-    })
-    .expect("top level");
+    assert_eq!(buf, body);
+    ()
 }

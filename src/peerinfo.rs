@@ -1,198 +1,21 @@
-use byteorder::{BigEndian, ReadBytesExt};
-use std::fmt;
-use std::io::{self, Cursor, Read, Write};
-use std::mem::{size_of, size_of_val};
-use std::str::FromStr;
-
-use gj::Promise;
-use gjio::Network;
-
-use crate::service::{self, connect, MessageHeader, MessageTrait, ReadMessageError, ServiceReader};
+use crate::crypto::PeerIdentity;
+use crate::service::{self, connect, ServiceConnection};
 use crate::transport::{self, TransportServiceInitError};
-use crate::util::strings::{data_to_string, string_to_data};
-use crate::{ll::EddsaPublicKey, Cfg, Hello, MessageType};
+use crate::{Cfg, Hello, MessageType};
+use byteorder::{BigEndian, ReadBytesExt};
+use std::io::{self, Cursor};
 
-/// The identity of a GNUnet peer.
-#[repr(C)]
-#[derive(Copy, Clone, Default)]
-pub struct PeerIdentity {
-    public_key: EddsaPublicKey,
-}
-
-impl PeerIdentity {
-    /// Deserializes into PeerIdentity from a reader, the reader should have 32 bytes available.
-    pub fn deserialize<R>(r: &mut R) -> Result<PeerIdentity, io::Error>
-    where
-        R: Read,
-    {
-        let mut public_key = EddsaPublicKey::default();
-        r.read_exact(&mut public_key.q_y[..])?;
-        Ok(PeerIdentity { public_key })
-    }
-
-    /// Serializes and writes the identity into a writer.
-    pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error>
-    where
-        T: Write,
-    {
-        w.write_all(&self.public_key.q_y[..])
-    }
-}
-
-/// Error generated when attempting to parse a PeerIdentity
-#[derive(Debug, Error)]
-pub enum PeerIdentityFromStrError {
-    #[error("Failed to parse the string as a PeerIdentity")]
-    ParsingFailed,
-}
-
-impl FromStr for PeerIdentity {
-    type Err = PeerIdentityFromStrError;
-
-    fn from_str(s: &str) -> Result<PeerIdentity, PeerIdentityFromStrError> {
-        let mut public_key = EddsaPublicKey::default();
-        if string_to_data(s, &mut public_key.q_y) {
-            Ok(PeerIdentity { public_key })
-        } else {
-            Err(PeerIdentityFromStrError::ParsingFailed)
-        }
-    }
-}
-
-/// Get a promise of a peer by its key.
-///
-/// # Example
-///
-/// ```rust
-/// use gnunet::Cfg;
-/// use gnunet::util::asynch;
-///
-/// let config = Cfg::default().unwrap();
-/// let mut event_port = asynch::EventPort::new().unwrap();
-/// let network = event_port.get_network();
-/// let pk_string = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0";
-///
-/// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-///     let peer_promise = gnunet::get_peer(&config, &network, pk_string).map(|(peer, _)| { Ok(peer) });
-///     let peer = peer_promise.wait(wait_scope, &mut event_port);
-///     // do something with `peer`
-///     Ok(())
-/// }).expect("top_level");
-/// ```
-///
-pub fn get_peer(
-    cfg: &Cfg,
-    network: &Network,
-    pk_string: &str,
-) -> Promise<(Option<PeerIdentity>, Option<Hello>), PeerInfoError> {
-    // prepare peer identity
-    let mut id = PeerIdentity::default();
-    string_to_data(pk_string, &mut id.public_key.q_y);
-
-    connect(cfg, "peerinfo", network)
-        .lift()
-        .then(move |(sr, mut sw)| {
-            sw.send(ListPeerMessage::new(0, id)).lift().then(move |()| {
-                let mut peers = Peers { service: sr };
-                peers.get_vec().map(|mut vec| match vec.len() {
-                    0 | 1 => match vec.pop() {
-                        Some((id, hello)) => Ok((Some(id), hello)),
-                        None => Ok((None, None)),
-                    },
-                    _ => Err(PeerInfoError::InvalidResponse),
-                })
-            })
-        })
-}
-
-/// Get a proimise to all the currently connected peers.
-///
-/// # Example
-///
-/// ```rust
-/// use gnunet::Cfg;
-/// use gnunet::util::asynch;
-///
-/// let config = Cfg::default().unwrap();
-/// let mut event_port = asynch::EventPort::new().unwrap();
-/// let network = event_port.get_network();
-///
-/// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-///     let peers_promise = gnunet::get_peers(&config, &network);
-///     let peers = peers_promise.wait(wait_scope, &mut event_port);
-///     // do things with `peers`, i.e. use its methods such as `iterate` or `get_vec`
-///     Ok(())
-/// }).expect("top_level");
-/// ```
-///
-pub fn get_peers(cfg: &Cfg, network: &Network) -> Promise<Peers, PeerInfoError> {
-    connect(cfg, "peerinfo", network)
-        .lift()
-        .then(move |(sr, mut sw)| {
-            sw.send(ListAllPeersMessage::new(0))
-                .lift()
-                .map(move |()| Ok(Peers { service: sr }))
-        })
-}
-
-/// Get a promise to a vector of all the currently connected peers.
-///
-/// # Example
-///
-/// ```rust
-/// use gnunet::Cfg;
-/// use gnunet::util::asynch;
-///
-/// let config = Cfg::default().unwrap();
-/// let mut event_port = asynch::EventPort::new().unwrap();
-/// let network = event_port.get_network();
-///
-/// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-///     let peers_vec = gnunet::get_peers_vec(&config, &network).wait(wait_scope, &mut event_port).unwrap();
-///     for (peerinfo, _) in peers_vec {
-///         // do something with `peerinfo`
-///     }
-///     Ok(())
-/// }).expect("top_level");
-/// ```
-///
-pub fn get_peers_vec(
-    cfg: &Cfg,
-    network: &Network,
-) -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-    get_peers(cfg, network).then(|mut peers| peers.get_vec())
-}
+pub mod msg;
 
 /// Get our own identity.
-///
-/// # Example
-///
-/// ```rust
-/// use gnunet::Cfg;
-/// use gnunet::util::asynch;
-///
-/// let config = Cfg::default().unwrap();
-/// let mut event_port = asynch::EventPort::new().unwrap();
-/// let network = event_port.get_network();
-///
-/// asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-///     let get_self_id_promise = gnunet::get_self_id(&config, &network);
-///     let get_self_id = get_self_id_promise.wait(wait_scope, &mut event_port);
-///     // do something with `get_self_id`
-///     Ok(())
-/// }).expect("top_level");
-/// ```
-///
-pub fn get_self_id(
-    cfg: &Cfg,
-    network: &Network,
-) -> Promise<PeerIdentity, TransportServiceInitError> {
-    transport::self_hello(cfg, network).map(|hello| Ok(hello.id))
+pub async fn get_self_id(cfg: &Cfg) -> Result<PeerIdentity, TransportServiceInitError> {
+    let hello = transport::self_hello(cfg).await?;
+    Ok(hello.id)
 }
 
 /// Struct representing all the currently connected peers.
-pub struct Peers {
-    service: ServiceReader,
+pub struct PeerInfo {
+    conn: ServiceConnection,
 }
 
 /// Errors returned by `Peers::next`.
@@ -200,19 +23,14 @@ pub struct Peers {
 pub enum PeerInfoError {
     #[error("The response from the gnunet-peerinfo service was incoherent")]
     InvalidResponse,
-    #[error("The peerinfo service sent an unexpected response message type: {ty:?}.")]
-    UnexpectedMessageType { ty: MessageType },
+    #[error("The peerinfo service sent an unexpected response message type: {typ:?}.")]
+    UnexpectedMessageType { typ: u16 },
     #[error(
         "There was an I/O error communicating with the peerinfo service. Specifically: {source}"
     )]
     Io {
         #[from]
         source: io::Error,
-    },
-    #[error("Failed to receive the response from the peerinfo service. Reason: {source}")]
-    ReadMessage {
-        #[from]
-        source: ReadMessageError,
     },
     #[error("The service disconnected unexpectedly")]
     Disconnected,
@@ -223,139 +41,73 @@ pub enum PeerInfoError {
     },
 }
 
-impl Peers {
-    /// Returns a promise to the next iteration.
-    pub fn iterate(&mut self) -> Promise<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-        self.service.read_message().map_else(move |x| match x {
-            Err(e) => Err(PeerInfoError::ReadMessage { source: e }),
-            Ok((tpe, mr)) => parse_peer(tpe, mr),
-        })
+impl PeerInfo {
+    pub async fn connect(cfg: &Cfg) -> Result<PeerInfo, PeerInfoError> {
+        let conn = connect(cfg, "peerinfo").await?;
+        Ok(PeerInfo { conn })
     }
 
-    /// Returns a promise to a vector of all connected peers.
-    pub fn get_vec(&mut self) -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-        let v = Vec::new();
-        let mut sr = self.service.clone();
-        Peers::peers_loop(&mut sr, v)
+    pub async fn get_peer(
+        &mut self,
+        id: &PeerIdentity,
+    ) -> Result<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
+        self.conn.send(msg::ListPeer::new(0, *id)).await?;
+        let (typ, buf) = self.conn.recv().await?;
+        parse_peer(typ, Cursor::new(buf))
     }
 
-    fn peers_loop(
-        sr: &mut ServiceReader,
-        mut v: Vec<(PeerIdentity, Option<Hello>)>,
-    ) -> Promise<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-        let mut sr2 = sr.clone();
-        sr.read_message().then_else(move |x| match x {
-            Err(e) => Promise::err(PeerInfoError::ReadMessage { source: e }),
-            Ok((tpe, mr)) => match parse_peer(tpe, mr) {
-                Ok(Some(x)) => {
-                    v.push(x);
-                    Peers::peers_loop(&mut sr2, v)
-                }
-                Ok(None) => Promise::ok(v),
-                Err(e) => Promise::err(e),
-            },
-        })
+    /// Returns a vector of all connected peers.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use async_std::task;
+    /// use gnunet::{Cfg, PeerInfo};
+    ///
+    /// let config = Cfg::default().unwrap();
+    /// let peers = task::block_on(async {
+    ///     let mut peerinfo = PeerInfo::connect(&config).await.unwrap();
+    ///     peerinfo.all_peers().await.unwrap()
+    /// });
+    /// for (peerid, hello) in peers {
+    ///   // do something with peerid
+    /// }
+    /// ```
+    pub async fn all_peers(&mut self) -> Result<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
+        self.conn.send(msg::ListAllPeers::new(0)).await?;
+        let mut v = Vec::new();
+
+        loop {
+            let (typ, body) = self.conn.recv().await?;
+            if let Some(p) = parse_peer(typ, Cursor::new(body))? {
+                v.push(p);
+            } else {
+                break;
+            }
+        }
+        Ok(v)
     }
 }
 
 /// Parse some data in `mr` into a tuple of `PeerIdentity` and optionally a `Hello`.
 fn parse_peer(
-    tpe: MessageType,
+    typ: u16,
     mut mr: Cursor<Vec<u8>>,
 ) -> Result<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-    match tpe {
-        MessageType::PEERINFO_INFO => match mr.read_u32::<BigEndian>() {
-            Err(e) => match e.kind() {
-                io::ErrorKind::UnexpectedEof => Err(PeerInfoError::Disconnected),
-                _ => Err(PeerInfoError::Io { source: e }),
-            },
-            Ok(x) => {
-                if x == 0 {
-                    match PeerIdentity::deserialize(&mut mr) {
-                        Err(e) => Err(PeerInfoError::Io { source: e }),
-                        Ok(pi) => {
-                            Ok(Some((pi, None)))
-                            // when we have hello parsing
-                            // if mr.eof() { Some(Ok(pi, None)) } else { .. }
-                        }
-                    }
-                } else {
-                    Err(PeerInfoError::InvalidResponse)
-                }
+    match MessageType::from_u16(typ) {
+        Some(MessageType::PEERINFO_INFO) => {
+            // TODO: if buffer too short, fail with shortmessage error
+
+            // PEERINFO_INFO msg starts with a u32 that's always 0
+            if 0 != mr.read_u32::<BigEndian>()? {
+                return Err(PeerInfoError::InvalidResponse);
             }
-        },
-        MessageType::PEERINFO_INFO_END => Ok(None),
-        x => Err(PeerInfoError::UnexpectedMessageType { ty: x }),
-    }
-}
 
-impl fmt::Debug for PeerIdentity {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        assert!(52usize == (size_of_val(&self.public_key.q_y) * 8 + 4) / 5);
-        let res = data_to_string(&self.public_key.q_y);
-        fmt::Display::fmt(res.as_str(), f)
-    }
-}
-
-impl fmt::Display for PeerIdentity {
-    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
-        fmt::Debug::fmt(self, f)
-    }
-}
-
-/// Packed struct representing GNUNET_PEERINFO_ListAllPeersMessage.
-#[repr(C, packed)]
-struct ListAllPeersMessage {
-    header: MessageHeader,
-    include_friend_only: u32,
-}
-
-impl ListAllPeersMessage {
-    fn new(include_friend_only: u32) -> ListAllPeersMessage {
-        let len = size_of::<ListAllPeersMessage>();
-        use std::u16::MAX;
-        assert!(len >= 4 && len <= (MAX as usize));
-
-        ListAllPeersMessage {
-            header: MessageHeader {
-                len: (len as u16).to_be(),
-                tpe: (MessageType::PEERINFO_GET_ALL as u16).to_be(),
-            },
-            include_friend_only: include_friend_only.to_be(),
+            let id = PeerIdentity::deserialize(&mut mr)?;
+            // TODO: if there are more bytes left, parse Hello
+            Ok(Some((id, None)))
         }
-    }
-}
-
-impl MessageTrait for ListAllPeersMessage {
-    fn into_slice(&self) -> &[u8] {
-        message_to_slice!(ListAllPeersMessage, self)
-    }
-}
-
-/// Packed struct representing GNUNET_PEERINFO_ListPeerMessage.
-#[repr(C, packed)]
-struct ListPeerMessage {
-    header: MessageHeader,
-    include_friend_only: u32,
-    peer: PeerIdentity,
-}
-
-impl ListPeerMessage {
-    fn new(include_friend_only: u32, peer: PeerIdentity) -> ListPeerMessage {
-        let len = size_of::<ListPeerMessage>();
-        ListPeerMessage {
-            header: MessageHeader {
-                len: (len as u16).to_be(),
-                tpe: (MessageType::PEERINFO_GET as u16).to_be(),
-            },
-            include_friend_only: include_friend_only.to_be(),
-            peer,
-        }
-    }
-}
-
-impl MessageTrait for ListPeerMessage {
-    fn into_slice(&self) -> &[u8] {
-        message_to_slice!(ListPeerMessage, self)
+        Some(MessageType::PEERINFO_INFO_END) => Ok(None),
+        _ => Err(PeerInfoError::UnexpectedMessageType { typ }),
     }
 }

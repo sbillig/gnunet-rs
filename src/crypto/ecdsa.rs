@@ -85,6 +85,13 @@ impl EcdsaPrivateKey {
         Ok(sk)
     }
 
+    /// Deserialize a from a byte stream.
+    pub fn from_bytes<T: AsRef<[u8]>>(b: T) -> Result<EcdsaPrivateKey, io::Error> {
+        let mut data = [0; 32];
+        data.copy_from_slice(b.as_ref());
+        Ok(EcdsaPrivateKey { data })
+    }
+
     /// Get the corresponding public key to this private key.
     pub fn get_public(&self) -> EcdsaPublicKey {
         use rcrypto::curve25519::ge_scalarmult_base;

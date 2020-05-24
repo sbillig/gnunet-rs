@@ -1,3 +1,11 @@
+use num::FromPrimitive;
+
+impl MessageType {
+    pub fn from_u16(t: u16) -> Option<MessageType> {
+        <MessageType as FromPrimitive>::from_u16(t)
+    }
+}
+
 #[allow(non_camel_case_types)]
 #[repr(u16)]
 #[derive(Debug, FromPrimitive, PartialEq, Eq)]

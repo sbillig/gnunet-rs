@@ -10,17 +10,20 @@ keywords = ["gnunet", "gns", "p2p"]
 edition = "2018"
 
 [dependencies]
-unix_socket = "0.5"
 rand = "0.3"
 byteorder = "0.5"
 rust-crypto = "0.2.36"
 num = "0.1.24"
 regex = "0.1.71"
-gj = "0.2"
-gjio = "0.1.3"
-snafu = "0.6.8"
 thiserror = "1.0.18"
 libc = "0.2.70"
 num-derive = "0.3.0"
 num-traits = "0.2.11"
 bitflags = "1.2.1"
+async-std = { version = "1.5.0", features = ["attributes"] }
+futures = "0.3.5" # futures_util
+tracing = "0.1.14"
+tracing-futures = { version = "0.2.4", features = ["std-future"], default-features = false }
+
+[dev-dependencies]
+tracing-subscriber = "0.2.5"

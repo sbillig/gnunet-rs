@@ -12,7 +12,8 @@ Short-term goals:
 - [ ] make the tests pass
 - [ ] remove (most?) uses of `unsafe`
 - [ ] update dependencies
-- [ ] replace gj with futures-rs and async-std or tokio
+- [x] replace gj with futures-rs and async-std
+- [ ] use gnunet's testing framework to launch test peer(s)
 
 Tests
 -----

@@ -1,37 +1,35 @@
-extern crate gnunet;
-use gnunet::util::asynch;
+use gnunet::{PeerIdentity, PeerInfo};
+use std::error::Error;
+use std::str::FromStr;
+use tracing_subscriber::FmtSubscriber;
 
-fn main() {
-    asynch::EventLoop::top_level(|wait_scope| -> Result<(), ::std::io::Error> {
-        let config = gnunet::Cfg::default().unwrap();
-        let mut event_port = asynch::EventPort::new().unwrap();
-        let network = event_port.get_network();
+#[async_std::main]
+async fn main() -> Result<(), Box<dyn Error>> {
+    let subscriber = FmtSubscriber::builder()
+        .with_max_level(tracing::Level::TRACE) // uncomment for lots of logs
+        .finish();
+    tracing::subscriber::set_global_default(subscriber).unwrap();
 
-        // example to iterate over all peers
-        let peers_vec = gnunet::get_peers_vec(&config, &network)
-            .wait(wait_scope, &mut event_port)
-            .unwrap();
-        for (peerinfo, _) in peers_vec {
-            println!("Peer: {}\n", peerinfo);
-        }
+    let config = gnunet::Cfg::default()?;
+    let mut peerinfo = PeerInfo::connect(&config).await?;
 
-        // example to get a single peer
-        let pk_string = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0";
-        let (peer, _) = gnunet::get_peer(&config, &network, pk_string)
-            .wait(wait_scope, &mut event_port)
-            .unwrap();
-        match peer {
-            Some(p) => println!("Peer found: {}", p),
-            None => println!("peer not found"),
-        }
+    // get all peers
+    let peers_vec = peerinfo.all_peers().await?;
+    for (id, _) in peers_vec {
+        println!("Peer: {}", id);
+    }
 
-        // example to get hello id
-        let local_id = gnunet::get_self_id(&config, &network)
-            .wait(wait_scope, &mut event_port)
-            .unwrap();
-        println!("Our id is: {}", local_id);
+    // get a single peer
+    let pk = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0";
+    let id = PeerIdentity::from_str(pk)?;
+    match peerinfo.get_peer(&id).await? {
+        Some(p) => println!("Peer found: {:?}", p),
+        None => println!("peer not found"),
+    };
 
-        Ok(())
-    })
-    .expect("top level");
+    // get hello id
+    // let local_id = gnunet::get_self_id(&config, &network).await?;
+    // println!("Our id is: {}", local_id);
+
+    Ok(())
 }
