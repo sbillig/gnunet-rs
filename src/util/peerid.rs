@@ -1,4 +1,4 @@
-use super::EddsaPublicKey;
+use crate::crypto::EddsaPublicKey;
 use crate::util::strings::{data_to_string, string_to_data};
 use std::fmt;
 use std::io::{self, Read, Write};

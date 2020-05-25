@@ -1,5 +1,4 @@
 use self::RecordType::*;
-use crate::util::io::ReadUtil;
 use byteorder::{BigEndian, ReadBytesExt};
 use num::FromPrimitive;
 use std::fmt;
@@ -115,7 +114,9 @@ impl Record {
         let record_type = RecordType::from_u32(reader.read_u32::<BigEndian>()?).unwrap();
         // TODO: handle invalid flags
         let flags = RecordFlags::from_bits_truncate(reader.read_u32::<BigEndian>()?);
-        let data = reader.read_exact_alloc(data_size as usize)?;
+
+        let mut data = vec![0; data_size as usize];
+        reader.read_exact(&mut data)?;
 
         Ok(Record {
             data,

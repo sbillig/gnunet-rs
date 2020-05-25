@@ -3,7 +3,7 @@ use std::io::{self, Read, Write};
 use std::str::from_utf8;
 use std::str::FromStr;
 
-use crate::crypto::hashcode::HashCode;
+use crate::crypto::HashCode;
 use crate::util::strings::{data_to_string, string_to_data};
 
 /// A 256bit ECDSA public key.

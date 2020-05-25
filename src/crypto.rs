@@ -7,6 +7,3 @@ pub use self::eddsa::EddsaPublicKey;
 
 pub mod hashcode;
 pub use self::hashcode::HashCode;
-
-mod peerid;
-pub use self::peerid::PeerIdentity;

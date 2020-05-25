@@ -1,21 +1,13 @@
-use crate::crypto::PeerIdentity;
-use crate::service::{self, connect, ServiceConnection};
-use crate::transport::{self, TransportServiceInitError};
-use crate::{Cfg, Hello, MessageType};
+use crate::service;
+use crate::util::{Config, Hello, MessageType, PeerIdentity};
 use byteorder::{BigEndian, ReadBytesExt};
 use std::io::{self, Cursor};
 
 pub mod msg;
 
-/// Get our own identity.
-pub async fn get_self_id(cfg: &Cfg) -> Result<PeerIdentity, TransportServiceInitError> {
-    let hello = transport::self_hello(cfg).await?;
-    Ok(hello.id)
-}
-
 /// Struct representing all the currently connected peers.
 pub struct PeerInfo {
-    conn: ServiceConnection,
+    conn: service::Connection,
 }
 
 /// Errors returned by `Peers::next`.
@@ -42,8 +34,8 @@ pub enum PeerInfoError {
 }
 
 impl PeerInfo {
-    pub async fn connect(cfg: &Cfg) -> Result<PeerInfo, PeerInfoError> {
-        let conn = connect(cfg, "peerinfo").await?;
+    pub async fn connect(cfg: &Config) -> Result<PeerInfo, PeerInfoError> {
+        let conn = service::connect(cfg, "peerinfo").await?;
         Ok(PeerInfo { conn })
     }
 
@@ -62,9 +54,10 @@ impl PeerInfo {
     ///
     /// ```rust
     /// use async_std::task;
-    /// use gnunet::{Cfg, PeerInfo};
+    /// use gnunet::util::Config;
+    /// use gnunet::service::PeerInfo;
     ///
-    /// let config = Cfg::default().unwrap();
+    /// let config = Config::default().unwrap();
     /// let peers = task::block_on(async {
     ///     let mut peerinfo = PeerInfo::connect(&config).await.unwrap();
     ///     peerinfo.all_peers().await.unwrap()

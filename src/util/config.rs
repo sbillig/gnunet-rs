@@ -1,4 +1,4 @@
-use crate::{paths, time, util};
+use super::{paths, strings, time};
 use std::borrow::{Borrow, Cow};
 use std::collections::{hash_map, HashMap};
 use std::ffi::OsStr;
@@ -10,12 +10,12 @@ use std::str::FromStr;
 use thiserror::Error;
 
 #[derive(Clone)]
-pub struct Cfg {
+pub struct Config {
     data: HashMap<String, HashMap<String, String>>,
 }
 
 #[derive(Debug, Error)]
-pub enum CfgDefaultError {
+pub enum ConfigDefaultError {
     #[error("Failed to determine GNUnet installation data directory")]
     NoDataDir,
     #[error("Failed to read Gnunet installation data directory. Reason: {source}")]
@@ -26,12 +26,12 @@ pub enum CfgDefaultError {
     #[error("Failed to load config file. Reason: {source}")]
     LoadFile {
         #[from]
-        source: CfgLoadRawError,
+        source: ConfigLoadRawError,
     },
 }
 
 #[derive(Debug, Error)]
-pub enum CfgLoadRawError {
+pub enum ConfigLoadRawError {
     #[error("Failed to open file. Reason: {source}")]
     FileOpen {
         #[from]
@@ -40,12 +40,12 @@ pub enum CfgLoadRawError {
     #[error("Failed to deserialize config. Reason: {source}")]
     Deserialize {
         #[from]
-        source: CfgDeserializeError,
+        source: ConfigDeserializeError,
     },
 }
 
 #[derive(Debug, Error)]
-pub enum CfgDeserializeError {
+pub enum ConfigDeserializeError {
     #[error("I/O error reading from reader. Specifically: {source}")]
     Io {
         #[from]
@@ -53,7 +53,7 @@ pub enum CfgDeserializeError {
     },
     #[error("Failed to load inline configuration file. line {line_number}: Failed to load \"{filename}\" ({source})")]
     LoadInline {
-        source: Box<CfgLoadRawError>,
+        source: Box<ConfigLoadRawError>,
         line_number: usize,
         filename: String,
     },
@@ -67,21 +67,21 @@ pub enum CfgDeserializeError {
 }
 
 #[derive(Debug, Error)]
-pub enum CfgLoadError {
+pub enum ConfigLoadError {
     #[error("Failed to load system default configuration. Reason: {source}")]
     LoadDefault {
         #[from]
-        source: CfgDefaultError,
+        source: ConfigDefaultError,
     },
     #[error("Failed to load the config file. Reason: {source}")]
     LoadFile {
         #[from]
-        source: CfgLoadRawError,
+        source: ConfigLoadRawError,
     },
 }
 
 #[derive(Debug, Error)]
-pub enum CfgGetIntError {
+pub enum ConfigGetIntError {
     #[error("The config does not contain a section with that name")]
     NoSection,
     #[error("The config section does contain that key")]
@@ -93,7 +93,7 @@ pub enum CfgGetIntError {
     },
 }
 #[derive(Debug, Error)]
-pub enum CfgGetFloatError {
+pub enum ConfigGetFloatError {
     #[error("The config does not contain a section with that name")]
     NoSection,
     #[error("The config section does contain that key")]
@@ -105,7 +105,7 @@ pub enum CfgGetFloatError {
     },
 }
 #[derive(Debug, Error)]
-pub enum CfgGetRelativeTimeError {
+pub enum ConfigGetRelativeTimeError {
     #[error("The config does not contain a section with that name")]
     NoSection,
     #[error("The config section does contain that key")]
@@ -113,12 +113,12 @@ pub enum CfgGetRelativeTimeError {
     #[error("The value is not a valid relative time. Reason: {source}")]
     Parse {
         #[from]
-        source: util::strings::ParseQuantityWithUnitsError,
+        source: strings::ParseQuantityWithUnitsError,
     },
 }
 
 #[derive(Debug, Error)]
-pub enum CfgGetFilenameError {
+pub enum ConfigGetFilenameError {
     #[error("The config does not contain a section with that name")]
     NoSection,
     #[error("The config section does contain that key")]
@@ -126,12 +126,12 @@ pub enum CfgGetFilenameError {
     #[error("Failed to '$'-expand the config entry. Reason: {source}")]
     ExpandDollar {
         #[from]
-        source: CfgExpandDollarError,
+        source: ConfigExpandDollarError,
     },
 }
 
 #[derive(Debug, Error)]
-pub enum CfgExpandDollarError {
+pub enum ConfigExpandDollarError {
     #[error("Tried to expand to an environment variable containing invalid unicode. variable: '{var_name}'")]
     NonUnicodeEnvVar { var_name: String },
     #[error("Syntax error in '$'-expansion. Error at byte position {pos}")]
@@ -142,20 +142,23 @@ pub enum CfgExpandDollarError {
     UnclosedBraces,
 }
 
-impl Cfg {
-    pub fn empty() -> Cfg {
-        Cfg {
+impl Config {
+    pub fn empty() -> Config {
+        Config {
             data: HashMap::new(),
         }
     }
 
-    pub fn load_raw<P: AsRef<Path>>(path: P) -> Result<Cfg, CfgLoadRawError> {
+    pub fn load_raw<P: AsRef<Path>>(path: P) -> Result<Config, ConfigLoadRawError> {
         let f = File::open(path)?;
-        Ok(Cfg::deserialize(f, true)?)
+        Ok(Config::deserialize(f, true)?)
     }
 
-    pub fn deserialize<R: Read>(read: R, allow_inline: bool) -> Result<Cfg, CfgDeserializeError> {
-        use self::CfgDeserializeError::*;
+    pub fn deserialize<R: Read>(
+        read: R,
+        allow_inline: bool,
+    ) -> Result<Config, ConfigDeserializeError> {
+        use self::ConfigDeserializeError::*;
         use regex::Regex;
 
         // TODO consider using regex! from regex_macro which should compile quicker
@@ -163,7 +166,7 @@ impl Cfg {
         let re_key_value = Regex::new(r"^(.+)=(.*)$").unwrap();
         let re_inline = Regex::new(r"^(?i)@inline@ (.+)$").unwrap();
 
-        let mut cfg = Cfg::empty();
+        let mut cfg = Config::empty();
         let mut section = String::new();
         let br = BufReader::new(read);
         for (i, res_line) in br.lines().enumerate() {
@@ -186,7 +189,7 @@ impl Cfg {
                 if let Some(caps) = re_inline.captures(line) {
                     let filename = caps.at(1).unwrap().trim(); // panic is logically impossible
                     if allow_inline {
-                        let cfg_raw = match Cfg::load_raw(filename) {
+                        let cfg_raw = match Config::load_raw(filename) {
                             Ok(cfg_raw) => cfg_raw,
                             Err(e) => {
                                 return Err(LoadInline {
@@ -247,7 +250,7 @@ impl Cfg {
         Ok(cfg)
     }
 
-    pub fn merge(&mut self, mut other: Cfg) {
+    pub fn merge(&mut self, mut other: Config) {
         for (k, mut v) in other.data.drain() {
             match self.data.entry(k) {
                 hash_map::Entry::Occupied(oe) => {
@@ -263,8 +266,8 @@ impl Cfg {
         }
     }
 
-    pub fn default() -> Result<Cfg, CfgDefaultError> {
-        use self::CfgDefaultError::*;
+    pub fn default() -> Result<Config, ConfigDefaultError> {
+        use self::ConfigDefaultError::*;
 
         let mut data_dir = match paths::data_dir() {
             Some(dd) => dd,
@@ -272,7 +275,7 @@ impl Cfg {
         };
 
         data_dir.push("config.d");
-        let mut cfg = Cfg::empty();
+        let mut cfg = Config::empty();
         let rd = match std::fs::read_dir(data_dir) {
             Ok(dirent) => dirent,
             Err(e) => return Err(ReadDataDir { source: e }),
@@ -286,7 +289,7 @@ impl Cfg {
             let path = dirent.path();
             if let Ok(file_type) = dirent.file_type() {
                 if path.extension() == Some(OsStr::new("conf")) && file_type.is_file() {
-                    let cfg_raw = Cfg::load_raw(path)?;
+                    let cfg_raw = Config::load_raw(path)?;
                     cfg.merge(cfg_raw);
                 }
             }
@@ -295,15 +298,15 @@ impl Cfg {
         Ok(cfg)
     }
 
-    pub fn load<P: AsRef<Path>>(path: P) -> Result<Cfg, CfgLoadError> {
-        let mut cfg = Cfg::default()?;
-        let cfg_raw = Cfg::load_raw(path)?;
+    pub fn load<P: AsRef<Path>>(path: P) -> Result<Config, ConfigLoadError> {
+        let mut cfg = Config::default()?;
+        let cfg_raw = Config::load_raw(path)?;
         cfg.merge(cfg_raw);
         Ok(cfg)
     }
 
-    pub fn get_int(&self, section: &str, key: &str) -> Result<u64, CfgGetIntError> {
-        use self::CfgGetIntError::*;
+    pub fn get_int(&self, section: &str, key: &str) -> Result<u64, ConfigGetIntError> {
+        use self::ConfigGetIntError::*;
 
         match self.data.get(section) {
             Some(map) => match map.get(key) {
@@ -314,8 +317,8 @@ impl Cfg {
         }
     }
 
-    pub fn get_float(&self, section: &str, key: &str) -> Result<f32, CfgGetFloatError> {
-        use self::CfgGetFloatError::*;
+    pub fn get_float(&self, section: &str, key: &str) -> Result<f32, ConfigGetFloatError> {
+        use self::ConfigGetFloatError::*;
 
         match self.data.get(section) {
             Some(map) => match map.get(key) {
@@ -330,8 +333,8 @@ impl Cfg {
         &self,
         section: &str,
         key: &str,
-    ) -> Result<time::Relative, CfgGetRelativeTimeError> {
-        use self::CfgGetRelativeTimeError::*;
+    ) -> Result<time::Relative, ConfigGetRelativeTimeError> {
+        use self::ConfigGetRelativeTimeError::*;
 
         match self.data.get(section) {
             Some(map) => match map.get(key) {
@@ -342,8 +345,12 @@ impl Cfg {
         }
     }
 
-    pub fn get_filename(&self, section: &str, key: &str) -> Result<PathBuf, CfgGetFilenameError> {
-        use self::CfgGetFilenameError::*;
+    pub fn get_filename(
+        &self,
+        section: &str,
+        key: &str,
+    ) -> Result<PathBuf, ConfigGetFilenameError> {
+        use self::ConfigGetFilenameError::*;
 
         match self.data.get(section) {
             Some(map) => match map.get(key) {
@@ -376,8 +383,8 @@ impl Cfg {
         None
     }
 
-    pub fn expand_dollar<'o>(&self, orig: &'o str) -> Result<String, CfgExpandDollarError> {
-        use self::CfgExpandDollarError::*;
+    pub fn expand_dollar<'o>(&self, orig: &'o str) -> Result<String, ConfigExpandDollarError> {
+        use self::ConfigExpandDollarError::*;
 
         let lookup = |name: &str| {
             use std::env::VarError;
@@ -525,7 +532,7 @@ mod tests {
 
     #[test]
     fn test_expand_dollar() {
-        let mut cfg = Cfg::empty();
+        let mut cfg = Config::empty();
 
         let res = cfg.set_string("PATHS", "IN_PATHS", String::from("in_paths"));
         assert!(res.is_none());

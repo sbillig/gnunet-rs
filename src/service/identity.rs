@@ -6,10 +6,9 @@ use std::collections::HashMap;
 use std::fmt;
 use std::io;
 
-use crate::configuration::Cfg;
-use crate::service::{self, MessageHeader, MessageTrait, ServiceConnection};
-use crate::util::ReadCStringWithLenError;
-use crate::{EcdsaPrivateKey, EcdsaPublicKey, HashCode, MessageType};
+use crate::crypto::{EcdsaPrivateKey, EcdsaPublicKey, HashCode};
+use crate::util::{Config, MessageHeader, MessageTrait, MessageType};
+use crate::{message_to_slice, service};
 
 /// A GNUnet identity.
 ///
@@ -62,7 +61,7 @@ impl fmt::Display for Ego {
 
 /// A handle to the identity service.
 pub struct IdentityService {
-    conn: ServiceConnection,
+    conn: service::Connection,
 }
 
 /// Errors returned by `IdentityService::connect`
@@ -123,11 +122,8 @@ pub enum GetDefaultEgoError {
         #[from]
         source: std::str::Utf8Error,
     },
-    #[error("Failed to receive the identity name from the service. Reason: {source}")]
-    ReceiveName {
-        #[from]
-        source: ReadCStringWithLenError,
-    },
+    #[error("Failed to receive the identity name from the service")]
+    ReceiveName,
     #[error("Failed to connect to the identity service. Reason: {source}")]
     Connect {
         #[from]
@@ -144,7 +140,7 @@ impl IdentityService {
     ///
     /// Returns either a promise of a handle to the identity service or a `ServiceConnectError`.
     /// `cfg` contains the configuration to use to connect to the service.
-    pub async fn connect(cfg: &Cfg) -> Result<IdentityService, ConnectError> {
+    pub async fn connect(cfg: &Config) -> Result<IdentityService, ConnectError> {
         let conn = service::connect(cfg, "identity").await?;
         Ok(IdentityService { conn })
     }
@@ -196,7 +192,7 @@ impl IdentityService {
                 Err(GetDefaultEgoError::ServiceResponse { response: errmsg })
             }
             Some(MessageType::IDENTITY_SET_DEFAULT) => parse_set_default_msg(&body),
-            _ => Err(GetDefaultEgoError::InvalidResponse), // todo: better err
+            _ => Err(GetDefaultEgoError::InvalidResponse), // TODO: better err
         }
     }
 }

@@ -1,7 +1,8 @@
 use super::RecordType;
 use crate::crypto::{EcdsaPrivateKey, EcdsaPublicKey};
-use crate::service::{MessageHeader, MessageTrait};
-use crate::MessageType;
+use crate::message_to_slice;
+use crate::util::{MessageHeader, MessageTrait, MessageType};
+
 use std::convert::TryInto;
 
 /// Options for GNS lookups.

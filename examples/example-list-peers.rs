@@ -1,4 +1,5 @@
-use gnunet::{PeerIdentity, PeerInfo};
+use gnunet::service::{transport, PeerInfo};
+use gnunet::util::{Config, PeerIdentity};
 use std::error::Error;
 use std::str::FromStr;
 use tracing_subscriber::FmtSubscriber;
@@ -10,7 +11,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .finish();
     tracing::subscriber::set_global_default(subscriber).unwrap();
 
-    let config = gnunet::Cfg::default()?;
+    let config = Config::default()?;
     let mut peerinfo = PeerInfo::connect(&config).await?;
 
     // get all peers
@@ -27,9 +28,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
         None => println!("peer not found"),
     };
 
-    // get hello id
-    // let local_id = gnunet::get_self_id(&config, &network).await?;
-    // println!("Our id is: {}", local_id);
+    let hello = transport::self_hello(&config).await?;
+    println!("Our id is: {}", hello.id);
 
     Ok(())
 }

@@ -5,18 +5,19 @@ use std::io::{self, Cursor};
 use thiserror::Error;
 
 pub use self::record::*;
-use crate::service::{self, ServiceConnection};
-use crate::{Cfg, EcdsaPrivateKey, EcdsaPublicKey, MessageType};
+use crate::crypto::{EcdsaPrivateKey, EcdsaPublicKey};
+use crate::service;
+use crate::util::{Config, MessageType};
 
-mod msg;
-mod record;
+pub mod msg;
+pub mod record;
 pub use msg::LocalOptions;
 
 pub const GNUNET_DNSPARSER_MAX_NAME_LENGTH: u16 = 253;
 
 /// A handle to a locally-running instance of the GNS daemon.
 pub struct GNS {
-    conn: ServiceConnection,
+    conn: service::Connection,
     lookup_id: u32,
 }
 
@@ -39,7 +40,7 @@ impl GNS {
     ///
     /// Returns either a promise to the GNS service or a `service::ConnectError`. `cfg` contains the
     /// configuration to use to connect to the service.
-    pub async fn connect(cfg: &Cfg) -> Result<GNS, service::ConnectError> {
+    pub async fn connect(cfg: &Config) -> Result<GNS, service::ConnectError> {
         let conn = service::connect(cfg, "gns").await?;
         Ok(GNS { conn, lookup_id: 0 })
     }

@@ -1,7 +1,7 @@
-use crate::crypto::PeerIdentity;
-use crate::hello::HelloDeserializeError;
-use crate::service::{self, MessageHeader, MessageTrait};
-use crate::{Cfg, Hello, MessageType};
+use crate::util::{
+    Config, Hello, HelloDeserializeError, MessageHeader, MessageTrait, MessageType, PeerIdentity,
+};
+use crate::{message_to_slice, service};
 use std::convert::TryInto;
 use std::io::{self, Cursor};
 
@@ -33,7 +33,7 @@ pub enum TransportServiceInitError {
 }
 
 impl TransportService {
-    pub async fn connect(cfg: &Cfg) -> Result<TransportService, TransportServiceInitError> {
+    pub async fn connect(cfg: &Config) -> Result<TransportService, TransportServiceInitError> {
         let mut conn = service::connect(cfg, "transport").await?;
         let id = PeerIdentity::default();
         let msg = StartMessage::new(0, id);
@@ -50,7 +50,7 @@ impl TransportService {
     }
 }
 
-pub async fn self_hello(cfg: &Cfg) -> Result<Hello, TransportServiceInitError> {
+pub async fn self_hello(cfg: &Config) -> Result<Hello, TransportServiceInitError> {
     let ts = TransportService::connect(cfg).await?;
     Ok(ts.our_hello)
 }

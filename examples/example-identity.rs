@@ -1,4 +1,5 @@
-use gnunet::{IdentityService, PeerIdentity};
+use gnunet::service::IdentityService;
+use gnunet::util::Config;
 use std::error::Error;
 use std::str::FromStr;
 use tracing_subscriber::FmtSubscriber;
@@ -10,7 +11,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
         .finish();
     tracing::subscriber::set_global_default(subscriber).unwrap();
 
-    let config = gnunet::Cfg::default()?;
+    let config = Config::default()?;
     let ident = IdentityService::connect(&config).await?;
 
     Ok(())

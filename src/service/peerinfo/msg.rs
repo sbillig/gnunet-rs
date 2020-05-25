@@ -1,6 +1,5 @@
-use crate::crypto::PeerIdentity;
-use crate::service::{MessageHeader, MessageTrait};
-use crate::MessageType;
+use crate::message_to_slice;
+use crate::util::{MessageHeader, MessageTrait, MessageType, PeerIdentity};
 use std::convert::TryInto;
 use std::mem::size_of;
 
