@@ -16,7 +16,7 @@ pub use msg::LocalOptions;
 pub const GNUNET_DNSPARSER_MAX_NAME_LENGTH: u16 = 253;
 
 /// A handle to a locally-running instance of the GNS daemon.
-pub struct GNS {
+pub struct Client {
     conn: service::Connection,
     lookup_id: u32,
 }
@@ -35,14 +35,14 @@ pub enum LookupError {
     },
 }
 
-impl GNS {
+impl Client {
     /// Connect to the GNS service.
     ///
     /// Returns either a promise to the GNS service or a `service::ConnectError`. `cfg` contains the
     /// configuration to use to connect to the service.
-    pub async fn connect(cfg: &Config) -> Result<GNS, service::ConnectError> {
+    pub async fn connect(cfg: &Config) -> Result<Client, service::ConnectError> {
         let conn = service::connect(cfg, "gns").await?;
-        Ok(GNS { conn, lookup_id: 0 })
+        Ok(Client { conn, lookup_id: 0 })
     }
 
     /// Lookup a vector of GNS records.

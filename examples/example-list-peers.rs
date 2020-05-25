@@ -1,4 +1,4 @@
-use gnunet::service::{transport, PeerInfo};
+use gnunet::service::{peerinfo, transport};
 use gnunet::util::{Config, PeerIdentity};
 use std::error::Error;
 use std::str::FromStr;
@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     tracing::subscriber::set_global_default(subscriber).unwrap();
 
     let config = Config::default()?;
-    let mut peerinfo = PeerInfo::connect(&config).await?;
+    let mut peerinfo = peerinfo::Client::connect(&config).await?;
 
     // get all peers
     let peers_vec = peerinfo.all_peers().await?;

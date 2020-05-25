@@ -6,11 +6,59 @@ use std::io::{self, Cursor};
 pub mod msg;
 
 /// Struct representing all the currently connected peers.
-pub struct PeerInfo {
+pub struct Client {
     conn: service::Connection,
 }
 
-/// Errors returned by `Peers::next`.
+impl Client {
+    pub async fn connect(cfg: &Config) -> Result<Client, PeerInfoError> {
+        let conn = service::connect(cfg, "peerinfo").await?;
+        Ok(Client { conn })
+    }
+
+    pub async fn get_peer(
+        &mut self,
+        id: &PeerIdentity,
+    ) -> Result<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
+        self.conn.send(msg::ListPeer::new(0, *id)).await?;
+        let (typ, buf) = self.conn.recv().await?;
+        parse_peer(typ, Cursor::new(buf))
+    }
+
+    /// Returns a vector of all connected peers.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// use async_std::task;
+    /// use gnunet::util::Config;
+    /// use gnunet::service::peerinfo;
+    ///
+    /// let config = Config::default().unwrap();
+    /// let peers = task::block_on(async {
+    ///     let mut pi = peerinfo::Client::connect(&config).await.unwrap();
+    ///     pi.all_peers().await.unwrap()
+    /// });
+    /// for (peerid, hello) in peers {
+    ///   // do something with peerid
+    /// }
+    /// ```
+    pub async fn all_peers(&mut self) -> Result<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
+        self.conn.send(msg::ListAllPeers::new(0)).await?;
+        let mut v = Vec::new();
+
+        loop {
+            let (typ, body) = self.conn.recv().await?;
+            if let Some(p) = parse_peer(typ, Cursor::new(body))? {
+                v.push(p);
+            } else {
+                break;
+            }
+        }
+        Ok(v)
+    }
+}
+
 #[derive(Debug, Error)]
 pub enum PeerInfoError {
     #[error("The response from the gnunet-peerinfo service was incoherent")]
@@ -31,55 +79,6 @@ pub enum PeerInfoError {
         #[from]
         source: service::ConnectError,
     },
-}
-
-impl PeerInfo {
-    pub async fn connect(cfg: &Config) -> Result<PeerInfo, PeerInfoError> {
-        let conn = service::connect(cfg, "peerinfo").await?;
-        Ok(PeerInfo { conn })
-    }
-
-    pub async fn get_peer(
-        &mut self,
-        id: &PeerIdentity,
-    ) -> Result<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-        self.conn.send(msg::ListPeer::new(0, *id)).await?;
-        let (typ, buf) = self.conn.recv().await?;
-        parse_peer(typ, Cursor::new(buf))
-    }
-
-    /// Returns a vector of all connected peers.
-    ///
-    /// # Example
-    ///
-    /// ```rust
-    /// use async_std::task;
-    /// use gnunet::util::Config;
-    /// use gnunet::service::PeerInfo;
-    ///
-    /// let config = Config::default().unwrap();
-    /// let peers = task::block_on(async {
-    ///     let mut peerinfo = PeerInfo::connect(&config).await.unwrap();
-    ///     peerinfo.all_peers().await.unwrap()
-    /// });
-    /// for (peerid, hello) in peers {
-    ///   // do something with peerid
-    /// }
-    /// ```
-    pub async fn all_peers(&mut self) -> Result<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-        self.conn.send(msg::ListAllPeers::new(0)).await?;
-        let mut v = Vec::new();
-
-        loop {
-            let (typ, body) = self.conn.recv().await?;
-            if let Some(p) = parse_peer(typ, Cursor::new(body))? {
-                v.push(p);
-            } else {
-                break;
-            }
-        }
-        Ok(v)
-    }
 }
 
 /// Parse some data in `mr` into a tuple of `PeerIdentity` and optionally a `Hello`.

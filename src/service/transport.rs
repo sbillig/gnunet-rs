@@ -5,14 +5,35 @@ use crate::{message_to_slice, service};
 use std::convert::TryInto;
 use std::io::{self, Cursor};
 
-pub struct TransportService {
-    //service_reader: ServiceReader,
-    //service_writer: ServiceWriter,
+pub struct Client {
+    conn: service::Connection,
     our_hello: Hello,
 }
 
+impl Client {
+    pub async fn connect(cfg: &Config) -> Result<Client, ConnectError> {
+        let mut conn = service::connect(cfg, "transport").await?;
+        conn.send(StartMessage::new(0, PeerIdentity::default()))
+            .await?;
+
+        let (typ, body) = conn.recv().await?;
+        match MessageType::from_u16(typ) {
+            Some(MessageType::HELLO) => {
+                let our_hello = Hello::deserialize(&mut Cursor::new(body))?;
+                Ok(Client { conn, our_hello })
+            }
+            _ => Err(ConnectError::NonHelloMessage { typ }),
+        }
+    }
+}
+
+pub async fn self_hello(cfg: &Config) -> Result<Hello, ConnectError> {
+    let ts = Client::connect(cfg).await?;
+    Ok(ts.our_hello)
+}
+
 #[derive(Debug, Error)]
-pub enum TransportServiceInitError {
+pub enum ConnectError {
     #[error("Expected a HELLO message from the service but received a different message type. Received message type {typ:?} instead.")]
     NonHelloMessage { typ: u16 },
     #[error("There was an I/O error communicating with the service. Error: {source}")]
@@ -30,29 +51,6 @@ pub enum TransportServiceInitError {
         #[from]
         source: HelloDeserializeError,
     },
-}
-
-impl TransportService {
-    pub async fn connect(cfg: &Config) -> Result<TransportService, TransportServiceInitError> {
-        let mut conn = service::connect(cfg, "transport").await?;
-        let id = PeerIdentity::default();
-        let msg = StartMessage::new(0, id);
-        conn.send(msg).await?;
-        let (typ, body) = conn.recv().await?;
-        match MessageType::from_u16(typ) {
-            Some(MessageType::HELLO) => {
-                let mut mr = Cursor::new(body);
-                let our_hello = Hello::deserialize(&mut mr)?;
-                Ok(TransportService { our_hello })
-            }
-            _ => Err(TransportServiceInitError::NonHelloMessage { typ }),
-        }
-    }
-}
-
-pub async fn self_hello(cfg: &Config) -> Result<Hello, TransportServiceInitError> {
-    let ts = TransportService::connect(cfg).await?;
-    Ok(ts.our_hello)
 }
 
 /// Representing StartMessage in transport.

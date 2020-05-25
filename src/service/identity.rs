@@ -60,11 +60,11 @@ impl fmt::Display for Ego {
 }
 
 /// A handle to the identity service.
-pub struct IdentityService {
+pub struct Client {
     conn: service::Connection,
 }
 
-/// Errors returned by `IdentityService::connect`
+/// Errors returned by `Client::connect`
 #[derive(Debug, Error)]
 pub enum ConnectError {
     #[error("Failed to connect to the service. Reason: {source}")]
@@ -101,7 +101,7 @@ pub enum UpdateStreamError {
     },
 }
 
-/// Errors returned by `IdentityService::get_default_ego`
+/// Errors returned by `Client::get_default_ego`
 #[derive(Debug, Error)]
 pub enum GetDefaultEgoError {
     #[error(
@@ -135,14 +135,14 @@ pub enum GetDefaultEgoError {
     Disconnected,
 }
 
-impl IdentityService {
+impl Client {
     /// Connect to the identity service.
     ///
     /// Returns either a promise of a handle to the identity service or a `ServiceConnectError`.
     /// `cfg` contains the configuration to use to connect to the service.
-    pub async fn connect(cfg: &Config) -> Result<IdentityService, ConnectError> {
+    pub async fn connect(cfg: &Config) -> Result<Client, ConnectError> {
         let conn = service::connect(cfg, "identity").await?;
-        Ok(IdentityService { conn })
+        Ok(Client { conn })
     }
 
     // TODO: return Stream

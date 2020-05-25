@@ -1,4 +1,4 @@
-use gnunet::service::IdentityService;
+use gnunet::service::identity;
 use gnunet::util::Config;
 use std::error::Error;
 use std::str::FromStr;
@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     tracing::subscriber::set_global_default(subscriber).unwrap();
 
     let config = Config::default()?;
-    let ident = IdentityService::connect(&config).await?;
+    let ident = identity::Client::connect(&config).await?;
 
     Ok(())
 }
