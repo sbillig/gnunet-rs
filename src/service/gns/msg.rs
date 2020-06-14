@@ -1,7 +1,8 @@
 use super::RecordType;
 use crate::crypto::{EcdsaPrivateKey, EcdsaPublicKey};
-use crate::message_to_slice;
-use crate::util::{MessageHeader, MessageTrait, MessageType};
+
+use crate::util::serial::*;
+use crate::util::{MessageHeader, MessageType};
 
 use std::convert::TryInto;
 
@@ -18,7 +19,8 @@ pub enum LocalOptions {
 }
 
 /// Packed struct representing GNUNET_GNS_ClientLookupMessage.
-#[repr(C, packed)]
+#[derive(AsBytes)]
+#[repr(C)]
 pub struct Lookup {
     header: MessageHeader,
     id: u32,
@@ -54,12 +56,5 @@ impl Lookup {
                 None => EcdsaPrivateKey::zeros(),
             },
         }
-    }
-}
-
-impl MessageTrait for Lookup {
-    // Note that this does not include the 0-terminated string.
-    fn into_slice(&self) -> &[u8] {
-        message_to_slice!(Lookup, self)
     }
 }

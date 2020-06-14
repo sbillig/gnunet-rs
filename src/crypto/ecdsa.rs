@@ -1,29 +1,31 @@
+use std::convert::TryFrom;
 use std::fmt::{self, Debug, Formatter};
-use std::io::{self, Read, Write};
-use std::str::from_utf8;
 use std::str::FromStr;
 
 use crate::crypto::HashCode;
-use crate::util::strings::{data_to_string, string_to_data};
+use crate::util::serial::*;
+use crate::util::strings::{crockford_base32_decode, crockford_base32_encode};
 
 /// A 256bit ECDSA public key.
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, AsBytes, FromBytes)]
+#[repr(C)]
 pub struct EcdsaPublicKey {
     data: [u8; 32],
 }
 
 impl EcdsaPublicKey {
-    /// Serialize key to a byte stream.
-    pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error>
-    where
-        T: Write,
-    {
-        w.write_all(&self.data)
-    }
-
     /// Compute the hash of this key.
     pub fn hash(&self) -> HashCode {
         HashCode::from_buffer(&self.data)
+    }
+
+    pub fn bytes(&self) -> &[u8] {
+        &self.data
+    }
+
+    pub fn from_bytes(b: &[u8]) -> Option<Self> {
+        let data = <[u8; 32]>::try_from(b).ok()?;
+        Some(Self { data })
     }
 }
 
@@ -31,65 +33,43 @@ impl EcdsaPublicKey {
 #[derive(Debug, Error)]
 pub enum EcdsaPublicKeyFromStrError {
     #[error("Failed to parse the string as an ecdsa public key")]
-    ParsingFailed,
+    DecodeFailed,
+
+    #[error("Incorrect ecdsa public key data length: {len}.")]
+    WrongLen { len: usize },
 }
 
 impl FromStr for EcdsaPublicKey {
     type Err = EcdsaPublicKeyFromStrError;
-
-    fn from_str(s: &str) -> Result<EcdsaPublicKey, EcdsaPublicKeyFromStrError> {
-        let mut res = [0; 32];
-        if string_to_data(&s.to_string(), &mut res) {
-            Ok(EcdsaPublicKey { data: res })
-        } else {
-            Err(EcdsaPublicKeyFromStrError::ParsingFailed)
-        }
+    fn from_str(s: &str) -> Result<Self, EcdsaPublicKeyFromStrError> {
+        let b = crockford_base32_decode(s).ok_or(EcdsaPublicKeyFromStrError::DecodeFailed)?;
+        Self::from_bytes(&b).ok_or(EcdsaPublicKeyFromStrError::WrongLen { len: b.len() })
     }
 }
 
 impl Debug for EcdsaPublicKey {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        let res = data_to_string(&self.data);
-        fmt::Display::fmt(from_utf8(res.as_bytes()).unwrap(), f)
+        write!(f, "{}", &crockford_base32_encode(&self.data))
     }
 }
 
 impl fmt::Display for EcdsaPublicKey {
     fn fmt(&self, f: &mut Formatter) -> fmt::Result {
-        Debug::fmt(self, f)
+        write!(f, "{}", &crockford_base32_encode(&self.data))
     }
 }
 
 /// A 256bit ECDSA private key.
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, AsBytes, FromBytes)]
+#[repr(C)]
 pub struct EcdsaPrivateKey {
     data: [u8; 32],
 }
 
 impl EcdsaPrivateKey {
-    /// Serialize this key to a byte stream.
-    pub fn serialize<T>(&self, w: &mut T) -> Result<(), io::Error>
-    where
-        T: Write,
-    {
-        w.write_all(&self.data)
-    }
-
-    /// Deserialize a from a byte stream.
-    pub fn deserialize<T>(r: &mut T) -> Result<EcdsaPrivateKey, io::Error>
-    where
-        T: Read,
-    {
-        let mut sk = EcdsaPrivateKey { data: [0; 32] };
-        r.read_exact(&mut sk.data[..])?;
-        Ok(sk)
-    }
-
-    /// Deserialize a from a byte stream.
-    pub fn from_bytes<T: AsRef<[u8]>>(b: T) -> Result<EcdsaPrivateKey, io::Error> {
-        let mut data = [0; 32];
-        data.copy_from_slice(b.as_ref());
-        Ok(EcdsaPrivateKey { data })
+    pub fn from_bytes(b: &[u8]) -> Option<Self> {
+        let data = <[u8; 32]>::try_from(b).ok()?;
+        Some(Self { data })
     }
 
     /// Get the corresponding public key to this private key.

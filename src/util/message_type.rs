@@ -1,6 +1,10 @@
-use num::FromPrimitive;
+use num::{FromPrimitive, ToPrimitive};
 
 impl MessageType {
+    pub fn to_u16(&self) -> u16 {
+        <MessageType as ToPrimitive>::to_u16(&self).unwrap()
+    }
+
     pub fn from_u16(t: u16) -> Option<MessageType> {
         <MessageType as FromPrimitive>::from_u16(t)
     }
@@ -8,7 +12,7 @@ impl MessageType {
 
 #[allow(non_camel_case_types)]
 #[repr(u16)]
-#[derive(Debug, FromPrimitive, PartialEq, Eq)]
+#[derive(Debug, FromPrimitive, ToPrimitive, PartialEq, Eq)]
 pub enum MessageType {
     // UTIL message types
     /// Test if service is online.

@@ -1,11 +1,18 @@
 use crate::service;
-use crate::util::{Config, Hello, MessageType, PeerIdentity};
-use byteorder::{BigEndian, ReadBytesExt};
-use std::io::{self, Cursor};
+use crate::util::{expect_either, Config, ExpectError, Hello, Left, PeerIdentity, Right};
+use std::io;
 
 pub mod msg;
+use msg::{Info, InfoEnd};
 
-/// Struct representing all the currently connected peers.
+// The peerinfo service can be sent the following message types:
+// HELLO - Hello struct - TODO add_peer
+// PEERINFO_GET - ListPeer struct
+// PEERINFO_GET_ALL - ListAllPeers struct
+// PEERINFO_NOTIFY - Notify struct - TODO
+
+// See https://docs.gnunet.org/handbook/gnunet.html#PEERINFO-Subsystem
+
 pub struct Client {
     conn: service::Connection,
 }
@@ -16,13 +23,14 @@ impl Client {
         Ok(Client { conn })
     }
 
-    pub async fn get_peer(
-        &mut self,
-        id: &PeerIdentity,
-    ) -> Result<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-        self.conn.send(msg::ListPeer::new(0, *id)).await?;
+    pub async fn get_peer(&mut self, id: &PeerIdentity) -> Result<Option<Hello>, PeerInfoError> {
+        self.conn.send(&msg::ListPeer::new(false, *id)).await?;
+
         let (typ, buf) = self.conn.recv().await?;
-        parse_peer(typ, Cursor::new(buf))
+        match expect_either::<Info, InfoEnd>(typ, &buf)? {
+            Left(info) => Ok(Some(info.hello)),
+            Right(_) => Ok(None),
+        }
     }
 
     /// Returns a vector of all connected peers.
@@ -39,32 +47,31 @@ impl Client {
     ///     let mut pi = peerinfo::Client::connect(&config).await.unwrap();
     ///     pi.all_peers().await.unwrap()
     /// });
-    /// for (peerid, hello) in peers {
-    ///   // do something with peerid
+    /// for hello in peers {
+    ///   // do something with peer hello
     /// }
     /// ```
-    pub async fn all_peers(&mut self) -> Result<Vec<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-        self.conn.send(msg::ListAllPeers::new(0)).await?;
+    pub async fn all_peers(&mut self) -> Result<Vec<Hello>, PeerInfoError> {
+        self.conn.send(&msg::ListAllPeers::new(false)).await?;
         let mut v = Vec::new();
 
         loop {
-            let (typ, body) = self.conn.recv().await?;
-            if let Some(p) = parse_peer(typ, Cursor::new(body))? {
-                v.push(p);
-            } else {
-                break;
+            let (typ, buf) = self.conn.recv().await?;
+            match expect_either::<Info, InfoEnd>(typ, &buf)? {
+                Left(info) => v.push(info.hello),
+                Right(_) => return Ok(v),
             }
         }
-        Ok(v)
     }
 }
 
 #[derive(Debug, Error)]
 pub enum PeerInfoError {
-    #[error("The response from the gnunet-peerinfo service was incoherent")]
-    InvalidResponse,
-    #[error("The peerinfo service sent an unexpected response message type: {typ:?}.")]
-    UnexpectedMessageType { typ: u16 },
+    #[error("Unexpected response. Error: {source}")]
+    UnexpectedResponse {
+        #[from]
+        source: ExpectError,
+    },
     #[error(
         "There was an I/O error communicating with the peerinfo service. Specifically: {source}"
     )]
@@ -79,27 +86,4 @@ pub enum PeerInfoError {
         #[from]
         source: service::ConnectError,
     },
-}
-
-/// Parse some data in `mr` into a tuple of `PeerIdentity` and optionally a `Hello`.
-fn parse_peer(
-    typ: u16,
-    mut mr: Cursor<Vec<u8>>,
-) -> Result<Option<(PeerIdentity, Option<Hello>)>, PeerInfoError> {
-    match MessageType::from_u16(typ) {
-        Some(MessageType::PEERINFO_INFO) => {
-            // TODO: if buffer too short, fail with shortmessage error
-
-            // PEERINFO_INFO msg starts with a u32 that's always 0
-            if 0 != mr.read_u32::<BigEndian>()? {
-                return Err(PeerInfoError::InvalidResponse);
-            }
-
-            let id = PeerIdentity::deserialize(&mut mr)?;
-            // TODO: if there are more bytes left, parse Hello
-            Ok(Some((id, None)))
-        }
-        Some(MessageType::PEERINFO_INFO_END) => Ok(None),
-        _ => Err(PeerInfoError::UnexpectedMessageType { typ }),
-    }
 }

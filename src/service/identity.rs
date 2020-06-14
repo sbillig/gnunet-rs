@@ -1,14 +1,15 @@
 //! Module for connecting to and querying the GNUnet identity service.
 
-use byteorder::{BigEndian, ReadBytesExt};
-use num::ToPrimitive;
+use crate::crypto::{EcdsaPrivateKey, EcdsaPublicKey, HashCode};
+use crate::service;
+use crate::util::message::{expect_either, Left, Right};
+use crate::util::Config;
+
 use std::collections::HashMap;
 use std::fmt;
 use std::io;
-
-use crate::crypto::{EcdsaPrivateKey, EcdsaPublicKey, HashCode};
-use crate::util::{Config, MessageHeader, MessageTrait, MessageType};
-use crate::{message_to_slice, service};
+mod msg;
+pub use msg::*;
 
 /// A GNUnet identity.
 ///
@@ -152,21 +153,8 @@ impl Client {
         //   Last message in initial N have end_of_list == true, name_len == 0.
         //   Service will continue to send IDENTITY_UPDATE msgs periodically.
 
-        self.conn.send(StartMessage::new()).await?;
-        let mut egos: HashMap<HashCode, Ego> = HashMap::new();
-        loop {
-            let (typ, buf) = self.conn.recv().await?;
-            if MessageType::from_u16(typ) != Some(MessageType::IDENTITY_UPDATE) {
-                return Err(UpdateStreamError::UnexpectedMessageType { typ });
-            }
-            if let Some(ego) = parse_update_msg(&buf)? {
-                egos.insert(ego.id.clone(), ego);
-            } else {
-                // end of list
-                break;
-            }
-        }
-        Ok(egos)
+        // self.conn.send(&Lookup::new()).await?;
+        todo!();
     }
 
     /// Get the default identity associated with a service.
@@ -176,127 +164,25 @@ impl Client {
         //   Else service responds with IDENTITY_RESULT_CODE msg,
         //     with result_code == 1, and cstr message.
 
-        let msg = GetDefaultMessage::new(name)?;
-        self.conn.send_with_str(msg, name).await?;
-        let (typ, body) = self.conn.recv().await?;
+        // TODO: check name len here
+        let msg = GetDefault::new(name).unwrap();
+        self.conn.send_compound(&msg).await?;
 
-        match MessageType::from_u16(typ) {
-            Some(MessageType::IDENTITY_RESULT_CODE) => {
-                let (mut code, msg) = (&body).split_at(4);
-                let _errcode = code.read_u32::<BigEndian>()?;
-                let errmsg = if msg.len() == 0 {
-                    String::new()
-                } else {
-                    std::str::from_utf8(&msg[..msg.len() - 1])?.to_string()
-                };
-                Err(GetDefaultEgoError::ServiceResponse { response: errmsg })
+        let (typ, buf) = self.conn.recv().await?;
+        match expect_either::<ResultCode<String>, SetDefault<String>>(typ, &buf).unwrap() // XXX
+        {
+            Left(ResultCode { err_msg, .. }) => {
+                Err(GetDefaultEgoError::ServiceResponse { response: err_msg })
             }
-            Some(MessageType::IDENTITY_SET_DEFAULT) => parse_set_default_msg(&body),
-            _ => Err(GetDefaultEgoError::InvalidResponse), // TODO: better err
+            Right(s) => {
+		let (name, sk) = s.into_name_and_key();
+		let id = sk.get_public().hash();
+		Ok(Ego {
+		    sk,
+		    name: Some(name),
+		    id
+		})
+	    }
         }
-    }
-}
-
-fn parse_update_msg<B: AsRef<[u8]>>(body: B) -> Result<Option<Ego>, UpdateStreamError> {
-    let buf = body.as_ref();
-    let (head, buf) = buf.split_at(4);
-    let name_len = (&head[0..2]).read_u16::<BigEndian>()? as usize;
-    let eol = (&head[2..]).read_u16::<BigEndian>()?;
-    if eol != 0 {
-        return Ok(None);
-    }
-
-    let (key, buf) = buf.split_at(32);
-
-    let sk = EcdsaPrivateKey::from_bytes(&key)?;
-    let name = std::str::from_utf8(&buf[..name_len])?.to_string();
-    let id = sk.get_public().hash();
-    Ok(Some(Ego {
-        sk,
-        name: Some(name),
-        id,
-    }))
-}
-
-fn parse_set_default_msg<B: AsRef<[u8]>>(body: B) -> Result<Ego, GetDefaultEgoError> {
-    // body is:
-    //  name_len: u16 // includes trailing null
-    //  reserved: u16
-    //  private_key: EcdsaPrivateKey
-    //  followed by name_len bytes
-
-    let buf = body.as_ref();
-    let (head, buf) = buf.split_at(4);
-    let name_len = (&head[..2]).read_u16::<BigEndian>()? as usize;
-    let reserved = (&head[2..]).read_u16::<BigEndian>()?;
-    if reserved != 0 {
-        return Err(GetDefaultEgoError::InvalidResponse);
-    }
-    let (key, buf) = buf.split_at(32);
-    let sk = EcdsaPrivateKey::from_bytes(&key)?;
-    let name = std::str::from_utf8(&buf[..name_len - 1])?.to_string();
-    let id = sk.get_public().hash();
-    Ok(Ego {
-        sk,
-        name: Some(name),
-        id,
-    })
-}
-
-/// Packed struct representing the initial message sent to the identity service.
-#[repr(C, packed)]
-struct StartMessage {
-    header: MessageHeader,
-}
-
-impl StartMessage {
-    fn new() -> StartMessage {
-        StartMessage {
-            header: MessageHeader::new(4, MessageType::IDENTITY_START),
-        }
-    }
-}
-
-impl MessageTrait for StartMessage {
-    fn into_slice(&self) -> &[u8] {
-        message_to_slice!(StartMessage, self)
-    }
-}
-
-/// Packed struct representing GNUNET_IDENTITY_GetDefaultMessage,
-/// note that it must be followed by a 0-terminated string.
-#[repr(C, packed)]
-struct GetDefaultMessage {
-    header: MessageHeader,
-    name_len: u16,
-    reserved: u16, // always zero
-                   // followed by 0-terminated string
-}
-
-impl GetDefaultMessage {
-    fn new(name: &str) -> Result<GetDefaultMessage, GetDefaultEgoError> {
-        use std::mem;
-        let name_len = name.len();
-        let msg_len = match (mem::size_of::<GetDefaultMessage>() + name_len + 1).to_u16() {
-            Some(l) => l,
-            None => {
-                return Err(GetDefaultEgoError::NameTooLong {
-                    name: name.to_string(),
-                })
-            }
-        };
-
-        Ok(GetDefaultMessage {
-            header: MessageHeader::new(msg_len, MessageType::IDENTITY_GET_DEFAULT),
-            name_len: ((name_len + 1) as u16).to_be(),
-            reserved: 0u16.to_be(),
-        })
-    }
-}
-
-impl MessageTrait for GetDefaultMessage {
-    // Note that this does not include the 0-terminated string.
-    fn into_slice(&self) -> &[u8] {
-        message_to_slice!(GetDefaultMessage, self)
     }
 }

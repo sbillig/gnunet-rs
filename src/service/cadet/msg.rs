@@ -1,5 +1,5 @@
-use crate::message_to_slice;
-use crate::util::{MessageHeader, MessageTrait, MessageType, PeerIdentity};
+use crate::util::serial::*;
+use crate::util::{MessageHeader, MessageType, PeerIdentity};
 use std::convert::TryInto;
 
 #[derive(Copy, Clone, Debug, PartialEq, Eq)]
@@ -28,13 +28,14 @@ impl ChannelOptions {
     }
 }
 
-#[allow(dead_code)]
+#[derive(AsBytes)]
+#[repr(C)]
 pub struct LocalChannelCreate {
     header: MessageHeader,
-    id: u32,
+    id: u32be,
     peer_id: PeerIdentity,
-    port: u32,
-    options: u32,
+    port: u32be,
+    options: u32be,
 }
 
 impl LocalChannelCreate {
@@ -44,16 +45,10 @@ impl LocalChannelCreate {
                 std::mem::size_of::<Self>().try_into().unwrap(),
                 MessageType::CADET_LOCAL_CHANNEL_CREATE,
             ),
-            id: id.0.to_be(),
+            id: u32be::new(id.0),
             peer_id,
-            port: port.to_be(),
-            options: options.as_u32().to_be(),
+            port: u32be::new(port),
+            options: u32be::new(options.as_u32()),
         }
-    }
-}
-
-impl MessageTrait for LocalChannelCreate {
-    fn into_slice(&self) -> &[u8] {
-        message_to_slice!(LocalChannelCreate, self)
     }
 }

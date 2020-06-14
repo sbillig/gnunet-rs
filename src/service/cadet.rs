@@ -18,7 +18,7 @@ pub struct Channel {
 impl Client {
     pub async fn connect(
         cfg: &Config,
-        listen_ports: Vec<u32>,
+        _listen_ports: Vec<u32>,
     ) -> Result<Client, service::ConnectError> {
         let conn = service::connect(cfg, "cadet").await?;
         Ok(Client { conn, next_id: 0 })
@@ -42,7 +42,7 @@ impl Client {
     ) -> Result<Channel, io::Error> {
         let id = self.next_channel_id();
         let msg = LocalChannelCreate::new(id, *peer, port, opt);
-        self.conn.send(msg).await?;
+        self.conn.send(&msg).await?;
         // TODO: service response?
         Ok(Channel { id })
     }

@@ -1,13 +1,12 @@
 //! Module for connecting to and querying the GNUnet GNS service.
 
-use byteorder::{BigEndian, ReadBytesExt};
-use std::io::{self, Cursor};
+use std::io;
 use thiserror::Error;
 
 pub use self::record::*;
 use crate::crypto::{EcdsaPrivateKey, EcdsaPublicKey};
 use crate::service;
-use crate::util::{Config, MessageType};
+use crate::util::Config;
 
 pub mod msg;
 pub mod record;
@@ -55,38 +54,21 @@ impl Client {
     pub async fn lookup(
         &mut self,
         name: &str,
-        zone: EcdsaPublicKey,
-        record_type: RecordType,
-        options: LocalOptions,
-        shorten: Option<EcdsaPrivateKey>,
+        _zone: EcdsaPublicKey,
+        _record_type: RecordType,
+        _options: LocalOptions,
+        _shorten: Option<EcdsaPrivateKey>,
     ) -> Result<Vec<Record>, LookupError> {
         if name.len() > GNUNET_DNSPARSER_MAX_NAME_LENGTH as usize {
             return Err(LookupError::NameTooLong {
                 name: name.to_string(),
             });
         };
-
-        let id = self.lookup_id;
+        let _id = self.lookup_id;
         self.lookup_id += 1;
-        let msg = msg::Lookup::new(id, zone, options, shorten, record_type, &name);
+        // let msg = msg::Lookup::new(id, zone, options, shorten, record_type, &name);
 
-        self.conn.send_with_str(msg, &name).await?;
-        let (typ, buf) = self.conn.recv().await?;
-
-        match MessageType::from_u16(typ) {
-            Some(MessageType::GNS_LOOKUP_RESULT) => {
-                let mut reader = Cursor::new(buf);
-                let _id = reader.read_u32::<BigEndian>()?;
-
-                let rd_count = reader.read_u32::<BigEndian>()? as usize;
-                let mut records = Vec::with_capacity(rd_count);
-                for _ in 0..rd_count {
-                    records.push(Record::deserialize(&mut reader)?);
-                }
-                Ok(records)
-            }
-            _ => Err(LookupError::InvalidType { typ }),
-        }
+        todo!()
     }
 }
 

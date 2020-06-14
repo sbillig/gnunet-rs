@@ -1,11 +1,11 @@
 //! Module for communicating with GNUnet services. Implements the parts of the GNUnet IPC protocols
 //! that are common to all services.
 
-use crate::util::{config, Config, MessageTrait, MessageType};
+use crate::util::serial::*;
+use crate::util::{config, Config, MessageHeader, MessageOut, MessageOutCompound};
 use async_std::io;
 use async_std::os::unix::net::UnixStream;
 use futures::io::{AsyncReadExt, AsyncWriteExt};
-use std::convert::TryInto;
 use std::fmt;
 use tracing::{debug, instrument};
 
@@ -51,45 +51,44 @@ impl Connection {
     /// Sends a message to the connected socket.
     ///
     /// The message should not have a null-terminated string, otherwise use `send_with_str`.
-    pub async fn send<T: MessageTrait>(&mut self, message: T) -> Result<(), io::Error> {
-        self.inner.write_all(message.into_slice()).await
+    pub async fn send<M: MessageOut>(&mut self, msg: M) -> Result<(), io::Error> {
+        self.inner.write_all(&msg.as_bytes().as_ref()).await
     }
 
-    /// Sends a message with a null-terminated string to the connected socket.
-    ///
-    /// The caller needs to ensure that the message corresponds to the string, i.e. the message length should add up.
-    pub async fn send_with_str<T: MessageTrait>(
-        &mut self,
-        message: T,
-        string: &str,
-    ) -> Result<(), io::Error> {
-        self.inner.write_all(message.into_slice()).await?;
-        self.inner.write_all(string.as_bytes()).await?;
-        self.inner.write_all(&[0u8]).await?;
+    pub async fn send_compound<M: MessageOutCompound>(&mut self, msg: M) -> Result<(), io::Error> {
+        for chunk in msg.as_byte_chunks() {
+            self.inner.write_all(chunk.as_ref()).await?
+        }
         Ok(())
     }
 
+    /// Returns `(header, buffer)`, where `buffer` contains entire message payload
+    /// (including the header), for ease of deserializing message structs.
     #[instrument]
-    pub async fn recv(&mut self) -> Result<(u16, Vec<u8>), io::Error> {
-        let mut head = [0u8; 4];
-        self.inner.read_exact(&mut head).await?;
+    pub async fn recv(&mut self) -> Result<(u16, Buffer), io::Error> {
+        let mut buf = Buffer::default();
+        buf.resize(4, 0u8);
 
-        let len = u16::from_be_bytes(head[0..2].try_into().unwrap());
-        let msg_type = u16::from_be_bytes(head[2..].try_into().unwrap());
+        let head: MessageHeader = {
+            let mut head_bytes = &mut buf[0..4];
+            self.inner.read_exact(&mut head_bytes).await?;
+            *cast(head_bytes)
+        };
 
         debug!(
-            type_u16 = msg_type,
-            len,
+            typ = head.msg_type_u16(),
+            len = head.length(),
             "type: {:?}",
-            MessageType::from_u16(msg_type)
+            head.msg_type(),
         );
 
-        let rem = len - 4; // len includes header (except for some msg types? TODO)
+        if head.length() > 4 {
+            buf.resize(head.length() as usize, 0u8);
+            let rest = &mut buf[4..];
+            self.inner.read_exact(rest).await?;
+        }
 
-        let mut rest = vec![0; rem as usize];
-        self.inner.read_exact(&mut rest).await?;
-
-        Ok((msg_type, rest))
+        Ok((head.msg_type_u16(), buf))
     }
 
     pub fn from_stream(name: String, inner: UnixStream) -> Self {
@@ -107,21 +106,16 @@ impl fmt::Debug for Connection {
 
 #[async_std::test]
 async fn test_service() {
-    use crate::message_to_slice;
-    use crate::util::MessageHeader;
+    use crate::util::serial::*;
+    use crate::util::{expect, MessageHeader, MessageIn, MessageType};
     use async_std::os::unix::net::UnixStream;
     use std::mem::size_of;
 
-    #[repr(C, packed)]
+    #[derive(AsBytes, FromBytes, Copy, Clone, PartialEq, Debug)]
+    #[repr(C)]
     struct DummyMsg {
         header: MessageHeader,
         body: [u8; 4],
-    }
-
-    impl MessageTrait for DummyMsg {
-        fn into_slice(&self) -> &[u8] {
-            message_to_slice!(DummyMsg, self)
-        }
     }
 
     impl DummyMsg {
@@ -134,16 +128,25 @@ async fn test_service() {
         }
     }
 
+    impl<'a> MessageIn<'a> for DummyMsg {
+        fn msg_type() -> MessageType {
+            MessageType::DUMMY2
+        }
+        fn from_bytes(b: &'a [u8]) -> Option<DummyMsg> {
+            try_cast(b).copied()
+        }
+    }
+
     let (reader, writer) = UnixStream::pair().unwrap();
     let mut sr = Connection::from_stream("r".to_string(), reader);
     let mut sw = Connection::from_stream("w".to_string(), writer);
 
     let body = [2, 4, 6, 8];
-
-    sw.send(DummyMsg::new(body)).await.unwrap();
+    let outmsg = DummyMsg::new(body);
+    sw.send(&outmsg).await.unwrap();
     let (typ, buf) = sr.recv().await.unwrap();
     assert_eq!(MessageType::from_u16(typ), Some(MessageType::DUMMY2));
 
-    assert_eq!(buf, body);
-    ()
+    let inmsg = expect::<DummyMsg>(typ, &buf).unwrap();
+    assert_eq!(&inmsg, &outmsg);
 }

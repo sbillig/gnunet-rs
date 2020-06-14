@@ -1,7 +1,42 @@
 use crate::util;
+use crate::util::serial::*;
+use chrono::{DateTime, Local, TimeZone, Utc};
+use std::convert::TryInto;
+use std::fmt;
 use std::str::FromStr;
 use std::time::Duration;
-use std::{u32, u64};
+
+#[derive(Copy, Clone, Debug, PartialEq, AsBytes, FromBytes)]
+#[repr(C)]
+pub struct Absolute {
+    micros: u64be,
+}
+
+impl Absolute {
+    pub fn forever() -> Absolute {
+        Absolute {
+            micros: u64be::new(u64::MAX),
+        }
+    }
+
+    pub fn is_forever(&self) -> bool {
+        self.micros.get() == u64::MAX
+    }
+}
+
+impl fmt::Display for Absolute {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        if self.is_forever() {
+            write!(f, "end of time")
+        } else {
+            // TODO: check if expir fits in i64
+            let nanos: i64 = (self.micros.get() * 1000).try_into().unwrap();
+            let utc = Utc.timestamp_nanos(nanos);
+            let local = DateTime::<Local>::from(utc);
+            write!(f, "{}", local)
+        }
+    }
+}
 
 pub struct Relative {
     micros: u64,

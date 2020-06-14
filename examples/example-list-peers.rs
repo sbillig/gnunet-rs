@@ -1,7 +1,9 @@
-use gnunet::service::{peerinfo, transport};
-use gnunet::util::{Config, PeerIdentity};
+use gnunet::service::peerinfo;
+use gnunet::service::transport::tcp::{IPv4TcpAddress, IPv6TcpAddress};
+use gnunet::util::serial::cast;
+use gnunet::util::Config;
 use std::error::Error;
-use std::str::FromStr;
+use std::mem::size_of;
 use tracing_subscriber::FmtSubscriber;
 
 #[async_std::main]
@@ -14,22 +16,27 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let config = Config::default()?;
     let mut peerinfo = peerinfo::Client::connect(&config).await?;
 
-    // get all peers
-    let peers_vec = peerinfo.all_peers().await?;
-    for (id, _) in peers_vec {
-        println!("Peer: {}", id);
+    for hello in peerinfo.all_peers().await? {
+        println!("Peer `{}'", hello.peer_id());
+
+        for addr in hello.addresses {
+            print!("\tExpires: {}\t{}.", addr.expiration, addr.transport_name);
+
+            if addr.transport_name == "udp" || addr.transport_name == "tcp" {
+                if addr.address.len() == size_of::<IPv4TcpAddress>() {
+                    print!("{}", cast::<IPv4TcpAddress>(&addr.address));
+                } else if addr.address.len() == size_of::<IPv6TcpAddress>() {
+                    print!("{}", cast::<IPv6TcpAddress>(&addr.address));
+                } else {
+                    print!("{:?}", addr.address);
+                }
+            } else {
+                print!("{:?}", addr.address)
+            }
+            println!();
+        }
+        println!();
     }
-
-    // get a single peer
-    let pk = "DPQIBOOJV8QBS3FGJ6B0K5NTSQ9SULV45H5KCR4HU7PQ64N8Q9F0";
-    let id = PeerIdentity::from_str(pk)?;
-    match peerinfo.get_peer(&id).await? {
-        Some(p) => println!("Peer found: {:?}", p),
-        None => println!("peer not found"),
-    };
-
-    let hello = transport::self_hello(&config).await?;
-    println!("Our id is: {}", hello.id);
 
     Ok(())
 }
